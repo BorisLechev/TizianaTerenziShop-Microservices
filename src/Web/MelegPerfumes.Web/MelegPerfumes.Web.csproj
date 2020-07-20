@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-MelegPerfumes-BBB373B5-EF3F-4DBB-B8AA-7152CEC275BF</UserSecretsId>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.3" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.447" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.76" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Models\MelegPerfumes.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MelegPerfumes.Data\MelegPerfumes.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Data\MelegPerfumes.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Messaging\MelegPerfumes.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\MelegPerfumes.Services\MelegPerfumes.Services.csproj" />
+    <ProjectReference Include="..\MelegPerfumes.Web.Infrastructure\MelegPerfumes.Web.Infrastructure.csproj" />
+    <ProjectReference Include="..\MelegPerfumes.Web.ViewModels\MelegPerfumes.Web.ViewModels.csproj" />
+  </ItemGroup>
+</Project>
