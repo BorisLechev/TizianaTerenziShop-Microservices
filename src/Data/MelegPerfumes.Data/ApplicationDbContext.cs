@@ -26,6 +26,22 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductType> ProductTypes { get; set; }
+
+        public DbSet<FragranceGroup> FragranceGroups { get; set; }
+
+        public DbSet<Note> Notes { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+
+        public DbSet<Subscriber> Subscribers { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -82,7 +98,28 @@
 
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
-             => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+        {
+            builder.Entity<ApplicationUser>()
+               .HasMany(e => e.Claims)
+               .WithOne()
+               .HasForeignKey(e => e.UserId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.Logins)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.Roles)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+        }
 
         private void ApplyAuditInfoRules()
         {
