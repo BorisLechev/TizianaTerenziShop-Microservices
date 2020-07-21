@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MelegPerfumes.Common\MelegPerfumes.Common.csproj" />
+    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Data.Common\MelegPerfumes.Data.Common.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Data.Models\MelegPerfumes.Data.Models.csproj" />
   </ItemGroup>

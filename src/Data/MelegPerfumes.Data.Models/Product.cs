@@ -9,6 +9,7 @@
         public Product()
         {
             this.Reviews = new HashSet<Review>();
+            this.Notes = new HashSet<ProductNotes>();
         }
 
         public string Name { get; set; }
@@ -17,6 +18,8 @@
 
         public decimal Price { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public int ProductTypeId { get; set; }
 
         public virtual ProductType ProductType { get; set; }
@@ -24,6 +27,8 @@
         public int FragranceGroupId { get; set; }
 
         public virtual FragranceGroup FragranceGroup { get; set; }
+
+        public virtual ICollection<ProductNotes> Notes { get; set; }
 
         public int YearOfManufacture { get; set; }
 
