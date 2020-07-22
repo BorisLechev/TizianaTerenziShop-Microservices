@@ -1,0 +1,193 @@
+﻿.testimonials-container {
+    padding: 6rem 0;
+    background: rgb(0, 0, 0);
+}
+
+.testimonials-inner-container {
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 0 30px;
+    color: rgb(255, 255, 255);
+}
+
+.testimonials-inner-container header {
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.testimonials-inner-container .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px 43px -10px;
+}
+
+.testimonial {
+    max-width: 33.33333%;
+}
+
+.testimonial img {
+    max-width: 90%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    opacity: 0.6;
+    border-style: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+@media screen and (max-width: 750px) {
+    .testimonials-inner-container .row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .testimonial {
+        max-width: 90%;
+        padding: 1.5rem 0;
+    }
+
+    .testimonial img {
+        max-width: 100%;
+    }
+}
+
+.testimonial a {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.testimonial a:hover {
+    transition-duration: 0.3s, 0.3s, 0.3s, 0.3s, 0.3s;
+    transition-timing-function: ease, ease, ease, ease, ease;
+    transition-delay: 0s, 0s, 0s, 0s, 0s;
+    opacity: 0.5;
+}
+
+.testimonial > a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: url('../../../../assets/images/play-circle-regular.svg') no-repeat;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+}
+
+.testimonials-inner-container .author a {
+    margin-top: 1rem;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.testimonials-inner-container > footer {
+    text-align: center;
+}
+
+.testimonials-inner-container .button {
+    text-decoration: none;
+    border: 1px solid rgb(255, 255, 255);
+    outline: none;
+}
+
+/*Video Modal*/
+.video-modal,
+.video-modal .overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.video-modal {
+    overflow: hidden;
+    position: fixed;
+    opacity: 0.0;
+    transform: translate(500%,0%);
+    transition: transform 0s linear 0s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+.video-modal .overlay {
+    z-index: 0;
+    background: rgba(20,20,20,0.80);
+    opacity: 0.0;
+    transition: opacity 0.2s ease-out 0.05s;
+}
+
+.video-modal-content {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: 1;
+    height: auto;
+    width: calc(100% - 200px);
+    max-width: 980px;
+    max-height: calc(100% - 100px);
+    margin: 0 auto;
+    overflow-y: visible;
+}
+
+@media (max-width: 640px) {
+    .video-modal-content {
+        width: calc(100% - 16px);
+    }
+}
+
+a.close-video-modal {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: -40px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+/* using a 16:9 image to resize the video frame */
+.video-sizer {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* set the iframe element to stretch to fit its parent element */
+iframe#youtube {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: rgb(255, 255, 255);
+    box-shadow: 0px 2px 16px rgba(0,0,0,0.5);
+}
+
+.show-video-modal .video-modal {
+    opacity: 1.0;
+    transform: translate(0%,0%);
+}
+
+.show-video-modal .video-modal .overlay {
+    opacity: 1.0;
+}
+
+.show-video-modal .video-modal-content {
+    transform: translate(0%,0%);
+}

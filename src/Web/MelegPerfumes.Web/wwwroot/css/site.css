@@ -1,5 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap&subset=cyrillic,cyrillic-ext,latin-ext');
 
 a.navbar-brand {
     white-space: normal;
@@ -7,15 +6,98 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    font-size: 14px;
+Sticky footer styles
+--------------------------------------------------
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
+
+*, *:before, *:after {
+    box-sizing: inherit;
+    box-sizing: border-box;
+}
+
+html {
+    font: 14px/1.5 'Montserrat', sans-serif;
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
     }
+}
+
+@media (min-width: 1420px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+body, table, form, input, select, textarea, legend, label, button {
+    font: inherit;
+}
+
+p {
+    padding-bottom: 1.5em;
+}
+
+a {
+    text-decoration: none !important;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer !important;
+}
+
+h1 {
+    font-size: 3.052rem;
+}
+
+h2 {
+    font-size: 2.441rem;
+}
+
+h3 {
+    font-size: 1.953rem;
+}
+
+h4 {
+    font-size: 1.563rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+hr {
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+}
+
+blockquote {
+    padding-left: 2rem;
+    line-height: 1.8;
+    font-style: italic;
+    text-align: right;
+}
+
+table {
+    margin-bottom: 1.5rem;
+}
+
+table,
+tr,
+td {
+    border-collapse: collapse;
+}
+
+table tr:nth-child(odd) {
+    background-color: white;
 }
 
 .border-top {
@@ -34,23 +116,22 @@ button.accept-policy {
     line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+ Sticky footer styles
+-------------------------------------------------- 
 html {
     position: relative;
     min-height: 100%;
 }
 
 body {
-    /* Margin bottom by footer height */
+/*     Margin bottom by footer height */
     margin-bottom: 60px;
 }
 .footer {
-    position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
     /* Set the fixed height of the footer here */
-    height: 60px;
-    line-height: 60px; /* Vertically center the text there */
+    height: 0;
+    line-height: 60px;  /*Vertically center the text there */
 }

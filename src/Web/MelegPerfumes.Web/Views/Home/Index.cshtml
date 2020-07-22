@@ -1,9 +1,55 @@
 ﻿@using MelegPerfumes.Common
-@{
-    this.ViewData["Title"] = "Home Page";
+@{ this.ViewData["Title"] = "Home Page"; }
+
+<partial name="_HomePartialView" />
+<partial name="_TestimonialsPartialView" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+        function open() {
+            let id = $(this).attr('data-youtube-id');
+            let autoplay = '?autoplay=1';
+            let related_no = '&rel=0';
+            let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
+
+            $("#youtube").attr('src', src);
+            return false;
+        }
+        $('img.video-thumb').click(function () {
+
+            let id = $(this).attr('data-youtube-id');
+            let autoplay = '?autoplay=1';
+            let related_no = '&rel=0';
+            let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
+
+            $("#youtube").attr('src', src);
+            return false;
+        });
+
+        function toggle_video_modal() {
+            $(".js-trigger-modal").on("click", function (event) {
+                event.preventDefault();
+                $("article").addClass("show-video-modal");
+            });
+
+            $('article').on('click', '.close-video-modal, .video-modal .overlay', function (event) {
+                event.preventDefault();
+
+                $("article").removeClass("show-video-modal");
+                $("#youtube").attr('src', '');
+            });
+        }
+
+        toggle_video_modal();
+    });
+    </script>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section homeStyles {
+    <link href="~/css/home.css" rel="stylesheet" />
+}
+
+@section testimonialsStyles {
+    <link href="~/css/testimonials.css" rel="stylesheet" />
+}

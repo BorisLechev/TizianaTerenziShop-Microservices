@@ -9,6 +9,10 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -34,5 +38,13 @@
     <ProjectReference Include="..\..\Services\MelegPerfumes.Services\MelegPerfumes.Services.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Web.Infrastructure\MelegPerfumes.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Web.ViewModels\MelegPerfumes.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\scss\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 </Project>
