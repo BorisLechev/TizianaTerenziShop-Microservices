@@ -1,0 +1,67 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@model UserLoginInputModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "_Bubbleslayout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="w-75 w-md-50 text-center mx-auto">
+        <section>
+            <form method="post" class="form-horizontal" asp-controller="Authentication" asp-action="GitHubLogin">
+                <button type="submit" class="btn btn-dark w-100 p-3 btn-github" name="provider" value="GitHub">
+                    <i class="fab fa-github"></i>
+                    Login with GitHub
+                </button>
+            </form>
+
+            <form id="account" method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@Model.Email"></label>
+                    <input asp-for="@Model.Email" class="form-control" />
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Password"></label>
+                    <input asp-for="@Model.Password" class="form-control" />
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="@Model.RememberMe">
+                            <input asp-for="@Model.RememberMe" />
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary w-100 p-3">Log in</button>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a asp-controller="Authentication" asp-action="Register">Register as a new user</a>
+                    </p>
+                </div>
+
+                <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'login_form' }).then(function (token) {
+                document.getElementById("RecaptchaValue").value = token;
+            });
+        });
+    </script>
+}

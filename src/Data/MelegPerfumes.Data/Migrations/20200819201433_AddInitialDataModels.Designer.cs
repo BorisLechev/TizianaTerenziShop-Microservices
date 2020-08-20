@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MelegPerfumes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200721073312_UpdatedProductAndProductNotes")]
-    partial class UpdatedProductAndProductNotes
+    [Migration("20200819201433_AddInitialDataModels")]
+    partial class AddInitialDataModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,8 +87,18 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

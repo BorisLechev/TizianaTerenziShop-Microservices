@@ -1,55 +1,55 @@
-﻿@using MelegPerfumes.Common
-@{ this.ViewData["Title"] = "Home Page"; }
+﻿@{
+    this.ViewData["Title"] = "Home Page";
+}
 
-<partial name="_HomePartialView" />
-<partial name="_TestimonialsPartialView" />
+<partial name="_HomePartial" />
+<partial name="_TestimonialsPartial" />
+<partial name="_SubscribeNewsletterPartial" />
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-        function open() {
-            let id = $(this).attr('data-youtube-id');
-            let autoplay = '?autoplay=1';
-            let related_no = '&rel=0';
-            let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
+            function open() {
+                let id = $(this).attr('data-youtube-id');
+                let autoplay = '?autoplay=1';
+                let related_no = '&rel=0';
+                let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
 
-            $("#youtube").attr('src', src);
-            return false;
-        }
-        $('img.video-thumb').click(function () {
+                $("#youtube").attr('src', src);
+                return false;
+            }
+            $('img.video-thumb').click(function () {
 
-            let id = $(this).attr('data-youtube-id');
-            let autoplay = '?autoplay=1';
-            let related_no = '&rel=0';
-            let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
+                let id = $(this).attr('data-youtube-id');
+                let autoplay = '?autoplay=1';
+                let related_no = '&rel=0';
+                let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
 
-            $("#youtube").attr('src', src);
-            return false;
+                $("#youtube").attr('src', src);
+                return false;
+            });
+
+            function toggle_video_modal() {
+                $(".js-trigger-modal").on("click", function (event) {
+                    event.preventDefault();
+                    $("article").addClass("show-video-modal");
+                });
+
+                $('article').on('click', '.close-video-modal, .video-modal .overlay', function (event) {
+                    event.preventDefault();
+
+                    $("article").removeClass("show-video-modal");
+                    $("#youtube").attr('src', '');
+                });
+            }
+
+            toggle_video_modal();
         });
-
-        function toggle_video_modal() {
-            $(".js-trigger-modal").on("click", function (event) {
-                event.preventDefault();
-                $("article").addClass("show-video-modal");
-            });
-
-            $('article').on('click', '.close-video-modal, .video-modal .overlay', function (event) {
-                event.preventDefault();
-
-                $("article").removeClass("show-video-modal");
-                $("#youtube").attr('src', '');
-            });
-        }
-
-        toggle_video_modal();
-    });
     </script>
 }
 
-@section homeStyles {
-    <link href="~/css/home.css" rel="stylesheet" />
-}
-
-@section testimonialsStyles {
-    <link href="~/css/testimonials.css" rel="stylesheet" />
+@section CustomCss {
+    <link href="~/css/home.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/testimonials.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/subscribeNewsletter.css" rel="stylesheet" asp-append-version="true" />
 }

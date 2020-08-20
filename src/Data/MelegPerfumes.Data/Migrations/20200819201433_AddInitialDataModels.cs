@@ -3,10 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MelegPerfumes.Data.Migrations
 {
-    public partial class AddInitialModels : Migration
+    public partial class AddInitialDataModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "FirstName",
+                table: "AspNetUsers",
+                maxLength: 30,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "LastName",
+                table: "AspNetUsers",
+                maxLength: 30,
+                nullable: false,
+                defaultValue: "");
+
             migrationBuilder.CreateTable(
                 name: "FragranceGroups",
                 columns: table => new
@@ -93,29 +107,6 @@ namespace MelegPerfumes.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductNotes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    NoteId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductNotes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductNotes_Notes_NoteId",
-                        column: x => x.NoteId,
-                        principalTable: "Notes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -159,6 +150,7 @@ namespace MelegPerfumes.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
                     ProductTypeId = table.Column<int>(nullable: false),
                     FragranceGroupId = table.Column<int>(nullable: false),
                     YearOfManufacture = table.Column<int>(nullable: false)
@@ -208,6 +200,36 @@ namespace MelegPerfumes.Data.Migrations
                     table.ForeignKey(
                         name: "FK_OrderProduct_Products_ProductId1",
                         column: x => x.ProductId1,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductNotes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    ProductId = table.Column<int>(nullable: false),
+                    NoteId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductNotes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductNotes_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProductNotes_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -302,6 +324,11 @@ namespace MelegPerfumes.Data.Migrations
                 column: "NoteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductNotes_ProductId",
+                table: "ProductNotes",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_FragranceGroupId",
                 table: "Products",
                 column: "FragranceGroupId");
@@ -373,6 +400,14 @@ namespace MelegPerfumes.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductTypes");
+
+            migrationBuilder.DropColumn(
+                name: "FirstName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "LastName",
+                table: "AspNetUsers");
         }
     }
 }

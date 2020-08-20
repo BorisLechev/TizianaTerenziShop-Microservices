@@ -1,0 +1,21 @@
+﻿.floating-circle {
+    display: flex;
+    flex-direction: column;
+    border-radius: 25em;
+    max-width: 40em;
+    width: 100%;
+    min-height: 40em;
+    text-align: center;
+    background: #fff;
+    margin: auto;
+}
+
+.btn-github {
+    background-color: #24292e;
+    color: #fff !important;
+    transition: 0.5s;
+}
+
+.btn-github:hover {
+    background-color: #070b0f;
+}

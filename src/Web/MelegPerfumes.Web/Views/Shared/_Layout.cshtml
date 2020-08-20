@@ -9,12 +9,11 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/buttons.css" rel="stylesheet" asp-append-version="true" />
-    @RenderSection("homeStyles", false)
-    @RenderSection("testimonialsStyles", false)
+    @this.RenderSection("CustomCss", false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -38,17 +37,23 @@
             </div>
         </nav>
     </header>
-    
-    <div>
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
+
+    <partial name="_CookieConsentPartial" />
+
+    <main>
+        <div>
             @this.RenderBody()
-        </main>
-    </div>
-    
-    <footer class="border-top footer text-muted">
+        </div>
+    </main>
+
+    <footer class="border-top footer text-muted bg-gray">
         <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="float-right">
+                <a href="/">@GlobalConstants.SystemName</a> &copy; 2019-@(DateTime.UtcNow.Year) - <a href="https://github.com/BorisLechev/MelegPerfumes" target="_blank">
+                    <i class="fab fa-github"></i> Open source system
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -60,3 +65,7 @@
     @this.RenderSection("Scripts", required: false)
 </body>
 </html>
+
+@section CustomCss {
+    <link href="~/css/navbar.css" rel="stylesheet" asp-append-version="true" />
+}
