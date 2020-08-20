@@ -42,10 +42,10 @@
 
             services.Configure<CookiePolicyOptions>(
                 options =>
-                    {
-                        options.CheckConsentNeeded = context => true;
-                        options.MinimumSameSitePolicy = SameSiteMode.None;
-                    });
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
 
             services.AddControllersWithViews(
                 options =>
@@ -53,6 +53,8 @@
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
+
+            services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
             services.AddSingleton(this.configuration);
 
@@ -90,6 +92,8 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseResponseCompression();
 
             app.UseStatusCodePages();
             app.UseStatusCodePagesWithReExecute("/Error{0}");
