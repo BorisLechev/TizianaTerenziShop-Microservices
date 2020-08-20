@@ -8,18 +8,26 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        We use cookies to understand how you use our site and to improve your experience. <a asp-area="" asp-controller="Home" asp-action="Privacy">Learn More</a>.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
+    <div class="alert alert-warning fade show mb-0" role="alert" id="cookieConsent">
+        <div class="container d-flex flex-row">
+            <i class="fas fa-cookie-bite fa-2x align-self-center"></i>
+            <div class="pl-3">
+                <strong>@GlobalConstants.SystemName uses cookies to provide you with a better experience.</strong>
+                <p class="mb-0">By continuing to use this website, you consent to the use of cookies.</p>
+            </div>
+            <div class="align-self-center ml-auto">
+                <button type="button" class="btn btn-secondary" id="cookieAcceptButton" data-cookie-string="@cookieString">Accept</button>
+            </div>
+        </div>
     </div>
     <script>
         (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-            button.addEventListener("click", function () {
-                document.cookie = button.dataset.cookieString;
-            }, false);
+            document.getElementById("cookieAcceptButton").addEventListener("click",
+                function (el) {
+                    document.cookie = el.target.dataset.cookieString;
+                    $("#cookieConsent").alert('close');
+                },
+                false);
         })();
     </script>
 }

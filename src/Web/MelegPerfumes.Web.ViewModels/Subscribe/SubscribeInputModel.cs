@@ -9,6 +9,7 @@
     {
         [Required]
         [EmailAddress]
+        [StringLength(50, MinimumLength = 5)]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

@@ -112,12 +112,12 @@
     transition-property: opacity, transform;
 }
 
-    .picture-container img {
-        display: block;
-        max-width: 70%;
-        height: auto;
-        margin: 0 auto;
-    }
+.picture-container img {
+    display: block;
+    max-width: 70%;
+    height: auto;
+    margin: 0 auto;
+}
 
 .picture-info-container {
     text-align: center;
@@ -199,12 +199,11 @@
 }
 
 .close {
-    position: absolute;
     right: -30px;
     top: 0;
     z-index: 999;
     font-size: 2rem;
     font-weight: normal;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     opacity: 1;
 }

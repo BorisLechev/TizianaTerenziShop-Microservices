@@ -30,6 +30,8 @@
             if ((await this.subscribeService.GetAllEmails()).Any(s => s.Email == subscribeInputModel.Email))
             {
                 this.Error(NotificationMessages.SubscriberEmailExists);
+
+                return this.RedirectToAction("Index", "Home");
             }
 
             var subscriber = new Subscriber
