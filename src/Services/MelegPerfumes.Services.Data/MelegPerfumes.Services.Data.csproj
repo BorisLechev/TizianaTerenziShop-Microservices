@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Common\MelegPerfumes.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Models\MelegPerfumes.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\MelegPerfumes.Web.ViewModels\MelegPerfumes.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
   </ItemGroup>
 

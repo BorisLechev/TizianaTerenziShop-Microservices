@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProductsListingViewModel>
+@{
+
+}
+
+<div class="main">
+    <section class="container">
+        <section class="row">
+            <section class="inner-row">
+                <section class="products-list-container">
+                    <section class="products-list">
+                        @foreach (var product in Model)
+                        {
+                            <article class="items-col">
+                                <section class="wrapper-item">
+                                    <section class="wrapper-item-inner">
+                                        <section class="product-image-container" appClick>
+                                            <a class="product-image-link" asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" title="@product.Name">
+                                                <img class="product-image front" src="@product.ImageUrl" alt="@product.Name">
+                                                <img class="product-image back" src="@product.ImageUrl" alt="@product.Name">
+                                                <section class="image-overlay"></section>
+                                            </a>
+                                        </section>
+                                        <section class="actions">
+                                            <div class="link-actions"></div>
+                                            <button class="btn-cart">
+                                                <span>Add to Cart</span>
+                                            </button>
+                                            <button class="btn-edit">
+                                                <span>Edit Product</span>
+                                            </button>
+                                            <button class="button-delete">
+                                                <span>Delete Product</span>
+                                            </button>
+                                        </section>
+                                    </section>
+                                    <section class="product-info">
+                                        <header>
+                                            <h6 class="product-name">
+                                                <a title="@product.Name">
+                                                    <span>@product.Name</span>
+                                                </a>
+                                            </h6>
+                                        </header>
+                                        <footer class="price-box">
+                                            <span class="price">EUR @product.Price</span>
+                                        </footer>
+                                    </section>
+                                </section>
+                            </article>
+                        }
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+</div>
+
+<partial name="_TestimonialsPartial" />
+@*<partial name="_SubscribeNewsletterPartial" />*@
+
+@section CustomCss {
+    <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/testimonials.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/subscribeNewsletter.css" rel="stylesheet" asp-append-version="true" />
+}
