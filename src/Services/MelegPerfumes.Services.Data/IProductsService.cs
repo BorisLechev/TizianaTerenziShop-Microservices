@@ -8,5 +8,7 @@
     public interface IProductsService
     {
         Task<IEnumerable<ProductsListingViewModel>> GetAllProductsAsync();
+
+        Task<T> GetProductByIdAsync<T>(int id);
     }
 }

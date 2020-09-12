@@ -1,4 +1,38 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    function open() {
+        let id = $(this).attr('data-youtube-id');
+        let autoplay = '?autoplay=1';
+        let related_no = '&rel=0';
+        let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
 
-// Write your JavaScript code.
+        $("#youtube").attr('src', src);
+        return false;
+    }
+
+    $('img.video-thumb').click(function () {
+
+        let id = $(this).attr('data-youtube-id');
+        let autoplay = '?autoplay=1';
+        let related_no = '&rel=0';
+        let src = '//www.youtube.com/embed/' + id + autoplay + related_no;
+
+        $("#youtube").attr('src', src);
+        return false;
+    });
+
+    function toggle_video_modal() {
+        $(".js-trigger-modal").on("click", function (event) {
+            event.preventDefault();
+            $("article").addClass("show-video-modal");
+        });
+
+        $('article').on('click', '.close-video-modal, .video-modal .overlay', function (event) {
+            event.preventDefault();
+
+            $("article").removeClass("show-video-modal");
+            $("#youtube").attr('src', '');
+        });
+    }
+
+    toggle_video_modal();
+});

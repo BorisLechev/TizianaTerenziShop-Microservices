@@ -1,6 +1,7 @@
 ﻿namespace MelegPerfumes.Services.Data
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using MelegPerfumes.Data.Common.Repositories;
@@ -26,6 +27,21 @@
                 .ToListAsync();
 
             return products;
+        }
+
+        public async Task<T> GetProductByIdAsync<T>(int id)
+        {
+            var product = await this.productsRepository
+                .All()
+                .Where(p => p.Id == id)
+                .Include(p => p.ProductType)
+                .Include(p => p.FragranceGroup)
+                .Include(p => p.Notes)
+                .ThenInclude(n => n.Note)
+                .To<T>()
+                .SingleOrDefaultAsync();
+
+            return product;
         }
     }
 }
