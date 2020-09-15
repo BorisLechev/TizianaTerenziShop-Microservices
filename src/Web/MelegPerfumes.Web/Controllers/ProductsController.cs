@@ -1,9 +1,12 @@
 ﻿namespace MelegPerfumes.Web.Controllers
 {
+    using System;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using MelegPerfumes.Services.Data;
+    using MelegPerfumes.Services.Models;
     using MelegPerfumes.Web.ViewModels.Products;
     using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +14,14 @@
     {
         private readonly IProductsService productsService;
 
-        public ProductsController(IProductsService productsService)
+        private readonly ICartService cartService;
+
+        public ProductsController(
+            IProductsService productsService,
+            ICartService cartService)
         {
             this.productsService = productsService;
+            this.cartService = cartService;
         }
 
         public async Task<IActionResult> All()
@@ -23,16 +31,35 @@
             return this.View(products);
         }
 
-        public async Task<IActionResult> Details(int id)
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //    var product = await this.productsService.GetProductByIdAsync<ProductDetailsViewModel>(id);
+
+        //    if (product == null) // TODO: add other rules
+        //    {
+        //        return this.NotFound();
+        //    }
+
+        //    return this.View(product);
+        //}
+
+        //[HttpPost]
+        public async Task<IActionResult> Order(int productId)
         {
-            var product = await this.productsService.GetProductByIdAsync<ProductDetailsViewModel>(id);
+            var product = await this.productsService.GetProductByIdAsync(productId);
 
-            if (product == null) // TODO: add other rules
+            var productServiceModel = new ProductInTheCartServiceModel
             {
-                return this.NotFound();
-            }
+                Id = Guid.NewGuid().ToString(),
+                IssuedOn = product.CreatedOn,
+                IssuerId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                ProductId = product.Id,
+                Quantity = 1,
+            };
 
-            return this.View(product);
+            await this.cartService.AddProductInTheCart(productServiceModel);
+
+            return this.Redirect("/Order/Cart");
         }
     }
 }

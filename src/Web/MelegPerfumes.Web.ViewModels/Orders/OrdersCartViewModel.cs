@@ -1,0 +1,21 @@
+﻿namespace MelegPerfumes.Web.ViewModels.Orders
+{
+    using MelegPerfumes.Data.Models;
+    using MelegPerfumes.Services.Mapping;
+    using MelegPerfumes.Services.Models;
+
+    public class OrdersCartViewModel : IMapFrom<ProductInTheCart>, IMapTo<ProductInTheCart>
+    {
+        public string Id { get; set; }
+
+        public int ProductId { get; set; }
+
+        public string ProductName { get; set; }
+
+        public string ProductImageUrl { get; set; }
+
+        public decimal ProductPrice { get; set; }
+
+        public int Quantity { get; set; }
+    }
+}

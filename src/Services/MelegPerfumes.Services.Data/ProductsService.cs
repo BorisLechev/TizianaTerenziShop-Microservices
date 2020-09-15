@@ -29,7 +29,7 @@
             return products;
         }
 
-        public async Task<T> GetProductByIdAsync<T>(int id)
+        public async Task<Product> GetProductByIdAsync(int id)
         {
             var product = await this.productsRepository
                 .All()
@@ -38,7 +38,7 @@
                 .Include(p => p.FragranceGroup)
                 .Include(p => p.Notes)
                 .ThenInclude(n => n.Note)
-                .To<T>()
+                //.To<T>()
                 .SingleOrDefaultAsync();
 
             return product;

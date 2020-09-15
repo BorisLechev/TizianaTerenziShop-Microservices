@@ -17,6 +17,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -54,6 +55,8 @@
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
             services.AddSingleton(this.configuration);
@@ -68,6 +71,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ISubscribeService, SubscribeService>();
             services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<ICartService, CartService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +116,7 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        //endpoints.MapControllerRoute("customRoute", "order/{orderId}/quantity/increase");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
