@@ -1,4 +1,5 @@
 ﻿@model List<OrdersCartViewModel>
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -68,20 +69,20 @@
                                     </section>
                                 </section>
                                 <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
-                                    <!-- <section id="discount-tag-container" class="discount-tag-container" *ngIf="discountCode !== null">
+                                     <section id="discount-tag-container" class="discount-tag-container">
                                         <section class="discount-tag">
-                                            <img src="../../../assets/images/tags-solid.svg" class="tag-icon" alt="tags">
-                                            <p class="discount-code">{{ discountCode.name }}</p>
-                                            <button class="btn-delete" (click)="deleteDiscountCode(discountCode.id)"></button>
+                                            <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                            <p class="discount-code">test</p>
+                                            <button id="delete-discount" class="btn-delete" (click)="deleteDiscountCode(discountCode.id)"></button>
                                         </section>
-                                    </section> -->
+                                    </section> 
                                     <section class="discount-box">
-                                        <!-- <form [formGroup]="applyDiscountCodeForm" (ngSubmit)="applyDiscountCode()">
-                                            <input id="discount-input" class="form-control" formControlName="name" type="text" placeholder="Discount">
-                                            <button class="button" type="submit">Apply</button>
-                                        </form> -->
-                                        <input id="discount-input" type="text" placeholder="Discount">
-                                        <a class="button">Apply</a>
+                                         <form id="apply-discount" method="post">
+                                            <input id="discount-input" class="discount-input" type="text" placeholder="Discount">
+                                            <button id="apply-btn" class="button" type="submit">Apply</button>
+                                        </form> 
+                                        @*<input id="discount-input" type="text" placeholder="Discount">
+                                        <a class="button">Apply</a>*@
                                     </section>
                                 </section>
                                 <section class="col-sm-6 offset-sm-3 col-lg-6 offset-lg-0">
@@ -170,6 +171,25 @@
                 }
             });
         });
+
+        $('#apply-btn').click(function (event) {
+            event.preventDefault();
+
+            let discountName = $('#discount-input').val();
+
+            $.post({
+                url: `/order/discount/${discountName}`,
+                success: function () {
+                    $('.discount-tag-container').css('display', 'block');
+                }
+            });
+        });
+
+        $('#delete-discount').click(function (event) {
+            event.preventDefault();
+            $('.discount-tag-container').css('display', 'none');
+            $('#discount-input').val('');
+        })
     </script>
 }
 

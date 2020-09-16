@@ -17,5 +17,7 @@
         public string IssuerId { get; set; }
 
         public ApplicationUser Issuer { get; set; }
+
+        public int? DiscountCodeId { get; set; }
     }
 }

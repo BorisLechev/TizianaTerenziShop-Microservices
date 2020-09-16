@@ -22,6 +22,8 @@
 
         public DateTime IssuedOn { get; set; }
 
+        public int? DiscountCodeId { get; set; }
+
         public virtual ICollection<OrderProduct> Products { get; set; }
     }
 }

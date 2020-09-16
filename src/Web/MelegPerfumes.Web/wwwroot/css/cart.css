@@ -228,6 +228,7 @@
 }
 
 .discount-tag-container {
+    display: none;
     margin-top: 1rem;
     transition: all 200ms ease;
 }
