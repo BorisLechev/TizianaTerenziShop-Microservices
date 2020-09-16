@@ -17,7 +17,7 @@
                                 <tr>
                                     <th>product</th>
                                     <th>quantity</th>
-                                    <th>total</th>
+                                    <th class="price-header">price</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -94,9 +94,9 @@
                                                 <section class="total-price-container">
                                                     <div class="label-price">total price</div>
                                                     <div class="price-container">
-                                                        <div>
+                                                        <span class="currency-sign-total-price">
                                                             € <span class="total-price">@Model.Sum(order => order.ProductPrice * order.Quantity).ToString("F2")</span>
-                                                        </div>
+                                                        </span>
                                                     </div>
                                                 </section>
                                                 <a class="button" (click)="checkOut()">Check Out</a>
@@ -132,7 +132,6 @@
                 // Extract the elements' values
                 let currentPrice = +($($($($(order).children()[2]).children()).children()[0]).text().replace(/€ | EUR/gi, ''));
                 let currentQuantity = +($($($($(order).children()[1]).children()).children()[0]).text());
-                console.log(currentQuantity);
 
                 // Calculate the total price
                 totalPrice += currentPrice * currentQuantity;

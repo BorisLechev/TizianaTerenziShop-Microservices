@@ -165,6 +165,11 @@
 .custom-table th {
     padding: 22px 5px;
     vertical-align: middle;
+    /*text-align: center;*/
+}
+
+.custom-table th.price-header {
+    text-align: center;
 }
 
 @media screen and (min-width: 768px) {
@@ -207,7 +212,7 @@
 
 .cart-item-price {
     text-align: right;
-    padding: 0 15%;
+    padding: 0 20%;
 }
 
 .cart-form-footer {
@@ -249,16 +254,21 @@
     margin: 0;
 }
 
+.increase-btn,
+.decrease-btn {
+    cursor: pointer !important;
+}
+
 .btn-delete {
     display: inline-block !important;
     margin-left: 0.4rem !important;
     vertical-align: middle !important;
 }
 
-    .btn-delete::before,
-    .btn-delete::after {
-        top: 30% !important;
-    }
+.btn-delete::before,
+.btn-delete::after {
+    top: 30% !important;
+}
 
 .discount-box {
     margin: 0;
@@ -306,19 +316,24 @@
 }
 
 .label-price {
+    font-size: 1.03rem;
     flex-shrink: 0;
     margin: 0;
     text-align: left;
 }
 
 .price-container {
-    font-size: 25px;
+    font-size: 21px;
     padding: 0;
     font-weight: 300;
 }
 
+.currency-sign-total-price {
+    font-size: 21px;
+}
+
 .total-price {
-    font-size: 25px;
+    font-size: 21px;
     padding: 0;
     color: rgb(95, 95, 94);
     font-weight: 300;
