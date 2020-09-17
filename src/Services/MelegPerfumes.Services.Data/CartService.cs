@@ -31,7 +31,6 @@
             ProductInTheCart productInTheCart = new ProductInTheCart
             {
                 Id = productInTheCartServiceModel.Id,
-                IssuedOn = DateTime.UtcNow,
                 IssuerId = productInTheCartServiceModel.IssuerId,
                 ProductId = productInTheCartServiceModel.ProductId,
                 Quantity = productInTheCartServiceModel.Quantity,

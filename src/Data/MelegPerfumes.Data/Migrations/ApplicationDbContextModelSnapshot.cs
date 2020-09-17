@@ -261,9 +261,6 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("IssuedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("IssuerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -309,10 +306,7 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProductId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProductId1")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -324,7 +318,7 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId1");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderProduct");
                 });
@@ -425,9 +419,6 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("IssuedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("IssuerId")
                         .HasColumnType("nvarchar(450)");
@@ -536,16 +527,10 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<string>("IssuerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProductId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProductId1")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReviewText")
@@ -557,7 +542,7 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasIndex("IssuerId");
 
-                    b.HasIndex("ProductId1");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Reviews");
                 });
@@ -748,7 +733,9 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId1");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.Product", b =>
@@ -802,7 +789,9 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                         .WithMany("Reviews")
-                        .HasForeignKey("ProductId1");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,6 +1,7 @@
 ﻿namespace MelegPerfumes.Data.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -46,5 +47,6 @@
             entity.DeletedOn = DateTime.UtcNow;
             this.Update(entity);
         }
+
     }
 }

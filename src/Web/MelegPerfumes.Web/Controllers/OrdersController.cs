@@ -1,8 +1,10 @@
 ﻿namespace MelegPerfumes.Web.Controllers
 {
+    using System;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Data;
     using MelegPerfumes.Services.Mapping;
     using MelegPerfumes.Web.ViewModels.Orders;
@@ -12,10 +14,14 @@
     {
         private readonly ICartService cartService;
 
+        private readonly IOrdersService ordersService;
+
         public OrdersController(
-            ICartService cartService)
+            ICartService cartService,
+            IOrdersService ordersService)
         {
             this.cartService = cartService;
+            this.ordersService = ordersService;
         }
 
         [HttpGet]
@@ -77,6 +83,29 @@
             //}
 
             return this.RedirectToAction("Cart");
+        }
+
+        //[HttpPost]
+        [Route("/orders/complete")]
+        public async Task<IActionResult> Complete(OrderInputModel inputModel)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var productsInTheCart = await this.cartService
+                 .GetAllProductsInTheCartByUserId(userId);
+
+            var orderProducts = productsInTheCart
+                .Select(op => new OrderProduct
+                {
+                    ProductId = op.ProductId,
+                    Price = op.ProductPrice,
+                    Quantity = op.Quantity,
+                    CreatedOn = DateTime.UtcNow,
+                })
+                .ToList();
+
+            await this.ordersService.CreateOrderAsync(userId, orderProducts);
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

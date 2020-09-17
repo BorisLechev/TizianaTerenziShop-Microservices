@@ -1,13 +1,9 @@
 ﻿namespace MelegPerfumes.Data.Models
 {
-    using System;
-
     using MelegPerfumes.Data.Common.Models;
 
     public class ProductInTheCart : BaseDeletableModel<string>
     {
-        public DateTime IssuedOn { get; set; }
-
         public int Quantity { get; set; }
 
         public int ProductId { get; set; }

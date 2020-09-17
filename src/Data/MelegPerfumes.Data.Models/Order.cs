@@ -1,6 +1,5 @@
 ﻿namespace MelegPerfumes.Data.Models
 {
-    using System;
     using System.Collections.Generic;
 
     using MelegPerfumes.Data.Common.Models;
@@ -19,8 +18,6 @@
         public int StatusId { get; set; }
 
         public virtual OrderStatus Status { get; set; }
-
-        public DateTime IssuedOn { get; set; }
 
         public int? DiscountCodeId { get; set; }
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MelegPerfumes.Data.Migrations
 {
-    public partial class AddInitialDataModels : Migration
+    public partial class Add_Initial_Data_Models : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,7 @@ namespace MelegPerfumes.Data.Migrations
                 name: "FirstName",
                 table: "AspNetUsers",
                 maxLength: 30,
-                nullable: false,
-                defaultValue: "");
+                nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
@@ -20,6 +19,25 @@ namespace MelegPerfumes.Data.Migrations
                 maxLength: 30,
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.CreateTable(
+                name: "DiscountCodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Discount = table.Column<double>(nullable: false),
+                    ExpiresOn = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DiscountCodes", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "FragranceGroups",
@@ -118,7 +136,7 @@ namespace MelegPerfumes.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     IssuerId = table.Column<string>(nullable: true),
                     StatusId = table.Column<int>(nullable: false),
-                    IssuedOn = table.Column<DateTime>(nullable: false)
+                    DiscountCodeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,8 +200,7 @@ namespace MelegPerfumes.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    ProductId = table.Column<string>(nullable: true),
-                    ProductId1 = table.Column<int>(nullable: true),
+                    ProductId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
                     OrderId = table.Column<int>(nullable: true)
@@ -198,8 +215,8 @@ namespace MelegPerfumes.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderProduct_Products_ProductId1",
-                        column: x => x.ProductId1,
+                        name: "FK_OrderProduct_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -236,6 +253,37 @@ namespace MelegPerfumes.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductsInTheCart",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    IssuerId = table.Column<string>(nullable: true),
+                    DiscountCodeId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductsInTheCart", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductsInTheCart_AspNetUsers_IssuerId",
+                        column: x => x.IssuerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProductsInTheCart_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
@@ -246,10 +294,8 @@ namespace MelegPerfumes.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     ReviewText = table.Column<string>(nullable: true),
-                    ProductId = table.Column<string>(nullable: true),
-                    ProductId1 = table.Column<int>(nullable: true),
-                    IssuerId = table.Column<string>(nullable: true),
-                    LastModified = table.Column<DateTime>(nullable: false)
+                    ProductId = table.Column<int>(nullable: false),
+                    IssuerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,12 +307,17 @@ namespace MelegPerfumes.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reviews_Products_ProductId1",
-                        column: x => x.ProductId1,
+                        name: "FK_Reviews_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DiscountCodes_IsDeleted",
+                table: "DiscountCodes",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FragranceGroups_IsDeleted",
@@ -289,9 +340,9 @@ namespace MelegPerfumes.Data.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderProduct_ProductId1",
+                name: "IX_OrderProduct_ProductId",
                 table: "OrderProduct",
-                column: "ProductId1");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_IsDeleted",
@@ -344,6 +395,21 @@ namespace MelegPerfumes.Data.Migrations
                 column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductsInTheCart_IsDeleted",
+                table: "ProductsInTheCart",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductsInTheCart_IssuerId",
+                table: "ProductsInTheCart",
+                column: "IssuerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductsInTheCart_ProductId",
+                table: "ProductsInTheCart",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductTypes_IsDeleted",
                 table: "ProductTypes",
                 column: "IsDeleted");
@@ -359,9 +425,9 @@ namespace MelegPerfumes.Data.Migrations
                 column: "IssuerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ProductId1",
+                name: "IX_Reviews_ProductId",
                 table: "Reviews",
-                column: "ProductId1");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscribers_IsDeleted",
@@ -372,10 +438,16 @@ namespace MelegPerfumes.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "DiscountCodes");
+
+            migrationBuilder.DropTable(
                 name: "OrderProduct");
 
             migrationBuilder.DropTable(
                 name: "ProductNotes");
+
+            migrationBuilder.DropTable(
+                name: "ProductsInTheCart");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
