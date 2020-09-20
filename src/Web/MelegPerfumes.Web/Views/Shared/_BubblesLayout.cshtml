@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
 
-    <link href="~/css/reset.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
     @RenderSection("CustomCss", required: false)
     <link href="~/css/bubblesLayout.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
@@ -36,7 +36,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap-select.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 
-    <script src="~/js/bubbles.min.js"></script>
+    <script src="~/js/bubbles.min.js" asp-append-version="true"></script>
     <script>
         bubbles({
             blur: 15,

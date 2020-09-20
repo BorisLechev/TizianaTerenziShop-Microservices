@@ -1,0 +1,134 @@
+﻿@model ProductCreateInputModel
+
+@{
+    ViewData["Title"] = "Create a Product";
+}
+
+<div class="w-75 w-md-50 text-center mx-auto">
+    <div class="row space-top">
+        <div class="col-md-12">
+            <h2 class="title">@ViewData["Title"]</h2>
+        </div>
+    </div>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form method="post">
+        <section class="form-group">
+            <label asp-for="Name">Name</label>
+            <section class="field mb-4">
+                <input asp-for="Name" class="form-control" placeholder="Name" type="text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <label asp-for="ProductType" class="control-label">Product Type</label>
+            <section class="field mb-4">
+                <select class="form-control selectpicker" data-live-search="true" title="Select Product Type..."
+                        id="productType" asp-items="@Model.ProductTypes">
+                    <option value="OtherProductType">Other...</option>
+                </select>
+                <input asp-for="ProductType" class="form-control mt-1" id="productTypeSelected" style="display: none;" />
+                <span asp-validation-for="ProductType" class="text-danger"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <label asp-for="FragranceGroup" class="control-label">Fragrance Group</label>
+            <section class="field mb-4">
+                <select class="form-control selectpicker" data-live-search="true" title="Select Fragrance Group..."
+                        id="fragranceGroup" asp-items="@Model.FragranceGroups">
+                    <option value="OtherFragranceGroup">Other...</option>
+                </select>
+                <input asp-for="FragranceGroup" class="form-control mt-1" id="fragranceGroupSelected" style="display: none;" />
+                <span asp-validation-for="FragranceGroup" class="text-danger"></span>
+            </section>
+        </section>
+        @*<section class="form-group mt-4">
+            <ng-select [items]="notes"
+                       [multiple]="true"
+                       bindLabel="name"
+                       [selectableGroup]="true"
+                       [closeOnSelect]="false"
+                       bindLabel="name"
+                       placeholder="Select notes"
+                       (add)="addNote($event.name)"
+                       (remove)="removeNote($event.label)">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.name}}
+                </ng-template>
+            </ng-select>
+        </section>*@
+        <section class="form-group">
+            <label asp-for="Description">Description</label>
+            <section class="field mb-4">
+                <input asp-for="Description" id="description" class="form-control" placeholder="Description" type="text" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <label asp-for="Price">Price</label>
+            <section class="field mb-4">
+                <input class="form-control" asp-for="Price" placeholder="Price" type="number" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <label asp-for="Picture">Image file</label>
+            <section class="field mb-4">
+                <input asp-for="Picture" class="form-control" placeholder="Image file" type="file" />
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <label asp-for="YearOfManufacture">Year of manufacture</label>
+            <section class="field mb-4">
+                <input asp-for="YearOfManufacture" class="form-control" placeholder="Year of manufacture" type="number" />
+                <span asp-validation-for="YearOfManufacture"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Create</button>
+        </section>
+    </form>
+</div> 
+
+@section Scripts {
+    <script>
+        var productType = $('#productType');
+        var selectedProductType = $('#productTypeSelected');
+
+        productType.find('option:first').appendTo(productType);
+
+        productType.change(function () {
+            var value = $(this).val();
+
+            if (value == 'OtherProductType') {
+                selectedProductType.show();
+                selectedProductType.val('');
+                selectedProductType.trigger('focus');
+            } else {
+                selectedProductType.hide();
+                selectedProductType.val(value);
+                $('#fragranceGroup').trigger('focus');
+            }
+        });
+
+        var fragranceGroup = $('#fragranceGroup');
+        var selectedFragranceGroup = $('#fragranceGroupSelected');
+
+        fragranceGroup.find('option:first').appendTo(fragranceGroup);
+
+        fragranceGroup.change(function () {
+            var value = $(this).val();
+
+            if (value == 'OtherFragranceGroup') {
+                selectedFragranceGroup.show();
+                selectedFragranceGroup.val('');
+                selectedFragranceGroup.trigger('focus');
+            } else {
+                selectedFragranceGroup.hide();
+                selectedFragranceGroup.val(value);
+                $('#description').trigger('focus');
+            }
+        });
+    </script>
+}

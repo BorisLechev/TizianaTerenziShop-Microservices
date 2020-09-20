@@ -19,6 +19,20 @@
             this.productsRepository = productsRepository;
         }
 
+        public async Task<bool> CreateProductAsync(Product product)
+        {
+            await this.productsRepository.AddAsync(product);
+            int result = await this.productsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task CreateProductsRangeAsync(IEnumerable<Product> products)
+        {
+            await this.productsRepository.AddRangeAsync(products);
+            await this.productsRepository.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<ProductsListingViewModel>> GetAllProductsAsync()
         {
             var products = await this.productsRepository

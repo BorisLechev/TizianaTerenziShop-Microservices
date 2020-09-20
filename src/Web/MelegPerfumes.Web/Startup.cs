@@ -75,6 +75,9 @@
             services.AddTransient<IDiscountCodesService, DiscountCodesService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IOrderStatusesService, OrderStatusesService>();
+            services.AddTransient<INotesService, NotesService>();
+            services.AddTransient<IProductTypesService, ProductTypesService>();
+            services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

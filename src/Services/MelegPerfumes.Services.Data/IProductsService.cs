@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Web.ViewModels.Products;
 
@@ -10,5 +11,9 @@
         Task<IEnumerable<ProductsListingViewModel>> GetAllProductsAsync();
 
         Task<Product> GetProductByIdAsync(int id);
+
+        Task<bool> CreateProductAsync(Product product);
+
+        Task CreateProductsRangeAsync(IEnumerable<Product> products);
     }
 }
