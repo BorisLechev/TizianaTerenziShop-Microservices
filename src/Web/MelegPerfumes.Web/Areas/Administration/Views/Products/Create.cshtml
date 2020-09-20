@@ -42,21 +42,17 @@
                 <span asp-validation-for="FragranceGroup" class="text-danger"></span>
             </section>
         </section>
-        @*<section class="form-group mt-4">
-            <ng-select [items]="notes"
-                       [multiple]="true"
-                       bindLabel="name"
-                       [selectableGroup]="true"
-                       [closeOnSelect]="false"
-                       bindLabel="name"
-                       placeholder="Select notes"
-                       (add)="addNote($event.name)"
-                       (remove)="removeNote($event.label)">
-                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.name}}
-                </ng-template>
-            </ng-select>
-        </section>*@
+        <section class="form-group">
+            <label asp-for="Notes" class="control-label">Notes</label>
+            <section class="field mb-4">
+                <select class="form-control selectpicker" data-live-search="true" multiple title="Select Notes..."
+                        id="note" asp-items="@Model.Notes">
+                    <option value="OtherNote">Other...</option>
+                </select>
+                <input asp-for="Notes" class="form-control mt-1" id="noteSelected" style="display: none;" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </section>
+        </section>
         <section class="form-group">
             <label asp-for="Description">Description</label>
             <section class="field mb-4">
@@ -74,9 +70,16 @@
         <section class="form-group">
             <label asp-for="Picture">Image file</label>
             <section class="field mb-4">
+                <div class="custom-file">
+                    <input asp-for="Picture" type="file" class="custom-file-input form-control" id="customFile">
+                    <label asp-for="Picture" class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+            </section>
+            @*<label asp-for="Picture">Image file</label>*@
+            @*<section class="field mb-4">
                 <input asp-for="Picture" class="form-control" placeholder="Image file" type="file" />
                 <span asp-validation-for="Picture" class="text-danger"></span>
-            </section>
+            </section>*@
         </section>
         <section class="form-group">
             <label asp-for="YearOfManufacture">Year of manufacture</label>
@@ -127,8 +130,41 @@
             } else {
                 selectedFragranceGroup.hide();
                 selectedFragranceGroup.val(value);
-                $('#description').trigger('focus');
+                $('#note').trigger('focus');
+            }
+        });
+
+        var note = $('#note');
+        var selectedNote = $('#noteSelected');
+
+        note.find('option:first').appendTo(note);
+
+        note.change(function () {
+            var value = $(this).val();
+
+            if (value == 'OtherNote') {
+                selectedNote.show();
+                selectedNote.val('');
+                selectedNote.trigger('focus');
+            } else {
+                selectedNote.hide();
+                selectedNote.val(value);
             }
         });
     </script>
+}
+
+@section CustomCss {
+    <style>
+        .custom-file-label {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            text-align: left;
+            border-radius: 50px;
+        }
+
+        .custom-file-label:after {
+            border-radius: 0 20px 20px 0;
+        }
+    </style>
 }

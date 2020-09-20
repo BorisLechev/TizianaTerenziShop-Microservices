@@ -9,8 +9,6 @@
     {
         public string Id { get; set; }
 
-        public DateTime IssuedOn { get; set; }
-
         public int Quantity { get; set; }
 
         public int ProductId { get; set; }

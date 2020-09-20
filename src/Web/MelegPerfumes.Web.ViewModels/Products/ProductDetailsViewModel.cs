@@ -1,7 +1,7 @@
 ﻿namespace MelegPerfumes.Web.ViewModels.Products
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using AutoMapper;
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Mapping;
@@ -18,7 +18,7 @@
 
         public string Picture { get; set; }
 
-        public virtual ICollection<ProductNotes> Notes { get; set; }
+        public virtual IEnumerable<string> Notes { get; set; }
 
         public string ProductType { get; set; }
 
@@ -30,7 +30,7 @@
         {
             configuration.CreateMap<Product, ProductDetailsViewModel>()
                 .ForMember(dest => dest.Picture, opt => opt.MapFrom(src => src.ImageUrl))
-                .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes));
+                .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes.Select(n => n.Note.Name)));
         }
     }
 }

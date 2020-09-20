@@ -44,7 +44,7 @@
             {
                 ProductTypes = productTypes,
                 FragranceGroups = fragranceGroups,
-                //Notes = notes,
+                Notes = notes,
             };
 
             return this.View(product);
@@ -61,7 +61,7 @@
 
                 inputModel.ProductTypes = productTypes;
                 inputModel.FragranceGroups = fragranceGroups;
-                //inputModel.Notes = notes;
+                inputModel.Notes = notes;
 
                 return this.View(inputModel);
             }

@@ -31,17 +31,17 @@
             return this.View(products);
         }
 
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var product = await this.productsService.GetProductByIdAsync<ProductDetailsViewModel>(id);
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await this.productsService.GetProductByIdAsync(id);
 
-        //    if (product == null) // TODO: add other rules
-        //    {
-        //        return this.NotFound();
-        //    }
+            if (product == null) // TODO: add other rules
+            {
+                return this.NotFound();
+            }
 
-        //    return this.View(product);
-        //}
+            return this.View(product);
+        }
 
         //[HttpPost]
         public async Task<IActionResult> Order(int productId)
@@ -51,7 +51,6 @@
             var productServiceModel = new ProductInTheCartServiceModel
             {
                 Id = Guid.NewGuid().ToString(),
-                IssuedOn = product.CreatedOn,
                 IssuerId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
                 ProductId = product.Id,
                 Quantity = 1,

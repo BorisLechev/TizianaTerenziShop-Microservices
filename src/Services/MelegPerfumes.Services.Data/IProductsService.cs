@@ -10,7 +10,7 @@
     {
         Task<IEnumerable<ProductsListingViewModel>> GetAllProductsAsync();
 
-        Task<Product> GetProductByIdAsync(int id);
+        Task<ProductDetailsViewModel> GetProductByIdAsync(int id);
 
         Task<bool> CreateProductAsync(Product product);
 

@@ -38,7 +38,7 @@
         [Required(ErrorMessage = "Picture is required.")]
         public string Picture { get; set; }
 
-        public IEnumerable<string> Notes { get; set; }
+        public IEnumerable<SelectListItem> Notes { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 2)]
