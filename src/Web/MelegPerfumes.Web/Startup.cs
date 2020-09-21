@@ -1,7 +1,7 @@
 ﻿namespace MelegPerfumes.Web
 {
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using MelegPerfumes.Data;
     using MelegPerfumes.Data.Common;
     using MelegPerfumes.Data.Common.Repositories;
@@ -41,6 +41,15 @@
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            Account account = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
@@ -78,6 +87,7 @@
             services.AddTransient<INotesService, NotesService>();
             services.AddTransient<IProductTypesService, ProductTypesService>();
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

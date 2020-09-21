@@ -3,12 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.Linq;
+    using AutoMapper;
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class ProductCreateInputModel : IMapTo<Product>, IMapFrom<Product>
+    public class ProductCreateInputModel : IMapTo<Product>
     {
         private const int NameMinimumLength = 2;
         private const int NameMaximumLength = 25;
@@ -36,19 +38,20 @@
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "Picture is required.")]
-        public string Picture { get; set; }
+        public IFormFile Picture { get; set; }
+
+        [Required]
+        public IEnumerable<string> NoteIds { get; set; }
 
         public IEnumerable<SelectListItem> Notes { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
-        public string ProductType { get; set; }
+        public int ProductTypeId { get; set; }
 
         public IEnumerable<SelectListItem> ProductTypes { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 2)]
-        public string FragranceGroup { get; set; }
+        public int FragranceGroupId { get; set; }
 
         public IEnumerable<SelectListItem> FragranceGroups { get; set; }
 

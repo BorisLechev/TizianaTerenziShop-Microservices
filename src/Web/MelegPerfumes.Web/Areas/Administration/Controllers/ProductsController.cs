@@ -1,5 +1,6 @@
 ﻿namespace MelegPerfumes.Web.Areas.Administration.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -18,19 +19,24 @@
         private readonly IProductTypesService productTypesService;
 
         private readonly IFragranceGroupsService fragranceGroupsService;
+
         private readonly IProductsService productsService;
+
+        private readonly ICloudinaryService cloudinaryService;
 
         public ProductsController(
             INotesService notesService,
             IProductTypesService productTypesService,
             IFragranceGroupsService fragranceGroupsService,
-            IProductsService productsService)
+            IProductsService productsService,
+            ICloudinaryService cloudinaryService)
         {
             this.notesService = notesService;
             this.productTypesService = productTypesService;
             this.fragranceGroupsService = fragranceGroupsService;
 
             this.productsService = productsService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [HttpGet]
@@ -66,11 +72,30 @@
                 return this.View(inputModel);
             }
 
-            var product = Mapper.Map<Product>(inputModel);
+            var notesIds = inputModel.NoteIds.First().Split(",", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+
+            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+
+            //var product = Mapper.Map<Product>(inputModel);
+            var product = new Product
+            {
+                Name = inputModel.Name,
+                Description = inputModel.Description,
+                ProductTypeId = inputModel.ProductTypeId,
+                FragranceGroupId = inputModel.FragranceGroupId,
+                YearOfManufacture = inputModel.YearOfManufacture,
+                Price = inputModel.Price,
+                Notes = notesIds.Select(id => new ProductNotes
+                {
+                    NoteId = id,
+                }).ToList(),
+            };
+            product.ImageUrl = pictureUrl;
+
             var result = await this.productsService.CreateProductAsync(product);
 
             // TODO: add Success and Error message
-            return this.RedirectToAction("Index", "Home");
+            return this.LocalRedirect("/products/all");
         }
 
         private async Task<IEnumerable<SelectListItem>> GetAllNotes()

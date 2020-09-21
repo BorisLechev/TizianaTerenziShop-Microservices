@@ -12,7 +12,7 @@
     </div>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <section class="form-group">
             <label asp-for="Name">Name</label>
             <section class="field mb-4">
@@ -21,36 +21,36 @@
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="ProductType" class="control-label">Product Type</label>
+            <label asp-for="ProductTypeId" class="control-label">Product Type</label>
             <section class="field mb-4">
                 <select class="form-control selectpicker" data-live-search="true" title="Select Product Type..."
                         id="productType" asp-items="@Model.ProductTypes">
                     <option value="OtherProductType">Other...</option>
                 </select>
-                <input asp-for="ProductType" class="form-control mt-1" id="productTypeSelected" style="display: none;" />
-                <span asp-validation-for="ProductType" class="text-danger"></span>
+                <input asp-for="ProductTypeId" class="form-control mt-1" id="productTypeSelected" style="display: none;" />
+                <span asp-validation-for="ProductTypeId" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="FragranceGroup" class="control-label">Fragrance Group</label>
+            <label asp-for="FragranceGroupId" class="control-label">Fragrance Group</label>
             <section class="field mb-4">
                 <select class="form-control selectpicker" data-live-search="true" title="Select Fragrance Group..."
                         id="fragranceGroup" asp-items="@Model.FragranceGroups">
                     <option value="OtherFragranceGroup">Other...</option>
                 </select>
-                <input asp-for="FragranceGroup" class="form-control mt-1" id="fragranceGroupSelected" style="display: none;" />
-                <span asp-validation-for="FragranceGroup" class="text-danger"></span>
+                <input asp-for="FragranceGroupId" class="form-control mt-1" id="fragranceGroupSelected" style="display: none;" />
+                <span asp-validation-for="FragranceGroupId" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="Notes" class="control-label">Notes</label>
+            <label asp-for="NoteIds" class="control-label">Notes</label>
             <section class="field mb-4">
                 <select class="form-control selectpicker" data-live-search="true" multiple title="Select Notes..."
                         id="note" asp-items="@Model.Notes">
                     <option value="OtherNote">Other...</option>
                 </select>
-                <input asp-for="Notes" class="form-control mt-1" id="noteSelected" style="display: none;" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <input asp-for="NoteIds" class="form-control mt-1" id="noteSelected" style="display: none;" />
+                <span asp-validation-for="NoteIds" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
@@ -71,15 +71,10 @@
             <label asp-for="Picture">Image file</label>
             <section class="field mb-4">
                 <div class="custom-file">
-                    <input asp-for="Picture" type="file" class="custom-file-input form-control" id="customFile">
+                    <input asp-for="Picture" id="customFile" class="custom-file-input form-control" type="file">
                     <label asp-for="Picture" class="custom-file-label" for="customFile">Choose file</label>
                 </div>
             </section>
-            @*<label asp-for="Picture">Image file</label>*@
-            @*<section class="field mb-4">
-                <input asp-for="Picture" class="form-control" placeholder="Image file" type="file" />
-                <span asp-validation-for="Picture" class="text-danger"></span>
-            </section>*@
         </section>
         <section class="form-group">
             <label asp-for="YearOfManufacture">Year of manufacture</label>
