@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MelegPerfumes.Web.Controllers
+﻿namespace MelegPerfumes.Web.Controllers
 {
     using System;
     using System.Security.Claims;
