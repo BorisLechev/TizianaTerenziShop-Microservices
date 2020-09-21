@@ -33,7 +33,7 @@
     padding: 0;
 }
 
-.main .container .row .inner-row .products-list .main .container .row .inner-row .products-list .items-col:nth-child(3n+1) {
+.main .container .row .inner-row .products-list .items-col:nth-child(3n+1) {
     clear: both;
 }
 
