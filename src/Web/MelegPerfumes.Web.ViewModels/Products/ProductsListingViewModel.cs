@@ -13,7 +13,7 @@
 
         public decimal Price { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string Picture { get; set; }
 
         public int YearOfManufacture { get; set; }
     }

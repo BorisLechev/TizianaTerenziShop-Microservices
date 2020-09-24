@@ -33,7 +33,6 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductDetailsViewModel>()
-                .ForMember(dest => dest.Picture, opt => opt.MapFrom(src => src.ImageUrl))
                 .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes.Select(n => n.Note.Name)));
         }
     }

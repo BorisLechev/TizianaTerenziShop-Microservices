@@ -57,7 +57,7 @@ namespace MelegPerfumes.Data.Seeding
                             Name = product.Name,
                             Description = product.Description,
                             Price = product.Price,
-                            ImageUrl = product.ImageUrl,
+                            Picture = product.ImageUrl,
                             ProductTypeId = product.ProductTypeId,
                             FragranceGroupId = product.FragranceGroupId,
                             Notes = dbContext.Notes.Where(n => product.Notes.Contains(n.Name)).Select(n => new ProductNotes { ProductId = n.Id, NoteId = n.Id }).ToList(),

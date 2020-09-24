@@ -17,8 +17,8 @@
                                     <section class="wrapper-item-inner">
                                         <section class="product-image-container" appClick>
                                             <a class="product-image-link" asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" title="@product.Name">
-                                                <img class="product-image front" src="@product.ImageUrl" alt="@product.Name">
-                                                <img class="product-image back" src="@product.ImageUrl" alt="@product.Name">
+                                                <img class="product-image front" src="@product.Picture" alt="@product.Name">
+                                                <img class="product-image back" src="@product.Picture" alt="@product.Name">
                                                 <section class="image-overlay"></section>
                                             </a>
                                         </section>
@@ -58,7 +58,7 @@
 </div>
 
 <partial name="_TestimonialsPartial" />
-<partial name="_SubscribeNewsletterPartial" />
+@*<partial name="_SubscribeNewsletterPartial" />*@
 
 @section CustomCss {
     <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />

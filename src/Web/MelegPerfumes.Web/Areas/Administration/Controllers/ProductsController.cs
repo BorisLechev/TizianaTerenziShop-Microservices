@@ -90,7 +90,7 @@
                     NoteId = id,
                 }).ToList(),
             };
-            product.ImageUrl = pictureUrl;
+            product.Picture = pictureUrl;
 
             var result = await this.productsService.CreateProductAsync(product);
 
