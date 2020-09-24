@@ -373,7 +373,7 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<int>("FragranceGroupId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")

@@ -55,13 +55,13 @@
                             <section class="product-price-container">€ @Model.Price EUR</section>
                             <section class="product-quantity-container">
                                 <span class="product-quantity-inner-container">
-                                    <input type="number" class="quantity" value="{{ quantity }}">
-                                    <span class="increase-btn" (click)="increaseQuantity()"></span>
-                                    <span class="decrease-btn" (click)="decreaseQuantity()"></span>
+                                    <input type="number" class="quantity">
+                                    <span class="increase-btn"></span>
+                                    <span class="decrease-btn"></span>
                                 </span>
                             </section>
                             <section class="btn-container">
-                                <a class="button" (click)="addToCart()">Add to cart</a>
+                                <a class="button">Add to cart</a>
                             </section>
                         </main>
                     </article>

@@ -21,35 +21,37 @@
             this.productsInTheCartRepository = productsInTheCartRepository;
         }
 
-        public async Task<bool> AddProductInTheCart(ProductInTheCartServiceModel productInTheCartServiceModel)
+        public async Task<bool> AddProductInTheCart(ProductInTheCart productInTheCart)
         {
-            if (productInTheCartServiceModel.Quantity < 1)
+            if (productInTheCart.Quantity < 1)
             {
-                throw new ArgumentException(nameof(productInTheCartServiceModel));
+                throw new ArgumentException(nameof(productInTheCart)); // TODO: add error message
             }
 
-            ProductInTheCart productInTheCart = new ProductInTheCart
-            {
-                Id = productInTheCartServiceModel.Id,
-                IssuerId = productInTheCartServiceModel.IssuerId,
-                ProductId = productInTheCartServiceModel.ProductId,
-                Quantity = productInTheCartServiceModel.Quantity,
-            };
+            //ProductInTheCart productInTheCart = new ProductInTheCart
+            //{
+            //    Id = productInTheCartServiceModel.Id,
+            //    IssuerId = productInTheCartServiceModel.IssuerId,
+            //    ProductId = productInTheCartServiceModel.ProductId,
+            //    Quantity = productInTheCartServiceModel.Quantity,
+            //};
 
-            // TODO: Increase quantity of product that already exist in the cart
             //var allProducts = await this.GetAllProductsInTheCartByUserId(productInTheCart.IssuerId);
 
             //if (allProducts.Any(p => p.ProductId == productInTheCartServiceModel.ProductId))
             //{
-            //    productInTheCart.Quantity++;
+            //    bool result = await this.IncreaseQuantity(productInTheCart.Id);
 
-            //    this.productsInTheCartRepository.Update(productInTheCart);
-
-            //    int resultInner = await this.productsInTheCartRepository.SaveChangesAsync();
-
-            //    return resultInner > 0;
+            //    return result;
             //}
+            //else
+            //{
+            //    await this.productsInTheCartRepository.AddAsync(productInTheCart);
 
+            //    int result = await this.productsInTheCartRepository.SaveChangesAsync();
+
+            //    return result > 0;
+            //}
             await this.productsInTheCartRepository.AddAsync(productInTheCart);
 
             int result = await this.productsInTheCartRepository.SaveChangesAsync();
@@ -83,6 +85,17 @@
                 .ToListAsync();
 
             return productsInTheCart;
+        }
+
+        public async Task<OrdersCartViewModel> GetProductById(int productId)
+        {
+            var productInTheCart = await this.productsInTheCartRepository
+                .All()
+                .Where(p => p.ProductId == productId)
+                .To<OrdersCartViewModel>()
+                .SingleOrDefaultAsync();
+
+            return productInTheCart;
         }
 
         public async Task<bool> IncreaseQuantity(string orderId)

@@ -48,7 +48,7 @@
             var product = await this.productsRepository
                 .All()
                 .Where(p => p.Id == id)
-                .Include(p => p.ProductType)
+                .Include(p => p.ProductType) // TODO: do not use include
                 .Include(p => p.FragranceGroup)
                 .Include(p => p.Notes)
                 .ThenInclude(n => n.Note)

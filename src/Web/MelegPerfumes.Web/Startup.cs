@@ -1,5 +1,6 @@
 ﻿namespace MelegPerfumes.Web
 {
+    using System;
     using System.Reflection;
     using CloudinaryDotNet;
     using MelegPerfumes.Data;
@@ -16,6 +17,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
@@ -56,6 +58,24 @@
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
+
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
+                options.Cookie.IsEssential = true;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Error403";
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/login";
+                options.LogoutPath = "/logout";
+            });
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
+            });
 
             services.AddControllersWithViews(
                 options =>

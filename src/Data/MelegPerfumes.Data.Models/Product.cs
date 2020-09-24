@@ -18,7 +18,7 @@
 
         public decimal Price { get; set; }
 
-        public string Picture { get; set; } // TODO: should be Picture
+        public string Picture { get; set; }
 
         public int ProductTypeId { get; set; }
 

@@ -24,9 +24,9 @@
                                         </section>
                                         <section class="actions">
                                             <div class="link-actions"></div>
-                                            <a class="btn-cart" asp-area="" asp-controller="Products" asp-action="Order" asp-route-productId="@product.Id">
-                                                <span>Add to Cart</span>
-                                            </a>
+                                            <form asp-area="" asp-controller="Products" asp-action="Order" asp-route-productId="@product.Id" method="post">
+                                                <button class="btn-cart" type="submit">Add to Cart</button>
+                                            </form>
                                             <button class="btn-edit">
                                                 <span>Edit Product</span>
                                             </button>
