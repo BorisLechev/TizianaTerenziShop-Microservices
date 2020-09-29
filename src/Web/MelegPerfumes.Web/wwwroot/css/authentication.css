@@ -12,3 +12,11 @@
     height: 40px;
     width: 40px;
 }
+
+.form-horizontal {
+    display: inline-block;
+}
+
+.form-horizontal button {
+    color: #007bff;
+}

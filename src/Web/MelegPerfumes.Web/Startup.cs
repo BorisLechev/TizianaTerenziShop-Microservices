@@ -92,6 +92,12 @@
 
                 options.ClientId = googleAuthNSection["ClientId"];
                 options.ClientSecret = googleAuthNSection["ClientSecret"];
+            })
+            .AddFacebook(options =>
+            {
+                options.AppId = this.configuration["FacebookSettings:AppId"];
+                options.AppSecret = this.configuration["FacebookSettings:AppSecret"];
+                options.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

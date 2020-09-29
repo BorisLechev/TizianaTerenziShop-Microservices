@@ -10,12 +10,14 @@
 
 <div class="row">
     <div class="w-75 w-md-50 text-center mx-auto">
-        <form method="post" class="form-horizontal" asp-controller="Authentication" asp-action="GoogleLogin">
-            <div class="social-container">
-                @*<a class="social"><i class="fab fa-facebook-f"></i></a>*@
+        <div class="social-container">
+            <form class="form-horizontal" asp-controller="Authentication" asp-action="GoogleLogin" method="post">
                 <button class="btn social" type="submit"><i class="fab fa-google"></i></button>
-            </div>
-        </form>
+            </form>
+            <form class="form-horizontal" asp-controller="Authentication" asp-action="FacebookLogin" method="post">
+                <button class="btn social" type="submit"><i class="fab fa-facebook-f"></i></button>
+            </form>
+        </div>
 
         <form method="post">
             <hr />
