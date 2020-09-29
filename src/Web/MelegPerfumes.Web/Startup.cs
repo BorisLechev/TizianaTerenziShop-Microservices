@@ -84,6 +84,16 @@
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
+            services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    this.configuration.GetSection("Google");
+
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
+
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             services.AddResponseCompression(opt => opt.EnableForHttps = true);

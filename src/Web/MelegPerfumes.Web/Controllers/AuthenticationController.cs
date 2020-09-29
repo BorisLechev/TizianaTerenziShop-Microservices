@@ -143,6 +143,106 @@
             return this.RedirectToRoute("/");
         }
 
+        [HttpPost]
+        public IActionResult GoogleLogin(string returnUrl = null)
+        {
+            returnUrl = returnUrl ?? this.Url.Content("~/");
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.LocalRedirect(returnUrl);
+            }
+
+            var redirectUrl = this.Url.Action("GoogleRegister", "Authentication", new { returnUrl });
+            var properties = this.signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+
+            return new ChallengeResult("Google", properties);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GoogleRegister(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? this.Url.Content("~/");
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.LocalRedirect(returnUrl);
+            }
+
+            if (remoteError != null)
+            {
+                return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+            }
+
+            var info = await this.signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+            }
+
+            var result = await this.signInManager.ExternalLoginSignInAsync("Google", info.ProviderKey,
+                isPersistent: true, bypassTwoFactor: true);
+
+            if (result.Succeeded)
+            {
+                return this.LocalRedirect(returnUrl);
+            }
+
+            this.ViewData["ReturnUrl"] = returnUrl;
+
+            var inputModel = new GoogleLoginInputModel();
+
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+            {
+                inputModel.Email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            }
+
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Name))
+            {
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+
+                var split = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                if (split.Length >= 2)
+                {
+                    inputModel.FirstName = split[0];
+                    inputModel.LastName = split[split.Length - 1];
+                }
+                else
+                {
+                    inputModel.FirstName = name;
+                }
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = inputModel.Email,
+                Email = inputModel.Email,
+                FirstName = inputModel.FirstName,
+                LastName = inputModel.LastName,
+            };
+
+            var resultAfterCreate = await this.signInManager.UserManager.CreateAsync(user);
+
+            if (resultAfterCreate.Succeeded)
+            {
+                resultAfterCreate = await this.signInManager.UserManager.AddLoginAsync(user, info);
+
+                if (resultAfterCreate.Succeeded)
+                {
+                    this.Success(string.Format(NotificationMessages.RegistrationWelcome, inputModel.FirstName));
+
+                    await this.signInManager.SignInAsync(user, isPersistent: true);
+                    return this.LocalRedirect(returnUrl);
+                }
+            }
+
+            this.ViewData["ReturnUrl"] = returnUrl;
+            return this.View();
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GitHubLoginCallback(string returnUrl = null, string remoteError = null)

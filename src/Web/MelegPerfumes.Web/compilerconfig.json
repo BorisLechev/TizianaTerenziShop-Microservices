@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/css/_variables.css",
     "inputFile": "wwwroot/css/_variables.scss"
+  },
+  {
+    "outputFile": "wwwroot/js/bubbles.es5.js",
+    "inputFile": "wwwroot/js/bubbles.js"
   }
 ]
