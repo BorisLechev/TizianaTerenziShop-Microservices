@@ -35,4 +35,12 @@
     }
 
     toggle_video_modal();
+
+    $(window).bind("scroll", function () {
+        if ($(window).scrollTop() > 0) {
+            $(".layout-navbar").addClass("white");
+        } else {
+            $(".layout-navbar").removeClass("white");
+        }
+    });
 });

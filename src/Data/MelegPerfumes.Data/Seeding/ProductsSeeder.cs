@@ -11,7 +11,7 @@ namespace MelegPerfumes.Data.Seeding
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            var products = new List<(string Name, string Description, decimal Price, string ImageUrl, int ProductTypeId, int FragranceGroupId, ICollection<string> Notes, int YearOfManufacture)>
+            var products = new List<(string Name, string Description, decimal Price, string Picture, int ProductTypeId, int FragranceGroupId, ICollection<string> Notes, int YearOfManufacture)>
             {
                 ("Ursa",
                   "The story of this fragrance originates around Lake Como. A body of water in which the changing moon and the Ursa Major lying above the high mountains were reflected.Ursa Major is an oriental fragrance with soft aromatic freshness.A burst of crisp, green elemi contrasts with nutmeg, dried fruits and rhum.This gives way to an intense, woody heart of patchouli, incense and tobacco blended with vetiver and olibanum.Softened by an unexpected base of vanilla with strong oud buaya, leather and agarwood, this contemporary scent comes to life with an invigorating, warm aroma.",
@@ -57,7 +57,7 @@ namespace MelegPerfumes.Data.Seeding
                             Name = product.Name,
                             Description = product.Description,
                             Price = product.Price,
-                            Picture = product.ImageUrl,
+                            Picture = product.Picture,
                             ProductTypeId = product.ProductTypeId,
                             FragranceGroupId = product.FragranceGroupId,
                             Notes = dbContext.Notes.Where(n => product.Notes.Contains(n.Name)).Select(n => new ProductNotes { ProductId = n.Id, NoteId = n.Id }).ToList(),

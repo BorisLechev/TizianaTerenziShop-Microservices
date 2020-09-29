@@ -12,11 +12,12 @@
     <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/buttons.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/testimonials.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/navbar.css" rel="stylesheet" asp-append-version="true" />
     @this.RenderSection("CustomCss", false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-light box-shadow layout-navbar">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -100,7 +101,3 @@
     @this.RenderSection("Scripts", required: false)
 </body>
 </html>
-
-@section CustomCss {
-    <link href="~/css/navbar.css" rel="stylesheet" asp-append-version="true" />
-}

@@ -15,7 +15,7 @@ namespace MelegPerfumes.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -371,9 +371,6 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<int>("FragranceGroupId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -381,6 +378,9 @@ namespace MelegPerfumes.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
