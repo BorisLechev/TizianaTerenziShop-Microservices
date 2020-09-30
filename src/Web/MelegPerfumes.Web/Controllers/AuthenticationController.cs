@@ -6,6 +6,7 @@
 
     using MelegPerfumes.Common;
     using MelegPerfumes.Data.Models;
+    using MelegPerfumes.Services.Data;
     using MelegPerfumes.Web.ViewModels.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -20,14 +21,18 @@
 
         private readonly ILogger<AuthenticationController> logger;
 
+        private readonly ICartService cartService;
+
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<AuthenticationController> logger)
+            ILogger<AuthenticationController> logger,
+            ICartService cartService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
+            this.cartService = cartService;
         }
 
         [Route("/login")]
@@ -133,6 +138,8 @@
             await this.signInManager.SignOutAsync();
             this.logger.LogInformation("User logged out.");
 
+            await this.cartService.DeleteAllProductsInTheCartByUserId(this.userManager.GetUserId(this.User));
+
             if (returnUrl != null)
             {
                 return this.LocalRedirect(returnUrl);
@@ -140,7 +147,7 @@
 
             this.Success(NotificationMessages.LoggedOut);
 
-            return this.RedirectToRoute("/");
+            return this.LocalRedirect("/");
         }
 
         [HttpPost]

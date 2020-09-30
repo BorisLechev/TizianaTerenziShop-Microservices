@@ -8,7 +8,6 @@
     using MelegPerfumes.Data.Common.Repositories;
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Mapping;
-    using MelegPerfumes.Services.Models;
     using MelegPerfumes.Web.ViewModels.Orders;
     using Microsoft.EntityFrameworkCore;
 
@@ -57,6 +56,24 @@
             int result = await this.productsInTheCartRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task<bool> DeleteAllProductsInTheCartByUserId(string userId)
+        {
+            var products = await this.productsInTheCartRepository
+                .All()
+                .Where(p => p.IssuerId == userId)
+                .ToListAsync();
+
+            if (products == null)
+            {
+                return false;
+            }
+
+            this.productsInTheCartRepository.HardDeleteRangeAsync(products);
+            await this.productsInTheCartRepository.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> DeleteProductInTheCart(string orderId)

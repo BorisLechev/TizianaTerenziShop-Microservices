@@ -17,6 +17,8 @@
 
         void HardDelete(TEntity entity);
 
+        void HardDeleteRangeAsync(IEnumerable<TEntity> entities);
+
         void Undelete(TEntity entity);
     }
 }
