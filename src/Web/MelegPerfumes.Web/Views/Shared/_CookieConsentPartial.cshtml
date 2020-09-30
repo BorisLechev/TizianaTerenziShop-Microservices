@@ -6,6 +6,21 @@
     var cookieString = consentFeature?.CreateConsentCookie();
 }
 
+<style>
+    #cookieConsent {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 9999;
+    }
+
+    #cookieConsent.box-shadow {
+        opacity: 0.9;
+    }
+</style>
+
 @if (showBanner)
 {
     <div class="alert alert-warning fade show mb-0" role="alert" id="cookieConsent">

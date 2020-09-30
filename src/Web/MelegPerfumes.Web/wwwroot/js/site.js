@@ -39,8 +39,10 @@
     $(window).bind("scroll", function () {
         if ($(window).scrollTop() > 0) {
             $(".layout-navbar").addClass("white");
+            $(".alert-warning").addClass("box-shadow");
         } else {
             $(".layout-navbar").removeClass("white");
+            $(".alert-warning").removeClass("box-shadow");
         }
     });
 });
