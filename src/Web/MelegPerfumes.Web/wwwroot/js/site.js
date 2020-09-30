@@ -45,4 +45,8 @@
             $(".alert-warning").removeClass("box-shadow");
         }
     });
+
+    setTimeout(function () {
+        $(".alert").fadeOut("slow").empty();
+    }, 5000);
 });
