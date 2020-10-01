@@ -47,6 +47,10 @@
     });
 
     setTimeout(function () {
-        $(".alert").fadeOut("slow").empty();
+        $("#response-message").fadeOut("slow").empty();
     }, 5000);
+
+    $("#navbar-toggler").click(function () {
+        $(".layout-navbar").addClass("white");
+    });
 });

@@ -15,17 +15,16 @@
     <link href="~/css/navbar.css" rel="stylesheet" asp-append-version="true" />
     @this.RenderSection("CustomCss", false)
 </head>
-<body>
+<body class="website-body">
     <header>
         <nav class="navbar navbar-expand-sm navbar-light box-shadow layout-navbar">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button id="navbar-toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
+                <div class="navbar-collapse collapse d-sm-inline-flex">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -37,6 +36,48 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <div class="navbar-nav ml-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-header" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                        @User.Identity.Name
+                                        @{ var claim = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationmethod");
+                                            if (claim != null)
+                                            {
+                                                @:(@claim.Value)
+                                            }
+                                        }
+                                    </a>
+                                    <a class="dropdown-item" asp-controller="Profile" asp-action="Index">My profile</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change password</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit">Edit profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">Orders</h6>
+                                    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    {
+
+                                        <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index">All orders</a>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Products" asp-action="Create">Create a product</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index">My orders</a>
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">
+                                        <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                    </form>
+                                </div>
+                            </li>
+                        }
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
@@ -46,7 +87,7 @@
 
     @if (TempData.ContainsKey(GlobalConstants.TempDataSuccessMessageKey))
     {
-        <div class="alert alert-primary fade show mb-0" role="alert" style="top: 3.5rem; left: 0; z-index: 9999; position: fixed; width: 100%;">
+        <div id="response-message" class="alert alert-primary fade show mb-0" role="alert" style="top: 3.5rem; left: 0; z-index: 9999; position: fixed; width: 100%;">
             <div class="container d-flex flex-row">
                 <i class="fas fa-check fa-2x align-self-center"></i>
                 <p class="pl-3 pb-0 my-2" style="font-size: 1rem;">@TempData[GlobalConstants.TempDataSuccessMessageKey]</p>
@@ -60,7 +101,7 @@
     }
     @if (TempData.ContainsKey(GlobalConstants.TempDataErrorMessageKey))
     {
-        <div class="alert alert-danger fade show mb-0" role="alert" style="top: 3.5rem; left: 0; z-index: 9999; position: fixed; width: 100%;">
+        <div id="response-message" class="alert alert-danger fade show mb-0" role="alert" style="top: 3.5rem; left: 0; z-index: 9999; position: fixed; width: 100%;">
             <div class="container d-flex flex-row">
                 <i class="fas fa-exclamation-circle fa-2x align-self-center"></i>
                 <p class="pl-3 pb-0 my-2" style="font-size: 1rem;">@TempData[GlobalConstants.TempDataErrorMessageKey]</p>

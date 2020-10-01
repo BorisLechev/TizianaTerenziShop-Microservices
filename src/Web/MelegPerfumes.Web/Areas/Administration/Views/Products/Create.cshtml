@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create a Product";
 }
 
-<div class="w-75 w-md-50 text-center mx-auto">
+<div class="w-75 w-md-50 text-center mx-auto create-product-wrapper">
     <div class="row space-top">
         <div class="col-md-12">
             <h2 class="title">@ViewData["Title"]</h2>
@@ -160,6 +160,10 @@
 
 @section CustomCss {
     <style>
+        .create-product-wrapper {
+            padding-top: 100px;
+        }
+
         .custom-file-label {
             padding-left: 1rem;
             padding-right: 1rem;
