@@ -8,7 +8,7 @@
     {
         public Product()
         {
-            this.Reviews = new HashSet<Review>();
+            this.Comments = new HashSet<Comment>();
             this.Notes = new HashSet<ProductNotes>();
         }
 
@@ -32,6 +32,6 @@
 
         public int YearOfManufacture { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

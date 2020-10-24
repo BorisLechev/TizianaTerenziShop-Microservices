@@ -30,6 +30,8 @@
 
         public int YearOfManufacture { get; set; }
 
+        public IEnumerable<ProductCommentViewModel> Comments { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductDetailsViewModel>()

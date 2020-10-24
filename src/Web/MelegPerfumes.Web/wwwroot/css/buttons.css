@@ -130,3 +130,7 @@
 .btn-delete::after {
     transform: rotate(-45deg);
 }
+
+.btn-comment {
+    margin: 1rem 0;
+}

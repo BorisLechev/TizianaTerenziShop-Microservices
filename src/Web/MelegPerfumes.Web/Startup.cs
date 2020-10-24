@@ -123,6 +123,7 @@
             services.AddTransient<INotesService, NotesService>();
             services.AddTransient<IProductTypesService, ProductTypesService>();
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
+            services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
