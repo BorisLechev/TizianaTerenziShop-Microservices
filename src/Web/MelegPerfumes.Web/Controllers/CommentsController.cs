@@ -1,6 +1,7 @@
 ﻿using MelegPerfumes.Data.Models;
 using MelegPerfumes.Services.Data;
 using MelegPerfumes.Web.ViewModels.Comments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,6 +25,8 @@ namespace MelegPerfumes.Web.Controllers
             this.commentsService = commentsService;
         }
 
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
         {
             var parentId = inputModel.ParentId == 0 ? (int?)null : inputModel.ParentId;

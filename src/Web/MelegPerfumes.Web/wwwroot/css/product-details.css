@@ -81,8 +81,8 @@
 .details-wrapper {
     width: 100%;
     padding: 0 10px 3.8rem 10px;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 @media screen and (min-width: 1024px) {
@@ -138,4 +138,8 @@
     #main {
         padding: 0 80px;
     }
+}
+
+.description main p {
+    text-align: justify;
 }
