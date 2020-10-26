@@ -11,7 +11,7 @@
       ]
     },
     {
-      "library": "bootstrap@4.5.2",
+      "library": "bootstrap@4.5.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "dist/css/bootstrap.css",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "library": "tinymce@5.4.2",
+      "library": "tinymce@5.2.2",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -87,7 +87,7 @@
       ]
     },
     {
-      "library": "moment@2.24.0",
+      "library": "moment@2.29.1",
       "destination": "wwwroot/lib/moment/",
       "files": [
         "min/moment-with-locales.min.js"

@@ -10,41 +10,41 @@
             return;
         }
 
-        @foreach (var comment in comments)
-        {
-            <div class="container-fluid mt-100">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <div class="media flex-wrap w-100 align-items-center">
-                                    <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" class="d-block ui-w-40 rounded-circle" alt="">
-                                    <div class="media-body ml-3">
-                                        @comment.IssuerUserName
-                                        <div class="text-muted small">
-                                            <time datetime="@comment.CreatedOn.ToString("O")"></time>
-                                        </div>
-                                    </div>
-                                    <div class="text-muted small ml-3">
+        <div class="comments-container">
+            <ul class="comments-list">
+                @foreach (var comment in comments)
+                {
+                    <li>
+                        <div class="comment-main-level">
+                            <div class="comment-avatar"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt=""></div>
+                            <div class="comment-box">
+                                <div class="comment-head">
+                                    <h6 class="comment-name by-name">
+                                        <span class="author">@comment.IssuerUserName</span>
+                                        @if (comment.IssuerUserName == this.User.Identity.Name)
+                                        {
+                                            <span class="tag-author">author</span>
+                                        }
+                                    </h6>
+                                    <div class="text-muted small">
+                                        <time datetime="@comment.CreatedOn.ToString("O")"></time>
                                         @if (comment.ParentId == null && this.User.Identity.IsAuthenticated)
                                         {
-
-                                                <div class="px-4 pt-3"><button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Answer</button> </div>
+                                            <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }
+                                        <i class="fa fa-heart"></i>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <article>
+                                <div class="comment-content">
                                     @Html.Raw(comment.SanitizedContent)
-                                </article>
-                                @{ DisplayComments(comment.Id); }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        }
+                        @{ DisplayComments(comment.Id); }
+                    </li>
+                }
+            </ul>
+        </div>
     }
 }
 
@@ -87,3 +87,5 @@
         }
     </script>
 }
+
+<link href="~/css/comments.css" rel="stylesheet" asp-append-version="true" />
