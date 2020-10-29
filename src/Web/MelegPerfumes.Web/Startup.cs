@@ -77,11 +77,14 @@
                 options.ValidationInterval = TimeSpan.Zero;
             });
 
-            services.AddControllersWithViews(
-                options =>
-                    {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    }).AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
+            });
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
             services.AddRazorPages();
 
             services.AddAuthentication()
@@ -102,6 +105,7 @@
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
+            services.AddResponseCaching();
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
 
             services.AddSingleton(this.configuration);
@@ -124,6 +128,7 @@
             services.AddTransient<IProductTypesService, ProductTypesService>();
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
             services.AddTransient<ICommentsService, CommentsService>();
+            services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

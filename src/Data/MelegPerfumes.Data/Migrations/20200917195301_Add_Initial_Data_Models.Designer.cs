@@ -263,7 +263,7 @@ namespace MelegPerfumes.Data.Migrations
                 b.Property<bool>("IsDeleted")
                     .HasColumnType("bit");
 
-                b.Property<string>("IssuerId")
+                b.Property<string>("UserId")
                     .HasColumnType("nvarchar(450)");
 
                 b.Property<DateTime?>("ModifiedOn")
@@ -276,7 +276,7 @@ namespace MelegPerfumes.Data.Migrations
 
                 b.HasIndex("IsDeleted");
 
-                b.HasIndex("IssuerId");
+                b.HasIndex("UserId");
 
                 b.HasIndex("StatusId");
 
@@ -422,7 +422,7 @@ namespace MelegPerfumes.Data.Migrations
                 b.Property<bool>("IsDeleted")
                     .HasColumnType("bit");
 
-                b.Property<string>("IssuerId")
+                b.Property<string>("UserId")
                     .HasColumnType("nvarchar(450)");
 
                 b.Property<DateTime?>("ModifiedOn")
@@ -438,7 +438,7 @@ namespace MelegPerfumes.Data.Migrations
 
                 b.HasIndex("IsDeleted");
 
-                b.HasIndex("IssuerId");
+                b.HasIndex("UserId");
 
                 b.HasIndex("ProductId");
 
@@ -526,7 +526,7 @@ namespace MelegPerfumes.Data.Migrations
                 b.Property<bool>("IsDeleted")
                     .HasColumnType("bit");
 
-                b.Property<string>("IssuerId")
+                b.Property<string>("UserId")
                     .HasColumnType("nvarchar(450)");
 
                 b.Property<DateTime?>("ModifiedOn")
@@ -542,7 +542,7 @@ namespace MelegPerfumes.Data.Migrations
 
                 b.HasIndex("IsDeleted");
 
-                b.HasIndex("IssuerId");
+                b.HasIndex("UserId");
 
                 b.HasIndex("ProductId");
 
@@ -716,9 +716,9 @@ namespace MelegPerfumes.Data.Migrations
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.Order", b =>
             {
-                b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "Issuer")
+                b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
                     .WithMany()
-                    .HasForeignKey("IssuerId");
+                    .HasForeignKey("UserId");
 
                 b.HasOne("MelegPerfumes.Data.Models.OrderStatus", "Status")
                     .WithMany()
@@ -757,9 +757,9 @@ namespace MelegPerfumes.Data.Migrations
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.ProductInTheCart", b =>
             {
-                b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "Issuer")
+                b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
                     .WithMany()
-                    .HasForeignKey("IssuerId");
+                    .HasForeignKey("UserId");
 
                 b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                     .WithMany()
@@ -785,9 +785,9 @@ namespace MelegPerfumes.Data.Migrations
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.Review", b =>
             {
-                b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "Issuer")
+                b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
                     .WithMany()
-                    .HasForeignKey("IssuerId");
+                    .HasForeignKey("UserId");
 
                 b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                     .WithMany("Reviews")

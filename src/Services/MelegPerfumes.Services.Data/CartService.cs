@@ -62,7 +62,7 @@
         {
             var products = await this.productsInTheCartRepository
                 .All()
-                .Where(p => p.IssuerId == userId)
+                .Where(p => p.UserId == userId)
                 .ToListAsync();
 
             if (products == null)
@@ -97,7 +97,7 @@
         {
             var productsInTheCart = await this.productsInTheCartRepository
                 .All()
-                .Where(p => p.IssuerId == userId)
+                .Where(p => p.UserId == userId)
                 .To<OrdersCartViewModel>()
                 .ToListAsync();
 

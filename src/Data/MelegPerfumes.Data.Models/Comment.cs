@@ -1,11 +1,16 @@
 ﻿namespace MelegPerfumes.Data.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using MelegPerfumes.Data.Common.Models;
 
     public class Comment : BaseDeletableModel<int>
     {
+        public Comment()
+        {
+            this.Votes = new HashSet<Vote>();
+        }
 
         public int ProductId { get; set; }
 
@@ -17,8 +22,11 @@
 
         public string Content { get; set; }
 
-        public string IssuerId { get; set; }
+        [Required]
+        public string UserId { get; set; }
 
-        public virtual ApplicationUser Issuer { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
+        public virtual ICollection<Vote> Votes { get; set; }
     }
 }

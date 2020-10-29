@@ -81,6 +81,10 @@
     cursor: pointer;
 }
 
+.comment-head i:before {
+    vertical-align: sub;
+}
+
 .comment-name {
     color: #03658c;
     font-size: 14px;

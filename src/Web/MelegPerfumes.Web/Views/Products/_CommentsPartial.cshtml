@@ -20,8 +20,8 @@
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name by-name">
-                                        <span class="author">@comment.IssuerUserName</span>
-                                        @if (comment.IssuerUserName == this.User.Identity.Name)
+                                        <span class="author">@comment.UserUserName</span>
+                                        @if (comment.UserUserName == this.User.Identity.Name)
                                         {
                                             <span class="tag-author">author</span>
                                         }
@@ -32,7 +32,10 @@
                                         {
                                             <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }
-                                        <i class="fa fa-heart"></i>
+                                        <div>
+                                            <i class="fa fa-heart" onclick="sendVote(@comment.Id)"></i>
+                                            <span id="votesCount" style="float: right;">@comment.VotesCount</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="comment-content">
@@ -46,6 +49,7 @@
             </ul>
         </div>
     }
+    <form id="votesForm" method="post"></form>
 }
 
 @if (this.User.Identity.IsAuthenticated)
@@ -85,7 +89,46 @@
                 scrollTop: $("#AddCommentForm").offset().top
             }, 1000);
         }
+
+        function sendVote(commentId) {
+            let token = $("#votesForm input[name=__RequestVerificationToken]").val();
+            let isUpVote = $(this).attr("class").indexOf("voted") > -1;
+            let json = { commentId: commentId, isUpVote: isUpVote }; // votesInputModel
+
+            $.ajax({
+                url: "/api/votes",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (data) {
+                    $("#votesCount").html(data.votesCount);
+                }
+            });
+        }
     </script>
 }
+
+<script>
+    function sendVote(commentId) {
+        let token = $("#votesForm input[name=__RequestVerificationToken]").val();
+        //let isUpVote = $(this).attr("class").indexOf("voted") > -1;
+        let isUpVote = $(".fa-heart").hasClass("voted");
+        let json = { commentId: commentId, isUpVote: true }; // votesInputModel
+
+        $.ajax({
+            url: "/api/votes",
+            type: "POST",
+            data: JSON.stringify(json),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: { 'X-CSRF-TOKEN': token },
+            success: function (data) {
+                $("#votesCount").html(data.votesCount);
+            }
+        });
+    }
+</script>
 
 <link href="~/css/comments.css" rel="stylesheet" asp-append-version="true" />

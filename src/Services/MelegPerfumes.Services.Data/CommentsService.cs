@@ -22,7 +22,7 @@ namespace MelegPerfumes.Services.Data
             var comment = new Comment
             {
                 Content = content,
-                IssuerId = userId,
+                UserId = userId,
                 ProductId = productId,
                 ParentId = parentId,
             };

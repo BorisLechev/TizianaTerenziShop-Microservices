@@ -1,13 +1,14 @@
-﻿using Ganss.XSS;
-using MelegPerfumes.Data.Models;
-using MelegPerfumes.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MelegPerfumes.Web.ViewModels.Products
+﻿namespace MelegPerfumes.Web.ViewModels.Products
 {
-    public class ProductCommentViewModel : IMapFrom<Comment>
+    using System;
+    using System.Linq;
+
+    using AutoMapper;
+    using Ganss.XSS;
+    using MelegPerfumes.Data.Models;
+    using MelegPerfumes.Services.Mapping;
+
+    public class ProductCommentViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -19,7 +20,14 @@ namespace MelegPerfumes.Web.ViewModels.Products
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content); // zaradi TinyMC
 
-        // TODO: Change Issuer to User
-        public string IssuerUserName { get; set; } // Comment->ApplicationUser->IdentityUser->UserName
+        public string UserUserName { get; set; } // Comment->ApplicationUser->IdentityUser->UserName
+
+        public int VotesCount { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Comment, ProductCommentViewModel>()
+                .ForMember(dest => dest.VotesCount, opt => opt.MapFrom(src => src.Votes.Sum(v => (int)v.Type)));
+        }
     }
 }

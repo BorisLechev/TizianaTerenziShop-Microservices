@@ -23,14 +23,14 @@ namespace MelegPerfumes.Data.Migrations
                     ProductId = table.Column<int>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
                     Content = table.Column<string>(nullable: true),
-                    IssuerId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_IssuerId",
-                        column: x => x.IssuerId,
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -54,9 +54,9 @@ namespace MelegPerfumes.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_IssuerId",
+                name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "IssuerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ParentId",
@@ -83,7 +83,7 @@ namespace MelegPerfumes.Data.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    IssuerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     ReviewText = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -92,8 +92,8 @@ namespace MelegPerfumes.Data.Migrations
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_AspNetUsers_IssuerId",
-                        column: x => x.IssuerId,
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -111,9 +111,9 @@ namespace MelegPerfumes.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_IssuerId",
+                name: "IX_Reviews_UserId",
                 table: "Reviews",
-                column: "IssuerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ProductId",

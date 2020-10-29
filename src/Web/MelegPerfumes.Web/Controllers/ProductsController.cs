@@ -70,7 +70,7 @@
                 var productInTheCart = new ProductInTheCart
                 {
                     Id = Guid.NewGuid().ToString(),
-                    IssuerId = userId,
+                    UserId = userId,
                     ProductId = product.Id,
                     Quantity = 1,
                 };

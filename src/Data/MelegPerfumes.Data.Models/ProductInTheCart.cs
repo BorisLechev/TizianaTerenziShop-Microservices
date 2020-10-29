@@ -10,9 +10,9 @@
 
         public Product Product { get; set; }
 
-        public string IssuerId { get; set; }
+        public string UserId { get; set; }
 
-        public ApplicationUser Issuer { get; set; }
+        public ApplicationUser User { get; set; }
 
         public int? DiscountCodeId { get; set; }
     }

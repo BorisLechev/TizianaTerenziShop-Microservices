@@ -168,7 +168,8 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("IssuerId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -184,7 +185,7 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("IssuerId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("ParentId");
 
@@ -305,7 +306,7 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("IssuerId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -318,7 +319,7 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("IssuerId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("StatusId");
 
@@ -464,7 +465,7 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("IssuerId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -480,7 +481,7 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("IssuerId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("ProductId");
 
@@ -613,6 +614,38 @@ namespace MelegPerfumes.Data.Migrations
                     b.ToTable("Subscribers");
                 });
 
+            modelBuilder.Entity("MelegPerfumes.Data.Models.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Votes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -719,9 +752,11 @@ namespace MelegPerfumes.Data.Migrations
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.Comment", b =>
                 {
-                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "Issuer")
+                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("IssuerId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("MelegPerfumes.Data.Models.Comment", "Parent")
                         .WithMany()
@@ -736,9 +771,9 @@ namespace MelegPerfumes.Data.Migrations
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.Order", b =>
                 {
-                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "Issuer")
+                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("IssuerId");
+                        .HasForeignKey("UserId");
 
                     b.HasOne("MelegPerfumes.Data.Models.OrderStatus", "Status")
                         .WithMany()
@@ -777,9 +812,9 @@ namespace MelegPerfumes.Data.Migrations
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.ProductInTheCart", b =>
                 {
-                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "Issuer")
+                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("IssuerId");
+                        .HasForeignKey("UserId");
 
                     b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                         .WithMany()
@@ -799,6 +834,21 @@ namespace MelegPerfumes.Data.Migrations
                     b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                         .WithMany("Notes")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MelegPerfumes.Data.Models.Vote", b =>
+                {
+                    b.HasOne("MelegPerfumes.Data.Models.Comment", "Comment")
+                        .WithMany("Votes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

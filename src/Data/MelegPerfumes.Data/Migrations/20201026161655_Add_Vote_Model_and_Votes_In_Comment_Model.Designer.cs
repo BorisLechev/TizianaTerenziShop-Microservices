@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MelegPerfumes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201024092242_Rename_Review_Model_To_Comment_Model")]
-    partial class Rename_Review_Model_To_Comment_Model
+    [Migration("20201026161655_Add_Vote_Model_and_Votes_In_Comment_Model")]
+    partial class Add_Vote_Model_and_Votes_In_Comment_Model
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -615,6 +615,38 @@ namespace MelegPerfumes.Data.Migrations
                     b.ToTable("Subscribers");
                 });
 
+            modelBuilder.Entity("MelegPerfumes.Data.Models.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Votes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -801,6 +833,21 @@ namespace MelegPerfumes.Data.Migrations
                     b.HasOne("MelegPerfumes.Data.Models.Product", "Product")
                         .WithMany("Notes")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MelegPerfumes.Data.Models.Vote", b =>
+                {
+                    b.HasOne("MelegPerfumes.Data.Models.Comment", "Comment")
+                        .WithMany("Votes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

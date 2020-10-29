@@ -1,7 +1,5 @@
 ﻿namespace MelegPerfumes.Services.Models
 {
-    using System;
-
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Mapping;
 
@@ -15,8 +13,8 @@
 
         public Product Product { get; set; }
 
-        public string IssuerId { get; set; }
+        public string UserId { get; set; }
 
-        public ApplicationUser Issuer { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -11,9 +11,9 @@
             this.Products = new HashSet<OrderProduct>();
         }
 
-        public string IssuerId { get; set; }
+        public string UserId { get; set; }
 
-        public virtual ApplicationUser Issuer { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public int StatusId { get; set; }
 
