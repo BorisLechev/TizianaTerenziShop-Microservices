@@ -36,9 +36,11 @@
 
             await this.votesService.VoteAsync(inputModel.CommentId, userId, inputModel.IsUpVote);
 
-            var votesCount = this.votesService.GetVotes(inputModel.CommentId);
+            var votesCount = await this.votesService.GetVotesAsync(inputModel.CommentId);
+            var vote = await this.votesService.GetVoteAsync(inputModel.CommentId, userId);
+            var isUpVoted = userId == vote.UserId && vote.Type == VoteType.UpVote;
 
-            return new VoteResponseModel { VotesCount = votesCount };
+            return new VoteResponseModel { VotesCount = votesCount, IsUpVoted = isUpVoted };
         }
     }
 }

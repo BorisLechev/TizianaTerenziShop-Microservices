@@ -16,12 +16,21 @@
             this.votesRepository = votesRepository;
         }
 
-        public int GetVotes(int commentId)
+        public async Task<Vote> GetVoteAsync(int commentId, string loggedInUserId)
         {
-            var votes = this.votesRepository
+            var vote = await this.votesRepository
+                .All()
+                .SingleOrDefaultAsync(v => v.CommentId == commentId && v.UserId == loggedInUserId);
+
+            return vote;
+        }
+
+        public async Task<int> GetVotesAsync(int commentId)
+        {
+            var votes = await this.votesRepository
                 .All()
                 .Where(c => c.CommentId == commentId)
-                .Sum(v => (int)v.Type); // Type e enum DownVote -1, UpVote 1
+                .SumAsync(v => (int)v.Type); // Type e enum DownVote -1, UpVote 1
 
             return votes;
         }
@@ -32,9 +41,13 @@
                 .All()
                 .SingleOrDefaultAsync(v => v.CommentId == commentId && v.UserId == userId);
 
-            if (vote != null)
+            if (vote != null && vote.Type == VoteType.UpVote)
             {
-                vote.Type = isUpVote ? VoteType.UpVote : VoteType.DownVote;
+                vote.Type = VoteType.Neutral;
+            }
+            else if (vote != null && vote.Type == VoteType.Neutral)
+            {
+                vote.Type = VoteType.UpVote;
             }
             else
             {

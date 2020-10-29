@@ -2,10 +2,14 @@
 {
     using System.Threading.Tasks;
 
+    using MelegPerfumes.Data.Models;
+
     public interface IVotesService
     {
         Task VoteAsync(int commentId, string userId, bool isUpVote);
 
-        int GetVotes(int commentId);
+        Task<int> GetVotesAsync(int commentId);
+
+        Task<Vote> GetVoteAsync(int commentId, string loggedInUserId);
     }
 }

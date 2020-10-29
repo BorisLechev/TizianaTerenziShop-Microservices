@@ -81,6 +81,10 @@
     cursor: pointer;
 }
 
+.fa-heart.voted {
+    color: red;
+}
+
 .comment-head i:before {
     vertical-align: sub;
 }
