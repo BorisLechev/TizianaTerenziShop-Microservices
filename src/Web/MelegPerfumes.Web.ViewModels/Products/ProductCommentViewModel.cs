@@ -26,8 +26,6 @@
 
         public int VotesCount { get; set; }
 
-        public bool IsUpVoted { get; set; }
-
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Comment, ProductCommentViewModel>()

@@ -35,7 +35,7 @@
             return votes;
         }
 
-        public async Task VoteAsync(int commentId, string userId, bool isUpVote)
+        public async Task VoteAsync(int commentId, string userId)
         {
             var vote = await this.votesRepository
                 .All()
@@ -55,9 +55,7 @@
                 {
                     CommentId = commentId,
                     UserId = userId,
-                    //Type = isUpVote ? VoteType.UpVote : VoteType.DownVote,
                     Type = VoteType.UpVote,
-
                 };
 
                 await this.votesRepository.AddAsync(vote);

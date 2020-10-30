@@ -32,10 +32,10 @@
                                         {
                                             <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }
-                                        <div>
+                                    <div>
                                             <i id="heart-@comment.Id" class="fa fa-heart" onclick="sendVote(@comment.Id)"></i>
-                                            <span id="votesCount-@comment.Id" style="float: right;">@comment.VotesCount</span>
-                                        </div>
+                                        <span id="votesCount-@comment.Id" style="float: right;">@comment.VotesCount</span>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="comment-content">
@@ -96,7 +96,7 @@
         function sendVote(commentId) {
             let token = $("#votesForm input[name=__RequestVerificationToken]").val();
             let json = { commentId: commentId }; // votesInputModel
-
+ 
             $.ajax({
                 url: "/api/votes",
                 type: "POST",

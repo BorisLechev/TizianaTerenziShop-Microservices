@@ -6,7 +6,7 @@
 
     public interface IVotesService
     {
-        Task VoteAsync(int commentId, string userId, bool isUpVote);
+        Task VoteAsync(int commentId, string userId);
 
         Task<int> GetVotesAsync(int commentId);
 
