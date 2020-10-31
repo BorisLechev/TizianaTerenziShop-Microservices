@@ -48,6 +48,14 @@
             this.Update(entity);
         }
 
+        public void DeleteRange(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                this.Delete(entity);
+            }
+        }
+
         public void HardDeleteRange(IEnumerable<TEntity> entities)
         {
             foreach (var entity in entities)
@@ -55,7 +63,5 @@
                 this.HardDelete(entity);
             }
         }
-
-        public void HardDeleteRangeAsync(IEnumerable<TEntity> entities) => this.HardDeleteRange(entities);
     }
 }

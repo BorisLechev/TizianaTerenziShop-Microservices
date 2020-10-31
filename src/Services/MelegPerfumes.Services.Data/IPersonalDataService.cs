@@ -4,6 +4,8 @@
 
     public interface IPersonalDataService
     {
-        Task<string> GetPersonalDataForUserJson(string userId);
+        Task<string> GetPersonalDataForUserJsonAsync(string userId);
+
+        Task<bool> DeleteUserAsync(string userId);
     }
 }

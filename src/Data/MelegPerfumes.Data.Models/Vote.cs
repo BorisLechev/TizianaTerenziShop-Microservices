@@ -4,7 +4,7 @@
 
     using MelegPerfumes.Data.Common.Models;
 
-    public class Vote : BaseModel<int>
+    public class Vote : BaseDeletableModel<int>
     {
         public int CommentId { get; set; }
 

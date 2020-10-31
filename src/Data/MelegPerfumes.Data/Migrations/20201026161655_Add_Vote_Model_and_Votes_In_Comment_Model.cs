@@ -15,6 +15,8 @@ namespace MelegPerfumes.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     CommentId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: false),
                     Type = table.Column<int>(nullable: false)
@@ -45,6 +47,11 @@ namespace MelegPerfumes.Data.Migrations
                 name: "IX_Votes_UserId",
                 table: "Votes",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+               name: "IX_Votes_IsDeleted",
+               table: "Votes",
+               column: "IsDeleted");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

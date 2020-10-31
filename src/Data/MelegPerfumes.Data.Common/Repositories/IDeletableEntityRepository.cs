@@ -15,9 +15,11 @@
 
         Task<TEntity> GetByIdWithDeletedAsync(params object[] id);
 
+        void DeleteRange(IEnumerable<TEntity> entities);
+
         void HardDelete(TEntity entity);
 
-        void HardDeleteRangeAsync(IEnumerable<TEntity> entities);
+        void HardDeleteRange(IEnumerable<TEntity> entities);
 
         void Undelete(TEntity entity);
     }

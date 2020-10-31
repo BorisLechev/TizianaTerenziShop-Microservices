@@ -100,6 +100,7 @@
                     Price = op.ProductPrice,
                     Quantity = op.Quantity,
                     CreatedOn = DateTime.UtcNow,
+                    UserId = userId,
                 })
                 .ToList();
 

@@ -18,13 +18,17 @@
 
         private readonly UserManager<ApplicationUser> userManager;
 
+        private readonly SignInManager<ApplicationUser> signInManager;
+
         private readonly IPersonalDataService personalDataService;
 
         public ProfileController(
             UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IPersonalDataService personalDataService)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
             this.personalDataService = personalDataService;
         }
 
@@ -58,12 +62,44 @@
                 return this.RedirectToAction("Index");
             }
 
-            var json = await this.personalDataService.GetPersonalDataForUserJson(user.Id);
+            var json = await this.personalDataService.GetPersonalDataForUserJsonAsync(user.Id);
 
             this.Response.Headers.Add("Content-Disposition",
                 "attachment; filename=" + string.Format(PersonalDataFileName, GlobalConstants.SystemName, user.FirstName, user.LastName));
 
             return new FileContentResult(Encoding.UTF8.GetBytes(json), "text/json");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount(string password)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var passwordValid = !await this.userManager.HasPasswordAsync(user) ||
+                                (password != null &&
+                                await this.userManager.CheckPasswordAsync(user, password));
+
+            if (!passwordValid)
+            {
+                this.Error(NotificationMessages.InvalidPassword);
+
+                return this.RedirectToAction("Index");
+            }
+
+            var result = await this.personalDataService.DeleteUserAsync(user.Id);
+
+            if (!result)
+            {
+                this.Error(NotificationMessages.AccountDeleteError);
+
+                return this.RedirectToAction("Index");
+            }
+
+            await this.signInManager.SignOutAsync();
+
+            this.Success(NotificationMessages.AccountDeleted);
+
+            return this.LocalRedirect("/");
         }
     }
 }

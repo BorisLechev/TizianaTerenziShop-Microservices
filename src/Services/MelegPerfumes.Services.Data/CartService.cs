@@ -70,7 +70,7 @@
                 return false;
             }
 
-            this.productsInTheCartRepository.HardDeleteRangeAsync(products);
+            this.productsInTheCartRepository.HardDeleteRange(products);
             await this.productsInTheCartRepository.SaveChangesAsync();
 
             return true;

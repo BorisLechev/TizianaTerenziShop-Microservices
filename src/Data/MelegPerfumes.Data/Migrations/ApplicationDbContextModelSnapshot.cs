@@ -357,6 +357,9 @@ namespace MelegPerfumes.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
@@ -364,6 +367,8 @@ namespace MelegPerfumes.Data.Migrations
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrderProduct");
                 });
@@ -763,7 +768,7 @@ namespace MelegPerfumes.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -778,7 +783,7 @@ namespace MelegPerfumes.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId");
                 });
 
@@ -793,6 +798,10 @@ namespace MelegPerfumes.Data.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("MelegPerfumes.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.Product", b =>
