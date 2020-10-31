@@ -14,6 +14,8 @@ namespace MelegPerfumes.Data.Models
         public ApplicationUser()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Orders = new HashSet<Order>();
+            this.Comments = new HashSet<Comment>();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
@@ -36,6 +38,10 @@ namespace MelegPerfumes.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

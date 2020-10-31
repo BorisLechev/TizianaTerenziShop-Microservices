@@ -129,6 +129,7 @@
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IVotesService, VotesService>();
+            services.AddTransient<IPersonalDataService, PersonalDataService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
