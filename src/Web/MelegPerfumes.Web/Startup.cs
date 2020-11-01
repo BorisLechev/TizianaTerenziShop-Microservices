@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+
     using CloudinaryDotNet;
     using MelegPerfumes.Data;
     using MelegPerfumes.Data.Common;
@@ -122,7 +123,6 @@
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IDiscountCodesService, DiscountCodesService>();
-            services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IOrderStatusesService, OrderStatusesService>();
             services.AddTransient<INotesService, NotesService>();
             services.AddTransient<IProductTypesService, ProductTypesService>();

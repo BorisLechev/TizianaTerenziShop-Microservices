@@ -2,9 +2,8 @@
 {
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Mapping;
-    using MelegPerfumes.Services.Models;
 
-    public class OrdersCartViewModel : IMapFrom<ProductInTheCart>, IMapTo<ProductInTheCart>
+    public class ProductsInTheCartViewModel : IMapFrom<ProductInTheCart>, IMapTo<ProductInTheCart>
     {
         public string Id { get; set; }
 

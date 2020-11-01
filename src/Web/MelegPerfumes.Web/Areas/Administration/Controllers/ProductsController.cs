@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using AutoMapper;
+    using MelegPerfumes.Common;
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Data;
     using MelegPerfumes.Web.Areas.Administration.InputModels;
@@ -72,11 +72,13 @@
                 return this.View(inputModel);
             }
 
-            var notesIds = inputModel.NoteIds.First().Split(",", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+            var notesIds = inputModel.NoteIds
+                        .First()
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(int.Parse);
 
             string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
 
-            //var product = Mapper.Map<Product>(inputModel);
             var product = new Product
             {
                 Name = inputModel.Name,
@@ -88,13 +90,23 @@
                 Notes = notesIds.Select(id => new ProductNotes
                 {
                     NoteId = id,
-                }).ToList(),
+                })
+                .ToList(),
             };
+
             product.Picture = pictureUrl;
 
             var result = await this.productsService.CreateProductAsync(product);
 
-            // TODO: add Success and Error message
+            if (!result)
+            {
+                this.Error(NotificationMessages.ProductCreateError);
+
+                return this.LocalRedirect("/products/all");
+            }
+
+            this.Success(NotificationMessages.ProductCreateSuccessfully);
+
             return this.LocalRedirect("/products/all");
         }
 

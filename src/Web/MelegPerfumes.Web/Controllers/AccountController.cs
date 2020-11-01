@@ -1,16 +1,14 @@
-﻿using MelegPerfumes.Common;
-using MelegPerfumes.Data.Models;
-using MelegPerfumes.Web.ViewModels.Account;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MelegPerfumes.Web.Controllers
+﻿namespace MelegPerfumes.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using MelegPerfumes.Common;
+    using MelegPerfumes.Data.Models;
+    using MelegPerfumes.Web.ViewModels.Account;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+
     public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;

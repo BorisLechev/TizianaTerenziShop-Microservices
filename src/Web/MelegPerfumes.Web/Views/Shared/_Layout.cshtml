@@ -61,8 +61,7 @@
                                     <h6 class="dropdown-header">Orders</h6>
                                     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
-
-                                        <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index">All orders</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Cart" asp-action="Index">All orders</a>
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="Products" asp-action="Create">Create a product</a>
                                     }
                                     else

@@ -16,5 +16,11 @@
 
         public const string AccountDeleteError =
             "An error occured while deleting your account. Try again or contact support.";
+
+        public const string ProductsInTheCartQuantityError = "The quantity of products in the cart cannot be a negative number.";
+        public const string ProductCreateSuccessfully = "You have successfully created a product.";
+        public const string ProductCreateError = "Something went wrong.";
+
+        public const string CannotDeleteThisProductInTheCartError = "Cannot delete this product in the cart error.";
     }
 }

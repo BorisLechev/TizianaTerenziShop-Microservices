@@ -15,7 +15,7 @@
                             <article class="items-col">
                                 <section class="wrapper-item">
                                     <section class="wrapper-item-inner">
-                                        <section class="product-image-container" appClick>
+                                        <section class="product-image-container">
                                             <a class="product-image-link" asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" title="@product.Name">
                                                 <img class="product-image front" src="@product.Picture" alt="@product.Name">
                                                 <img class="product-image back" src="@product.Picture" alt="@product.Name">
@@ -24,7 +24,7 @@
                                         </section>
                                         <section class="actions">
                                             <div class="link-actions"></div>
-                                            <form asp-area="" asp-controller="Products" asp-action="Order" asp-route-productId="@product.Id" method="post">
+                                            <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
                                                 <button class="btn-cart" type="submit">Add to Cart</button>
                                             </form>
                                             <button class="btn-edit">
@@ -36,16 +36,16 @@
                                         </section>
                                     </section>
                                     <section class="product-info">
-                                        <header>
-                                            <h6 class="product-name">
-                                                <a title="@product.Name">
-                                                    <span>@product.Name</span>
-                                                </a>
-                                            </h6>
-                                        </header>
-                                        <footer class="price-box">
-                                            <span class="price">EUR @product.Price</span>
-                                        </footer>
+                                        <a title="@product.Name" asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                                            <header>
+                                                <h6 class="product-name">
+                                                        <span>@product.Name</span>
+                                                </h6>
+                                            </header>
+                                            <footer class="price-box">
+                                                <span class="price">EUR @product.Price</span>
+                                            </footer>
+                                        </a>
                                     </section>
                                 </section>
                             </article>

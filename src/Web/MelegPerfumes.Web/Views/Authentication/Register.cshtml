@@ -6,65 +6,64 @@
     Layout = "_BubblesLayout";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="w-75 w-md-50 text-center mx-auto">
+    <header>
+        <h1 class="title">@ViewData["Title"]</h1>
+    </header>
+    <section class="social-container">
+        <form class="form-horizontal" asp-controller="Authentication" asp-action="GoogleLogin" method="post">
+            <button class="btn social" type="submit"><i class="fab fa-google"></i></button>
+        </form>
+        <form class="form-horizontal" asp-controller="Authentication" asp-action="FacebookLogin" method="post">
+            <button class="btn social" type="submit"><i class="fab fa-facebook-f"></i></button>
+        </form>
+    </section>
 
-<div class="row">
-    <div class="w-75 w-md-50 text-center mx-auto">
-        <div class="social-container">
-            <form class="form-horizontal" asp-controller="Authentication" asp-action="GoogleLogin" method="post">
-                <button class="btn social" type="submit"><i class="fab fa-google"></i></button>
-            </form>
-            <form class="form-horizontal" asp-controller="Authentication" asp-action="FacebookLogin" method="post">
-                <button class="btn social" type="submit"><i class="fab fa-facebook-f"></i></button>
-            </form>
+    <form method="post">
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.Email"></label>
+            <input asp-for="@Model.Email" class="form-control" />
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.FirstName"></label>
+            <input class="form-control" asp-for="@Model.FirstName" class="form-control" />
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.LastName"></label>
+            <input class="form-control" asp-for="@Model.LastName" class="form-control" />
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Password"></label>
+            <input asp-for="@Model.Password" class="form-control" />
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ConfirmPassword"></label>
+            <input asp-for="@Model.ConfirmPassword" class="form-control" />
+            <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 p-3">Register</button>
+
+        <small>
+            By clicking the above button, you agree to our
+            <a asp-controller="Home" asp-action="Terms">Terms and conditions</a> and
+            <a asp-controller="Home" asp-action="Privacy">Privacy policy</a>
+        </small>
+
+        <div class="form-group">
+            <p>
+                <a asp-controller="Authentication" asp-action="Login">Login as an existing user</a>
+            </p>
         </div>
 
-        <form method="post">
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.Email"></label>
-                <input asp-for="@Model.Email" class="form-control" />
-                <span asp-validation-for="@Model.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.FirstName"></label>
-                <input class="form-control" asp-for="@Model.FirstName" class="form-control" />
-                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.LastName"></label>
-                <input class="form-control" asp-for="@Model.LastName" class="form-control" />
-                <span asp-validation-for="@Model.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Password"></label>
-                <input asp-for="@Model.Password" class="form-control" />
-                <span asp-validation-for="@Model.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ConfirmPassword"></label>
-                <input asp-for="@Model.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 p-3">Register</button>
-
-            <small>
-                By clicking the above button, you agree to our
-                <a asp-controller="Home" asp-action="Terms">Terms and conditions</a> and
-                <a asp-controller="Home" asp-action="Privacy">Privacy policy</a>
-            </small>
-
-            <div class="form-group">
-                <p>
-                    <a asp-controller="Authentication" asp-action="Login">Login as an existing user</a>
-                </p>
-            </div>
-
-            <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
-            <span asp-validation-for="@Model.RecaptchaValue" class="text-danger"></span>
-        </form>
-    </div>
+        <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
+        <span asp-validation-for="@Model.RecaptchaValue" class="text-danger"></span>
+    </form>
 </div>
 
 @section Scripts {

@@ -6,6 +6,7 @@
 
     using MelegPerfumes.Data.Common.Repositories;
     using MelegPerfumes.Data.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class OrderStatusesService : IOrderStatusesService
     {
@@ -31,11 +32,11 @@
             await this.orderStatusesRepository.SaveChangesAsync();
         }
 
-        public OrderStatus FindByNameAsync(string orderStatusName)
+        public async Task<OrderStatus> FindByNameAsync(string orderStatusName)
         {
-            var orderStatus = this.orderStatusesRepository
+            var orderStatus = await this.orderStatusesRepository
                 .All()
-                .SingleOrDefault(os => os.Name == orderStatusName);
+                .SingleOrDefaultAsync(os => os.Name == orderStatusName);
 
             return orderStatus;
         }

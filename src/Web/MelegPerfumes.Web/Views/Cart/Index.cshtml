@@ -1,0 +1,199 @@
+﻿@model List<ProductsInTheCartViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="cart-section">
+    <section class="container">
+        <section class="row">
+            <section class="shopping-cart-container">
+                <header>
+                    <h5 class="cart-title">shopping cart</h5>
+                </header>
+                <main>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>product</th>
+                                <th>quantity</th>
+                                <th class="price-header">price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr class="order">
+                                    <td data-title="product">
+                                        <section class="cart-item">
+                                            <article class="cart-item-img">
+                                                <a>
+                                                    <picture>
+                                                        <img src="@Model[i].ProductPicture" alt="photo">
+                                                    </picture>
+                                                </a>
+                                            </article>
+                                            <article class="cart-item-heading">
+                                                <section class="cart-item-title">
+                                                    <a>@Model[i].ProductName</a>
+                                                </section>
+                                            </article>
+                                        </section>
+                                    </td>
+                                    <td data-title="quantity">
+                                        <span class="product-quantity-inner-container">
+                                            <span class="quantity">@Model[i].Quantity</span>
+                                            <span id="@(Model[i].Id)-increase" class="increase-btn"></span>
+                                            <span id="@(Model[i].Id)-decrease" class="decrease-btn"></span>
+                                        </span>
+                                    </td>
+                                    <td data-title="price">
+                                        <section class="cart-item-price">
+                                            <span class="price">€ @(Model[i].ProductPrice) EUR</span>
+                                        </section>
+                                    </td>
+                                    <td>
+                                        <form asp-controller="Cart" asp-action="DeleteProduct" asp-route-id="@Model[i].Id" method="post">
+                                            <button class="btn-delete" type="submit"></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <section class="cart-form-footer">
+                        <section class="cart-form-inner-footer">
+                            <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
+                                <section class="discount-box">
+                                    <a class="button" asp-controller="Products" asp-action="All">Continue Shopping</a>
+                                </section>
+                            </section>
+                            <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
+                                    <section id="discount-tag-container" class="discount-tag-container">
+                                    <section class="discount-tag">
+                                        <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                        <p class="discount-code">test</p>
+                                        <button id="delete-discount" class="btn-delete"></button>
+                                    </section>
+                                </section> 
+                                <section class="discount-box">
+                                        <form id="apply-discount" method="post">
+                                        <input id="discount-input" class="discount-input" type="text" placeholder="Discount">
+                                        <button id="apply-btn" class="button" type="submit">Apply</button>
+                                    </form> 
+                                    @*<input id="discount-input" type="text" placeholder="Discount">
+                                    <a class="button">Apply</a>*@
+                                </section>
+                            </section>
+                            <section class="col-sm-6 offset-sm-3 col-lg-6 offset-lg-0">
+                                <section class="cart-form-inner-footer">
+                                    <section class="col-lg-6 update-check-out-btn">
+                                        <a class="button">Update Cart</a>
+                                    </section>
+                                    <section class="col-lg-6 update-check-out-btn">
+                                        <section class="cart-summary">
+                                            <section class="total-price-container">
+                                                <div class="label-price">total price</div>
+                                                <div class="price-container">
+                                                    <span class="currency-sign-total-price">
+                                                        € <span class="total-price">@Model.Sum(order => order.ProductPrice * order.Quantity).ToString("F2")</span>
+                                                    </span>
+                                                </div>
+                                            </section>
+                                            <a asp-area="" asp-controller="Cart" asp-action="CheckOut" class="button">Check Out</a>
+                                        </section>
+                                    </section>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </main>
+            </section>
+        </section>
+    </section>
+</section>
+
+<partial name="_TestimonialsPartial" />
+
+@section Scripts {
+    <script>
+        function updateTotalPrice() {
+            // This function updates the total price upon changing the quantity of one product.
+
+            // Extract all elements with class order (the table rows)
+            let orders = $('.order');
+
+            // Variable to hold the total price
+            let totalPrice = 0;
+
+            // Iterate over all othe orders
+            for (let order of orders) {
+
+                // Extract the elements' values
+                let currentPrice = +($($($($(order).children()[2]).children()).children()[0]).text().replace(/€ | EUR/gi, ''));
+                let currentQuantity = +($($($($(order).children()[1]).children()).children()[0]).text());
+
+                // Calculate the total price
+                totalPrice += currentPrice * currentQuantity;
+            }
+
+            // Attach the new total price to the total-price element
+            $('.total-price').text(totalPrice.toFixed(2));
+        }
+
+        $('.decrease-btn').click(function () {
+            let productId = $(this).attr('id').toString().replace('-decrease', '');
+
+            let element = $($($(this).parent()).children()[0]);
+
+            $.get({
+                url: `/cart/${productId}/quantity/reduce`,
+                success: function () {
+                    let currentQuantity = +element.text();
+                    element.text(currentQuantity - 1);
+                    updateTotalPrice();
+                }
+            });
+        });
+
+        $('.increase-btn').click(function () {
+            let productId = $(this).attr('id').toString().replace('-increase', '');
+
+            let element = $($($(this).parent()).children()[0]);
+
+            $.get({
+                url: `/cart/${productId}/quantity/increase`,
+                success: function () {
+                    let currentQuantity = +element.text();
+                    element.text(currentQuantity + 1);
+                    updateTotalPrice();
+                }
+            });
+        });
+
+        $('#apply-btn').click(function (event) {
+            event.preventDefault();
+
+            let discountName = $('#discount-input').val();
+
+            $.post({
+                url: `/cart/discount/${discountName}`,
+                success: function () {
+                    $('.discount-tag-container').css('display', 'block');
+                }
+            });
+        });
+
+        $('#delete-discount').click(function (event) {
+            event.preventDefault();
+            $('.discount-tag-container').css('display', 'none');
+            $('#discount-input').val('');
+        })
+    </script>
+}
+
+@section CustomCss {
+    <link href="~/css/cart.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/testimonials.css" rel="stylesheet" asp-append-version="true" />
+}

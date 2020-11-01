@@ -52,12 +52,14 @@
                             <section class="product-quantity-container">
                                 <span class="product-quantity-inner-container">
                                     <span class="quantity">1</span>
-                                    <span class="increase-btn"></span>
-                                    <span class="decrease-btn"></span>
+                                    <span id="@(Model.Id)-increase" class="increase-btn"></span>
+                                    <span id="@(Model.Id)-decrease" class="decrease-btn"></span>
                                 </span>
                             </section>
                             <section class="btn-container">
-                                <a class="button">Add to cart</a>
+                                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@Model.Id" method="post">
+                                    <button class="button" type="submit">Add to Cart</button>
+                                </form>
                             </section>
                         </main>
                     </article>
@@ -94,6 +96,28 @@
                 scrollTop: $("#AddCommentForm").offset().top
             }, 1000);
         }
+
+        function sendVote(commentId) {
+            let token = $("#votesForm input[name=__RequestVerificationToken]").val();
+            let json = { commentId: commentId }; // votesInputModel
+
+            $.ajax({
+                url: "/api/votes",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (data) {
+                    $(`#votesCount-${commentId}`).html(data.votesCount);
+                    if (data.isUpVoted === true) {
+                        $(`#heart-${commentId}`).addClass("voted");
+                    } else {
+                        $(`#heart-${commentId}`).removeClass("voted");
+                    }
+                }
+            });
+        }
     </script>
 }
 
@@ -101,4 +125,5 @@
 
 @section CustomCss {
     <link href="~/css/product-details.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/comments.css" rel="stylesheet" asp-append-version="true" />
 }

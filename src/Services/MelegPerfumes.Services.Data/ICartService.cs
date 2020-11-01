@@ -10,16 +10,20 @@
     {
         Task<bool> AddProductInTheCart(ProductInTheCart productInTheCart);
 
-        Task<bool> DeleteProductInTheCart(string orderId);
+        Task<bool> DeleteProductInTheCart(string productId);
 
         Task<bool> DeleteAllProductsInTheCartByUserId(string userId);
 
-        Task<IEnumerable<OrdersCartViewModel>> GetAllProductsInTheCartByUserId(string userId);
+        Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserId(string userId);
 
-        Task<OrdersCartViewModel> GetProductById(int productId);
+        Task<ProductsInTheCartViewModel> GetProductById(int productId);
 
-        Task<bool> ReduceQuantity(string orderId);
+        Task<bool> CheckIfProductByUserIdExistInTheCartAsync(string userId, int productId);
 
-        Task<bool> IncreaseQuantity(string orderId);
+        Task<bool> ReduceQuantity(string productId);
+
+        Task<bool> IncreaseQuantity(string productId);
+
+        Task<Order> CheckOutAsync(string userId, ICollection<OrderProduct> orderProducts);
     }
 }

@@ -56,7 +56,7 @@
         }
 
         //[HttpPost]
-        //[Route("/order/discount/{discountName}")]
+        //[Route("/cart/discount/{discountName}")]
         //public async Task<IActionResult> ApplyDiscountCode(string discountName)
         //{
         //    var discountCode = await this.discountCodesService.FindDiscountByNameAsync(discountName);

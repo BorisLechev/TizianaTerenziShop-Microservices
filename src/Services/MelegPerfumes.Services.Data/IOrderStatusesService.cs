@@ -14,6 +14,6 @@
 
         IQueryable<OrderStatus> GetAllOrderStatuses();
 
-        OrderStatus FindByNameAsync(string orderStatusName);
+        Task<OrderStatus> FindByNameAsync(string orderStatusName);
     }
 }
