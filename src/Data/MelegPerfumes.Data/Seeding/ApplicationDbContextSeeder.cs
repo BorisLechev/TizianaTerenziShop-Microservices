@@ -31,6 +31,7 @@
                 new NotesSeeder(),
                 new ProductsSeeder(),
                 new OrderStatusesSeeder(),
+                new DiscountCodesSeeder(),
             };
 
             foreach (var seeder in seeders)

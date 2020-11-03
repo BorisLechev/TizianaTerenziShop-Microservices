@@ -32,7 +32,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DiscountCodeInputModel discountCodeInputModel)
+        public async Task<IActionResult> Create(DiscountCodeCreateInputModel discountCodeInputModel)
         {
             // TODO: check for valid inputModel - Cuber
             var discountName = discountCodeInputModel.Name.ToUpper();
@@ -54,12 +54,5 @@
 
             return this.RedirectToAction("Index");
         }
-
-        //[HttpPost]
-        //[Route("/cart/discount/{discountName}")]
-        //public async Task<IActionResult> ApplyDiscountCode(string discountName)
-        //{
-        //    var discountCode = await this.discountCodesService.FindDiscountByNameAsync(discountName);
-        //}
     }
 }

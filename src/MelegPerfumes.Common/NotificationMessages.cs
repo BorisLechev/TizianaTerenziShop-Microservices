@@ -18,9 +18,15 @@
             "An error occured while deleting your account. Try again or contact support.";
 
         public const string ProductsInTheCartQuantityError = "The quantity of products in the cart cannot be a negative number.";
+        public const string EmptyCartError = "The cart cannot be empty.";
         public const string ProductCreateSuccessfully = "You have successfully created a product.";
         public const string ProductCreateError = "Something went wrong.";
 
-        public const string CannotDeleteThisProductInTheCartError = "Cannot delete this product in the cart error.";
+        public const string CannotDeleteThisProductInTheCartError = "Cannot delete this product in the cart.";
+        public const string DiscountCodeError = "Enter a valid discount code.";
+        public const string SuccessfullyAppliedDiscountCode = "You have successfully applied the discount code.";
+        public const string AlreadyAppliedDiscountCode = "You have already applied a discount code.";
+        public const string CannotDeleteDiscountCodeError = "Something went wrong.";
+        public const string SuccessfullyDeletedDiscountCode = "You have successfully deleted the discount code.";
     }
 }

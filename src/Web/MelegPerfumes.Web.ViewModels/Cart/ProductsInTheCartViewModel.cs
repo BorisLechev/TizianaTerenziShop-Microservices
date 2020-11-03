@@ -15,6 +15,19 @@
 
         public decimal ProductPrice { get; set; }
 
+        public decimal ProductPriceAfterDiscount { get; set; }
+
         public int Quantity { get; set; }
+
+        public int? DiscountCodeId { get; set; }
+
+        // TODO: CartView have to visualize DiscountCodeName
+        //public string DiscountCodeName { get; set; }
+
+        //public void CreateMappings(IProfileExpression configuration)
+        //{
+        //    configuration.CreateMap<ProductInTheCart, ProductsInTheCartViewModel>()
+        //        .ForMember(dest => dest.DiscountCodeName, opt => opt.MapFrom(src => src.DiscountCode.Name));
+        //}
     }
 }

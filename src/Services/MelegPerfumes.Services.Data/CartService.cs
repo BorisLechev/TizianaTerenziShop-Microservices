@@ -47,7 +47,7 @@
             return product != null ? true : false;
         }
 
-        public async Task<Order> CheckOutAsync(string userId, ICollection<OrderProduct> orderProducts)
+        public async Task<Order> CheckOutAsync(string userId, ICollection<OrderProduct> orderProducts, int? discountCodeId)
         {
             var pendingStatus = await this.orderStatusesService
                 .FindByNameAsync("Pending");
@@ -57,6 +57,7 @@
                 UserId = userId,
                 StatusId = pendingStatus.Id,
                 Products = orderProducts,
+                DiscountCodeId = discountCodeId,
             };
 
             await this.ordersRepository.AddAsync(order);

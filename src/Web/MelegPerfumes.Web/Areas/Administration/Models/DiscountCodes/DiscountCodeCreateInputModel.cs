@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class DiscountCodeInputModel
+    public class DiscountCodeCreateInputModel
     {
         private const int NameMinimumLength = 3;
         private const int NameMaximumLength = 30;

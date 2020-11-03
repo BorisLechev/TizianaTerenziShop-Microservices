@@ -18,15 +18,19 @@
 
         private readonly IProductsService productsService;
 
+        private readonly IDiscountCodesService discountCodesService;
+
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartController(
             ICartService cartService,
             IProductsService productsService,
+            IDiscountCodesService discountCodesService,
             UserManager<ApplicationUser> userManager)
         {
             this.cartService = cartService;
             this.productsService = productsService;
+            this.discountCodesService = discountCodesService;
             this.userManager = userManager;
         }
 
@@ -101,10 +105,85 @@
                     UserId = userId,
                     ProductId = product.Id,
                     Quantity = 1,
+                    ProductPriceAfterDiscount = product.Price,
                 };
 
                 await this.cartService.AddProductInTheCart(productInTheCart);
             }
+
+            return this.RedirectToAction("Index", "Cart");
+        }
+
+        // TODO: make it post
+        //[HttpPost]
+        [Authorize]
+        [Route("/cart/discount/{discountName}/apply")]
+        public async Task<IActionResult> ApplyDiscountCode(string discountName)
+        {
+            // TODO: user input model
+            //if (!this.ModelState.IsValid)
+            //{
+            //    return this.View(inputModel);
+            //}
+
+            var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
+
+            if (discountCode == null)
+            {
+                this.Error(NotificationMessages.DiscountCodeError);
+
+                return this.Forbid(); // TODO: change it
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountCode, userId);
+
+            if (result == false)
+            {
+                this.Error(NotificationMessages.AlreadyAppliedDiscountCode);
+
+                return this.RedirectToAction("Index", "Cart");
+            }
+
+            this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
+
+            return this.RedirectToAction("Index", "Cart");
+        }
+
+        // TODO: make it post
+        //[HttpPost]
+        [Authorize]
+        [Route("/cart/discount/{discountName}/delete")]
+        public async Task<IActionResult> DeleteDiscountCode(string discountName)
+        {
+            // TODO: user input model
+            //if (!this.ModelState.IsValid)
+            //{
+            //    return this.View(inputModel);
+            //}
+
+            var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
+
+            if (discountCode == null)
+            {
+                this.Error(NotificationMessages.DiscountCodeError);
+
+                return this.Forbid(); // TODO: change it
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(discountCode, userId);
+
+            if (result == false)
+            {
+                this.Error(NotificationMessages.CannotDeleteDiscountCodeError);
+
+                return this.RedirectToAction("Index", "Cart");
+            }
+
+            this.Success(NotificationMessages.SuccessfullyDeletedDiscountCode);
 
             return this.RedirectToAction("Index", "Cart");
         }
@@ -132,22 +211,37 @@
         [Route("/cart/checkout")]
         public async Task<IActionResult> CheckOut()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return this.RedirectToAction("Login", "Authentication");
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
             var productsInTheCart = await this.cartService
                  .GetAllProductsInTheCartByUserId(userId);
+
+            if (!productsInTheCart.Any())
+            {
+                this.Error(NotificationMessages.EmptyCartError);
+
+                return this.RedirectToAction("Index", "Cart");
+            }
 
             var orderProducts = productsInTheCart
                 .Select(op => new OrderProduct
                 {
                     ProductId = op.ProductId,
-                    Price = op.ProductPrice,
+                    Price = op.ProductPriceAfterDiscount,
                     Quantity = op.Quantity,
                     CreatedOn = DateTime.UtcNow,
                     UserId = userId,
+                    DiscountCodeId = op.DiscountCodeId,
                 })
                 .ToList();
 
-            await this.cartService.CheckOutAsync(userId, orderProducts);
+            var discountCodeId = productsInTheCart.FirstOrDefault().DiscountCodeId;
+
+            await this.cartService.CheckOutAsync(userId, orderProducts, discountCodeId);
 
             await this.cartService.DeleteAllProductsInTheCartByUserId(userId);
 

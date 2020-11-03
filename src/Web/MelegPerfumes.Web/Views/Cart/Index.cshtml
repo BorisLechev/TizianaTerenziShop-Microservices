@@ -2,6 +2,8 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var hasDiscountCode = Model.Any(d => d.DiscountCodeId != null);
 }
 
 <section class="cart-section">
@@ -50,7 +52,7 @@
                                     </td>
                                     <td data-title="price">
                                         <section class="cart-item-price">
-                                            <span class="price">€ @(Model[i].ProductPrice) EUR</span>
+                                            <span class="price">€ @(Model[i].ProductPriceAfterDiscount) EUR</span>
                                         </section>
                                     </td>
                                     <td>
@@ -70,20 +72,23 @@
                                 </section>
                             </section>
                             <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
+                                @if (hasDiscountCode == true && this.User.Identity.IsAuthenticated)
+                                {
                                     <section id="discount-tag-container" class="discount-tag-container">
-                                    <section class="discount-tag">
-                                        <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                        <p class="discount-code">test</p>
-                                        <button id="delete-discount" class="btn-delete"></button>
+                                        <section class="discount-tag">
+                                            <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                            <p class="discount-code">test</p>
+                                            <button id="delete-discount" class="btn-delete"></button>
+                                        </section>
                                     </section>
-                                </section> 
+                                }
                                 <section class="discount-box">
-                                        <form id="apply-discount" method="post">
+                                    <form id="apply-discount" method="post">
                                         <input id="discount-input" class="discount-input" type="text" placeholder="Discount">
                                         <button id="apply-btn" class="button" type="submit">Apply</button>
-                                    </form> 
+                                    </form>
                                     @*<input id="discount-input" type="text" placeholder="Discount">
-                                    <a class="button">Apply</a>*@
+            <a class="button">Apply</a>*@
                                 </section>
                             </section>
                             <section class="col-sm-6 offset-sm-3 col-lg-6 offset-lg-0">
@@ -97,7 +102,7 @@
                                                 <div class="label-price">total price</div>
                                                 <div class="price-container">
                                                     <span class="currency-sign-total-price">
-                                                        € <span class="total-price">@Model.Sum(order => order.ProductPrice * order.Quantity).ToString("F2")</span>
+                                                        € <span class="total-price">@Model.Sum(order => order.ProductPriceAfterDiscount * order.Quantity).ToString("F2")</span>
                                                     </span>
                                                 </div>
                                             </section>
@@ -177,8 +182,8 @@
 
             let discountName = $('#discount-input').val();
 
-            $.post({
-                url: `/cart/discount/${discountName}`,
+            $.get({
+                url: `/cart/discount/${discountName}/apply`,
                 success: function () {
                     $('.discount-tag-container').css('display', 'block');
                 }
@@ -187,8 +192,17 @@
 
         $('#delete-discount').click(function (event) {
             event.preventDefault();
-            $('.discount-tag-container').css('display', 'none');
-            $('#discount-input').val('');
+            //$('.discount-tag-container').css('display', 'none');
+            //$('#discount-input').val('');
+
+            let discountName = "test15";
+
+            $.get({
+                url: `/cart/discount/${discountName}/delete`,
+                success: function () {
+                    $('.discount-tag-container').css('display', 'none');
+                }
+            });
         })
     </script>
 }

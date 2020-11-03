@@ -13,6 +13,10 @@
 
         Task<IEnumerable<DiscountCode>> GetAllDiscountCodesAsync();
 
-        Task<DiscountCode> FindDiscountByNameAsync(string discountName);
+        Task<DiscountCode> GetDiscountByNameAsync(string discountName);
+
+        Task<bool> ModifyThePricesAfterAppliedDiscountCodeAsync(DiscountCode discountCode, string userId);
+
+        Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(DiscountCode discountCode, string userId);
     }
 }

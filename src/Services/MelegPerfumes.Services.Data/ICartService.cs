@@ -24,6 +24,6 @@
 
         Task<bool> IncreaseQuantity(string productId);
 
-        Task<Order> CheckOutAsync(string userId, ICollection<OrderProduct> orderProducts);
+        Task<Order> CheckOutAsync(string userId, ICollection<OrderProduct> orderProducts, int? discountCodeId);
     }
 }
