@@ -1,4 +1,5 @@
-﻿@model ProductDetailsViewModel
+﻿@using System.Security.Claims
+@model ProductDetailsViewModel
 
 @{
     void DisplayComments(int? parentId)
@@ -33,8 +34,15 @@
                                             <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }
                                     <div>
+                                        @if (!comment.Votes.Any(v => v.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))) || (int)(comment.Votes.SingleOrDefault(vote => vote.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))).Type) == 0)
+                                        {
                                             <i id="heart-@comment.Id" class="fa fa-heart" onclick="sendVote(@comment.Id)"></i>
-                                        <span id="votesCount-@comment.Id" style="float: right;">@comment.VotesCount</span>
+                                        }
+                                        else
+                                        {
+                                            <i id="heart-@comment.Id" class="fa fa-heart voted" onclick="sendVote(@comment.Id)"></i>
+                                        }
+                                        <span id="votesCount-@comment.Id" style="float: right;">@comment.VotesSum</span>
                                     </div>
                                     </div>
                                 </div>
