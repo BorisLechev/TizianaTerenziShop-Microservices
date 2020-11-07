@@ -6,6 +6,8 @@
 
     using MelegPerfumes.Data.Common.Repositories;
     using MelegPerfumes.Data.Models;
+    using MelegPerfumes.Services.Mapping;
+    using MelegPerfumes.Web.ViewModels.Orders;
     using Microsoft.EntityFrameworkCore;
 
     public class DiscountCodesService : IDiscountCodesService
@@ -71,6 +73,7 @@
             var productsInTheCart = await this.productsInTheCartRepository
                 .All()
                 .Where(p => p.UserId == userId && p.DiscountCodeId == null)
+                //.To<ProductsInTheCartViewModel>()
                 .ToListAsync();
 
             if (productsInTheCart == null)

@@ -38,9 +38,9 @@
         [Route("/cart/index")]
         public async Task<IActionResult> Index()
         {
-            var user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.userManager.GetUserId(this.User);
 
-            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserId(user);
+            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserId(userId);
 
             return this.View(productsInTheCart);
         }
@@ -146,7 +146,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
+            //this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
 
             return this.RedirectToAction("Index", "Cart");
         }

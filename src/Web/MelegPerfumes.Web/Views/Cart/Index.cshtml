@@ -102,7 +102,7 @@
                                                 <div class="label-price">total price</div>
                                                 <div class="price-container">
                                                     <span class="currency-sign-total-price">
-                                                        € <span class="total-price">@Model.Sum(order => order.ProductPriceAfterDiscount * order.Quantity).ToString("F2")</span>
+                                                        € <span class="total-price">@Model.Sum(order => order.TotalPrice).ToString("F2")</span>
                                                     </span>
                                                 </div>
                                             </section>
@@ -182,12 +182,23 @@
 
             let discountName = $('#discount-input').val();
 
-            $.get({
-                url: `/cart/discount/${discountName}/apply`,
-                success: function () {
-                    $('.discount-tag-container').css('display', 'block');
-                }
-            });
+            //$.get({
+            //    url: `/cart/discount/${discountName}/apply`,
+            //    success: function () {
+            //        $('.discount-tag-container').css('display', 'block');
+            //    }
+            //});
+
+            //$.ajax({
+            //    url: `/cart/discount/${discountName}/apply`,
+            //    type: "POST",
+            //    dataType: 'text',
+            //    contentType: false,
+            //    processData: false,
+            //    success: function (response) {
+            //        $('.discount-tag-container').css('display', 'block');
+            //    }
+            //})
         });
 
         $('#delete-discount').click(function (event) {

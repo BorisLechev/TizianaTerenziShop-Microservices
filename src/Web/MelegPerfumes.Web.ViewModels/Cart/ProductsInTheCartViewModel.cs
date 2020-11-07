@@ -17,6 +17,8 @@
 
         public decimal ProductPriceAfterDiscount { get; set; }
 
+        public decimal TotalPrice => this.ProductPriceAfterDiscount * this.Quantity;
+
         public int Quantity { get; set; }
 
         public int? DiscountCodeId { get; set; }
