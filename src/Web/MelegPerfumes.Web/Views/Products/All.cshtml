@@ -16,7 +16,7 @@
                                 <section class="wrapper-item">
                                     <section class="wrapper-item-inner">
                                         <section class="product-image-container">
-                                            <a class="product-image-link" asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" title="@product.Name">
+                                            <a class="product-image-link" href="@product.Url" title="@product.Name">
                                                 <img class="product-image front" src="@product.Picture" alt="@product.Name">
                                                 <img class="product-image back" src="@product.Picture" alt="@product.Name">
                                                 <section class="image-overlay"></section>
@@ -36,7 +36,7 @@
                                         </section>
                                     </section>
                                     <section class="product-info">
-                                        <a title="@product.Name" asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                                        <a title="@product.Name" href="@product.Url">
                                             <header>
                                                 <h6 class="product-name">
                                                     <span>@product.Name</span>

@@ -10,6 +10,7 @@
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Data.Repositories;
     using MelegPerfumes.Data.Seeding;
+    using MelegPerfumes.Services;
     using MelegPerfumes.Services.Data;
     using MelegPerfumes.Services.Mapping;
     using MelegPerfumes.Services.Messaging;
@@ -130,6 +131,7 @@
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<IPersonalDataService, PersonalDataService>();
+            services.AddTransient<IUrlGenerator, UrlGenerator>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
@@ -174,9 +176,16 @@
             app.UseEndpoints(
                 endpoints =>
                     {
-                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        //endpoints.MapControllerRoute("customRoute", "order/{orderId}/quantity/increase");
-                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute(
+                            "Product details",
+                            "product/{name}/{id}",
+                            new { controller = "Products", action = "Details" });
+                        endpoints.MapControllerRoute(
+                            "areaRoute",
+                            "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute(
+                            "default",
+                            "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
         }

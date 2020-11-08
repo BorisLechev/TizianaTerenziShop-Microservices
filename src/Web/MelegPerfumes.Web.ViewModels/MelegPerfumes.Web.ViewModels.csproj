@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Models\MelegPerfumes.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Models\MelegPerfumes.Services.Models.csproj" />
+    <ProjectReference Include="..\..\Services\MelegPerfumes.Services\MelegPerfumes.Services.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Web.Infrastructure\MelegPerfumes.Web.Infrastructure.csproj" />
   </ItemGroup>
 
