@@ -77,7 +77,7 @@
                                     <section id="discount-tag-container" class="discount-tag-container">
                                         <section class="discount-tag">
                                             <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                            <p class="discount-code">test</p>
+                                            <p class="discount-code">@Model[0].DiscountCodeName</p>
                                             <button id="delete-discount" class="btn-delete"></button>
                                         </section>
                                     </section>
@@ -183,19 +183,19 @@
             $.get({
                 url: `/cart/discount/${discountName}/apply`,
                 success: function () {
-                    $('.discount-tag-container').css('display', 'block');
+                    $("#discount-tag-container").show();
                 }
             });
         });
 
         $('#delete-discount').click(function (event) {
             event.preventDefault();
-            let discountName = "test15";
+            let discountName = $(".discount-code").text();
 
             $.get({
                 url: `/cart/discount/${discountName}/delete`,
                 success: function () {
-                    $('.discount-tag-container').css('display', 'none');
+                    $('#discount-tag-container').hide();
                     $('#discount-input').val('');
                 }
             });

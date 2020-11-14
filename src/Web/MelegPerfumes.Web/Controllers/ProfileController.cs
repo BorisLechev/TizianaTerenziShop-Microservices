@@ -101,5 +101,13 @@
 
             return this.LocalRedirect("/");
         }
+
+        public async Task<IActionResult> MyOrders()
+        {
+            var allOrdersByUser = await this.personalDataService
+                .GetAllOrdersByUser(this.User.Identity.Name);
+
+            return this.View(allOrdersByUser);
+        }
     }
 }

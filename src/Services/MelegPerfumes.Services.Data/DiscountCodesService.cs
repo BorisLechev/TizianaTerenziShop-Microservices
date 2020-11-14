@@ -6,8 +6,6 @@
 
     using MelegPerfumes.Data.Common.Repositories;
     using MelegPerfumes.Data.Models;
-    using MelegPerfumes.Services.Mapping;
-    using MelegPerfumes.Web.ViewModels.Orders;
     using Microsoft.EntityFrameworkCore;
 
     public class DiscountCodesService : IDiscountCodesService

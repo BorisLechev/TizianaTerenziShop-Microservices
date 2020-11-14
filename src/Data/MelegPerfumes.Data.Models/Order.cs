@@ -21,6 +21,8 @@
 
         public int? DiscountCodeId { get; set; }
 
+        public virtual DiscountCode DiscountCode { get; set; }
+
         public virtual ICollection<OrderProduct> Products { get; set; }
     }
 }

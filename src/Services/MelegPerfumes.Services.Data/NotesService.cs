@@ -1,14 +1,13 @@
-﻿using MelegPerfumes.Data.Common.Repositories;
-using MelegPerfumes.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MelegPerfumes.Services.Data
+﻿namespace MelegPerfumes.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using MelegPerfumes.Data.Common.Repositories;
+    using MelegPerfumes.Data.Models;
+    using Microsoft.EntityFrameworkCore;
+
     public class NotesService : INotesService
     {
         private readonly IDeletableEntityRepository<Note> notesRepository;
