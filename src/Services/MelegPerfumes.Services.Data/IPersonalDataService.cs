@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using MelegPerfumes.Data.Models;
     using MelegPerfumes.Web.ViewModels.Orders;
 
     public interface IPersonalDataService

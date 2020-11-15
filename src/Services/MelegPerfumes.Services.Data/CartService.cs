@@ -56,6 +56,7 @@
             {
                 UserId = userId,
                 StatusId = pendingStatus.Id,
+                Status = pendingStatus,
                 Products = orderProducts,
                 DiscountCodeId = discountCodeId,
             };
