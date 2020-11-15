@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using MelegPerfumes.Data.Models;
+
     using MelegPerfumes.Web.ViewModels.Orders;
 
     public interface IPersonalDataService
@@ -12,5 +12,7 @@
         Task<bool> DeleteUserAsync(string userId);
 
         Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUser(string userName);
+
+        Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByUser(string userName, int orderId);
     }
 }

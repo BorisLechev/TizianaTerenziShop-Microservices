@@ -102,12 +102,22 @@
             return this.LocalRedirect("/");
         }
 
+        [Route("/profile/orders/my")]
         public async Task<IActionResult> MyOrders()
         {
             var allOrdersByUser = await this.personalDataService
                 .GetAllOrdersByUser(this.User.Identity.Name);
 
             return this.View(allOrdersByUser);
+        }
+
+        [Route("/profile/order/{orderId}")]
+        public async Task<IActionResult> MyOrderProducts(int orderId)
+        {
+            var allOrderProductsByUser = await this.personalDataService
+                .GetAllOrderProductsByUser(this.User.Identity.Name, orderId);
+
+            return this.View(allOrderProductsByUser);
         }
     }
 }

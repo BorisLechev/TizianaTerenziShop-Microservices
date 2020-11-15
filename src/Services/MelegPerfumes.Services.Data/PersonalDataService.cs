@@ -110,13 +110,31 @@
 
             var user = await this.userManager.FindByNameAsync(userName);
 
-            var ordersByUser = await this.orderProductsRepository
+            var ordersByUser = await this.ordersRepository
                 .All()
                 .Where(op => op.UserId == user.Id)
                 .To<OrdersListingViewModel>()
                 .ToListAsync();
 
             return ordersByUser;
+        }
+
+        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByUser(string userName, int orderId)
+        {
+            if (userName == null)
+            {
+                return null;
+            }
+
+            var user = await this.userManager.FindByNameAsync(userName);
+
+            var orderProductsByUser = await this.orderProductsRepository
+                .All()
+                .Where(op => op.UserId == user.Id && op.OrderId == orderId)
+                .To<OrderProductsListingViewModel>()
+                .ToListAsync();
+
+            return orderProductsByUser;
         }
 
         public async Task<string> GetPersonalDataForUserJsonAsync(string userId)
