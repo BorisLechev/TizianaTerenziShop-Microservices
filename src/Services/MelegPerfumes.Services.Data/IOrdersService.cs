@@ -9,6 +9,10 @@
     {
         Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersAsync();
 
+        Task<IEnumerable<OrdersListingViewModel>> GetAllPendingOrdersAsync();
+
+        Task<IEnumerable<OrdersListingViewModel>> GetAllProcessedOrdersAsync();
+
         Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUserAsync(string userName);
 
         Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(int orderId);

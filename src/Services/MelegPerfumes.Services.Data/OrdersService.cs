@@ -79,6 +79,28 @@
             return orders;
         }
 
+        public async Task<IEnumerable<OrdersListingViewModel>> GetAllPendingOrdersAsync()
+        {
+            var orders = await this.ordersRepository
+                .All()
+                .Where(o => o.Status.Name == "Pending")
+                .To<OrdersListingViewModel>()
+                .ToListAsync();
+
+            return orders;
+        }
+
+        public async Task<IEnumerable<OrdersListingViewModel>> GetAllProcessedOrdersAsync()
+        {
+            var orders = await this.ordersRepository
+                .All()
+                .Where(o => o.Status.Name == "Completed")
+                .To<OrdersListingViewModel>()
+                .ToListAsync();
+
+            return orders;
+        }
+
         public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(int orderId)
         {
             var orderProducts = await this.orderProductsRepository

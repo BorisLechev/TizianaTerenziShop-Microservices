@@ -36,6 +36,44 @@
             return this.View(model);
         }
 
+        public async Task<IActionResult> Pending()
+        {
+            var orders = await this.ordersService.GetAllPendingOrdersAsync();
+
+            var model = orders
+                .Select(o => new AdminOrdersListingViewModel
+                {
+                    Id = o.Id,
+                    CreatedOn = o.CreatedOn,
+                    DiscountCode = o.DiscountCode,
+                    Products = o.Products,
+                    StatusName = o.StatusName,
+                    UserFullName = o.UserFullName,
+                })
+                .ToList();
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> Processed()
+        {
+            var orders = await this.ordersService.GetAllProcessedOrdersAsync();
+
+            var model = orders
+                .Select(o => new AdminOrdersListingViewModel
+                {
+                    Id = o.Id,
+                    CreatedOn = o.CreatedOn,
+                    DiscountCode = o.DiscountCode,
+                    Products = o.Products,
+                    StatusName = o.StatusName,
+                    UserFullName = o.UserFullName,
+                })
+                .ToList();
+
+            return this.View(model);
+        }
+
         public async Task<IActionResult> Products(int orderId)
         {
             var orderProducts = await this.ordersService.GetAllOrderProductsAsync(orderId);
