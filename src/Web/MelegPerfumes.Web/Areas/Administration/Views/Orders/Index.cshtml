@@ -1,0 +1,60 @@
+﻿@model IEnumerable<AdminOrdersListingViewModel>
+
+@{
+    ViewData["Title"] = "All orders";
+}
+
+<div class="container">
+    <div class="mx-auto my-4">
+        <div class="text-center mb-3">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        <table class="table table-hover dt-responsive dataTable nowrap" style="width: 100%;">
+            <thead>
+                <tr class="font-weight-bold">
+                    <th>Fullname</th>
+                    <th>Order Date</th>
+                    <th>Total price</th>
+                    <th>DiscountCode</th>
+                    <th>Status</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.UserFullName</td>
+                        <td><time datetime="@order.CreatedOn.ToString("O")"></time></td>
+                        <td>@order.TotalPrice</td>
+                        @if (order.DiscountCode != null && order.DiscountCode.Name != null)
+                        {
+                            <td>@order.DiscountCode.Name</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@order.StatusName</td>
+                        <td>
+                            <a class="btn btn-outline-primary" asp-area="Administration" asp-controller="Orders" asp-action="Products" asp-route-orderId="@order.Id">
+                                <i class="fas fa-info"></i>
+                                Products
+                            </a>
+                        </td>
+                        <td>
+                            @if (order.StatusName == "Pending")
+                            {
+                                    <a class="btn btn-outline-success" asp-area="Administration" asp-controller="Orders" asp-action="Process" asp-route-orderId="@order.Id">
+                                        <i class="fas fa-check"></i>
+                                        Process
+                                    </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

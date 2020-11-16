@@ -1,0 +1,46 @@
+﻿@model IEnumerable<AdminOrderProductsListingViewModel>
+
+@{
+    ViewData["Title"] = "Order products";
+}
+
+<div class="container">
+    <div class="mx-auto my-4">
+        <div class="text-center mb-3">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        <table class="table table-hover dt-responsive dataTable nowrap" style="width: 100%;">
+            <thead>
+                <tr class="font-weight-bold">
+                    <th>Product</th>
+                    <th>Order Date</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total price</th>
+                    <th>DiscountCode</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Product.Name</td>
+                        <td><time datetime="@product.CreatedOn.ToString("O")"></time></td>
+                        <td>@product.Quantity</td>
+                        <td>@product.Price</td>
+                        <td>@product.TotalPrice</td>
+                        @if (product.DiscountCode != null && product.DiscountCode.Name != null)
+                        {
+                            <td>@product.DiscountCode.Name</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

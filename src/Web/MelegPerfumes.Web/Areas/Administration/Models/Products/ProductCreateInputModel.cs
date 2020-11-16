@@ -1,4 +1,4 @@
-﻿namespace MelegPerfumes.Web.Areas.Administration.InputModels
+﻿namespace MelegPerfumes.Web.Areas.Administration.Models.Products
 {
     using System;
     using System.Collections.Generic;

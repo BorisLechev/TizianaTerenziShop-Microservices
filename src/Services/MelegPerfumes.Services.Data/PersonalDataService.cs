@@ -1,14 +1,10 @@
 ﻿namespace MelegPerfumes.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using MelegPerfumes.Data.Common.Repositories;
     using MelegPerfumes.Data.Models;
-    using MelegPerfumes.Services.Mapping;
-    using MelegPerfumes.Web.ViewModels.Orders;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
 
@@ -24,15 +20,12 @@
 
         private readonly IDeletableEntityRepository<Vote> votesRepository;
 
-        private readonly UserManager<ApplicationUser> userManager;
-
         public PersonalDataService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
-            IDeletableEntityRepository<Vote> votesRepository,
-            UserManager<ApplicationUser> userManager)
+            IDeletableEntityRepository<Vote> votesRepository)
         {
             this.usersRepository = usersRepository;
 
@@ -40,7 +33,6 @@
             this.orderProductsRepository = orderProductsRepository;
             this.commentsRepository = commentsRepository;
             this.votesRepository = votesRepository;
-            this.userManager = userManager;
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
@@ -99,42 +91,6 @@
             }
 
             return true;
-        }
-
-        public async Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUser(string userName)
-        {
-            if (userName == null)
-            {
-                return null;
-            }
-
-            var user = await this.userManager.FindByNameAsync(userName);
-
-            var ordersByUser = await this.ordersRepository
-                .All()
-                .Where(op => op.UserId == user.Id)
-                .To<OrdersListingViewModel>()
-                .ToListAsync();
-
-            return ordersByUser;
-        }
-
-        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByUser(string userName, int orderId)
-        {
-            if (userName == null)
-            {
-                return null;
-            }
-
-            var user = await this.userManager.FindByNameAsync(userName);
-
-            var orderProductsByUser = await this.orderProductsRepository
-                .All()
-                .Where(op => op.UserId == user.Id && op.OrderId == orderId)
-                .To<OrderProductsListingViewModel>()
-                .ToListAsync();
-
-            return orderProductsByUser;
         }
 
         public async Task<string> GetPersonalDataForUserJsonAsync(string userId)

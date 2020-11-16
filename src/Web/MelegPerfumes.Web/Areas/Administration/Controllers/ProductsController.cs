@@ -8,7 +8,7 @@
     using MelegPerfumes.Common;
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Data;
-    using MelegPerfumes.Web.Areas.Administration.InputModels;
+    using MelegPerfumes.Web.Areas.Administration.Models.Products;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 

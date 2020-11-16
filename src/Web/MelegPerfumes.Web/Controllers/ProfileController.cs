@@ -22,14 +22,18 @@
 
         private readonly IPersonalDataService personalDataService;
 
+        private readonly IOrdersService ordersService;
+
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IPersonalDataService personalDataService)
+            IPersonalDataService personalDataService,
+            IOrdersService ordersService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.personalDataService = personalDataService;
+            this.ordersService = ordersService;
         }
 
         [Route("/profile")]
@@ -105,8 +109,8 @@
         [Route("/profile/orders/my")]
         public async Task<IActionResult> MyOrders()
         {
-            var allOrdersByUser = await this.personalDataService
-                .GetAllOrdersByUser(this.User.Identity.Name);
+            var allOrdersByUser = await this.ordersService
+                .GetAllOrdersByUserAsync(this.User.Identity.Name);
 
             return this.View(allOrdersByUser);
         }
@@ -114,8 +118,8 @@
         [Route("/profile/order/{orderId}")]
         public async Task<IActionResult> MyOrderProducts(int orderId)
         {
-            var allOrderProductsByUser = await this.personalDataService
-                .GetAllOrderProductsByUser(this.User.Identity.Name, orderId);
+            var allOrderProductsByUser = await this.ordersService
+                .GetAllOrderProductsByUserAsync(this.User.Identity.Name, orderId);
 
             return this.View(allOrderProductsByUser);
         }
