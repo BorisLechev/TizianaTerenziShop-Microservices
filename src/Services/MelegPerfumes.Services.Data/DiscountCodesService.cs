@@ -24,11 +24,17 @@
 
         public async Task<bool> CreateDiscountCodeAsync(DiscountCode discountCode)
         {
-            // TODO: Check if exists
-            await this.discountCodesRepository.AddAsync(discountCode);
-            await this.discountCodesRepository.SaveChangesAsync();
+            var check = await this.GetDiscountByNameAsync(discountCode.Name);
 
-            return true;
+            if (check == null)
+            {
+                await this.discountCodesRepository.AddAsync(discountCode);
+                var result = await this.discountCodesRepository.SaveChangesAsync();
+
+                return result > 0;
+            }
+
+            return false;
         }
 
         public async Task<bool> DeleteDiscountCodeAsync(int discountId)

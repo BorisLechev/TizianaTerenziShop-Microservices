@@ -1,9 +1,9 @@
-﻿namespace MelegPerfumes.Web.Areas.Administration.InputModels
+﻿namespace MelegPerfumes.Web.Areas.Administration.Models.DiscountCodes
 {
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class DiscountCodeCreateInputModel
+    public class CreateDiscountCodeInputModel
     {
         private const int NameMinimumLength = 3;
         private const int NameMaximumLength = 30;
@@ -18,7 +18,7 @@
         [StringLength(NameMaximumLength, MinimumLength = NameMinimumLength, ErrorMessage = NameErrorMessage)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Price is required.")]
+        [Required(ErrorMessage = "Discount is required.")]
         [Range(MinimumDiscount, MaximumDiscount, ErrorMessage = DiscountErrorMessage)]
         public double Discount { get; set; }
 

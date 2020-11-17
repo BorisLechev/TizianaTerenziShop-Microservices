@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DiscountCodesListingViewModel>
+
+@{
+    ViewData["Title"] = "All discount codes";
+}
+
+<div class="container">
+    <div class="mx-auto my-4">
+        <div class="text-center mb-3">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        <table class="table table-hover dt-responsive dataTable nowrap" style="width: 100%;">
+            <thead>
+                <tr class="font-weight-bold">
+                    <th>Name</th>
+                    <th>Discount</th>
+                    <th>Created on</th>
+                    <th>Expires on</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var discountCode in Model)
+                {
+                    <tr>
+                        <td>@discountCode.Name</td>
+                        <td>@discountCode.Discount</td>
+                        <td><time datetime="@discountCode.CreatedOn.ToString("O")"></time></td>
+                        <td><time datetime="@discountCode.ExpiresOn?.ToString("O")"></time></td>
+                        <td>
+                            <form asp-area="Administration" asp-controller="DiscountCodes" asp-action="Delete" asp-route-discountCodeId="@discountCode.Id" method="post">
+
+                                <button class="btn btn-outline-danger" type="submit">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

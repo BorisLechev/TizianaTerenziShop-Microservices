@@ -4,11 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using AutoMapper;
+    using MelegPerfumes.Common;
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Data;
-    using MelegPerfumes.Web.Areas.Administration.InputModels;
-    using MelegPerfumes.Web.Areas.Administration.ViewModels;
+    using MelegPerfumes.Web.Areas.Administration.Models.DiscountCodes;
     using Microsoft.AspNetCore.Mvc;
 
     public class DiscountCodesController : AdministrationController
@@ -21,36 +20,72 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiscountCodeViewModel>>> Index()
+        public async Task<ActionResult<IEnumerable<DiscountCodesListingViewModel>>> Index()
         {
-            var discounts = (await this.discountCodesService
-                .GetAllDiscountCodesAsync())
-                .Select(dc => Mapper.Map<DiscountCodeViewModel>(dc))
+            var discountCodes = await this.discountCodesService.GetAllDiscountCodesAsync();
+            var discounts = discountCodes
+                .Select(dc => new DiscountCodesListingViewModel
+                {
+                    Id = dc.Id,
+                    Name = dc.Name,
+                    CreatedOn = dc.CreatedOn,
+                    Discount = dc.Discount,
+                    ExpiresOn = dc.ExpiresOn,
+                })
                 .ToList();
 
-            return discounts;
+            return this.View(discounts);
+        }
+
+        public IActionResult Create()
+        {
+            return this.View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DiscountCodeCreateInputModel discountCodeInputModel)
+        public async Task<IActionResult> Create(CreateDiscountCodeInputModel discountCodeInputModel)
         {
-            // TODO: check for valid inputModel - Cuber
-            var discountName = discountCodeInputModel.Name.ToUpper();
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(discountCodeInputModel);
+            }
 
-            var discount = Mapper.Map<DiscountCode>(discountCodeInputModel);
+            discountCodeInputModel.Name.ToUpper();
 
-            // TODO: check if this name already exist
+            var discount = new DiscountCode
+            {
+                Name = discountCodeInputModel.Name,
+                Discount = discountCodeInputModel.Discount,
+                ExpiresOn = discountCodeInputModel.ExpiresOn,
+            };
+
             var result = await this.discountCodesService.CreateDiscountCodeAsync(discount);
 
-            // TODO: Error Success - Cuber
+            if (result == false)
+            {
+                this.Error(NotificationMessages.CreateDiscountCodeError);
+
+                return this.LocalRedirect("/home/index");
+            }
+
+            this.Success(NotificationMessages.CreateDiscountCodeSuccessfully);
 
             return this.RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int discountCodeId)
         {
-            var result = await this.discountCodesService.DeleteDiscountCodeAsync(id);
+            var result = await this.discountCodesService.DeleteDiscountCodeAsync(discountCodeId);
+
+            if (result == false)
+            {
+                this.Error(NotificationMessages.CannotDeleteDiscountCodeError);
+
+                return this.RedirectToAction("Index");
+            }
+
+            this.Success(NotificationMessages.SuccessfullyDeletedDiscountCode);
 
             return this.RedirectToAction("Index");
         }

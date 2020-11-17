@@ -44,7 +44,7 @@
             return this.View(productsInTheCart);
         }
 
-        [HttpGet]
+        [HttpGet] // TODO: make it post
         [Route("/cart/{productId}/quantity/increase")]
         public async Task<IActionResult> IncreaseQuantity(string productId)
         {
@@ -60,7 +60,7 @@
             }
         }
 
-        [HttpGet]
+        [HttpGet] // TODO: make it post
         [Route("/cart/{productId}/quantity/reduce")]
         public async Task<IActionResult> ReduceQuantity(string productId)
         {
@@ -131,7 +131,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.Forbid(); // TODO: change it
+                return this.RedirectToAction("Index", "Cart");
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -145,7 +145,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            //this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
+            this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
 
             return this.RedirectToAction("Index", "Cart");
         }

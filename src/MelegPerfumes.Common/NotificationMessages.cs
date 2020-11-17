@@ -23,9 +23,11 @@
         public const string CreateProductError = "Something went wrong.";
         public const string CreateNoteSuccessfully = "You have successfully created a note.";
         public const string CreateNoteError = "Something went wrong.";
+        public const string CreateDiscountCodeSuccessfully = "You have successfully created a note.";
+        public const string CreateDiscountCodeError = "Something went wrong.";
+        public const string DiscountCodeError = "Enter a valid discount code.";
 
         public const string CannotDeleteThisProductInTheCartError = "Cannot delete this product in the cart.";
-        public const string DiscountCodeError = "Enter a valid discount code.";
         public const string SuccessfullyAppliedDiscountCode = "You have successfully applied the discount code.";
         public const string AlreadyAppliedDiscountCode = "You have already applied a discount code.";
         public const string CannotDeleteDiscountCodeError = "Something went wrong.";

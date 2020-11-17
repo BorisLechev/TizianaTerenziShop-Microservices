@@ -1,4 +1,4 @@
-﻿namespace MelegPerfumes.Web.Areas.Administration.InputModels
+﻿namespace MelegPerfumes.Web.ViewModels.DiscountCodes
 {
     using System;
     using System.ComponentModel.DataAnnotations;
