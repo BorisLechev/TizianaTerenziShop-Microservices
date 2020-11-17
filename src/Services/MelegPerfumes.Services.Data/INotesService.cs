@@ -11,8 +11,8 @@
 
         Task CreateNotesRangeAsync(IEnumerable<Note> notes);
 
-        Task<IEnumerable<Note>> GetAllNotes();
+        Task<IEnumerable<Note>> GetAllNotesAsync();
 
-        Task<Note> FindNoteByName(string noteName);
+        Task<Note> FindNoteByNameAsync(string noteName);
     }
 }

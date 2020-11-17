@@ -46,7 +46,7 @@
             var productTypes = await this.GetAllProductTypes();
             var fragranceGroups = await this.GetAllFragranceGroups();
 
-            var product = new ProductCreateInputModel
+            var product = new CreateProductInputModel
             {
                 ProductTypes = productTypes,
                 FragranceGroups = fragranceGroups,
@@ -57,7 +57,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductCreateInputModel inputModel)
+        public async Task<IActionResult> Create(CreateProductInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -100,19 +100,47 @@
 
             if (!result)
             {
-                this.Error(NotificationMessages.ProductCreateError);
+                this.Error(NotificationMessages.CreateProductError);
 
                 return this.LocalRedirect("/products/all");
             }
 
-            this.Success(NotificationMessages.ProductCreateSuccessfully);
+            this.Success(NotificationMessages.CreateProductSuccessfully);
 
             return this.LocalRedirect("/products/all");
         }
 
+        [HttpGet]
+        public IActionResult CreateNote()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNote(CreateProductNoteInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var result = await this.notesService.CreateNoteAsync(inputModel.Name);
+
+            if (result == false)
+            {
+                this.Error(NotificationMessages.CreateNoteError);
+
+                return this.LocalRedirect("/home/index");
+            }
+
+            this.Success(NotificationMessages.CreateNoteSuccessfully);
+
+            return this.LocalRedirect("/home/index");
+        }
+
         private async Task<IEnumerable<SelectListItem>> GetAllNotes()
         {
-            var notes = (await this.notesService.GetAllNotes())
+            var notes = (await this.notesService.GetAllNotesAsync())
                 .Select(n => new SelectListItem
                 {
                     Text = n.Name,

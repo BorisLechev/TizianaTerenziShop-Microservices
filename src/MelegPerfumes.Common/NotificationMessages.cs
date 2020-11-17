@@ -19,8 +19,10 @@
 
         public const string ProductsInTheCartQuantityError = "The quantity of products in the cart cannot be a negative number.";
         public const string EmptyCartError = "The cart cannot be empty.";
-        public const string ProductCreateSuccessfully = "You have successfully created a product.";
-        public const string ProductCreateError = "Something went wrong.";
+        public const string CreateProductSuccessfully = "You have successfully created a product.";
+        public const string CreateProductError = "Something went wrong.";
+        public const string CreateNoteSuccessfully = "You have successfully created a note.";
+        public const string CreateNoteError = "Something went wrong.";
 
         public const string CannotDeleteThisProductInTheCartError = "Cannot delete this product in the cart.";
         public const string DiscountCodeError = "Enter a valid discount code.";

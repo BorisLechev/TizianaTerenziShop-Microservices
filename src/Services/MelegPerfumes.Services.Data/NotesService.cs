@@ -20,15 +20,22 @@
 
         public async Task<bool> CreateNoteAsync(string noteName)
         {
-            Note note = new Note
+            var check = await this.FindNoteByNameAsync(noteName);
+
+            if (check == null)
             {
-                Name = noteName,
-            };
+                Note note = new Note
+                {
+                    Name = noteName,
+                };
 
-            await this.notesRepository.AddAsync(note);
-            int result = await this.notesRepository.SaveChangesAsync();
+                await this.notesRepository.AddAsync(note);
+                int result = await this.notesRepository.SaveChangesAsync();
 
-            return result > 0;
+                return result > 0;
+            }
+
+            return false;
         }
 
         public async Task CreateNotesRangeAsync(IEnumerable<Note> notes)
@@ -37,7 +44,7 @@
             await this.notesRepository.SaveChangesAsync();
         }
 
-        public async Task<Note> FindNoteByName(string noteName)
+        public async Task<Note> FindNoteByNameAsync(string noteName)
         {
             var note = await this.notesRepository
                 .All()
@@ -46,7 +53,7 @@
             return note;
         }
 
-        public async Task<IEnumerable<Note>> GetAllNotes()
+        public async Task<IEnumerable<Note>> GetAllNotesAsync()
         {
             var notes = await this.notesRepository
                 .All()

@@ -1,0 +1,35 @@
+﻿@model CreateProductNoteInputModel
+
+@{
+    ViewData["Title"] = "Create a note";
+}
+
+<div class="w-75 w-md-50 text-center mx-auto create-note-wrapper">
+    <div class="row space-top">
+        <div class="col-md-12">
+            <h2 class="title">@ViewData["Title"]</h2>
+        </div>
+    </div>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form method="post" enctype="multipart/form-data">
+        <section class="form-group">
+            <label asp-for="Name">Name</label>
+            <section class="field mb-4">
+                <input asp-for="Name" class="form-control" placeholder="Name" type="text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </section>
+        </section>
+        <section class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Create</button>
+        </section>
+    </form>
+</div>
+
+@section CustomCss {
+    <style>
+        .create-note-wrapper {
+            padding-top: 100px;
+        }
+    </style>
+}

@@ -3,14 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using AutoMapper;
+
     using MelegPerfumes.Data.Models;
     using MelegPerfumes.Services.Mapping;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class ProductCreateInputModel : IMapTo<Product>
+    public class CreateProductInputModel : IMapTo<Product>
     {
         private const int NameMinimumLength = 2;
         private const int NameMaximumLength = 25;
