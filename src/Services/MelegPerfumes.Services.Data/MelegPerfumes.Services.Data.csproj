@@ -13,10 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CloudinaryDotNet" Version="1.13.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.9" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.13.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -27,7 +27,6 @@
     <ProjectReference Include="..\..\MelegPerfumes.Common\MelegPerfumes.Common.csproj" />
     <ProjectReference Include="..\..\Web\MelegPerfumes.Web.ViewModels\MelegPerfumes.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
-    <ProjectReference Include="..\MelegPerfumes.Services.Models\MelegPerfumes.Services.Models.csproj" />
   </ItemGroup>
 
 </Project>

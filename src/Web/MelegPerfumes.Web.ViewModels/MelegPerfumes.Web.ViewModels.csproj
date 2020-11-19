@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlSanitizer" Version="5.0.343" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
+    <PackageReference Include="HtmlSanitizer" Version="5.0.355" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Models\MelegPerfumes.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Models\MelegPerfumes.Services.Models.csproj" />
     <ProjectReference Include="..\..\Services\MelegPerfumes.Services\MelegPerfumes.Services.csproj" />
     <ProjectReference Include="..\MelegPerfumes.Web.Infrastructure\MelegPerfumes.Web.Infrastructure.csproj" />
   </ItemGroup>

@@ -88,6 +88,7 @@
                 options.HeaderName = "X-CSRF-TOKEN";
             });
             services.AddRazorPages();
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddAuthentication()
             .AddGoogle(options =>
@@ -152,7 +153,7 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
