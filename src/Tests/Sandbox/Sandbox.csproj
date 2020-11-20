@@ -33,14 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MelegPerfumes.Common\MelegPerfumes.Common.csproj" />
-    <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Common\MelegPerfumes.Data.Common.csproj" />
-    <ProjectReference Include="..\..\Data\MelegPerfumes.Data.Models\MelegPerfumes.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\MelegPerfumes.Data\MelegPerfumes.Data.csproj" />
-    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Data\MelegPerfumes.Services.Data.csproj" />
-    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Mapping\MelegPerfumes.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\Services\MelegPerfumes.Services.Messaging\MelegPerfumes.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\MelegPerfumes.Services\MelegPerfumes.Services.csproj" />
+    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
+    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data\TizianaTerenzi.Data.csproj" />
+    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Data\TizianaTerenzi.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Messaging\TizianaTerenzi.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services\TizianaTerenzi.Services.csproj" />
   </ItemGroup>
 
 </Project>

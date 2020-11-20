@@ -5,14 +5,14 @@
     using System.IO;
     using System.Threading.Tasks;
 
-    using MelegPerfumes.Data;
-    using MelegPerfumes.Data.Common;
-    using MelegPerfumes.Data.Common.Repositories;
-    using MelegPerfumes.Data.Models;
-    using MelegPerfumes.Data.Repositories;
-    using MelegPerfumes.Data.Seeding;
-    using MelegPerfumes.Services.Data;
-    using MelegPerfumes.Services.Messaging;
+    using TizianaTerenzi.Data;
+    using TizianaTerenzi.Data.Common;
+    using TizianaTerenzi.Data.Common.Repositories;
+    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Data.Repositories;
+    using TizianaTerenzi.Data.Seeding;
+    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Messaging;
 
     using CommandLine;
 
