@@ -8,17 +8,17 @@ namespace MelegPerfumes.Data.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "UserId",
-                table: "OrderProduct",
+                table: "OrderProducts",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderProduct_UserId",
-                table: "OrderProduct",
+                name: "IX_OrderProducts_UserId",
+                table: "OrderProducts",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_OrderProduct_AspNetUsers_UserId",
-                table: "OrderProduct",
+                name: "FK_OrderProducts_AspNetUsers_UserId",
+                table: "OrderProducts",
                 column: "UserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -28,16 +28,16 @@ namespace MelegPerfumes.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_OrderProduct_AspNetUsers_UserId",
-                table: "OrderProduct");
+                name: "FK_OrderProducts_AspNetUsers_UserId",
+                table: "OrderProducts");
 
             migrationBuilder.DropIndex(
-                name: "IX_OrderProduct_UserId",
-                table: "OrderProduct");
+                name: "IX_OrderProducts_UserId",
+                table: "OrderProducts");
 
             migrationBuilder.DropColumn(
                 name: "UserId",
-                table: "OrderProduct");
+                table: "OrderProducts");
         }
     }
 }

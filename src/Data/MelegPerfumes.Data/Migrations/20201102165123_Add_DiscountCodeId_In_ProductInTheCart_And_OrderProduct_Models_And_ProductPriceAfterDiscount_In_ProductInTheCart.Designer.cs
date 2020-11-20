@@ -377,7 +377,7 @@ namespace MelegPerfumes.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrderProduct");
+                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("MelegPerfumes.Data.Models.OrderStatus", b =>
