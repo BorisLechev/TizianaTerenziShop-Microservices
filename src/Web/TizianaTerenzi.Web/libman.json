@@ -47,7 +47,7 @@
       ]
     },
     {
-      "library": "@fortawesome/fontawesome-free@5.14.0",
+      "library": "@fortawesome/fontawesome-free@5.15.1",
       "destination": "wwwroot/lib/fontawesome/",
       "files": [
         "webfonts/fa-brands-400.eot",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "library": "tinymce@5.2.2",
+      "library": "tinymce@5.6.1",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -78,6 +78,7 @@
         "skins/ui/oxide/content.min.css",
         "skins/ui/oxide/skin.min.css",
         "skins/content/default/content.min.css",
+        "icons/default/icons.min.js",
         "plugins/image/plugin.min.js",
         "plugins/paste/plugin.min.js",
         "plugins/table/plugin.min.js",

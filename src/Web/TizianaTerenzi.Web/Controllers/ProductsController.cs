@@ -1,12 +1,15 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Services.Data;
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Services.Data;
 
     public class ProductsController : BaseController
     {
+        private const int ItemsPerPage = 6;
+
         private readonly IProductsService productsService;
 
         public ProductsController(
@@ -15,9 +18,22 @@
             this.productsService = productsService;
         }
 
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int page = 1)
         {
-            var products = await this.productsService.GetAllProductsAsync();
+            page = Math.Max(1, page);
+            var skip = (page - 1) * ItemsPerPage;
+            var products = await this.productsService.GetAllProductsAsync(ItemsPerPage, skip);
+
+            var productsCount = await this.productsService.GetProductsCountAsync();
+
+            products.PagesCount = (int)Math.Ceiling(productsCount / (decimal)ItemsPerPage);
+
+            if (products.PagesCount == 0)
+            {
+                products.PagesCount = 1;
+            }
+
+            products.CurrentPage = page;
 
             return this.View(products);
         }

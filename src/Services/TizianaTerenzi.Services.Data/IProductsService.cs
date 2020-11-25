@@ -8,12 +8,14 @@
 
     public interface IProductsService
     {
-        Task<IEnumerable<ProductsListingViewModel>> GetAllProductsAsync();
+        Task<ProductsWithPaginationListingViewModel> GetAllProductsAsync(int take, int skip = 0);
 
         Task<ProductDetailsViewModel> GetProductByIdAsync(int id);
 
         Task<bool> CreateProductAsync(Product product);
 
         Task CreateProductsRangeAsync(IEnumerable<Product> products);
+
+        Task<int> GetProductsCountAsync();
     }
 }

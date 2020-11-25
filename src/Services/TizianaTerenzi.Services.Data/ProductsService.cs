@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Products;
-    using Microsoft.EntityFrameworkCore;
 
     public class ProductsService : IProductsService
     {
@@ -33,14 +33,21 @@
             await this.productsRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ProductsListingViewModel>> GetAllProductsAsync()
+        public async Task<ProductsWithPaginationListingViewModel> GetAllProductsAsync(int take, int skip = 0)
         {
             var products = await this.productsRepository
                 .All()
+                .Skip(skip)
+                .Take(take)
                 .To<ProductsListingViewModel>()
                 .ToListAsync();
 
-            return products;
+            var viewModel = new ProductsWithPaginationListingViewModel()
+            {
+                Products = products,
+            };
+
+            return viewModel;
         }
 
         public async Task<ProductDetailsViewModel> GetProductByIdAsync(int id)
@@ -56,6 +63,15 @@
                 .SingleOrDefaultAsync();
 
             return product;
+        }
+
+        public async Task<int> GetProductsCountAsync()
+        {
+            var count = await this.productsRepository
+                .All()
+                .CountAsync();
+
+            return count;
         }
     }
 }

@@ -289,3 +289,7 @@ img {
 .product-image-link {
     position: relative;
 }
+
+.pagination-container {
+    margin-bottom: 3rem;
+}
