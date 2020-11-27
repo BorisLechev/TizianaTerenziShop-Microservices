@@ -27,12 +27,20 @@
                                             <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
                                                 <button class="btn-cart" type="submit">Add to Cart</button>
                                             </form>
-                                            <button class="btn-edit">
-                                                <span>Edit Product</span>
-                                            </button>
-                                            <button class="button-delete">
-                                                <span>Delete Product</span>
-                                            </button>
+                                            @if (this.User.Identity.IsAuthenticated)
+                                            {
+                                                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                                {
+                                                    <a class="btn-edit" href="/administration/product/edit/@product.Id">
+                                                        <span>Edit Product</span>
+                                                    </a>
+                                                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
+                                                        <button class="button-delete" type="submit">
+                                                            <span>Delete Product</span>
+                                                        </button>
+                                                    </form>
+                                                }
+                                            }
                                         </section>
                                     </section>
                                     <section class="product-info">

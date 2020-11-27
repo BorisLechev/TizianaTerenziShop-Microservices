@@ -9,7 +9,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 
-    public class CreateProductInputModel : IMapTo<Product>
+    public class EditProductInputModel : IMapFrom<Product>, IMapTo<Product>
     {
         private const int NameMinimumLength = 2;
         private const int NameMaximumLength = 25;
@@ -23,6 +23,8 @@
         private const string DescriptionErrorMessage = "Description should be at least 10 characters long and not more than 1500.";
         private const string PriceErrorMessage = "Price should be at least €10.";
         private const string YearErrorMessage = "Year should be be after 1700.";
+
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(NameMaximumLength, MinimumLength = NameMinimumLength, ErrorMessage = NameErrorMessage)]
@@ -39,7 +41,6 @@
         [Required(ErrorMessage = "Picture is required.")]
         public IFormFile Picture { get; set; }
 
-        [Required]
         public IEnumerable<string> NoteIds { get; set; }
 
         public IEnumerable<SelectListItem> Notes { get; set; }

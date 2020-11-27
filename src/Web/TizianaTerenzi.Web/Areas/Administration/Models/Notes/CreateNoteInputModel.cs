@@ -1,8 +1,8 @@
-﻿namespace TizianaTerenzi.Web.Areas.Administration.Models.Products
+﻿namespace TizianaTerenzi.Web.Areas.Administration.Models.Notes
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class CreateProductNoteInputModel
+    public class CreateNoteInputModel
     {
         private const int NameMinimumLength = 2;
 

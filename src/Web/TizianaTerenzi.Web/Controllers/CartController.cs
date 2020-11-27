@@ -4,12 +4,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data;
 
     public class CartController : BaseController
     {

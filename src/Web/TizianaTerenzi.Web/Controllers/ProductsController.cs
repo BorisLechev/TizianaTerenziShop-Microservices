@@ -38,9 +38,14 @@
             return this.View(products);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            var productDetailsViewModel = await this.productsService.GetProductByIdAsync(id);
+            if (id == null)
+            {
+                this.NotFound();
+            }
+
+            var productDetailsViewModel = await this.productsService.GetProductDetailsByIdAsync(id);
 
             if (productDetailsViewModel == null)
             {

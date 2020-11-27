@@ -10,12 +10,20 @@
     {
         Task<ProductsWithPaginationListingViewModel> GetAllProductsAsync(int take, int skip = 0);
 
-        Task<ProductDetailsViewModel> GetProductByIdAsync(int id);
+        Task<Product> GetProductByIdAsync(int? id);
+
+        Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(int? id);
 
         Task<bool> CreateProductAsync(Product product);
 
         Task CreateProductsRangeAsync(IEnumerable<Product> products);
 
         Task<int> GetProductsCountAsync();
+
+        Task<bool> EditProductAsync(Product product);
+
+        Task<int> GetProductTypeIdByProductIdAsync(int? productId);
+
+        Task<int> GetFragranceGroupIdByProductIdAsync(int? productId);
     }
 }

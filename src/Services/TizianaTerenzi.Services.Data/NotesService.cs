@@ -4,18 +4,22 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using Microsoft.EntityFrameworkCore;
 
     public class NotesService : INotesService
     {
         private readonly IDeletableEntityRepository<Note> notesRepository;
 
+        private readonly IDeletableEntityRepository<ProductNotes> productNotesRepository;
+
         public NotesService(
-            IDeletableEntityRepository<Note> notesRepository)
+            IDeletableEntityRepository<Note> notesRepository,
+            IDeletableEntityRepository<ProductNotes> productNotesRepository)
         {
             this.notesRepository = notesRepository;
+            this.productNotesRepository = productNotesRepository;
         }
 
         public async Task<bool> CreateNoteAsync(string noteName)
@@ -61,6 +65,31 @@
                 .ToListAsync();
 
             return notes;
+        }
+
+        public async Task<IEnumerable<int>> GetAllNoteIdsByProductAsync(int? productId)
+        {
+            var notes = await this.productNotesRepository
+                .All()
+                .Where(pn => pn.ProductId == productId)
+                .Select(pn => pn.NoteId)
+                .ToListAsync();
+
+            return notes;
+        }
+
+        public async Task DeleteProductNotesAsync(int? productId)
+        {
+            var productNotes = await this.productNotesRepository
+                .All()
+                .Where(pn => pn.ProductId == productId)
+                .ToListAsync();
+
+            if (productNotes.Any())
+            {
+                this.productNotesRepository.DeleteRange(productNotes);
+                await this.productNotesRepository.SaveChangesAsync();
+            }
         }
     }
 }

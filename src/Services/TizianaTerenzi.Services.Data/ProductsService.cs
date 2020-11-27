@@ -33,6 +33,14 @@
             await this.productsRepository.SaveChangesAsync();
         }
 
+        public async Task<bool> EditProductAsync(Product product)
+        {
+            this.productsRepository.Update(product);
+            var result = await this.productsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public async Task<ProductsWithPaginationListingViewModel> GetAllProductsAsync(int take, int skip = 0)
         {
             var products = await this.productsRepository
@@ -50,7 +58,21 @@
             return viewModel;
         }
 
-        public async Task<ProductDetailsViewModel> GetProductByIdAsync(int id)
+        public async Task<Product> GetProductByIdAsync(int? id)
+        {
+            var product = await this.productsRepository
+                .All()
+                .Where(p => p.Id == id)
+                .Include(p => p.ProductType) // TODO: do not use include
+                .Include(p => p.FragranceGroup)
+                .Include(p => p.Notes)
+                .ThenInclude(n => n.Note)
+                .SingleOrDefaultAsync();
+
+            return product;
+        }
+
+        public async Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(int? id)
         {
             var product = await this.productsRepository
                 .All()
@@ -72,6 +94,28 @@
                 .CountAsync();
 
             return count;
+        }
+
+        public async Task<int> GetProductTypeIdByProductIdAsync(int? productId)
+        {
+            var productTypeId = await this.productsRepository
+                .All()
+                .Where(p => p.Id == productId)
+                .Select(p => p.ProductTypeId)
+                .SingleOrDefaultAsync();
+
+            return productTypeId;
+        }
+
+        public async Task<int> GetFragranceGroupIdByProductIdAsync(int? productId)
+        {
+            var fragranceGroupId = await this.productsRepository
+                .All()
+                .Where(p => p.Id == productId)
+                .Select(p => p.FragranceGroupId)
+                .SingleOrDefaultAsync();
+
+            return fragranceGroupId;
         }
     }
 }

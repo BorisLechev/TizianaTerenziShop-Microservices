@@ -25,6 +25,7 @@
         public const string CreateNoteError = "Something went wrong.";
         public const string CreateDiscountCodeSuccessfully = "You have successfully created a note.";
         public const string CreateDiscountCodeError = "Something went wrong.";
+        public const string NoteNotFound = "Note not found.";
         public const string DiscountCodeError = "Enter a valid discount code.";
 
         public const string CannotDeleteThisProductInTheCartError = "Cannot delete this product in the cart.";
@@ -35,5 +36,8 @@
 
         public const string ProcessOrderSuccessfully = "Order processed successfully.";
         public const string ProcessOrderError = "Something went wrong.";
+
+        public const string EditProductSuccessfully = "You have edited the product successfully.";
+        public const string EditProductError = "Something went wrong.";
     }
 }

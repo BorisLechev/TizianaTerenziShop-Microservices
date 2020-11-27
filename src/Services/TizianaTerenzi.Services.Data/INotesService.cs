@@ -14,5 +14,9 @@
         Task<IEnumerable<Note>> GetAllNotesAsync();
 
         Task<Note> FindNoteByNameAsync(string noteName);
+
+        Task<IEnumerable<int>> GetAllNoteIdsByProductAsync(int? productId);
+
+        Task DeleteProductNotesAsync(int? productId);
     }
 }

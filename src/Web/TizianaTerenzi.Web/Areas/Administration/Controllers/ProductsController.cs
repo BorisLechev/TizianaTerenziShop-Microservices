@@ -5,12 +5,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Web.Areas.Administration.Models.Products;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class ProductsController : AdministrationController
     {
@@ -42,9 +42,9 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var notes = await this.GetAllNotes();
-            var productTypes = await this.GetAllProductTypes();
-            var fragranceGroups = await this.GetAllFragranceGroups();
+            var notes = await this.GetAllNotesAsync();
+            var productTypes = await this.GetAllProductTypesAsync();
+            var fragranceGroups = await this.GetAllFragranceGroupsAsync();
 
             var product = new CreateProductInputModel
             {
@@ -61,9 +61,9 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var notes = await this.GetAllNotes();
-                var productTypes = await this.GetAllProductTypes();
-                var fragranceGroups = await this.GetAllFragranceGroups();
+                var notes = await this.GetAllNotesAsync();
+                var productTypes = await this.GetAllProductTypesAsync();
+                var fragranceGroups = await this.GetAllFragranceGroupsAsync();
 
                 inputModel.ProductTypes = productTypes;
                 inputModel.FragranceGroups = fragranceGroups;
@@ -111,34 +111,121 @@
         }
 
         [HttpGet]
-        public IActionResult CreateNote()
+        [Route("/administration/product/edit/{productId}")]
+        public async Task<IActionResult> Edit(int? productId)
         {
-            return this.View();
+            if (productId == null)
+            {
+                this.NotFound();
+            }
+
+            var product = await this.productsService.GetProductByIdAsync(productId);
+
+            if (product == null)
+            {
+                this.NotFound();
+            }
+
+            var productTypes = await this.GetAllProductTypesWithSelectedTypesAsync(productId);
+            var fragranceGroups = await this.GetAllFragranceGroupsWithSelectedGroupsAsync(productId);
+            var notes = await this.GetAllNotesWithSelectedNotesAsync(productId);
+
+            var editProductViewModel = new EditProductInputModel
+            {
+                Id = productId.Value,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                YearOfManufacture = product.YearOfManufacture,
+                FragranceGroups = fragranceGroups,
+                ProductTypes = productTypes,
+                Notes = notes,
+            };
+
+            return this.View(editProductViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNote(CreateProductNoteInputModel inputModel)
+        [Route("/administration/product/edit/{productId}")]
+        public async Task<IActionResult> Edit(EditProductInputModel inputModel, int? productId)
         {
+            if (productId == null)
+            {
+                this.NotFound();
+            }
+
+            var notes = await this.GetAllNotesWithSelectedNotesAsync(productId);
+            inputModel.Notes = notes;
+
+            var product = await this.productsService.GetProductByIdAsync(productId);
+
             if (!this.ModelState.IsValid)
             {
+                var productTypes = await this.GetAllProductTypesAsync();
+                var fragranceGroups = await this.GetAllFragranceGroupsAsync();
+
+                inputModel.Id = productId.Value;
+                inputModel.Name = product.Name;
+                inputModel.Description = product.Description;
+                inputModel.Price = product.Price;
+                inputModel.YearOfManufacture = product.YearOfManufacture;
+                inputModel.FragranceGroups = fragranceGroups;
+                inputModel.ProductTypes = productTypes;
+                inputModel.Notes = notes;
+
                 return this.View(inputModel);
             }
 
-            var result = await this.notesService.CreateNoteAsync(inputModel.Name);
+            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
 
-            if (result == false)
+            var notesCollection = new List<Note>();
+
+            foreach (var noteName in inputModel.Notes)
             {
-                this.Error(NotificationMessages.CreateNoteError);
+                var note = await this.notesService.FindNoteByNameAsync(noteName.Text);
 
-                return this.LocalRedirect("/home/index");
+                if (note != null)
+                {
+                    notesCollection.Add(note);
+                }
+                else
+                {
+                    this.Error(NotificationMessages.NoteNotFound);
+
+                    return this.NotFound();
+                }
             }
 
-            this.Success(NotificationMessages.CreateNoteSuccessfully);
+            await this.notesService.DeleteProductNotesAsync(productId);
 
-            return this.LocalRedirect("/home/index");
+            product.Name = inputModel.Name;
+            product.Description = inputModel.Description;
+            product.Picture = pictureUrl;
+            product.Price = inputModel.Price;
+            product.YearOfManufacture = inputModel.YearOfManufacture;
+            product.FragranceGroupId = inputModel.FragranceGroupId;
+            product.ProductTypeId = inputModel.ProductTypeId;
+            product.Notes = inputModel.NoteIds.Select(id => new ProductNotes
+            {
+                NoteId = int.Parse(id),
+            })
+            .ToList();
+
+            var result = await this.productsService.EditProductAsync(product);
+
+            if (result == true)
+            {
+                this.Success(NotificationMessages.EditProductSuccessfully);
+
+                return this.LocalRedirect("/products/all");
+            }
+
+            this.Error(NotificationMessages.EditProductError);
+
+            return this.LocalRedirect("/products/all");
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetAllNotes()
+        private async Task<IEnumerable<SelectListItem>> GetAllNotesAsync()
         {
             var notes = (await this.notesService.GetAllNotesAsync())
                 .Select(n => new SelectListItem
@@ -150,7 +237,21 @@
             return notes;
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetAllProductTypes()
+        private async Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedNotesAsync(int? productId)
+        {
+            var noteIds = await this.notesService.GetAllNoteIdsByProductAsync(productId);
+            var notes = (await this.notesService.GetAllNotesAsync())
+                .Select(n => new SelectListItem
+                {
+                    Text = n.Name,
+                    Value = n.Id.ToString(),
+                    Selected = noteIds.Any(id => id == n.Id),
+                });
+
+            return notes;
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetAllProductTypesAsync()
         {
             var productTypes = (await this.productTypesService.GetAllProductTypes())
                 .Select(pt => new SelectListItem
@@ -162,13 +263,41 @@
             return productTypes;
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetAllFragranceGroups()
+        private async Task<IEnumerable<SelectListItem>> GetAllProductTypesWithSelectedTypesAsync(int? productId)
+        {
+            var productTypeId = await this.productsService.GetProductTypeIdByProductIdAsync(productId);
+            var productTypes = (await this.productTypesService.GetAllProductTypes())
+                .Select(pt => new SelectListItem
+                {
+                    Text = pt.Name,
+                    Value = pt.Id.ToString(),
+                    Selected = pt.Id == productTypeId,
+                });
+
+            return productTypes;
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync()
         {
             var fragranceGroups = (await this.fragranceGroupsService.GetAllFragranceGroups())
                 .Select(fg => new SelectListItem
                 {
                     Text = fg.Name,
                     Value = fg.Id.ToString(),
+                });
+
+            return fragranceGroups;
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsWithSelectedGroupsAsync(int? productId)
+        {
+            var fragranceGroupId = await this.productsService.GetFragranceGroupIdByProductIdAsync(productId);
+            var fragranceGroups = (await this.fragranceGroupsService.GetAllFragranceGroups())
+                .Select(fg => new SelectListItem
+                {
+                    Text = fg.Name,
+                    Value = fg.Id.ToString(),
+                    Selected = fg.Id == fragranceGroupId,
                 });
 
             return fragranceGroups;
