@@ -34,10 +34,10 @@
                                                     <a class="btn-edit" href="/administration/product/edit/@product.Id">
                                                         <span>Edit Product</span>
                                                     </a>
-                                                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
-                                                        <button class="button-delete" type="submit">
-                                                            <span>Delete Product</span>
-                                                        </button>
+                                                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" method="post">
+                                                            <button class="button-delete" type="submit">
+                                                                <span>Delete Product</span>
+                                                            </button>
                                                     </form>
                                                 }
                                             }

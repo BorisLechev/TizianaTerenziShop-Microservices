@@ -41,7 +41,7 @@ namespace TizianaTerenzi.Web.Controllers
 
             var userId = this.userManager.GetUserId(this.User);
 
-            await this.commentsService.Create(inputModel.ProductId, userId, inputModel.Content, parentId);
+            await this.commentsService.CreateAsync(inputModel.ProductId, userId, inputModel.Content, parentId);
 
             return this.RedirectToAction("Details", "Products", new { id = inputModel.ProductId });
         }

@@ -39,5 +39,8 @@
 
         public const string EditProductSuccessfully = "You have edited the product successfully.";
         public const string EditProductError = "Something went wrong.";
+
+        public const string DeleteProductSuccessfully = "You have deleted the product successfully.";
+        public const string DeleteProductError = "Something went wrong.";
     }
 }

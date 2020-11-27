@@ -22,6 +22,8 @@
 
         Task<bool> EditProductAsync(Product product);
 
+        Task<bool> DeleteProductAsync(int productId);
+
         Task<int> GetProductTypeIdByProductIdAsync(int? productId);
 
         Task<int> GetFragranceGroupIdByProductIdAsync(int? productId);

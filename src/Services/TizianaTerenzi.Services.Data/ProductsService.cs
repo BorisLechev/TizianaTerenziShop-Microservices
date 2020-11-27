@@ -117,5 +117,17 @@
 
             return fragranceGroupId;
         }
+
+        public async Task<bool> DeleteProductAsync(int productId)
+        {
+            var product = await this.productsRepository
+                .All()
+                .SingleOrDefaultAsync(p => p.Id == productId);
+
+            this.productsRepository.Delete(product);
+            var result = await this.productsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
     }
 }

@@ -4,7 +4,9 @@
 
     public interface ICommentsService
     {
-        Task Create(int productId, string userId, string content, int? parentId = null);
+        Task CreateAsync(int productId, string userId, string content, int? parentId = null);
+
+        Task DeleteRangeAsync(int productId);
 
         bool IsInProductId(int commentId, int productId);
     }

@@ -22,6 +22,8 @@
 
         private readonly IProductsService productsService;
 
+        private readonly ICommentsService commentsService;
+
         private readonly ICloudinaryService cloudinaryService;
 
         public ProductsController(
@@ -29,6 +31,7 @@
             IProductTypesService productTypesService,
             IFragranceGroupsService fragranceGroupsService,
             IProductsService productsService,
+            ICommentsService commentsService,
             ICloudinaryService cloudinaryService)
         {
             this.notesService = notesService;
@@ -36,6 +39,7 @@
             this.fragranceGroupsService = fragranceGroupsService;
 
             this.productsService = productsService;
+            this.commentsService = commentsService;
             this.cloudinaryService = cloudinaryService;
         }
 
@@ -223,6 +227,27 @@
             this.Error(NotificationMessages.EditProductError);
 
             return this.LocalRedirect("/products/all");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await this.notesService.DeleteProductNotesAsync(id);
+                await this.commentsService.DeleteRangeAsync(id);
+                await this.productsService.DeleteProductAsync(id);
+
+                this.Success(NotificationMessages.DeleteProductSuccessfully);
+
+                return this.LocalRedirect("/products/all");
+            }
+            catch (Exception)
+            {
+                this.Error(NotificationMessages.DeleteProductError);
+
+                return this.LocalRedirect("/products/all");
+            }
         }
 
         private async Task<IEnumerable<SelectListItem>> GetAllNotesAsync()
