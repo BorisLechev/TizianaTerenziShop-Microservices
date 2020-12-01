@@ -76,9 +76,11 @@
                                 {
                                     <section id="discount-tag-container" class="discount-tag-container">
                                         <section class="discount-tag">
-                                            <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                            <p class="discount-code">@Model[0].DiscountCodeName</p>
-                                            <button id="delete-discount" class="btn-delete"></button>
+                                            <form id="delete-discount" method="post">
+                                                <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                                <p class="discount-code">@Model[0].DiscountCodeName</p>
+                                                <button id="delete-discount" class="btn-delete"></button>
+                                            </form>
                                         </section>
                                     </section>
                                 }
@@ -104,7 +106,9 @@
                                                     </span>
                                                 </div>
                                             </section>
-                                            <a asp-area="" asp-controller="Cart" asp-action="CheckOut" class="button">Check Out</a>
+                                            <form asp-area="" asp-controller="Cart" asp-action="CheckOut" method="post">
+                                                <button class="button" type="submit">Check Out</button>
+                                            </form>
                                         </section>
                                     </section>
                                 </section>
@@ -119,6 +123,7 @@
 
 <partial name="_TestimonialsPartial" />
 
+<form method="post" id="antiForgeryForm"></form>
 @section Scripts {
     <script>
         function updateTotalPrice() {
@@ -149,14 +154,19 @@
             let productId = $(this).attr('id').toString().replace('-decrease', '');
 
             let element = $($($(this).parent()).children()[0]);
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
 
-            $.get({
+            $.ajax({
+                type: "POST",
                 url: `/cart/${productId}/quantity/reduce`,
+                headers: {
+                    "X-CSRF-TOKEN": antiForgeryToken,
+                },
                 success: function () {
                     let currentQuantity = +element.text();
                     element.text(currentQuantity - 1);
                     updateTotalPrice();
-                }
+                },
             });
         });
 
@@ -164,14 +174,19 @@
             let productId = $(this).attr('id').toString().replace('-increase', '');
 
             let element = $($($(this).parent()).children()[0]);
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
 
-            $.get({
+            $.ajax({
+                type: "POST",
                 url: `/cart/${productId}/quantity/increase`,
+                headers: {
+                    "X-CSRF-TOKEN": antiForgeryToken,
+                },
                 success: function () {
                     let currentQuantity = +element.text();
                     element.text(currentQuantity + 1);
                     updateTotalPrice();
-                }
+                },
             });
         });
 
@@ -179,25 +194,36 @@
             event.preventDefault();
 
             let discountName = $('#discount-input').val();
+            let antiForgeryToken = $("#apply-discount input[name=__RequestVerificationToken]").val();
 
-            $.get({
+            $.ajax({
+                type: "POST",
                 url: `/cart/discount/${discountName}/apply`,
+                headers: {
+                    "X-CSRF-TOKEN": antiForgeryToken,
+                },
                 success: function () {
                     $("#discount-tag-container").show();
-                }
+                },
             });
         });
 
         $('#delete-discount').click(function (event) {
             event.preventDefault();
-            let discountName = $(".discount-code").text();
 
-            $.get({
+            let discountName = $(".discount-code").text();
+            let antiForgeryToken = $("#delete-discount input[name=__RequestVerificationToken]").val();
+
+            $.ajax({
+                type: "POST",
                 url: `/cart/discount/${discountName}/delete`,
+                headers: {
+                    "X-CSRF-TOKEN": antiForgeryToken,
+                },
                 success: function () {
                     $('#discount-tag-container').hide();
                     $('#discount-input').val('');
-                }
+                },
             });
         })
     </script>

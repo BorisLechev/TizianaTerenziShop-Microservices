@@ -44,7 +44,7 @@
             return this.View(productsInTheCart);
         }
 
-        [HttpGet] // TODO: make it post
+        [HttpPost]
         [Route("/cart/{productId}/quantity/increase")]
         public async Task<IActionResult> IncreaseQuantity(string productId)
         {
@@ -60,7 +60,7 @@
             }
         }
 
-        [HttpGet] // TODO: make it post
+        [HttpPost]
         [Route("/cart/{productId}/quantity/reduce")]
         public async Task<IActionResult> ReduceQuantity(string productId)
         {
@@ -113,8 +113,7 @@
             return this.RedirectToAction("Index", "Cart");
         }
 
-        // TODO: make it post
-        //[HttpPost]
+        [HttpPost]
         [Authorize]
         [Route("/cart/discount/{discountName}/apply")]
         public async Task<IActionResult> ApplyDiscountCode(string discountName)
@@ -150,8 +149,7 @@
             return this.RedirectToAction("Index", "Cart");
         }
 
-        // TODO: make it post
-        //[HttpPost]
+        [HttpPost]
         [Authorize]
         [Route("/cart/discount/{discountName}/delete")]
         public async Task<IActionResult> DeleteDiscountCode(string discountName)
@@ -205,8 +203,7 @@
             return this.RedirectToAction("Index", "Cart");
         }
 
-        // TODO: make it Httppost
-        //[HttpPost]
+        [HttpPost]
         [Route("/cart/checkout")]
         public async Task<IActionResult> CheckOut()
         {
