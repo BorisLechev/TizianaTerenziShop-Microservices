@@ -8,7 +8,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 
-    public class ProductDetailsViewModel : IHaveCustomMappings
+    public class ProductDetailsViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -24,9 +24,7 @@
 
         public virtual IEnumerable<string> Notes { get; set; }
 
-        public string ProductType { get; set; }
-
-        public string FragranceGroup { get; set; }
+        public string FragranceGroupName { get; set; }
 
         public int YearOfManufacture { get; set; }
 

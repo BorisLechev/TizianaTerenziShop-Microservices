@@ -45,6 +45,7 @@
         {
             var products = await this.productsRepository
                 .All()
+                .OrderByDescending(p => p.YearOfManufacture)
                 .Skip(skip)
                 .Take(take)
                 .To<ProductsListingViewModel>()

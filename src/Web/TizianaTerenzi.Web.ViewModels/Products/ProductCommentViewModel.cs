@@ -24,8 +24,6 @@
 
         public string UserUserName { get; set; } // Comment->ApplicationUser->IdentityUser->UserName
 
-        public string UserId { get; set; }
-
         public int VotesSum { get; set; }
 
         public IEnumerable<DetailsVotesViewModel> Votes { get; set; }

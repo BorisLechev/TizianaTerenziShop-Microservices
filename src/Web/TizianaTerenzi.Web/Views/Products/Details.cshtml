@@ -39,15 +39,24 @@
                     </article>
                     <article class="details-wrapper">
                         <header class="details-header-container">
-                            <h3 class="product-title">@Model.Name</h3>
+                            <h1 class="product-title">@Model.Name</h1>
+                            <h5>@Model.FragranceGroupName</h5>
                         </header>
                         <main class="details-main-container">
+                            <dl>
+                                <dt class="year-section">
+                                    <h6 class="section-title">Year</h6>
+                                </dt>
+                                <dd>
+                                    <p class="year">@Model.YearOfManufacture</p>
+                                </dd>
+                            </dl>
                             <dl>
                                 <dt class="notes-section">
                                     <h6 class="section-title">Notes</h6>
                                 </dt>
-                                <dd class="notes">
-                                    <p>@string.Join(", ", Model.Notes)</p>
+                                <dd>
+                                    <p class="notes">@string.Join(", ", Model.Notes)</p>
                                 </dd>
                             </dl>
                             <section class="product-price-container">€ @Model.Price EUR</section>
@@ -73,7 +82,7 @@
                 <h5 class="description-title">Description</h5>
             </header>
             <main>
-                <p>@Html.Raw(Model.Description)</p>
+                <p>@Html.Raw(Model.SanitizedDescription)</p>
             </main>
         </section>
 
