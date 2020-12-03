@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CloudinaryDotNet" Version="1.13.2" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.14.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all">

@@ -130,8 +130,8 @@
                 this.NotFound();
             }
 
-            var productTypes = await this.GetAllProductTypesWithSelectedTypesAsync(productId);
-            var fragranceGroups = await this.GetAllFragranceGroupsWithSelectedGroupsAsync(productId);
+            var productTypes = await this.GetAllProductTypesWithSelectedTypeAsync(productId);
+            var fragranceGroups = await this.GetAllFragranceGroupsWithSelectedGroupAsync(productId);
             var notes = await this.GetAllNotesWithSelectedNotesAsync(productId);
 
             var editProductViewModel = new EditProductInputModel
@@ -182,7 +182,7 @@
 
             string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
 
-            var notesCollection = new List<Note>();
+            var noteIdsCollection = new List<int>();
 
             foreach (var noteName in inputModel.Notes)
             {
@@ -190,7 +190,7 @@
 
                 if (note != null)
                 {
-                    notesCollection.Add(note);
+                    noteIdsCollection.Add(note.Id);
                 }
                 else
                 {
@@ -209,9 +209,9 @@
             product.YearOfManufacture = inputModel.YearOfManufacture;
             product.FragranceGroupId = inputModel.FragranceGroupId;
             product.ProductTypeId = inputModel.ProductTypeId;
-            product.Notes = inputModel.NoteIds.Select(id => new ProductNotes
+            product.Notes = noteIdsCollection.Select(id => new ProductNotes
             {
-                NoteId = int.Parse(id),
+                NoteId = id,
             })
             .ToList();
 
@@ -288,7 +288,7 @@
             return productTypes;
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetAllProductTypesWithSelectedTypesAsync(int? productId)
+        private async Task<IEnumerable<SelectListItem>> GetAllProductTypesWithSelectedTypeAsync(int? productId)
         {
             var productTypeId = await this.productsService.GetProductTypeIdByProductIdAsync(productId);
             var productTypes = (await this.productTypesService.GetAllProductTypes())
@@ -314,7 +314,7 @@
             return fragranceGroups;
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsWithSelectedGroupsAsync(int? productId)
+        private async Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsWithSelectedGroupAsync(int? productId)
         {
             var fragranceGroupId = await this.productsService.GetFragranceGroupIdByProductIdAsync(productId);
             var fragranceGroups = (await this.fragranceGroupsService.GetAllFragranceGroups())
