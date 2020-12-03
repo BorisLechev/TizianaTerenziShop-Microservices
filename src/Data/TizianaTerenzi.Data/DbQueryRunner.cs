@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {

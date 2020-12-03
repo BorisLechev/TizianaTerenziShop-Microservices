@@ -4,14 +4,14 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
-    using TizianaTerenzi.Web.ViewModels.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Web.ViewModels.Authentication;
 
     public class AuthenticationController : BaseController
     {

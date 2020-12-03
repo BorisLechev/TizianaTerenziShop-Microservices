@@ -3,10 +3,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Web.Areas.Administration.Models.Orders;
-    using Microsoft.AspNetCore.Mvc;
 
     public class OrdersController : AdministrationController
     {

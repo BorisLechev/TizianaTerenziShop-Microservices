@@ -2,12 +2,12 @@
 {
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Web.ViewModels.Account;
 
     public class AccountController : BaseController
     {

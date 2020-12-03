@@ -8,7 +8,7 @@
 
     public interface IProductsService
     {
-        Task<ProductsWithPaginationListingViewModel> GetAllProductsAsync(int take, int skip = 0);
+        Task<ProductsListViewModel> GetAllProductsAsync(int take, int skip = 0);
 
         Task<Product> GetProductByIdAsync(int? id);
 

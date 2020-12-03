@@ -3,12 +3,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Web.ViewModels.Subscribe;
-    using Microsoft.AspNetCore.Mvc;
 
     public class SubscribeController : BaseController
     {

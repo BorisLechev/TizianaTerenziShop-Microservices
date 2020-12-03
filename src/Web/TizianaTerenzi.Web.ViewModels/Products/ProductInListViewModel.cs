@@ -4,16 +4,16 @@
     using TizianaTerenzi.Services;
     using TizianaTerenzi.Services.Mapping;
 
-    public class ProductsListingViewModel : IMapFrom<Product>
+    public class ProductInListViewModel : IMapFrom<Product>
     {
         private readonly IUrlGenerator urlGenerator;
 
-        public ProductsListingViewModel()
+        public ProductInListViewModel()
             : this(new UrlGenerator())
         {
         }
 
-        public ProductsListingViewModel(IUrlGenerator urlGenerator)
+        public ProductInListViewModel(IUrlGenerator urlGenerator)
         {
             this.urlGenerator = urlGenerator;
         }

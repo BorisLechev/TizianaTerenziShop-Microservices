@@ -41,17 +41,17 @@
             return result > 0;
         }
 
-        public async Task<ProductsWithPaginationListingViewModel> GetAllProductsAsync(int take, int skip = 0)
+        public async Task<ProductsListViewModel> GetAllProductsAsync(int take, int skip = 0)
         {
             var products = await this.productsRepository
                 .All()
                 .OrderByDescending(p => p.YearOfManufacture)
                 .Skip(skip)
                 .Take(take)
-                .To<ProductsListingViewModel>()
+                .To<ProductInListViewModel>()
                 .ToListAsync();
 
-            var viewModel = new ProductsWithPaginationListingViewModel()
+            var viewModel = new ProductsListViewModel()
             {
                 Products = products,
             };

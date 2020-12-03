@@ -2,12 +2,12 @@
 {
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
-    using TizianaTerenzi.Web.ViewModels.Votes;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Web.ViewModels.Votes;
 
     [ApiController]
     [Route("api/[controller]")]

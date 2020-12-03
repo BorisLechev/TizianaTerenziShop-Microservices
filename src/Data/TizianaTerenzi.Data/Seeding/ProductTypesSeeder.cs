@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Data.Models;
     using Microsoft.EntityFrameworkCore.Internal;
+    using TizianaTerenzi.Data.Models;
 
     public class ProductTypesSeeder : ISeeder
     {

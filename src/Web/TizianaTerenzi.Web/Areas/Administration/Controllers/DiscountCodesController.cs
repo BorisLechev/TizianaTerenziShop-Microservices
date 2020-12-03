@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Web.Areas.Administration.Models.DiscountCodes;
-    using Microsoft.AspNetCore.Mvc;
 
     public class DiscountCodesController : AdministrationController
     {

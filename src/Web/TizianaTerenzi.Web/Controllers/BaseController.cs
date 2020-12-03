@@ -1,7 +1,7 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using TizianaTerenzi.Common;
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Common;
 
     public abstract class BaseController : Controller
     {

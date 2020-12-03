@@ -1,11 +1,7 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.Products
+﻿namespace TizianaTerenzi.Web.ViewModels
 {
-    using System.Collections.Generic;
-
-    public class ProductsWithPaginationListingViewModel
+    public class PagingViewModel
     {
-        public IEnumerable<ProductsListingViewModel> Products { get; set; }
-
         public int CurrentPage { get; set; }
 
         public int PagesCount { get; set; }

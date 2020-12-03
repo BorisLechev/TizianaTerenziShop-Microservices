@@ -2,9 +2,8 @@
 {
     using System.Diagnostics;
 
-    using TizianaTerenzi.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Web.ViewModels;
 
     public class HomeController : BaseController
     {

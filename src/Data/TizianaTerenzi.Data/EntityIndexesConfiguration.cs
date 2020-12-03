@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using TizianaTerenzi.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

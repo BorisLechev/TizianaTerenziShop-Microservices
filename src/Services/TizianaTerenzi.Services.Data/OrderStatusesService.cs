@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using Microsoft.EntityFrameworkCore;
 
     public class OrderStatusesService : IOrderStatusesService
     {

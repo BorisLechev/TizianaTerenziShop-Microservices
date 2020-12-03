@@ -3,10 +3,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Data.Common.Repositories;
-    using TizianaTerenzi.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
+    using TizianaTerenzi.Data.Common.Repositories;
+    using TizianaTerenzi.Data.Models;
 
     public class PersonalDataService : IPersonalDataService
     {

@@ -3,9 +3,8 @@ namespace TizianaTerenzi.Data.Models
 {
     using System;
 
-    using TizianaTerenzi.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using TizianaTerenzi.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

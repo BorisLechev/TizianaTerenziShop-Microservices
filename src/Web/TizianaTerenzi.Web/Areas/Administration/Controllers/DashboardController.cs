@@ -1,9 +1,8 @@
 ﻿namespace TizianaTerenzi.Web.Areas.Administration.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Web.ViewModels.Administration.Dashboard;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController
     {

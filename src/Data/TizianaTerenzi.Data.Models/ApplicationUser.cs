@@ -5,9 +5,8 @@ namespace TizianaTerenzi.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using TizianaTerenzi.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using TizianaTerenzi.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {

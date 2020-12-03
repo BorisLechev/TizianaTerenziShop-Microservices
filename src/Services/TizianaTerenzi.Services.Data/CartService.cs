@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Orders;
-    using Microsoft.EntityFrameworkCore;
 
     public class CartService : ICartService
     {
@@ -66,8 +66,8 @@
 
             var createdOrder = await this.ordersRepository
                 .All()
-                .Include(o => o.Products)
-                .ThenInclude(o => o.Product)
+                //.Include(o => o.Products)
+                //.ThenInclude(o => o.Product)
                 .SingleOrDefaultAsync(o => o.Id == order.Id);
 
             return createdOrder;
