@@ -66,8 +66,8 @@
 
             var createdOrder = await this.ordersRepository
                 .All()
-                //.Include(o => o.Products)
-                //.ThenInclude(o => o.Product)
+                .Include(o => o.Products) // TODO: do not use Include
+                .ThenInclude(o => o.Product)
                 .SingleOrDefaultAsync(o => o.Id == order.Id);
 
             return createdOrder;

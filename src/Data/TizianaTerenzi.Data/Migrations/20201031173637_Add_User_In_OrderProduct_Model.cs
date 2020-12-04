@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace TizianaTerenzi.Data.Migrations
+﻿namespace TizianaTerenzi.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Add_User_In_OrderProduct_Model : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

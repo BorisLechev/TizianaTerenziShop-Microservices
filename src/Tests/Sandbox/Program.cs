@@ -16,7 +16,6 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Data.Seeding;
-    using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Services.Messaging;
 
     public static class Program
@@ -51,8 +50,6 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
             //AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
             //var productsService = serviceProvider.GetService<IProductsService>();
@@ -85,7 +82,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
             //services.AddTransient<IProductsService, ProductsService>();
         }
     }

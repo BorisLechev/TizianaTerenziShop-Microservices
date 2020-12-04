@@ -24,14 +24,8 @@
             var skip = (page - 1) * ItemsPerPage;
             var products = await this.productsService.GetAllProductsAsync(ItemsPerPage, skip);
 
-            var productsCount = await this.productsService.GetProductsCountAsync();
-
-            products.PagesCount = (int)Math.Ceiling(productsCount / (decimal)ItemsPerPage);
-
-            if (products.PagesCount == 0)
-            {
-                products.PagesCount = 1;
-            }
+            products.ItemsCount = await this.productsService.GetProductsCountAsync();
+            products.ItemsPerPage = ItemsPerPage;
 
             products.CurrentPage = page;
 
@@ -40,7 +34,7 @@
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id <= 0)
             {
                 this.NotFound();
             }

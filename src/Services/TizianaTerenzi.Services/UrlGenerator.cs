@@ -1,12 +1,10 @@
 ﻿namespace TizianaTerenzi.Services
 {
-    using System.Text.RegularExpressions;
-
     public class UrlGenerator : IUrlGenerator
     {
         public string GenerateUrl(int id, string name)
         {
-            return $"/product/{this.ToUrl(name)}/{id}";
+            return $"/product/{id}/{this.ToUrl(name)}";
         }
 
         public string ToUrl(string name)
@@ -15,7 +13,7 @@
             name = name.Replace(" ", "-").Replace("--", "-").Replace("--", "-");
 
             // Remove non-letter characters
-            name = Regex.Replace(name, "[^a-zA-Z0-9_-]+", string.Empty, RegexOptions.Compiled);
+            //name = Regex.Replace(name, "[^a-zA-Z0-9_-]+", string.Empty, RegexOptions.Compiled);
 
             return name.Trim('-').ToLower();
         }

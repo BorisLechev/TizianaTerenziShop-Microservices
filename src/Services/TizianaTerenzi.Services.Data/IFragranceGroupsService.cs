@@ -9,7 +9,7 @@
     {
         Task<bool> CreateFragranceGroupAsync(FragranceGroup fragranceGroup);
 
-        Task CreateFragranceGroupsRangeAsync(IEnumerable<FragranceGroup> fragranceGroups);
+        Task<bool> CreateFragranceGroupsRangeAsync(IEnumerable<FragranceGroup> fragranceGroups);
 
         Task<IEnumerable<FragranceGroup>> GetAllFragranceGroups();
 

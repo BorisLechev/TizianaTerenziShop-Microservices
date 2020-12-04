@@ -27,15 +27,15 @@
 
         public async Task<int> GetVotesAsync(int commentId)
         {
-            var votes = await this.votesRepository
+            var votesSum = await this.votesRepository
                 .All()
                 .Where(c => c.CommentId == commentId)
                 .SumAsync(v => (int)v.Type); // Type e enum DownVote -1, UpVote 1
 
-            return votes;
+            return votesSum;
         }
 
-        public async Task VoteAsync(int commentId, string userId)
+        public async Task<bool> VoteAsync(int commentId, string userId)
         {
             var vote = await this.votesRepository
                 .All()
@@ -61,7 +61,9 @@
                 await this.votesRepository.AddAsync(vote);
             }
 
-            await this.votesRepository.SaveChangesAsync();
+            var result = await this.votesRepository.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }

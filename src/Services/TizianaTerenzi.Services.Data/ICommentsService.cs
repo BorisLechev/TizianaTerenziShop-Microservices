@@ -1,13 +1,14 @@
 ﻿namespace TizianaTerenzi.Services.Data
 {
     using System.Threading.Tasks;
+    using TizianaTerenzi.Web.ViewModels.Comments;
 
     public interface ICommentsService
     {
-        Task CreateAsync(int productId, string userId, string content, int? parentId = null);
+        Task<bool> CreateAsync(CreateCommentInputModel inputModel, string userId);
 
         Task DeleteRangeAsync(int productId);
 
-        bool IsInProductId(int commentId, int productId);
+        Task<bool> IsInProductIdAsync(int commentId, int productId);
     }
 }

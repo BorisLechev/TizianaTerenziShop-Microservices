@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace TizianaTerenzi.Web.ViewModels.Account
+﻿namespace TizianaTerenzi.Web.ViewModels.Account
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class UserEditInputModel
     {
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]

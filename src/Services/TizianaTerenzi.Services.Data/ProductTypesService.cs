@@ -25,10 +25,12 @@
             return result > 0;
         }
 
-        public async Task CreateProductTypesRangeAsync(IEnumerable<ProductType> productTypes)
+        public async Task<bool> CreateProductTypesRangeAsync(IEnumerable<ProductType> productTypes)
         {
             await this.productTypesRepository.AddRangeAsync(productTypes);
-            await this.productTypesRepository.SaveChangesAsync();
+            var result = await this.productTypesRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<ProductType> FindByNameProductType(string productTypeName)

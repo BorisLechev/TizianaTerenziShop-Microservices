@@ -80,6 +80,11 @@
         [Authorize]
         public async Task<IActionResult> AddProductInTheCart(int productId)
         {
+            if (productId <= 0)
+            {
+                return this.NotFound();
+            }
+
             var userId = this.userManager.GetUserId(this.User);
             var product = await this.productsService.GetProductByIdAsync(productId);
 
@@ -118,11 +123,12 @@
         [Route("/cart/discount/{discountName}/apply")]
         public async Task<IActionResult> ApplyDiscountCode(string discountName)
         {
-            // TODO: user input model
-            //if (!this.ModelState.IsValid)
-            //{
-            //    return this.View(inputModel);
-            //}
+            if (discountName == null || discountName.Length > 30)
+            {
+                this.Error(NotificationMessages.DiscountCodeError);
+
+                return this.RedirectToAction("Index", "Cart");
+            }
 
             var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
 
@@ -154,11 +160,12 @@
         [Route("/cart/discount/{discountName}/delete")]
         public async Task<IActionResult> DeleteDiscountCode(string discountName)
         {
-            // TODO: user input model
-            //if (!this.ModelState.IsValid)
-            //{
-            //    return this.View(inputModel);
-            //}
+            if (discountName == null || discountName.Length > 30)
+            {
+                this.Error(NotificationMessages.DiscountCodeError);
+
+                return this.RedirectToAction("Index", "Cart");
+            }
 
             var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
 
@@ -166,7 +173,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.Forbid(); // TODO: change it
+                return this.RedirectToAction("Index", "Cart");
             }
 
             var userId = this.userManager.GetUserId(this.User);

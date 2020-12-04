@@ -9,7 +9,7 @@
     {
         Task<bool> CreateNoteAsync(string noteName);
 
-        Task CreateNotesRangeAsync(IEnumerable<Note> notes);
+        Task<bool> CreateNotesRangeAsync(IEnumerable<Note> notes);
 
         Task<IEnumerable<Note>> GetAllNotesAsync();
 
@@ -17,6 +17,6 @@
 
         Task<IEnumerable<int>> GetAllNoteIdsByProductAsync(int? productId);
 
-        Task DeleteProductNotesAsync(int? productId);
+        Task<bool> DeleteProductNotesAsync(int? productId);
     }
 }

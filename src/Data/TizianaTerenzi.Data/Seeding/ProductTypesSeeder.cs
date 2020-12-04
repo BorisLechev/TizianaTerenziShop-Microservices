@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using Microsoft.EntityFrameworkCore.Internal;
     using TizianaTerenzi.Data.Models;
 
     public class ProductTypesSeeder : ISeeder

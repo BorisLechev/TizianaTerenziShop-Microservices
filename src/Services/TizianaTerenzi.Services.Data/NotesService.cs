@@ -42,10 +42,12 @@
             return false;
         }
 
-        public async Task CreateNotesRangeAsync(IEnumerable<Note> notes)
+        public async Task<bool> CreateNotesRangeAsync(IEnumerable<Note> notes)
         {
             await this.notesRepository.AddRangeAsync(notes);
-            await this.notesRepository.SaveChangesAsync();
+            var result = await this.notesRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<Note> FindNoteByNameAsync(string noteName)
@@ -78,7 +80,7 @@
             return notes;
         }
 
-        public async Task DeleteProductNotesAsync(int? productId)
+        public async Task<bool> DeleteProductNotesAsync(int? productId)
         {
             var productNotes = await this.productNotesRepository
                 .All()
@@ -88,8 +90,12 @@
             if (productNotes.Any())
             {
                 this.productNotesRepository.DeleteRange(productNotes);
-                await this.productNotesRepository.SaveChangesAsync();
+                var result = await this.productNotesRepository.SaveChangesAsync();
+
+                return result > 0;
             }
+
+            return false;
         }
     }
 }

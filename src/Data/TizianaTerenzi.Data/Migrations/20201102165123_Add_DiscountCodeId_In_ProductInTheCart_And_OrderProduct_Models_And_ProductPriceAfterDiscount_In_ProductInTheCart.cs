@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace TizianaTerenzi.Data.Migrations
+﻿namespace TizianaTerenzi.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Add_DiscountCodeId_In_ProductInTheCart_And_OrderProduct_Models_And_ProductPriceAfterDiscount_In_ProductInTheCart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

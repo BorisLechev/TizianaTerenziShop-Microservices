@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Web.ViewModels.DiscountCodes
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class DiscountCodeInputModel

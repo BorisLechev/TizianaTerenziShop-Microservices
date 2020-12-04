@@ -9,7 +9,7 @@
     {
         Task<bool> CreateProductTypeAsync(ProductType productType);
 
-        Task CreateProductTypesRangeAsync(IEnumerable<ProductType> productTypes);
+        Task<bool> CreateProductTypesRangeAsync(IEnumerable<ProductType> productTypes);
 
         Task<IEnumerable<ProductType>> GetAllProductTypes();
 

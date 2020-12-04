@@ -4,6 +4,7 @@
 
     public class UserChangePasswordInputModel
     {
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]

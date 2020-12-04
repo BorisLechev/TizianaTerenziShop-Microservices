@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace TizianaTerenzi.Data.Migrations
+﻿namespace TizianaTerenzi.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Add_Initial_Data_Models : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -119,7 +119,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ISubscribeService, SubscribeService>();
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<ICartService, CartService>();
@@ -178,12 +177,16 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute(
-                            "Product details",
-                            "product/{name}/{id}",
-                            new { controller = "Products", action = "Details" });
-                        endpoints.MapControllerRoute(
                             "areaRoute",
                             "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute(
+                            "details",
+                            "product/{id:int:min(1)}/{slug:required}",
+                            new { controller = "Products", action = "Details" });
+                        endpoints.MapControllerRoute(
+                            "details",
+                            "product/{id:int:min(1)}",
+                            new { controller = "Products", action = "Details" });
                         endpoints.MapControllerRoute(
                             "default",
                             "{controller=Home}/{action=Index}/{id?}");

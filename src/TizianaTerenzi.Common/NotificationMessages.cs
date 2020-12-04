@@ -37,6 +37,9 @@
         public const string ProcessOrderSuccessfully = "Order processed successfully.";
         public const string ProcessOrderError = "Something went wrong.";
 
+        public const string CreateCommentSuccessfully = "You have successfully created a comment.";
+        public const string CreateCommentError = "Something went wrong.";
+
         public const string EditProductSuccessfully = "You have edited the product successfully.";
         public const string EditProductError = "Something went wrong.";
 

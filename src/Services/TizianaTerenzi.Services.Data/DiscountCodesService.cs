@@ -49,9 +49,9 @@
             }
 
             this.discountCodesRepository.Delete(discountCode);
-            await this.discountCodesRepository.SaveChangesAsync();
+            var result = await this.discountCodesRepository.SaveChangesAsync();
 
-            return true;
+            return result > 0;
         }
 
         public async Task<DiscountCode> GetDiscountByNameAsync(string discountName)
@@ -91,9 +91,9 @@
                 productInTheCart.DiscountCodeId = discountCode.Id;
             }
 
-            await this.productsInTheCartRepository.SaveChangesAsync();
+            var result = await this.productsInTheCartRepository.SaveChangesAsync();
 
-            return true;
+            return result > 0;
         }
 
         public async Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(DiscountCode discountCode, string userId)
@@ -115,9 +115,9 @@
                 productInTheCart.DiscountCodeId = null;
             }
 
-            await this.productsInTheCartRepository.SaveChangesAsync();
+            var result = await this.productsInTheCartRepository.SaveChangesAsync();
 
-            return true;
+            return result > 0;
         }
     }
 }

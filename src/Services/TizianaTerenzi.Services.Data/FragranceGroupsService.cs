@@ -25,10 +25,12 @@
             return result > 0;
         }
 
-        public async Task CreateFragranceGroupsRangeAsync(IEnumerable<FragranceGroup> fragranceGroups)
+        public async Task<bool> CreateFragranceGroupsRangeAsync(IEnumerable<FragranceGroup> fragranceGroups)
         {
             await this.fragranceGroupsRepository.AddRangeAsync(fragranceGroups);
-            await this.fragranceGroupsRepository.SaveChangesAsync();
+            var result = await this.fragranceGroupsRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<FragranceGroup> FindByNameAsync(string fragranceGroupName)

@@ -36,7 +36,7 @@
                     File = new FileDescription(fileName, ms),
                 };
 
-                uploadResult = this.cloudinary.Upload(uploadParams);
+                uploadResult = await this.cloudinary.UploadAsync(uploadParams);
             }
 
             return uploadResult?.SecureUrl.AbsoluteUri;

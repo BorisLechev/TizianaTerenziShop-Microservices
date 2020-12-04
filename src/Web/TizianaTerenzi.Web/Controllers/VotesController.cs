@@ -34,7 +34,12 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            await this.votesService.VoteAsync(inputModel.CommentId, userId);
+            var result = await this.votesService.VoteAsync(inputModel.CommentId, userId);
+
+            if (result == false)
+            {
+                return this.BadRequest();
+            }
 
             var votesCount = await this.votesService.GetVotesAsync(inputModel.CommentId);
             var vote = await this.votesService.GetVoteAsync(inputModel.CommentId, userId);

@@ -1,9 +1,9 @@
 ﻿namespace TizianaTerenzi.Web.Areas.Administration.Models.DiscountCodes
 {
+    using System;
+
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-
-    using System;
 
     public class DiscountCodesListingViewModel : IMapFrom<DiscountCode>
     {
