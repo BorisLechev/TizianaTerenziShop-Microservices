@@ -1,9 +1,15 @@
 ﻿namespace TizianaTerenzi.Web
 {
     using System;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Reflection;
+    using System.Security.Claims;
+    using System.Text.Json;
 
     using CloudinaryDotNet;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.OAuth;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -103,6 +109,41 @@
                 options.AppId = this.configuration["FacebookSettings:AppId"];
                 options.AppSecret = this.configuration["FacebookSettings:AppSecret"];
                 options.AccessDeniedPath = "/AccessDeniedPathInfo";
+            })
+            .AddOAuth("GitHub", options =>
+            {
+                options.ClientId = this.configuration["GitHub:ClientId"];
+                options.ClientSecret = this.configuration["GitHub:ClientSecret"];
+                options.CallbackPath = new PathString("/login-github");
+
+                options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
+                options.TokenEndpoint = "https://github.com/login/oauth/access_token";
+                options.UserInformationEndpoint = "https://api.github.com/user";
+
+                options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                options.ClaimActions.MapJsonKey("urn:github:login", "login");
+
+                options.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = async context =>
+                    {
+                        var request =
+                            new HttpRequestMessage(System.Net.Http.HttpMethod.Get, context.Options.UserInformationEndpoint);
+                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        request.Headers.Authorization =
+                            new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+                        var response = await context.Backchannel.SendAsync(
+                            request,
+                            HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                        response.EnsureSuccessStatusCode();
+
+                        var user = JsonSerializer.Deserialize<JsonElement>(await response.Content.ReadAsStringAsync());
+
+                        context.RunClaimActions(user);
+                    },
+                };
             });
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

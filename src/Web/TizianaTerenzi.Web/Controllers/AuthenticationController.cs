@@ -449,7 +449,7 @@
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = inputModel.Email,
+                    UserName = $"{inputModel.Email}_GitHub",
                     Email = inputModel.Email,
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,

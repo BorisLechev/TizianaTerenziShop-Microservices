@@ -33,9 +33,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Products</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
                     <div class="navbar-nav ml-auto">
                         @if (User.Identity.IsAuthenticated)
@@ -142,9 +139,9 @@
 
     <footer class="border-top footer text-muted bg-gray">
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2011-@DateTime.UtcNow.Year - @GlobalConstants.SystemName (For educational and non-commercial purposes only) - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             <div class="float-right">
-                <a href="/">@GlobalConstants.SystemName</a> &copy; 2019-@(DateTime.UtcNow.Year) - <a href="https://github.com/BorisLechev/TizianaTerenzi" target="_blank">
+                <a href="https://github.com/BorisLechev/TizianaTerenziShop-MVC" target="_blank">
                     <i class="fab fa-github"></i> Open source system
                 </a>
             </div>
