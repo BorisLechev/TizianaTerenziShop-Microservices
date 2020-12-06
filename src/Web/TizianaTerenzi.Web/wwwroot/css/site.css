@@ -180,3 +180,19 @@ body {
     vertical-align: middle;
 }
 /*---*/
+
+/*Footer*/
+#site-footer .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media screen and (max-width: 1300px) {
+    #site-footer div {
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: initial;
+        line-height: 30px;
+    }
+}
+/*-----*/

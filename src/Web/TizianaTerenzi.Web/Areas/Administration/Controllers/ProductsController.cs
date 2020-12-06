@@ -106,12 +106,12 @@
             {
                 this.Error(NotificationMessages.CreateProductError);
 
-                return this.LocalRedirect("/products/all");
+                return this.RedirectToAction("All", "Products");
             }
 
             this.Success(NotificationMessages.CreateProductSuccessfully);
 
-            return this.LocalRedirect("/products/all");
+            return this.RedirectToAction("All", "Products");
         }
 
         [HttpGet]
@@ -221,12 +221,12 @@
             {
                 this.Success(NotificationMessages.EditProductSuccessfully);
 
-                return this.LocalRedirect("/products/all");
+                return this.RedirectToAction("All", "Products");
             }
 
             this.Error(NotificationMessages.EditProductError);
 
-            return this.LocalRedirect("/products/all");
+            return this.RedirectToAction("All", "Products");
         }
 
         [HttpPost]
@@ -251,7 +251,7 @@
             {
                 this.Error(NotificationMessages.DeleteProductError);
 
-                return this.LocalRedirect("/products/all");
+                return this.RedirectToAction("All", "Products");
             }
         }
 

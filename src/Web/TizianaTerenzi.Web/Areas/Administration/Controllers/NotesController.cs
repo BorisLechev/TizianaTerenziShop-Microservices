@@ -36,12 +36,12 @@
             {
                 this.Error(NotificationMessages.CreateNoteError);
 
-                return this.LocalRedirect("/home/index");
+                return this.RedirectToAction("Index", "Home");
             }
 
             this.Success(NotificationMessages.CreateNoteSuccessfully);
 
-            return this.LocalRedirect("/home/index");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

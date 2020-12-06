@@ -100,12 +100,12 @@
             {
                 this.Error(NotificationMessages.ProcessOrderError);
 
-                return this.RedirectToAction("Index", "Orders");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             this.Success(NotificationMessages.ProcessOrderSuccessfully);
 
-            return this.RedirectToAction("Index", "Orders");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

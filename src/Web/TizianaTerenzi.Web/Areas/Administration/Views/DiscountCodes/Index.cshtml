@@ -4,7 +4,7 @@
     ViewData["Title"] = "All discount codes";
 }
 
-<div class="container">
+<div class="container all-discount-codes-wrapper">
     <div class="mx-auto my-4">
         <div class="text-center mb-3">
             <h2>@ViewData["Title"]</h2>
@@ -43,3 +43,11 @@
         </table>
     </div>
 </div>
+
+@section CustomCss {
+    <style>
+        .all-discount-codes-wrapper {
+            padding-top: 100px;
+        }
+    </style>
+}

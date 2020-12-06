@@ -65,12 +65,12 @@
             {
                 this.Error(NotificationMessages.CreateDiscountCodeError);
 
-                return this.LocalRedirect("/home/index");
+                return this.RedirectToAction("Index", "Home");
             }
 
             this.Success(NotificationMessages.CreateDiscountCodeSuccessfully);
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [HttpPost]
@@ -82,12 +82,12 @@
             {
                 this.Error(NotificationMessages.CannotDeleteDiscountCodeError);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             this.Success(NotificationMessages.SuccessfullyDeletedDiscountCode);
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

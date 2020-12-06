@@ -34,7 +34,6 @@
         }
 
         [HttpGet]
-        [Route("/cart/index")]
         public async Task<IActionResult> Index()
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -211,7 +210,6 @@
         }
 
         [HttpPost]
-        [Route("/cart/checkout")]
         public async Task<IActionResult> CheckOut()
         {
             if (!this.User.Identity.IsAuthenticated)
