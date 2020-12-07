@@ -1,0 +1,36 @@
+﻿.header-arrow {
+    position: relative;
+}
+
+    .header-arrow #scrollDownArrow {
+        position: absolute;
+        right: 56.5%;
+        text-align: center;
+        animation: 0.7s down infinite alternate;
+    }
+
+        .header-arrow #scrollDownArrow img {
+            width: 3rem;
+            height: 3rem;
+            position: relative;
+        }
+
+@keyframes down {
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+@-webkit-keyframes down {
+    0% {
+        -webkit-transform: translateY(0px);
+    }
+
+    100% {
+        -webkit-transform: translateY(20px);
+    }
+}

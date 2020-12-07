@@ -1,0 +1,193 @@
+﻿.about-us-container {
+    overflow: hidden;
+}
+
+.banner-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)), url("https://res.cloudinary.com/pictures-storage/image/upload/v1588236815/product_images/qwmhwexpbyxo1ra6mrsa.jpg") no-repeat center;
+    background-size: cover;
+    background-position: center center;
+    z-index: 999;
+}
+
+.banner-title-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.banner-title {
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+}
+
+.site-content {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.container {
+    max-width: 1280px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -15px;
+}
+
+.data-container {
+    padding: 4rem 1rem;
+    margin: 0 auto
+}
+
+.about-us {
+    display: flex;
+    padding-bottom: 3rem;
+    position: relative;
+}
+
+.col1 {
+    display: block;
+    width: 100%;
+    height: 285px;
+    margin-right: 3rem;
+}
+
+.col1-inner,
+.col2-inner {
+    padding: 20px 0;
+    height: 100%;
+    position: relative;
+}
+
+.col-header {
+    padding-bottom: 1rem;
+    clear: both;
+    text-transform: uppercase;
+}
+
+.col-header-title {
+    font-size: 1.953rem;
+    font-weight: 700;
+}
+
+.col-text {
+    line-height: 30px;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.col2 {
+    display: block;
+    width: 100%;
+}
+
+.col-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: 50% 100%;
+    height: 100%;
+    position: relative;
+    background-size: cover;
+    width: 100%;
+    margin: 0 0 1.5em;
+    overflow: hidden;
+}
+
+.height-350 {
+    min-height: 350px;
+    height: 100%;
+    background-position: 50%;
+}
+
+#mission-image {
+    background-image: url('https://res.cloudinary.com/pictures-storage/image/upload/v1588237105/product_images/oe9k3fa3l4srlgrkrnxd.jpg');
+}
+
+#vision-image {
+    background-image: url('https://res.cloudinary.com/pictures-storage/image/upload/v1588237167/product_images/lh0wrsnawvrtvst2ffzo.jpg');
+}
+
+#cake-image {
+    background-image: url('https://res.cloudinary.com/pictures-storage/image/upload/v1588237253/product_images/ma2n58hugw02bm2qdgm2.jpg');
+}
+
+#quality-image {
+    background-image: url('https://res.cloudinary.com/pictures-storage/image/upload/v1588237319/product_images/tu4qlbleqqion754f70y.jpg');
+}
+
+@media screen and (min-width: 1200px) {
+    .banner-image {
+        height: 100vh !important;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .data-container {
+        padding: 2rem 1rem;
+    }
+
+    .banner-image {
+        width: 100%;
+        height: 800px;
+        max-height: 400px;
+    }
+
+    .banner-title {
+        font-size: 2rem;
+    }
+
+    .about-us {
+        flex-wrap: wrap;
+        padding-bottom: 0;
+    }
+
+    .col1 {
+        margin-right: 0;
+    }
+
+    .text {
+        height: auto !important;
+    }
+
+    .mobile-image {
+        min-height: 400px !important;
+        order: -1 !important;
+    }
+
+    .col-header {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    #quality-image {
+        background-position: 80% 100%;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .banner-image {
+        width: 100%;
+        height: 800px;
+        max-height: 400px;
+    }
+
+    .banner-title {
+        font-size: 2rem;
+    }
+}
