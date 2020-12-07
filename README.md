@@ -5,7 +5,6 @@
 3. From the *AspNetRoles* table, note the ID of the Administrator role.
 4. From the *AspNetUsers* table, note the ID of your newly created user account.
 5. Create a new row in the *AspNetUserRoles* table and insert the user and role ID.
-<<<<<<< HEAD
 
 ## Set up GitHub login functionality
 1. Create a [GitHub OAuth application](https://github.com/settings/developers).
@@ -73,8 +72,6 @@ Example:
   "ApiKey": "[[SendGrid Api Key]]"
 },
 ```
-=======
->>>>>>> 1bab6bbce39adfd42d00c2683fbc94ac5a8fcd99
 
 ## Set up GitHub login functionality
 1. Create a [GitHub OAuth application](https://github.com/settings/developers).

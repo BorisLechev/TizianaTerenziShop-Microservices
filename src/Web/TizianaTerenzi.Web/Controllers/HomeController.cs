@@ -12,13 +12,20 @@
             return this.View();
         }
 
+        [Route("/about-us")]
+        public IActionResult AboutUs()
+        {
+            return this.View();
+        }
+
+        [Route("/privacy")]
         public IActionResult Privacy()
         {
             return this.View();
         }
 
-        [Route("/about-us")]
-        public IActionResult AboutUs()
+        [Route("/terms")]
+        public IActionResult Terms()
         {
             return this.View();
         }
