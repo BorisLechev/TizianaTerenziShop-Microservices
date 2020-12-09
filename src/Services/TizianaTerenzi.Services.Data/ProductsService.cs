@@ -35,7 +35,6 @@
 
         public async Task<bool> EditProductAsync(Product product)
         {
-            this.productsRepository.Update(product);
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;

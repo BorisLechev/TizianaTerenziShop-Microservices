@@ -6,14 +6,14 @@
 
     public class ProductInListViewModel : IMapFrom<Product>
     {
-        private readonly IUrlGenerator urlGenerator;
+        private readonly ISlugGenerator urlGenerator;
 
         public ProductInListViewModel()
-            : this(new UrlGenerator())
+            : this(new SlugGenerator())
         {
         }
 
-        public ProductInListViewModel(IUrlGenerator urlGenerator)
+        public ProductInListViewModel(ISlugGenerator urlGenerator)
         {
             this.urlGenerator = urlGenerator;
         }

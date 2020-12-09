@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class Add_DiscountCodeId_In_ProductInTheCart_And_OrderProduct_Models_And_ProductPriceAfterDiscount_In_ProductInTheCart : Migration
+    public partial class Add_DiscountCodeId_And_ProductPriceAfterDiscount : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

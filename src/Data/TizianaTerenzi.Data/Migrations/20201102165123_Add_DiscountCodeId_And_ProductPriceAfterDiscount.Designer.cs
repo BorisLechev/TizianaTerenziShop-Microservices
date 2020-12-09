@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TizianaTerenzi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201102165123_Add_DiscountCodeId_In_ProductInTheCart_And_OrderProduct_Models_And_ProductPriceAfterDiscount_In_ProductInTheCart")]
-    partial class Add_DiscountCodeId_In_ProductInTheCart_And_OrderProduct_Models_And_ProductPriceAfterDiscount_In_ProductInTheCart
+    [Migration("20201102165123_Add_DiscountCodeId_And_ProductPriceAfterDiscount")]
+    partial class Add_DiscountCodeId_And_ProductPriceAfterDiscount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

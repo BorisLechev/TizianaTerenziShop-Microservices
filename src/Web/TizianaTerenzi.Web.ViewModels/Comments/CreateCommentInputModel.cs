@@ -4,7 +4,7 @@
     {
         public int ProductId { get; set; } // hidden field
 
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         public string Content { get; set; }
     }

@@ -118,7 +118,9 @@
                 .All()
                 .SingleOrDefaultAsync(o => o.Id == orderId);
 
-            order.StatusId = this.orderStatusesService.FindByNameAsync("Completed").Id;
+            var orderStatus = await this.orderStatusesService.FindByNameAsync("Completed");
+
+            order.StatusId = orderStatus.Id;
             var result = await this.ordersRepository.SaveChangesAsync();
 
             return result > 0;

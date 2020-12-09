@@ -29,6 +29,7 @@
         public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
         {
             var parentId = inputModel.ParentId == 0 ? (int?)null : inputModel.ParentId;
+            inputModel.ParentId = parentId;
 
             if (parentId.HasValue)
             {

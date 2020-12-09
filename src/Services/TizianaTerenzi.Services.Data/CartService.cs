@@ -138,7 +138,6 @@
 
             productInTheCart.Quantity++;
 
-            this.productsInTheCartRepository.Update(productInTheCart);
             int result = await this.productsInTheCartRepository.SaveChangesAsync();
 
             return result > 0;
@@ -157,7 +156,6 @@
 
             productInTheCart.Quantity--;
 
-            this.productsInTheCartRepository.Update(productInTheCart);
             int result = await this.productsInTheCartRepository.SaveChangesAsync();
 
             return result > 0;
