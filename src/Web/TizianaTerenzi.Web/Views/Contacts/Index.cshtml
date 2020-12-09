@@ -1,0 +1,74 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@model ContactMessageInputModel
+
+<section class="container">
+    <section class="container-holder">
+        <h2 class="main-title title">contacts</h2>
+        <section class="items-container">
+            <article class="contact-container">
+                <section class="row">
+                    <section class="col-12">
+                        <h5 class="contact-title">customer service</h5>
+                    </section>
+                    <section class="col-6 col-lg-12 contact-block-item">
+                        <dl>
+                            <dt>Email:</dt>
+                            <dd><a href="mailto:support@terenzi.com">support@terenzi.com</a></dd>
+                            <dt>Phone:</dt>
+                            <dd><a href="tel:+449999999999">+449999999999</a></dd>
+                        </dl>
+                    </section>
+                </section>
+            </article>
+            <article class="col-lg-4 col-xl-5 picture-container">
+                <picture>
+                    <img src="https://res.cloudinary.com/pictures-storage/image/upload/v1587154784/product_images/lecqvkmhh9hatre3kvhm.png" alt="dubhe">
+                </picture>
+            </article>
+            <article class="col-lg-4 col-xl-4">
+                <form asp-controller="Contacts" asp-action="Index" id="contact-form" class="contact-form" method="post">
+                    <h5 class="form-title title">contact form</h5>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <section class="input-holder form-group">
+                        <input asp-for="Name" type="text" placeholder="name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </section>
+                    <section class="input-holder form-group">
+                        <input asp-for="Email" type="email" placeholder="email address">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </section>
+                    <section class="input-holder form-group">
+                        <input asp-for="Subject" type="text" placeholder="subject">
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </section>
+                    <section class="input-holder pt-4 pt-lg-3 form-group">
+                        <textarea asp-for="Content" name="content" rows="6" placeholder="message"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </section>
+                    <section class="form-btn">
+                        <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
+                        <span asp-validation-for="@Model.RecaptchaValue" class="text-danger"></span>
+                        <button class="button" type="submit">send</button>
+                    </section>
+                </form>
+            </article>
+        </section>
+    </section>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'contact_form' }).then(function (token) {
+                document.getElementById("RecaptchaValue").value = token;
+            });
+        });
+    </script>
+}
+
+@section CustomCss {
+    <link href="~/css/contacts.css" rel="stylesheet" asp-append-version="true" />
+}
