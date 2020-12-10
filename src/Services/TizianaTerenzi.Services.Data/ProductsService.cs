@@ -1,7 +1,9 @@
 ﻿namespace TizianaTerenzi.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -19,8 +21,14 @@
             this.productsRepository = productsRepository;
         }
 
+        public ProductsService()
+        {
+        }
+
         public async Task<bool> CreateProductAsync(Product product)
         {
+            product.SearchText = this.GetSearchText(product.Name, product.Description);
+
             await this.productsRepository.AddAsync(product);
             int result = await this.productsRepository.SaveChangesAsync();
 
@@ -35,24 +43,32 @@
 
         public async Task<bool> EditProductAsync(Product product)
         {
+            product.SearchText = this.GetSearchText(product.Name, product.Description);
+
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public async Task<ProductsListViewModel> GetAllProductsAsync(int take, int skip = 0)
+        public async Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, int page, int take, int skip = 0)
         {
-            var products = await this.productsRepository
-                .All()
-                .OrderByDescending(p => p.YearOfManufacture)
-                .Skip(skip)
-                .Take(take)
-                .To<ProductInListViewModel>()
-                .ToListAsync();
+            var products = await query // without await ??
+                        .OrderByDescending(p => p.YearOfManufacture)
+                        .ThenByDescending(p => p.Price)
+                        .Skip(skip)
+                        .Take(take)
+                        .To<ProductInListViewModel>()
+                        .ToListAsync(); // ToList() ??
 
-            var viewModel = new ProductsListViewModel()
+            var productsCount = await query.CountAsync(); // without await and CountAsync() ??
+
+            var viewModel = new ProductsListViewModel
             {
                 Products = products,
+                CurrentPage = page,
+                ItemsCount = productsCount,
+                ItemsPerPage = take,
+                Search = search, // TODO: Add content also (Niki)
             };
 
             return viewModel;
@@ -128,6 +144,23 @@
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public string GetSearchText(string name, string description)
+        {
+            // Append title
+            var text = name + " " + description;
+            text.ToLower();
+
+            // Remove all non-alphanumeric characters
+            var regex = new Regex(@"[^\w\d]", RegexOptions.Compiled);
+            text = regex.Replace(text, " ");
+
+            // Split words and remove duplicate values
+            var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries).Where(x => x.Length > 1).Distinct();
+
+            // Combine all words
+            return string.Join(" ", words);
         }
     }
 }

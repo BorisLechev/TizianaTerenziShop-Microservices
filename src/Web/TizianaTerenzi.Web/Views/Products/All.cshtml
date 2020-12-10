@@ -4,8 +4,22 @@
 
 }
 
+
 <div class="main">
     <section class="container">
+        <section class="search-container">
+            <form method="get" asp-area="" asp-controller="Products" asp-action="All" asp-route-page="1">
+                <div class="input-group mb-4">
+                    <input type="search" name="search" class="form-control" value="@this.Model.Search" placeholder="Search for products, splitted by whitespace..." />
+                    <div class="input-group-append">
+                        <input type="submit" value="Search" class="btn btn-outline-primary" />
+                    </div>
+                </div>
+            </form>
+            <section class="found-products-count-container">
+                <span>@this.Model.ItemsCount Products</span>
+            </section>
+        </section>
         <section class="row">
             <section class="inner-row">
                 <section class="products-list-container">

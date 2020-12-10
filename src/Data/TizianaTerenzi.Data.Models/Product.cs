@@ -32,6 +32,8 @@
 
         public int YearOfManufacture { get; set; }
 
+        public string SearchText { get; set; }
+
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

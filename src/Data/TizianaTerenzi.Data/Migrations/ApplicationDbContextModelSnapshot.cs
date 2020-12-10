@@ -17,7 +17,7 @@ namespace TizianaTerenzi.Data.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "3.1.9");
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -421,6 +421,8 @@ namespace TizianaTerenzi.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DiscountCodeId");
+
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("StatusId");
@@ -452,7 +454,7 @@ namespace TizianaTerenzi.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -547,6 +549,9 @@ namespace TizianaTerenzi.Data.Migrations
 
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SearchText")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("YearOfManufacture")
                         .HasColumnType("int");
@@ -670,38 +675,6 @@ namespace TizianaTerenzi.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("ProductTypes");
-                });
-
-            modelBuilder.Entity("TizianaTerenzi.Data.Models.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Data.Models.Subscriber", b =>
@@ -851,6 +824,10 @@ namespace TizianaTerenzi.Data.Migrations
 
             modelBuilder.Entity("TizianaTerenzi.Data.Models.Order", b =>
                 {
+                    b.HasOne("TizianaTerenzi.Data.Models.DiscountCode", "DiscountCode")
+                        .WithMany()
+                        .HasForeignKey("DiscountCodeId");
+
                     b.HasOne("TizianaTerenzi.Data.Models.OrderStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -860,6 +837,8 @@ namespace TizianaTerenzi.Data.Migrations
                     b.HasOne("TizianaTerenzi.Data.Models.ApplicationUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("DiscountCode");
 
                     b.Navigation("Status");
 
@@ -872,9 +851,11 @@ namespace TizianaTerenzi.Data.Migrations
                         .WithMany()
                         .HasForeignKey("DiscountCodeId");
 
-                    b.HasOne("TizianaTerenzi.Data.Models.Order", null)
+                    b.HasOne("TizianaTerenzi.Data.Models.Order", "Order")
                         .WithMany("Products")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("TizianaTerenzi.Data.Models.Product", "Product")
                         .WithMany()
@@ -887,6 +868,8 @@ namespace TizianaTerenzi.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("DiscountCode");
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
 

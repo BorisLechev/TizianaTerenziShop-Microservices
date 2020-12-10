@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Services.Data
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
@@ -8,7 +9,7 @@
 
     public interface IProductsService
     {
-        Task<ProductsListViewModel> GetAllProductsAsync(int take, int skip = 0);
+        Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, int page, int take, int skip = 0);
 
         Task<Product> GetProductByIdAsync(int? id);
 
@@ -18,7 +19,7 @@
 
         Task CreateProductsRangeAsync(IEnumerable<Product> products);
 
-        Task<int> GetProductsCountAsync();
+        string GetSearchText(string name, string description);
 
         Task<bool> EditProductAsync(Product product);
 

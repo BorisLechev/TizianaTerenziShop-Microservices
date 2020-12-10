@@ -6,9 +6,22 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data;
 
     public class ProductsSeeder : ISeeder
     {
+        private readonly IProductsService productsService;
+
+        public ProductsSeeder()
+            : this(new ProductsService())
+        {
+        }
+
+        public ProductsSeeder(IProductsService productsService)
+        {
+            this.productsService = productsService;
+        }
+
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             var products = new List<(string Name, string Description, decimal Price, string Picture, int ProductTypeId, int FragranceGroupId, ICollection<string> Notes, int YearOfManufacture)>
@@ -214,6 +227,7 @@
                             FragranceGroupId = product.FragranceGroupId,
                             Notes = dbContext.Notes.Where(n => product.Notes.Contains(n.Name)).Select(n => new ProductNotes { ProductId = n.Id, NoteId = n.Id }).ToList(),
                             YearOfManufacture = product.YearOfManufacture,
+                            SearchText = this.productsService.GetSearchText(product.Name, product.Description),
                         });
                 }
             }

@@ -1,10 +1,16 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Data.Common.Repositories;
+    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
     {
@@ -12,24 +18,36 @@
 
         private readonly IProductsService productsService;
 
+        private readonly IDeletableEntityRepository<Product> productsRepository;
+
         public ProductsController(
-            IProductsService productsService)
+            IProductsService productsService,
+            IDeletableEntityRepository<Product> productsRepository)
         {
             this.productsService = productsService;
+            this.productsRepository = productsRepository;
         }
 
-        public async Task<IActionResult> All(int page = 1)
+        public async Task<IActionResult> All(string search, int page = 1)
         {
             page = Math.Max(1, page);
             var skip = (page - 1) * ItemsPerPage;
-            var products = await this.productsService.GetAllProductsAsync(ItemsPerPage, skip);
 
-            products.ItemsCount = await this.productsService.GetProductsCountAsync();
-            products.ItemsPerPage = ItemsPerPage;
+            var query = this.productsRepository.All();
+            var words = search?.Split(' ').Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 2).ToList();
 
-            products.CurrentPage = page;
+            if (words != null)
+            {
+                foreach (var word in words)
+                {
+                    query = query.Where(c => EF.Functions.FreeText(c.SearchText, word));
+                }
+            }
 
-            return this.View(products);
+            var productsViewModel = await this.productsService.GetAllProductsAsync(query, search, page, ItemsPerPage, skip);
+
+            return this.View(productsViewModel);
         }
 
         public async Task<IActionResult> Details(int? id)
