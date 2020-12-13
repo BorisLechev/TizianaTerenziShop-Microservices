@@ -50,11 +50,20 @@
             return result > 0;
         }
 
-        public async Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, int page, int take, int skip = 0)
+        public async Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, string criteria, int page, int take, int skip = 0)
         {
+            query = criteria switch
+            {
+                "all-products" => this.GetAllProductsQueryable(query),
+                "product-a-z" => this.GetAllProductsOrderedByLetterAscendingQueryable(query),
+                "price-ascending" => this.GetAllProductsByPriceAscendingQueryable(query),
+                "price-descending" => this.GetAllProductsByPriceDescendingQueryable(query),
+                "year-of-release-ascending" => this.GetAllProductsByManufacturedOnAscendingQueryable(query),
+                "year-of-release-descending" => this.GetAllProductsByManufacturedOnDescendingQueryable(query),
+                _ => this.GetAllProductsQueryable(query),
+            };
+
             var products = await query // without await ??
-                        .OrderByDescending(p => p.YearOfManufacture)
-                        .ThenByDescending(p => p.Price)
                         .Skip(skip)
                         .Take(take)
                         .To<ProductInListViewModel>()
@@ -68,7 +77,7 @@
                 CurrentPage = page,
                 ItemsCount = productsCount,
                 ItemsPerPage = take,
-                Search = search, // TODO: Add content also (Niki)
+                Search = search,
             };
 
             return viewModel;
@@ -101,15 +110,6 @@
                 .SingleOrDefaultAsync();
 
             return product;
-        }
-
-        public async Task<int> GetProductsCountAsync()
-        {
-            var count = await this.productsRepository
-                .All()
-                .CountAsync();
-
-            return count;
         }
 
         public async Task<int> GetProductTypeIdByProductIdAsync(int? productId)
@@ -161,6 +161,38 @@
 
             // Combine all words
             return string.Join(" ", words);
+        }
+
+        private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)
+        {
+            return query
+                .OrderByDescending(p => p.YearOfManufacture)
+                .ThenByDescending(p => p.Price);
+        }
+
+        private IQueryable<Product> GetAllProductsByPriceAscendingQueryable(IQueryable<Product> query)
+        {
+            return query.OrderBy(p => p.Price);
+        }
+
+        private IQueryable<Product> GetAllProductsByPriceDescendingQueryable(IQueryable<Product> query)
+        {
+            return query.OrderByDescending(p => p.Price);
+        }
+
+        private IQueryable<Product> GetAllProductsByManufacturedOnAscendingQueryable(IQueryable<Product> query)
+        {
+            return query.OrderBy(p => p.YearOfManufacture);
+        }
+
+        private IQueryable<Product> GetAllProductsByManufacturedOnDescendingQueryable(IQueryable<Product> query)
+        {
+            return query.OrderByDescending(p => p.YearOfManufacture);
+        }
+
+        private IQueryable<Product> GetAllProductsOrderedByLetterAscendingQueryable(IQueryable<Product> query)
+        {
+            return query.OrderBy(p => p.Name);
         }
     }
 }

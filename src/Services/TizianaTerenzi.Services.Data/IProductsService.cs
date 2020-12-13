@@ -9,7 +9,7 @@
 
     public interface IProductsService
     {
-        Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, int page, int take, int skip = 0);
+        Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, string criteria, int page, int take, int skip = 0);
 
         Task<Product> GetProductByIdAsync(int? id);
 

@@ -1,22 +1,52 @@
 ﻿@model ProductsListViewModel
 
 @{
-
+    // TODO: Refactor this
+    var criteria = new Dictionary<string, string>()
+    {
+        { "all-products", "All Products" },
+        { "new-products", "New Products" },
+        { "product-a-z", "Product: A - Z" },
+        { "price-ascending", "Price: Ascending" },
+        { "price-descending", "Price: Descending" },
+        { "year-of-release-ascending", "Year of Release: Ascending" },
+        { "year-of-release-descending", "Year of Release: Descending" }
+    };
 }
 
 
 <div class="main">
     <section class="container">
-        <section class="search-container">
-            <form method="get" asp-area="" asp-controller="Products" asp-action="All" asp-route-page="1">
-                <div class="input-group mb-4">
+        <section class="search-sort-container">
+            <section class="sorting-drop-down-container col-lg-3">
+                <label asp-for="ProductSortingId" class="control-label" style="margin-right: 1rem;">Sort by:</label>
+                <form id="sorting-form" asp-area="" asp-controller="Products" asp-action="All" asp-route-page="1" asp-route-criteria="@((string)this.ViewData["criteria"])" method="get">
+                    <section class="field">
+                        <select id="sort" class="form-control selectpicker" name="criteria">
+                            @foreach (var elem in criteria)
+                            {
+                                if (elem.Key == (string)this.ViewData["criteria"])
+                                {
+                                    <option value="@elem.Key" selected>@elem.Value</option>
+                                }
+                                else
+                                {
+                                    <option value="@elem.Key">@elem.Value</option>
+                                }
+                            }
+                        </select>
+                    </section>
+                </form>
+            </section>
+            <form class="col-lg-7" method="get" asp-area="" asp-controller="Products" asp-action="All" asp-route-page="1">
+                <div class="search-container input-group">
                     <input type="search" name="search" class="form-control" value="@this.Model.Search" placeholder="Search for products, splitted by whitespace..." />
                     <div class="input-group-append">
                         <input type="submit" value="Search" class="btn btn-outline-primary" />
                     </div>
                 </div>
             </form>
-            <section class="found-products-count-container">
+            <section class="found-products-count-container col-lg-2">
                 <span>@this.Model.ItemsCount Products</span>
             </section>
         </section>
@@ -86,4 +116,12 @@
 
 @section CustomCss {
     <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script>
+        $("#sort").change(function () {
+            $("#sorting-form").submit();
+        });
+    </script>
 }
