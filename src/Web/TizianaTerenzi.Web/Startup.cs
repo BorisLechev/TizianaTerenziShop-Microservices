@@ -172,7 +172,6 @@
             services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<IPersonalDataService, PersonalDataService>();
             services.AddTransient<IOrdersService, OrdersService>();
-            services.AddTransient<IProductSortingsService, ProductSortingsService>();
             services.AddTransient<ISlugGenerator, SlugGenerator>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

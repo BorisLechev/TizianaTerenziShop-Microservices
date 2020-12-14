@@ -63,11 +63,11 @@
                 _ => this.GetAllProductsQueryable(query),
             };
 
-            var products = await query // without await ??
+            var products = await query
                         .Skip(skip)
                         .Take(take)
                         .To<ProductInListViewModel>()
-                        .ToListAsync(); // ToList() ??
+                        .ToListAsync();
 
             var productsCount = await query.CountAsync(); // without await and CountAsync() ??
 

@@ -16,17 +16,13 @@
 
         private readonly IProductsService productsService;
 
-        private readonly IProductSortingsService productSortingsService;
-
         private readonly IDeletableEntityRepository<Product> productsRepository;
 
         public ProductsController(
             IProductsService productsService,
-            IProductSortingsService productSortingsService,
             IDeletableEntityRepository<Product> productsRepository)
         {
             this.productsService = productsService;
-            this.productSortingsService = productSortingsService;
             this.productsRepository = productsRepository;
         }
 
@@ -35,7 +31,7 @@
             page = Math.Max(1, page);
             var skip = (page - 1) * ItemsPerPage;
 
-            var query = this.productsRepository.All();
+            var query = this.productsRepository.AllAsNoTracking();
             var words = search?.Split(' ').Select(x => x.Trim())
                 .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 2).ToList();
 

@@ -5,7 +5,6 @@
     var criteria = new Dictionary<string, string>()
     {
         { "all-products", "All Products" },
-        { "new-products", "New Products" },
         { "product-a-z", "Product: A - Z" },
         { "price-ascending", "Price: Ascending" },
         { "price-descending", "Price: Descending" },
@@ -14,12 +13,12 @@
     };
 }
 
-
 <div class="main">
     <section class="container">
         <section class="search-sort-container">
             <section class="sorting-drop-down-container col-lg-3">
-                <label asp-for="ProductSortingId" class="control-label" style="margin-right: 1rem;">Sort by:</label>
+                <label class="control-label" style="margin-right: 1rem;">Sort by:</label>
+
                 <form id="sorting-form" asp-area="" asp-controller="Products" asp-action="All" asp-route-page="1" asp-route-criteria="@((string)this.ViewData["criteria"])" method="get">
                     <section class="field">
                         <select id="sort" class="form-control selectpicker" name="criteria">
