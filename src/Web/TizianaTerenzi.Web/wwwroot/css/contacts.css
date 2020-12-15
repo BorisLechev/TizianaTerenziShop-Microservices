@@ -61,8 +61,6 @@
     }
 
     .contact-container {
-        flex: 0 0 25%;
-        max-width: 25%;
         font-size: 18px;
         line-height: 1.22;
     }

@@ -70,7 +70,7 @@
       ]
     },
     {
-      "library": "tinymce@5.6.1",
+      "library": "tinymce@5.6.2",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -92,6 +92,17 @@
       "destination": "wwwroot/lib/moment/",
       "files": [
         "min/moment-with-locales.min.js"
+      ]
+    },
+    {
+      "library": "leaflet@1.7.1",
+      "destination": "wwwroot/lib/leaflet/",
+      "files": [
+        "dist/leaflet.min.css",
+        "dist/leaflet.min.js",
+        "dist/images/marker-icon.png",
+        "dist/images/marker-shadow.png",
+        "dist/images/marker-icon-2x.png"
       ]
     }
   ]
