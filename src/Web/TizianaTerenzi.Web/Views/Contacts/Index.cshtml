@@ -1,9 +1,9 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @model ContactMessageInputModel
 
-<section class="container">
+<section class="contacts-container">
     <section class="container-holder">
-        <h2 class="main-title title">contacts</h2>
+        <h2 class="main-title">contacts</h2>
         <section class="items-container">
             <article class="col-lg-3 contact-container">
                 <section class="row">
@@ -31,7 +31,7 @@
             </article>
             <article class="col-lg-4 col-xl-4">
                 <form asp-controller="Contacts" asp-action="Index" id="contact-form" class="contact-form" method="post">
-                    <h5 class="form-title title">contact form</h5>
+                    <h5 class="form-title">contact form</h5>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <section class="input-holder form-group">
                         <input asp-for="Name" type="text" placeholder="name">
@@ -56,7 +56,7 @@
                         </p>
                         <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
                         <span asp-validation-for="@Model.RecaptchaValue" class="text-danger"></span>
-                        <button class="button" type="submit">send</button>
+                        <button class="button contact-button" type="submit">send</button>
                     </section>
                 </form>
             </article>

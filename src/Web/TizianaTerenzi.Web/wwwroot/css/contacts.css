@@ -1,4 +1,4 @@
-﻿.container {
+﻿.contacts-container {
     display: flex;
     position: relative;
     align-items: center;
@@ -10,7 +10,7 @@
     overflow: hidden;
 }
 
-.container::before {
+.contacts-container::before {
     position: absolute;
     content: '';
     top: 0;
@@ -21,7 +21,7 @@
 }
 
 @media screen and (min-width: 768px) {
-    .container::before {
+    .contacts-container::before {
         bottom: 50%;
         left: 0;
         right: 0;
@@ -29,11 +29,11 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .container {
+    .contacts-container {
         min-height: 20vh;
     }
 
-    .container::before {
+    .contacts-container::before {
         right: 65.5%;
         bottom: 0;
     }
@@ -54,7 +54,7 @@
 }
 
 @media screen and (min-width: 1200px) {
-    .container::before {
+    .contacts-container::before {
         right: 54.5%;
         left: -9999px;
         bottom: 0;
@@ -163,7 +163,7 @@ textarea {
     min-height: 86px;
 }
 
-.button {
+.contact-button {
     width: 100%;
 }
 
@@ -206,7 +206,8 @@ textarea {
     }
 }
 
-.title {
+.main-title,
+.form-title {
     line-height: 1.4;
     margin: 0 0 30px;
     text-transform: uppercase;

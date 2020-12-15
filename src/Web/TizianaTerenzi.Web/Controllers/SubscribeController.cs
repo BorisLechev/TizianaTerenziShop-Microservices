@@ -25,9 +25,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(SubscribeInputModel subscribeInputModel)
+        public async Task<IActionResult> Index(SubscribeInputModel inputModel)
         {
-            if ((await this.subscribeService.GetAllEmails()).Any(s => s.Email == subscribeInputModel.Email))
+            if ((await this.subscribeService.GetAllEmailsAsync()).Any(s => s.Email == inputModel.Email))
             {
                 this.Error(NotificationMessages.SubscriberEmailExists);
 
@@ -36,11 +36,19 @@
 
             var subscriber = new Subscriber
             {
-                Email = subscribeInputModel.Email,
+                Email = inputModel.Email,
             };
 
-            await this.subscribeService.SubscribeForNewsletterAsync(subscriber);
-            this.Success(NotificationMessages.SubsribedSuccessfully);
+            var result = await this.subscribeService.SubscribeForNewsletterAsync(subscriber);
+
+            if (result == true)
+            {
+                this.Success(NotificationMessages.SubsribedSuccessfully);
+            }
+            else
+            {
+                this.Error(NotificationMessages.SubscriberEmailExists);
+            }
 
             return this.RedirectToAction("Index", "Home");
         }

@@ -16,14 +16,16 @@
             this.subscribersRepository = subscribersRepository;
         }
 
-        public async Task DeleteEmailAsync(int emailId)
+        public async Task<bool> DeleteEmailAsync(int emailId)
         {
             var email = await this.subscribersRepository
                 .All()
                 .SingleOrDefaultAsync(s => s.Id == emailId);
 
             this.subscribersRepository.Delete(email);
-            await this.subscribersRepository.SaveChangesAsync();
+            var result = await this.subscribersRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<Subscriber> FindByNameAsync(string email)
@@ -35,7 +37,7 @@
             return selectedEmail;
         }
 
-        public async Task<IEnumerable<Subscriber>> GetAllEmails()
+        public async Task<IEnumerable<Subscriber>> GetAllEmailsAsync()
         {
             var subscribers = await this.subscribersRepository
                 .All()
@@ -44,10 +46,12 @@
             return subscribers;
         }
 
-        public async Task SubscribeForNewsletterAsync(Subscriber subscriber)
+        public async Task<bool> SubscribeForNewsletterAsync(Subscriber subscriber)
         {
             await this.subscribersRepository.AddAsync(subscriber);
-            await this.subscribersRepository.SaveChangesAsync();
+            var result = await this.subscribersRepository.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }
