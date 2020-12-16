@@ -3,16 +3,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Data.Models;
 
     public interface IFragranceGroupsService
     {
         Task<bool> CreateFragranceGroupAsync(FragranceGroup fragranceGroup);
 
-        Task<bool> CreateFragranceGroupsRangeAsync(IEnumerable<FragranceGroup> fragranceGroups);
-
-        Task<IEnumerable<FragranceGroup>> GetAllFragranceGroups();
-
-        Task<FragranceGroup> FindByNameAsync(string fragranceGroupName);
+        Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync();
     }
 }

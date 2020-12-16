@@ -24,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (int i = 0; i < Model.Count; i++)
+                            @for (int i = 0; i < this.Model.Count; i++)
                             {
                                 <tr class="order">
                                     <td data-title="product">
@@ -32,31 +32,31 @@
                                             <article class="cart-item-img">
                                                 <a>
                                                     <picture>
-                                                        <img src="@Model[i].ProductPicture" alt="photo">
+                                                        <img src="@this.Model[i].ProductPicture" alt="photo">
                                                     </picture>
                                                 </a>
                                             </article>
                                             <article class="cart-item-heading">
                                                 <section class="cart-item-title">
-                                                    <a>@Model[i].ProductName</a>
+                                                    <a>@this.Model[i].ProductName</a>
                                                 </section>
                                             </article>
                                         </section>
                                     </td>
                                     <td data-title="quantity">
                                         <span class="product-quantity-inner-container">
-                                            <span class="quantity">@Model[i].Quantity</span>
-                                            <span id="@(Model[i].Id)-increase" class="increase-btn"></span>
-                                            <span id="@(Model[i].Id)-decrease" class="decrease-btn"></span>
+                                            <span class="quantity">@this.Model[i].Quantity</span>
+                                            <span id="@(this.Model[i].Id)-increase" class="increase-btn"></span>
+                                            <span id="@(this.Model[i].Id)-decrease" class="decrease-btn"></span>
                                         </span>
                                     </td>
                                     <td data-title="price">
                                         <section class="cart-item-price">
-                                            <span class="price">€ @(Model[i].ProductPriceAfterDiscount) EUR</span>
+                                            <span class="price">€ @(this.Model[i].ProductPriceAfterDiscount) EUR</span>
                                         </section>
                                     </td>
                                     <td>
-                                        <form asp-controller="Cart" asp-action="DeleteProduct" asp-route-id="@Model[i].Id" method="post">
+                                        <form asp-controller="Cart" asp-action="DeleteProduct" asp-route-id="@this.Model[i].Id" method="post">
                                             <button class="btn-delete" type="submit"></button>
                                         </form>
                                     </td>
@@ -78,7 +78,7 @@
                                         <section class="discount-tag">
                                             <form id="delete-discount" method="post">
                                                 <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                                <p class="discount-code">@Model[0].DiscountCodeName</p>
+                                                <p class="discount-code">@this.Model[0].DiscountCodeName</p>
                                                 <button id="delete-discount" class="btn-delete"></button>
                                             </form>
                                         </section>
@@ -102,7 +102,7 @@
                                                 <div class="label-price">total price</div>
                                                 <div class="price-container">
                                                     <span class="currency-sign-total-price">
-                                                        € <span class="total-price">@Model.Sum(order => order.TotalPrice).ToString("F2")</span>
+                                                        € <span class="total-price">@this.Model.Sum(order => order.TotalPrice).ToString("F2")</span>
                                                     </span>
                                                 </div>
                                             </section>

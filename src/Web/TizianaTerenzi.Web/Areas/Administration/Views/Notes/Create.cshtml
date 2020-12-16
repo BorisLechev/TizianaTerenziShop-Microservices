@@ -14,10 +14,10 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <form method="post" enctype="multipart/form-data">
         <section class="form-group">
-            <label asp-for="Name">Name</label>
+            <label asp-for="@this.Model.Name">Name</label>
             <section class="field mb-4">
-                <input asp-for="Name" class="form-control" placeholder="Name" type="text" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="@this.Model.Name" class="form-control" placeholder="Name" type="text" />
+                <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">

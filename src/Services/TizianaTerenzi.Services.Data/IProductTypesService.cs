@@ -3,16 +3,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Data.Models;
 
     public interface IProductTypesService
     {
         Task<bool> CreateProductTypeAsync(ProductType productType);
 
-        Task<bool> CreateProductTypesRangeAsync(IEnumerable<ProductType> productTypes);
-
-        Task<IEnumerable<ProductType>> GetAllProductTypes();
-
-        Task<ProductType> FindByNameProductType(string productTypeName);
+        Task<IEnumerable<SelectListItem>> GetAllProductTypesAsync();
     }
 }

@@ -5,22 +5,17 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data;
     using TizianaTerenzi.Web.ViewModels.Subscribe;
 
     public class SubscribeController : BaseController
     {
-        private readonly IDeletableEntityRepository<Subscriber> subscribersRepository;
-
         private readonly ISubscribeService subscribeService;
 
         public SubscribeController(
-            IDeletableEntityRepository<Subscriber> subscribersRepository,
             ISubscribeService subscribeService)
         {
-            this.subscribersRepository = subscribersRepository;
             this.subscribeService = subscribeService;
         }
 

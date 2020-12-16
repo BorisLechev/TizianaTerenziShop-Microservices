@@ -26,19 +26,19 @@
         <hr />
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="@Model.Email"></label>
-            <input asp-for="@Model.Email" class="form-control" />
-            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+            <label asp-for="@this.Model.Email"></label>
+            <input asp-for="@this.Model.Email" class="form-control" />
+            <span asp-validation-for="@this.Model.Email" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="@Model.Password"></label>
-            <input asp-for="@Model.Password" class="form-control" />
-            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            <label asp-for="@this.Model.Password"></label>
+            <input asp-for="@this.Model.Password" class="form-control" />
+            <span asp-validation-for="@this.Model.Password" class="text-danger"></span>
         </div>
         <div class="form-group">
             <div class="checkbox">
-                <label asp-for="@Model.RememberMe">
-                    <input asp-for="@Model.RememberMe" />
+                <label asp-for="@this.Model.RememberMe">
+                    <input asp-for="@this.Model.RememberMe" />
                     @Html.DisplayNameFor(m => m.RememberMe)
                 </label>
             </div>

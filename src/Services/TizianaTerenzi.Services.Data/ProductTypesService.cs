@@ -1,8 +1,10 @@
 ﻿namespace TizianaTerenzi.Services.Data
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
@@ -25,27 +27,16 @@
             return result > 0;
         }
 
-        public async Task<bool> CreateProductTypesRangeAsync(IEnumerable<ProductType> productTypes)
-        {
-            await this.productTypesRepository.AddRangeAsync(productTypes);
-            var result = await this.productTypesRepository.SaveChangesAsync();
-
-            return result > 0;
-        }
-
-        public async Task<ProductType> FindByNameProductType(string productTypeName)
-        {
-            var productType = await this.productTypesRepository
-                .All()
-                .SingleOrDefaultAsync(pt => pt.Name == productTypeName);
-
-            return productType;
-        }
-
-        public async Task<IEnumerable<ProductType>> GetAllProductTypes()
+        public async Task<IEnumerable<SelectListItem>> GetAllProductTypesAsync()
         {
             var productTypes = await this.productTypesRepository
-                .All()
+                .AllAsNoTracking()
+                .OrderBy(pt => pt.Name)
+                .Select(pt => new SelectListItem
+                {
+                    Value = pt.Id.ToString(),
+                    Text = pt.Name,
+                })
                 .ToListAsync();
 
             return productTypes;

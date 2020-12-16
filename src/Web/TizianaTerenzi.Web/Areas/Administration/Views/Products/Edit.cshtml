@@ -14,73 +14,68 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <form method="post" enctype="multipart/form-data">
         <section class="form-group">
-            <label asp-for="Name">Name</label>
+            <label asp-for="@this.Model.Name">Name</label>
             <section class="field mb-4">
-                <input asp-for="Name" class="form-control" placeholder="Name" type="text" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="@this.Model.Name" class="form-control" placeholder="Name" type="text" />
+                <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="ProductTypeId" class="control-label">Product Type</label>
+            <label asp-for="@this.Model.ProductTypeId" class="control-label">Product Type</label>
             <section class="field mb-4">
                 <select class="form-control selectpicker" data-live-search="true" title="Select Product Type..."
-                        id="productType" asp-items="@Model.ProductTypes">
-                    <option value="OtherProductType">Other...</option>
+                        id="productType" asp-for="@this.Model.ProductTypeId" asp-items="@this.Model.ProductTypes">
                 </select>
-                <input asp-for="ProductTypeId" class="form-control mt-1" id="productTypeSelected" style="display: none;" />
-                <span asp-validation-for="ProductTypeId" class="text-danger"></span>
+                <span asp-validation-for="@this.Model.ProductTypeId" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="FragranceGroupId" class="control-label">Fragrance Group</label>
+            <label asp-for="@this.Model.FragranceGroupId" class="control-label">Fragrance Group</label>
             <section class="field mb-4">
                 <select class="form-control selectpicker" data-live-search="true" title="Select Fragrance Group..."
-                        id="fragranceGroup" asp-items="@Model.FragranceGroups">
-                    <option value="OtherFragranceGroup">Other...</option>
+                        id="fragranceGroup" asp-for="@this.Model.FragranceGroupId" asp-items="@this.Model.FragranceGroups">
                 </select>
-                <input asp-for="FragranceGroupId" class="form-control mt-1" id="fragranceGroupSelected" style="display: none;" />
-                <span asp-validation-for="FragranceGroupId" class="text-danger"></span>
+                <span asp-validation-for="@this.Model.FragranceGroupId" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="NoteIds" class="control-label">Notes</label>
+            <label asp-for="@this.Model.NoteIds" class="control-label">Notes</label>
             <section class="field mb-4">
                 <select class="form-control selectpicker" data-live-search="true" multiple title="Select Notes..."
-                        id="note" asp-items="@Model.Notes">
-                    <option value="OtherNote">Other...</option>
+                        id="note" asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes">
                 </select>
-                <input asp-for="NoteIds" class="form-control mt-1" id="noteSelected" style="display: none;" />
-                <span asp-validation-for="NoteIds" class="text-danger"></span>
+                <span asp-validation-for="@this.Model.NoteIds" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="Description">Description</label>
+            <label asp-for="@this.Model.Description">Description</label>
             <section class="field mb-4">
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea asp-for="@this.Model.Description" class="form-control"></textarea>
+                <span asp-validation-for="@this.Model.Description" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="Price">Price</label>
+            <label asp-for="@this.Model.Price">Price</label>
             <section class="field mb-4">
-                <input class="form-control" asp-for="Price" placeholder="Price" type="number" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <input class="form-control" asp-for="@this.Model.Price" placeholder="Price" type="number" />
+                <span asp-validation-for="@this.Model.Price" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="Picture">Image file</label>
+            <label asp-for="@this.Model.Picture">Image file</label>
             <section class="field mb-4">
                 <div class="custom-file">
-                    <input asp-for="Picture" id="customFile" class="custom-file-input form-control" type="file">
-                    <label asp-for="Picture" class="custom-file-label" for="customFile">Choose file</label>
+                    <input asp-for="@this.Model.Picture" id="customFile" class="custom-file-input form-control" type="file">
+                    <label asp-for="@this.Model.Picture" class="custom-file-label" for="customFile">Choose file</label>
                 </div>
+                <span asp-validation-for="@this.Model.Picture" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">
-            <label asp-for="YearOfManufacture">Year of manufacture</label>
+            <label asp-for="@this.Model.YearOfManufacture">Year of manufacture</label>
             <section class="field mb-4">
-                <input asp-for="YearOfManufacture" class="form-control" placeholder="Year of manufacture" type="number" />
-                <span asp-validation-for="YearOfManufacture"></span>
+                <input asp-for="@this.Model.YearOfManufacture" class="form-control" placeholder="Year of manufacture" type="number" />
+                <span asp-validation-for="@this.Model.YearOfManufacture" class="text-danger"></span>
             </section>
         </section>
         <section class="form-group">

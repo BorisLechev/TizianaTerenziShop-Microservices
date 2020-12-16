@@ -34,20 +34,20 @@
                     <h5 class="form-title">contact form</h5>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <section class="input-holder form-group">
-                        <input asp-for="Name" type="text" placeholder="name">
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <input asp-for="@this.Model.Name" type="text" placeholder="name">
+                        <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
                     </section>
                     <section class="input-holder form-group">
-                        <input asp-for="Email" type="email" placeholder="email address">
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input asp-for="@this.Model.Email" type="email" placeholder="email address">
+                        <span asp-validation-for="@this.Model.Email" class="text-danger"></span>
                     </section>
                     <section class="input-holder form-group">
-                        <input asp-for="Subject" type="text" placeholder="subject">
-                        <span asp-validation-for="Subject" class="text-danger"></span>
+                        <input asp-for="@this.Model.Subject" type="text" placeholder="subject">
+                        <span asp-validation-for="@this.Model.Subject" class="text-danger"></span>
                     </section>
                     <section class="input-holder pt-4 pt-lg-3 form-group">
-                        <textarea asp-for="Content" name="content" rows="6" placeholder="message"></textarea>
-                        <span asp-validation-for="Content" class="text-danger"></span>
+                        <textarea asp-for="@this.Model.Content" name="content" rows="6" placeholder="message"></textarea>
+                        <span asp-validation-for="@this.Model.Content" class="text-danger"></span>
                     </section>
                     <section class="form-btn">
                         <p>
@@ -55,7 +55,7 @@
                             <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
                         </p>
                         <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
-                        <span asp-validation-for="@Model.RecaptchaValue" class="text-danger"></span>
+                        <span asp-validation-for="@this.Model.RecaptchaValue" class="text-danger"></span>
                         <button class="button contact-button" type="submit">send</button>
                     </section>
                 </form>

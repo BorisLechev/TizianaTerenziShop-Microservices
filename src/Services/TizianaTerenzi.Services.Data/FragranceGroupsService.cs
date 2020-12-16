@@ -1,8 +1,10 @@
 ﻿namespace TizianaTerenzi.Services.Data
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
@@ -25,27 +27,16 @@
             return result > 0;
         }
 
-        public async Task<bool> CreateFragranceGroupsRangeAsync(IEnumerable<FragranceGroup> fragranceGroups)
-        {
-            await this.fragranceGroupsRepository.AddRangeAsync(fragranceGroups);
-            var result = await this.fragranceGroupsRepository.SaveChangesAsync();
-
-            return result > 0;
-        }
-
-        public async Task<FragranceGroup> FindByNameAsync(string fragranceGroupName)
-        {
-            var fragranceGroup = await this.fragranceGroupsRepository
-                .All()
-                .SingleOrDefaultAsync(fg => fg.Name == fragranceGroupName);
-
-            return fragranceGroup;
-        }
-
-        public async Task<IEnumerable<FragranceGroup>> GetAllFragranceGroups()
+        public async Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync()
         {
             var fragranceGroups = await this.fragranceGroupsRepository
-                .All()
+                .AllAsNoTracking()
+                .OrderBy(fg => fg.Name)
+                .Select(fg => new SelectListItem
+                {
+                    Value = fg.Id.ToString(),
+                    Text = fg.Name,
+                })
                 .ToListAsync();
 
             return fragranceGroups;

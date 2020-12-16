@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
@@ -42,14 +43,6 @@
             return false;
         }
 
-        public async Task<bool> CreateNotesRangeAsync(IEnumerable<Note> notes)
-        {
-            await this.notesRepository.AddRangeAsync(notes);
-            var result = await this.notesRepository.SaveChangesAsync();
-
-            return result > 0;
-        }
-
         public async Task<Note> FindNoteByNameAsync(string noteName)
         {
             var note = await this.notesRepository
@@ -59,28 +52,39 @@
             return note;
         }
 
-        public async Task<IEnumerable<Note>> GetAllNotesAsync()
+        public async Task<IEnumerable<SelectListItem>> GetAllNotesAsync()
         {
             var notes = await this.notesRepository
-                .All()
+                .AllAsNoTracking()
                 .OrderBy(n => n.Name)
+                .Select(n => new SelectListItem
+                {
+                    Value = n.Id.ToString(),
+                    Text = n.Name,
+                })
                 .ToListAsync();
 
             return notes;
         }
 
-        public async Task<IEnumerable<int>> GetAllNoteIdsByProductAsync(int? productId)
+        public async Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedByProductIdAsync(int productId)
         {
-            var notes = await this.productNotesRepository
-                .All()
-                .Where(pn => pn.ProductId == productId)
-                .Select(pn => pn.NoteId)
+            var allProductNoteIds = await this.GetAllProductNoteIdsAsync(productId);
+            var notes = await this.notesRepository
+                .AllAsNoTracking()
+                .OrderBy(n => n.Name)
+                .Select(n => new SelectListItem
+                {
+                    Value = n.Id.ToString(),
+                    Text = n.Name,
+                    Selected = allProductNoteIds.Any(id => n.Id == id),
+                })
                 .ToListAsync();
 
             return notes;
         }
 
-        public async Task<bool> DeleteProductNotesAsync(int? productId)
+        public async Task<bool> DeleteProductNotesAsync(int productId)
         {
             var productNotes = await this.productNotesRepository
                 .All()
@@ -96,6 +100,17 @@
             }
 
             return false;
+        }
+
+        private async Task<IEnumerable<int>> GetAllProductNoteIdsAsync(int productId)
+        {
+            var productNoteIds = await this.productNotesRepository
+                        .AllAsNoTracking()
+                        .Where(pn => pn.ProductId == productId)
+                        .Select(n => n.NoteId)
+                        .ToListAsync();
+
+            return productNoteIds;
         }
     }
 }
