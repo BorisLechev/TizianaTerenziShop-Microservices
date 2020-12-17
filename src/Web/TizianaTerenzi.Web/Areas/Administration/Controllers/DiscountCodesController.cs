@@ -1,14 +1,12 @@
 ﻿namespace TizianaTerenzi.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
-    using TizianaTerenzi.Web.Areas.Administration.Models.DiscountCodes;
+    using TizianaTerenzi.Services.Data.DiscountCodes;
+    using TizianaTerenzi.Web.ViewModels.DiscountCodes;
 
     public class DiscountCodesController : AdministrationController
     {
@@ -22,19 +20,9 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DiscountCodesListingViewModel>>> Index()
         {
-            var discountCodes = await this.discountCodesService.GetAllDiscountCodesAsync();
-            var discounts = discountCodes
-                .Select(dc => new DiscountCodesListingViewModel
-                {
-                    Id = dc.Id,
-                    Name = dc.Name,
-                    CreatedOn = dc.CreatedOn,
-                    Discount = dc.Discount,
-                    ExpiresOn = dc.ExpiresOn,
-                })
-                .ToList();
+            var discountCodes = await this.discountCodesService.GetAllDiscountCodesAsync<DiscountCodesListingViewModel>();
 
-            return this.View(discounts);
+            return this.View(discountCodes);
         }
 
         public IActionResult Create()
@@ -52,14 +40,7 @@
 
             discountCodeInputModel.Name.ToUpper();
 
-            var discount = new DiscountCode
-            {
-                Name = discountCodeInputModel.Name,
-                Discount = discountCodeInputModel.Discount,
-                ExpiresOn = discountCodeInputModel.ExpiresOn,
-            };
-
-            var result = await this.discountCodesService.CreateDiscountCodeAsync(discount);
+            var result = await this.discountCodesService.CreateDiscountCodeAsync(discountCodeInputModel);
 
             if (result == false)
             {

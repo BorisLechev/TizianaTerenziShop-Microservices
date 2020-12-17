@@ -1,10 +1,10 @@
-﻿@model IEnumerable<AdminOrdersListingViewModel>
+﻿@model IEnumerable<OrdersListingViewModel>
 
 @{
     ViewData["Title"] = "All orders";
 }
 
-<div class="container" style="margin-top: 100px;">
+<div class="container all-orders-wrapper">
     <div class="mx-auto my-4">
         <div class="text-center mb-3">
             <h2>@ViewData["Title"]</h2>
@@ -46,10 +46,10 @@
                         <td>
                             @if (order.StatusName == "Pending")
                             {
-                                    <a class="btn btn-outline-success" asp-area="Administration" asp-controller="Orders" asp-action="Process" asp-route-orderId="@order.Id">
-                                        <i class="fas fa-check"></i>
-                                        Process
-                                    </a>
+                                <a class="btn btn-outline-success" asp-area="Administration" asp-controller="Orders" asp-action="Process" asp-route-orderId="@order.Id">
+                                    <i class="fas fa-check"></i>
+                                    Process
+                                </a>
                             }
                         </td>
                     </tr>
@@ -58,3 +58,11 @@
         </table>
     </div>
 </div>
+
+@section CustomCss {
+    <style>
+        .all-orders-wrapper {
+            padding-top: 100px;
+        }
+    </style>
+}

@@ -1,15 +1,18 @@
 ﻿namespace TizianaTerenzi.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
-    using TizianaTerenzi.Web.Areas.Administration.Models.Products;
+    using TizianaTerenzi.Services;
+    using TizianaTerenzi.Services.Data.Comments;
+    using TizianaTerenzi.Services.Data.FragranceGroups;
+    using TizianaTerenzi.Services.Data.Notes;
+    using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Web.ViewModels.Products;
 
     public class ProductsController : AdministrationController
     {

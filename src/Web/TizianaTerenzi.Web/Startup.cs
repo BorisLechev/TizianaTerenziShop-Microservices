@@ -27,7 +27,16 @@
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Data.Seeding;
     using TizianaTerenzi.Services;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Services.Data.Comments;
+    using TizianaTerenzi.Services.Data.DiscountCodes;
+    using TizianaTerenzi.Services.Data.FragranceGroups;
+    using TizianaTerenzi.Services.Data.Notes;
+    using TizianaTerenzi.Services.Data.Orders;
+    using TizianaTerenzi.Services.Data.PersonalData;
+    using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Services.Data.Subscribe;
+    using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Services.Messaging;
     using TizianaTerenzi.Web.ViewModels;

@@ -8,7 +8,8 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
     {
@@ -57,7 +58,7 @@
                 this.NotFound();
             }
 
-            var productDetailsViewModel = await this.productsService.GetProductDetailsByIdAsync(id);
+            var productDetailsViewModel = await this.productsService.GetProductByIdAsync<ProductDetailsViewModel>(id);
 
             if (productDetailsViewModel == null)
             {

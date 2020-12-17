@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Products;
 
     public class ProductsSeeder : ISeeder
     {

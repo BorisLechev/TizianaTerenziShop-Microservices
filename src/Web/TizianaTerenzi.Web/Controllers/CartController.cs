@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -9,7 +8,9 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Services.Data.DiscountCodes;
+    using TizianaTerenzi.Services.Data.Products;
 
     public class CartController : BaseController
     {
@@ -96,22 +97,13 @@
 
             if (ifProductInTheCartExists == true)
             {
-                var productInTheCart = await this.cartService.GetProductById(productId);
+                var productInTheCartId = await this.cartService.GetProductInTheCartIdByProductIdAsync(productId);
 
-                await this.cartService.IncreaseQuantity(productInTheCart.Id);
+                await this.cartService.IncreaseQuantity(productInTheCartId);
             }
             else
             {
-                var productInTheCart = new ProductInTheCart
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = userId,
-                    ProductId = product.Id,
-                    Quantity = 1,
-                    ProductPriceAfterDiscount = product.Price,
-                };
-
-                await this.cartService.AddProductInTheCart(productInTheCart);
+                await this.cartService.AddProductInTheCart(product, userId);
             }
 
             return this.RedirectToAction("Index", "Cart");
@@ -177,7 +169,7 @@
 
             var userId = this.userManager.GetUserId(this.User);
 
-            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(discountCode, userId);
+            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(userId);
 
             if (result == false)
             {
@@ -228,21 +220,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            var orderProducts = productsInTheCart
-                .Select(op => new OrderProduct
-                {
-                    ProductId = op.ProductId,
-                    Price = op.ProductPriceAfterDiscount,
-                    Quantity = op.Quantity,
-                    CreatedOn = DateTime.UtcNow,
-                    UserId = userId,
-                    DiscountCodeId = op.DiscountCodeId,
-                })
-                .ToList();
-
-            var discountCodeId = productsInTheCart.FirstOrDefault().DiscountCodeId;
-
-            await this.cartService.CheckOutAsync(userId, orderProducts, discountCodeId);
+            await this.cartService.CheckOutAsync(userId, productsInTheCart);
 
             await this.cartService.DeleteAllProductsInTheCartByUserId(userId);
 

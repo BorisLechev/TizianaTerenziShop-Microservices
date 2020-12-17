@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Web.ViewModels.Subscribe;
 
     public class SubscribeController : BaseController

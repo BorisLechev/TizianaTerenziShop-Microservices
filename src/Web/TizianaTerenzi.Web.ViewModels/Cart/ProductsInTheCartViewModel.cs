@@ -5,7 +5,7 @@
 
     public class ProductsInTheCartViewModel : IMapFrom<ProductInTheCart>, IMapTo<ProductInTheCart>
     {
-        public string Id { get; set; }
+        public string Id { get; set; } // TODO: make it int
 
         public int ProductId { get; set; }
 

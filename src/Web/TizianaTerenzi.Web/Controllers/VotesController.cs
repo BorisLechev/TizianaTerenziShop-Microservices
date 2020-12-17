@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Web.ViewModels.Votes;
 
     [ApiController]

@@ -8,7 +8,8 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Orders;
+    using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Web.ViewModels.Profile;
 
     [Authorize]

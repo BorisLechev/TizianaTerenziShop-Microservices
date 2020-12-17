@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Web.ViewModels.Comments;
 
     public class CommentsController : BaseController

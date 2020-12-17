@@ -10,7 +10,7 @@
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data;
+    using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Web.ViewModels.Authentication;
 
     public class AuthenticationController : BaseController
@@ -189,8 +189,7 @@
                 return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
             }
 
-            var result = await this.signInManager.ExternalLoginSignInAsync("Google", info.ProviderKey,
-                isPersistent: true, bypassTwoFactor: true);
+            var result = await this.signInManager.ExternalLoginSignInAsync("Google", info.ProviderKey, isPersistent: true, bypassTwoFactor: true);
 
             if (result.Succeeded)
             {
@@ -362,19 +361,18 @@
 
             if (remoteError != null)
             {
-                //return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                // return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
                 return this.RedirectToPage("Login");
             }
 
             var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                //return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                // return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
                 return this.RedirectToPage("Login");
             }
 
-            var result = await this.signInManager.ExternalLoginSignInAsync("GitHub", info.ProviderKey,
-                isPersistent: true, bypassTwoFactor: true);
+            var result = await this.signInManager.ExternalLoginSignInAsync("GitHub", info.ProviderKey, isPersistent: true, bypassTwoFactor: true);
 
             if (result.Succeeded)
             {
@@ -441,7 +439,7 @@
 
             if (info == null)
             {
-                //return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                // return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
                 return this.RedirectToPage("Login");
             }
 

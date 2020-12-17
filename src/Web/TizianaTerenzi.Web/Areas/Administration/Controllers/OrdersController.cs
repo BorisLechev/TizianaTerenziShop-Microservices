@@ -1,12 +1,10 @@
 ﻿namespace TizianaTerenzi.Web.Areas.Administration.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data;
-    using TizianaTerenzi.Web.Areas.Administration.Models.Orders;
+    using TizianaTerenzi.Services.Data.Orders;
 
     public class OrdersController : AdministrationController
     {
@@ -21,75 +19,28 @@
         {
             var orders = await this.ordersService.GetAllOrdersAsync();
 
-            var model = orders
-                .Select(o => new AdminOrdersListingViewModel
-                {
-                    Id = o.Id,
-                    CreatedOn = o.CreatedOn,
-                    DiscountCode = o.DiscountCode,
-                    Products = o.Products,
-                    StatusName = o.StatusName,
-                    UserFullName = o.UserFullName,
-                })
-                .ToList();
-
-            return this.View(model);
+            return this.View(orders);
         }
 
         public async Task<IActionResult> Pending()
         {
             var orders = await this.ordersService.GetAllPendingOrdersAsync();
 
-            var model = orders
-                .Select(o => new AdminOrdersListingViewModel
-                {
-                    Id = o.Id,
-                    CreatedOn = o.CreatedOn,
-                    DiscountCode = o.DiscountCode,
-                    Products = o.Products,
-                    StatusName = o.StatusName,
-                    UserFullName = o.UserFullName,
-                })
-                .ToList();
-
-            return this.View(model);
+            return this.View(orders);
         }
 
         public async Task<IActionResult> Processed()
         {
             var orders = await this.ordersService.GetAllProcessedOrdersAsync();
 
-            var model = orders
-                .Select(o => new AdminOrdersListingViewModel
-                {
-                    Id = o.Id,
-                    CreatedOn = o.CreatedOn,
-                    DiscountCode = o.DiscountCode,
-                    Products = o.Products,
-                    StatusName = o.StatusName,
-                    UserFullName = o.UserFullName,
-                })
-                .ToList();
-
-            return this.View(model);
+            return this.View(orders);
         }
 
         public async Task<IActionResult> Products(int orderId)
         {
             var orderProducts = await this.ordersService.GetAllOrderProductsAsync(orderId);
 
-            var model = orderProducts
-               .Select(op => new AdminOrderProductsListingViewModel
-               {
-                   Product = op.Product,
-                   CreatedOn = op.CreatedOn,
-                   DiscountCode = op.DiscountCode,
-                   Quantity = op.Quantity,
-                   Price = op.Price,
-               })
-               .ToList();
-
-            return this.View(model);
+            return this.View(orderProducts);
         }
 
         public async Task<IActionResult> Process(int orderId)

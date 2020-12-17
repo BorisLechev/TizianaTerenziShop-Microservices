@@ -4,8 +4,8 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data;
-    using TizianaTerenzi.Web.Areas.Administration.Models.Notes;
+    using TizianaTerenzi.Services.Data.Notes;
+    using TizianaTerenzi.Web.ViewModels.Notes;
 
     public class NotesController : AdministrationController
     {

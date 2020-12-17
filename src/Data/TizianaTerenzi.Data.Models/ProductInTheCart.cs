@@ -2,7 +2,7 @@
 {
     using TizianaTerenzi.Data.Common.Models;
 
-    public class ProductInTheCart : BaseDeletableModel<string>
+    public class ProductInTheCart : BaseDeletableModel<string> // TODO: make it int
     {
         public int Quantity { get; set; }
 
