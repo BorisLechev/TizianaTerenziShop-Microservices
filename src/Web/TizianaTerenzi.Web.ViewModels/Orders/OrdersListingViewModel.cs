@@ -14,7 +14,9 @@
 
         public string UserFullName { get; set; }
 
-        public DiscountCode DiscountCode { get; set; }
+        public string DiscountCodeName { get; set; }
+
+        public double? DiscountCodeDiscount { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

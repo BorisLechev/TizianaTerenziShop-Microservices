@@ -18,7 +18,7 @@
 
         string GetSearchText(string name, string description);
 
-        Task<bool> EditProductAsync(Product product);
+        Task<bool> EditProductAsync(EditProductInputModel inputModel, Product product);
 
         Task<bool> DeleteProductAsync(int productId);
     }

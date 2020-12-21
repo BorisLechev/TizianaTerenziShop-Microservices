@@ -16,7 +16,8 @@
                     <th>Fullname</th>
                     <th>Order Date</th>
                     <th>Total price</th>
-                    <th>DiscountCode</th>
+                    <th>Discount code name</th>
+                    <th>%</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -28,14 +29,15 @@
                         <td>@order.UserFullName</td>
                         <td><time datetime="@order.CreatedOn.ToString("O")"></time></td>
                         <td>@order.TotalPrice</td>
-                        @if (order.DiscountCode != null && order.DiscountCode.Name != null)
+                        @if (order.DiscountCodeName != null)
                         {
-                            <td>@order.DiscountCode.Name</td>
+                            <td>@order.DiscountCodeName</td>
                         }
                         else
                         {
                             <td></td>
                         }
+                        <td>@order.DiscountCodeDiscount</td>
                         <td>@order.StatusName</td>
                         <td>
                             <a class="btn btn-outline-primary" asp-area="Administration" asp-controller="Orders" asp-action="Products" asp-route-orderId="@order.Id">

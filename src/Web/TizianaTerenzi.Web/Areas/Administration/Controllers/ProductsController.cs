@@ -125,32 +125,16 @@
                 this.NotFound();
             }
 
-            var product = await this.productsService.GetProductByIdAsync(productId.Value);
-
-            if (product == null)
-            {
-                this.NotFound();
-            }
-
             var productTypes = await this.productTypesService.GetAllProductTypesAsync();
             var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
             var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId.Value);
 
-            var editProductViewModel = new EditProductInputModel
-            {
-                Id = productId.Value,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                YearOfManufacture = product.YearOfManufacture,
-                FragranceGroupId = product.FragranceGroupId,
-                FragranceGroups = fragranceGroups,
-                ProductTypeId = product.ProductTypeId,
-                ProductTypes = productTypes,
-                Notes = notes,
-            };
+            var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId.Value);
+            editProductInputModel.ProductTypes = productTypes;
+            editProductInputModel.FragranceGroups = fragranceGroups;
+            editProductInputModel.Notes = notes;
 
-            return this.View(editProductViewModel);
+            return this.View(editProductInputModel);
         }
 
         [HttpPost]
@@ -185,26 +169,7 @@
                 return this.View(inputModel);
             }
 
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
-
-            //var resultAfterDelete = await this.notesService.DeleteProductNotesAsync(productId);
-
-            var notesIds = inputModel.NoteIds.Select(int.Parse);
-
-            product.Name = inputModel.Name;
-            product.Description = inputModel.Description;
-            product.Picture = pictureUrl;
-            product.Price = inputModel.Price;
-            product.YearOfManufacture = inputModel.YearOfManufacture;
-            product.FragranceGroupId = inputModel.FragranceGroupId;
-            product.ProductTypeId = inputModel.ProductTypeId;
-            //product.Notes = notesIds.Select(id => new ProductNotes
-            //{
-            //    NoteId = id,
-            //})
-            //.ToList();
-
-            var result = await this.productsService.EditProductAsync(product);
+            var result = await this.productsService.EditProductAsync(inputModel, product);
 
             if (result == true)
             {

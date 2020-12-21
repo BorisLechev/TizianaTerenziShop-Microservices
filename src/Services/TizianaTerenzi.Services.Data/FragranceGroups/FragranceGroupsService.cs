@@ -41,5 +41,14 @@
 
             return fragranceGroups;
         }
+
+        public async Task<FragranceGroup> GetFragranceGroupById(int id)
+        {
+            var fragranceGroup = await this.fragranceGroupsRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(fg => fg.Id == id);
+
+            return fragranceGroup;
+        }
     }
 }

@@ -8,6 +8,8 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data.FragranceGroups;
+    using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Products;
 
@@ -15,9 +17,26 @@
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;
 
-        public ProductsService(IDeletableEntityRepository<Product> productsRepository)
+        private readonly IFragranceGroupsService fragranceGroupsService;
+
+        private readonly IProductTypesService productTypesService;
+
+        private readonly INotesService notesService;
+
+        private readonly ICloudinaryService cloudinaryService;
+
+        public ProductsService(
+            IDeletableEntityRepository<Product> productsRepository,
+            IFragranceGroupsService fragranceGroupsService,
+            IProductTypesService productTypesService,
+            INotesService notesService,
+            ICloudinaryService cloudinaryService)
         {
             this.productsRepository = productsRepository;
+            this.fragranceGroupsService = fragranceGroupsService;
+            this.productTypesService = productTypesService;
+            this.notesService = notesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public ProductsService()
@@ -34,10 +53,38 @@
             return result > 0;
         }
 
-        public async Task<bool> EditProductAsync(Product product)
+        public async Task<bool> EditProductAsync(EditProductInputModel inputModel, Product product)
         {
+            if (inputModel.Picture != null)
+            {
+                string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+                product.Picture = pictureUrl;
+            }
+
+            var notesIds = inputModel.NoteIds.Select(int.Parse);
+
+            await this.notesService.DeleteProductNotesAsync(product.Id);
+
+            var fragranceGroup = await this.fragranceGroupsService.GetFragranceGroupById(inputModel.FragranceGroupId);
+            var productType = await this.productTypesService.GetProductTypeById(inputModel.ProductTypeId);
+
+            product.Name = inputModel.Name;
+            product.Description = inputModel.Description;
+            product.Price = inputModel.Price;
+            product.YearOfManufacture = inputModel.YearOfManufacture;
+            product.FragranceGroupId = inputModel.FragranceGroupId;
+            product.FragranceGroup = fragranceGroup;
+            product.ProductTypeId = inputModel.ProductTypeId;
+            product.ProductType = productType;
+            product.Notes = notesIds.Select(id => new ProductNotes
+            {
+                NoteId = id,
+            })
+            .ToList();
+
             product.SearchText = this.GetSearchText(product.Name, product.Description);
 
+            this.productsRepository.Update(product);
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;

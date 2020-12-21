@@ -11,5 +11,7 @@
         Task<bool> CreateProductTypeAsync(ProductType productType);
 
         Task<IEnumerable<SelectListItem>> GetAllProductTypesAsync();
+
+        Task<ProductType> GetProductTypeById(int id);
     }
 }

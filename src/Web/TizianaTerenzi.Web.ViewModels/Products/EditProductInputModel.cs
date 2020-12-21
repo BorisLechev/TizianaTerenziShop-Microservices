@@ -4,12 +4,13 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 
-    public class EditProductInputModel : IMapFrom<Product>, IMapTo<Product>
+    public class EditProductInputModel : IMapFrom<Product>, IHaveCustomMappings
     {
         private const int NameMinimumLength = 2;
         private const int NameMaximumLength = 25;
@@ -38,7 +39,6 @@
         [Range(MinimumPrice, double.MaxValue, ErrorMessage = PriceErrorMessage)]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Picture is required.")]
         public IFormFile Picture { get; set; }
 
         public IEnumerable<string> NoteIds { get; set; }
@@ -58,5 +58,12 @@
         [Required(ErrorMessage = "Year is required.")]
         [Range(MinimumYear, MaximumYear, ErrorMessage = YearErrorMessage)]
         public int YearOfManufacture { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Product, EditProductInputModel>()
+                .ForMember(dest => dest.Notes, opt => opt.Ignore())
+                .ForMember(dest => dest.Picture, opt => opt.Ignore());
+        }
     }
 }

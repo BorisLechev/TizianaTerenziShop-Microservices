@@ -11,5 +11,7 @@
         Task<bool> CreateFragranceGroupAsync(FragranceGroup fragranceGroup);
 
         Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync();
+
+        Task<FragranceGroup> GetFragranceGroupById(int id);
     }
 }
