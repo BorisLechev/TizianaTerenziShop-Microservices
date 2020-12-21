@@ -4,7 +4,7 @@
 
     using TizianaTerenzi.Data.Common.Models;
 
-    public class Note : BaseDeletableModel<int>
+    public class Note : BaseModel<int>
     {
         public Note()
         {

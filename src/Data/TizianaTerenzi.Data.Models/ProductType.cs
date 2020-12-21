@@ -4,7 +4,7 @@
 
     using TizianaTerenzi.Data.Common.Models;
 
-    public class ProductType : BaseDeletableModel<int>
+    public class ProductType : BaseModel<int>
     {
         public ProductType()
         {

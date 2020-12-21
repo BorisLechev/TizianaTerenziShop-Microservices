@@ -4,7 +4,7 @@
 
     using TizianaTerenzi.Data.Common.Models;
 
-    public class FragranceGroup : BaseDeletableModel<int>
+    public class FragranceGroup : BaseModel<int>
     {
         public FragranceGroup()
         {

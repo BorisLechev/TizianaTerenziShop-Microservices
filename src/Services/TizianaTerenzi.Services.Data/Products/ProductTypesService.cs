@@ -11,10 +11,10 @@
 
     public class ProductTypesService : IProductTypesService
     {
-        private readonly IDeletableEntityRepository<ProductType> productTypesRepository;
+        private readonly IRepository<ProductType> productTypesRepository;
 
         public ProductTypesService(
-            IDeletableEntityRepository<ProductType> productTypesRepository)
+            IRepository<ProductType> productTypesRepository)
         {
             this.productTypesRepository = productTypesRepository;
         }

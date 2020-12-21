@@ -11,10 +11,10 @@
 
     public class FragranceGroupsService : IFragranceGroupsService
     {
-        private readonly IDeletableEntityRepository<FragranceGroup> fragranceGroupsRepository;
+        private readonly IRepository<FragranceGroup> fragranceGroupsRepository;
 
         public FragranceGroupsService(
-            IDeletableEntityRepository<FragranceGroup> fragranceGroupsRepository)
+            IRepository<FragranceGroup> fragranceGroupsRepository)
         {
             this.fragranceGroupsRepository = fragranceGroupsRepository;
         }
