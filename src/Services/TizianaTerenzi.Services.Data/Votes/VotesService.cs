@@ -9,11 +9,36 @@
 
     public class VotesService : IVotesService
     {
-        private readonly IRepository<Vote> votesRepository;
+        private readonly IDeletableEntityRepository<Vote> votesRepository;
 
-        public VotesService(IRepository<Vote> votesRepository)
+        private readonly IDeletableEntityRepository<Comment> commentsRepository;
+
+        public VotesService(
+            IDeletableEntityRepository<Vote> votesRepository,
+            IDeletableEntityRepository<Comment> commentsRepository)
         {
             this.votesRepository = votesRepository;
+            this.commentsRepository = commentsRepository;
+        }
+
+        public async Task DeleteRangeAsync(int productId)
+        {
+            var commentIds = await this.commentsRepository
+                .AllAsNoTracking()
+                .Where(c => c.ProductId == productId)
+                .Select(c => c.Id)
+                .ToListAsync();
+
+            var votes = await this.votesRepository
+                .All()
+                .Where(v => commentIds.Contains(v.CommentId))
+                .ToListAsync();
+
+            if (votes.Any())
+            {
+                this.votesRepository.DeleteRange(votes);
+                await this.votesRepository.SaveChangesAsync();
+            }
         }
 
         public async Task<Vote> GetVoteAsync(int commentId, string loggedInUserId)

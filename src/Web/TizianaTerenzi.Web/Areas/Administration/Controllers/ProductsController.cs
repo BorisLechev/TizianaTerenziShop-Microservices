@@ -12,6 +12,7 @@
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Web.ViewModels.Products;
 
     public class ProductsController : AdministrationController
@@ -26,6 +27,8 @@
 
         private readonly ICommentsService commentsService;
 
+        private readonly IVotesService votesService;
+
         private readonly ICloudinaryService cloudinaryService;
 
         public ProductsController(
@@ -34,6 +37,7 @@
             IFragranceGroupsService fragranceGroupsService,
             IProductsService productsService,
             ICommentsService commentsService,
+            IVotesService votesService,
             ICloudinaryService cloudinaryService)
         {
             this.notesService = notesService;
@@ -42,6 +46,7 @@
 
             this.productsService = productsService;
             this.commentsService = commentsService;
+            this.votesService = votesService;
             this.cloudinaryService = cloudinaryService;
         }
 
@@ -194,6 +199,7 @@
             try
             {
                 await this.notesService.DeleteProductNotesAsync(id);
+                await this.votesService.DeleteRangeAsync(id);
                 await this.commentsService.DeleteRangeAsync(id);
                 await this.productsService.DeleteProductAsync(id);
 

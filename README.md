@@ -72,3 +72,19 @@ Example:
   "ApiKey": "[[SendGrid Api Key]]"
 },
 ```
+## Build with:
+  * C#
+  * ASP.NET Core MVC
+  * Entity Framework Core
+  * Automapper
+  * Cloudinary
+  * SendGrid
+  * jQuery
+  * AJAX
+  * HTML
+  * CSS
+  * Bootstrap
+  * Moment.js
+  * TinyMCE
+  * DataTables
+  * OpenStreetMap && Leaflet
