@@ -8,7 +8,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 
-    public class OrdersListingViewModel : IMapFrom<Order>, IHaveCustomMappings
+    public class OrdersListingViewModel : OrdersChartResponseModel, IMapFrom<Order>, IHaveCustomMappings
     {
         public int Id { get; set; }
 

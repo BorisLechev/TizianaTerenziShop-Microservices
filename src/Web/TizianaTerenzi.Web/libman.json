@@ -104,6 +104,13 @@
         "dist/images/marker-shadow.png",
         "dist/images/marker-icon-2x.png"
       ]
+    },
+    {
+      "library": "highcharts@8.2.2",
+      "destination": "wwwroot/lib/highcharts/",
+      "files": [
+        "highcharts.js"
+      ]
     }
   ]
 }

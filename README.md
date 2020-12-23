@@ -88,3 +88,4 @@ Example:
   * TinyMCE
   * DataTables
   * OpenStreetMap && Leaflet
+  * Highcharts

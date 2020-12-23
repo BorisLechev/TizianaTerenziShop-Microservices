@@ -59,7 +59,10 @@
             </tbody>
         </table>
     </div>
+
+    <div id="chart-container"></div>
 </div>
+<form id="chartForm" method="post"></form>
 
 @section CustomCss {
     <style>
@@ -67,4 +70,92 @@
             padding-top: 100px;
         }
     </style>
+}
+
+@section Scripts {
+    <script src="~/lib/highcharts/highcharts.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let token = $("#chartForm input[name=__RequestVerificationToken]").val();
+
+            $.ajax({
+                url: "/administration/api/charts",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (data) {
+                    let currentDayOrders = [];
+                    let previousDayOrders = [];
+                    let theDayBeforeYesterdayOrders = [];
+                    let currentDay = moment().local().format("dddd");
+                    let previousDay = moment().local().subtract(1, "day").format("dddd");
+                    let theDayBeforeYesterday = moment().local().subtract(2, "day").format("dddd");
+
+                    for (var order of data.orders) {
+                        let day = moment.utc(order.createdOn).local().format("dddd");
+
+                        if (day === currentDay) {
+                            currentDayOrders.push(order);
+                        } else if (day === previousDay) {
+                            previousDayOrders.push(order);
+                        } else if (day === theDayBeforeYesterday) {
+                            theDayBeforeYesterdayOrders.push(order);
+                        }
+                    }
+
+                    createChart(currentDay, previousDay, theDayBeforeYesterday, currentDayOrders.length, previousDayOrders.length, theDayBeforeYesterdayOrders.length);
+                }
+            });
+        });
+
+        function createChart(currentDay, previousDay, theDayBeforeYesterday, currentDayOrders, previousDayOrders, theDayBeforeYesterdayOrders) {
+            Highcharts.chart({
+                chart: {
+                    type: 'column',
+                    renderTo: 'chart-container'
+                },
+                title: {
+                    text: 'Orders count for the last 3 days'
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Orders count'
+                    }
+                },
+                xAxis: {
+                    categories: [
+                        currentDay,
+                        previousDay,
+                        theDayBeforeYesterday,
+                    ],
+                    crosshair: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: currentDay,
+                    data: [currentDayOrders],
+                }, {
+                    name: previousDay,
+                    data: [previousDayOrders],
+                }, {
+                    name: theDayBeforeYesterday,
+                    data: [theDayBeforeYesterdayOrders],
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        }
+                    }]
+                }
+            });
+        }
+    </script>
 }
