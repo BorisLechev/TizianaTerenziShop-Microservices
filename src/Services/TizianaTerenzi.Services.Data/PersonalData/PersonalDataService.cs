@@ -7,6 +7,9 @@
     using Newtonsoft.Json;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Web.ViewModels.Account;
 
     public class PersonalDataService : IPersonalDataService
     {
@@ -20,12 +23,15 @@
 
         private readonly IDeletableEntityRepository<Vote> votesRepository;
 
+        private readonly ICountriesService countriesService;
+
         public PersonalDataService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
-            IDeletableEntityRepository<Vote> votesRepository)
+            IDeletableEntityRepository<Vote> votesRepository,
+            ICountriesService countriesService)
         {
             this.usersRepository = usersRepository;
 
@@ -33,6 +39,7 @@
             this.orderProductsRepository = orderProductsRepository;
             this.commentsRepository = commentsRepository;
             this.votesRepository = votesRepository;
+            this.countriesService = countriesService;
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
@@ -91,6 +98,20 @@
             }
 
             return true;
+        }
+
+        public async Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId)
+        {
+            var viewModel = await this.usersRepository
+                .All()
+                .Where(u => u.Id == userId)
+                .To<UserEditInputModel>()
+                .SingleOrDefaultAsync();
+
+            var countries = await this.countriesService.GetAllCountriesAsync();
+            viewModel.Countries = countries;
+
+            return viewModel;
         }
 
         public async Task<string> GetPersonalDataForUserJsonAsync(string userId)

@@ -7,6 +7,7 @@
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Web.ViewModels.Account;
 
     public class AccountController : BaseController
@@ -15,15 +16,19 @@
 
         private readonly SignInManager<ApplicationUser> signInManager;
 
+        private readonly IPersonalDataService personalDataService;
+
         private readonly ILogger<AccountController> logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IPersonalDataService personalDataService,
             ILogger<AccountController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.personalDataService = personalDataService;
             this.logger = logger;
         }
 
@@ -165,12 +170,7 @@
                 return this.NotFound();
             }
 
-            var inputModel = new UserEditInputModel
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-            };
+            var inputModel = await this.personalDataService.GetDetailsForUserEditAsync(user.Id);
 
             return this.View(inputModel);
         }
@@ -194,6 +194,9 @@
 
             user.FirstName = inputModel.FirstName;
             user.LastName = inputModel.LastName;
+            user.UserName = inputModel.UserName;
+            user.CountryId = inputModel.CountryId;
+            user.Address = inputModel.Address;
 
             await this.userManager.UpdateAsync(user);
 

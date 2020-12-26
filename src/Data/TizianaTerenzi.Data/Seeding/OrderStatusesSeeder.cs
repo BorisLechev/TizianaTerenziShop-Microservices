@@ -11,6 +11,11 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.OrderStatuses.Any())
+            {
+                return;
+            }
+
             var orderStatuses = new List<string>
             {
                 "Pending",
@@ -18,17 +23,9 @@
                 "Completed",
             };
 
-            foreach (var orderStatus in orderStatuses)
-            {
-                if (!dbContext.OrderStatuses.Any(os => os.Name == orderStatus))
-                {
-                    await dbContext.OrderStatuses.AddAsync(
-                        new OrderStatus
-                        {
-                            Name = orderStatus,
-                        });
-                }
-            }
+            var orderStatusModels = orderStatuses.Select(os => new OrderStatus { Name = os });
+
+            await dbContext.OrderStatuses.AddRangeAsync(orderStatusModels);
         }
     }
 }

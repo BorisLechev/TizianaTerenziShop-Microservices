@@ -11,6 +11,11 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.ProductSortings.Any())
+            {
+                return;
+            }
+
             var productSortings = new List<string>()
             {
                 "All Products",
@@ -21,17 +26,9 @@
                 "Year of Release: Descending",
             };
 
-            foreach (var sortingName in productSortings)
-            {
-                if (!dbContext.ProductSortings.Any(s => s.Name == sortingName))
-                {
-                    await dbContext.ProductSortings.AddAsync(
-                        new ProductSorting
-                        {
-                            Name = sortingName,
-                        });
-                }
-            }
+            var productSortingModels = productSortings.Select(ps => new ProductSorting { Name = ps });
+
+            await dbContext.AddRangeAsync(productSortingModels);
         }
     }
 }

@@ -49,6 +49,8 @@
 
         public DbSet<ProductSorting> ProductSortings { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

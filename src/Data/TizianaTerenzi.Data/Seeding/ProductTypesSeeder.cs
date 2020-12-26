@@ -11,23 +11,20 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.ProductTypes.Any())
+            {
+                return;
+            }
+
             var productTypes = new List<string>
             {
                 "Fragrance",
                 "Attar",
             };
 
-            foreach (var productType in productTypes)
-            {
-                if (!dbContext.ProductTypes.Any(pt => pt.Name == productType))
-                {
-                    await dbContext.ProductTypes.AddAsync(
-                        new ProductType
-                        {
-                            Name = productType,
-                        });
-                }
-            }
+            var productTypeModels = productTypes.Select(pt => new ProductType { Name = pt });
+
+            await dbContext.ProductTypes.AddRangeAsync(productTypeModels);
         }
     }
 }

@@ -33,6 +33,7 @@
                 new OrderStatusesSeeder(),
                 new DiscountCodesSeeder(),
                 new ProductSortingSeeder(),
+                new CountriesSeeder(),
             };
 
             foreach (var seeder in seeders)

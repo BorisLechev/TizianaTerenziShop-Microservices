@@ -24,6 +24,11 @@
 
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.Products.Any())
+            {
+                return;
+            }
+
             var products = new List<(string Name, string Description, decimal Price, string Picture, int ProductTypeId, int FragranceGroupId, ICollection<string> Notes, int YearOfManufacture)>
             {
                 ("Ursa",
@@ -212,25 +217,20 @@
                 2016),
             };
 
-            foreach (var product in products)
+            var productModels = products.Select(p => new Product
             {
-                if (!dbContext.Products.Any(p => p.Name == product.Name))
-                {
-                    await dbContext.Products.AddAsync(
-                        new Product
-                        {
-                            Name = product.Name,
-                            Description = product.Description,
-                            Price = product.Price,
-                            Picture = product.Picture,
-                            ProductTypeId = product.ProductTypeId,
-                            FragranceGroupId = product.FragranceGroupId,
-                            Notes = dbContext.Notes.Where(n => product.Notes.Contains(n.Name)).Select(n => new ProductNotes { ProductId = n.Id, NoteId = n.Id }).ToList(),
-                            YearOfManufacture = product.YearOfManufacture,
-                            SearchText = this.productsService.GetSearchText(product.Name, product.Description),
-                        });
-                }
-            }
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Picture = p.Picture,
+                ProductTypeId = p.ProductTypeId,
+                FragranceGroupId = p.FragranceGroupId,
+                Notes = dbContext.Notes.Where(n => p.Notes.Contains(n.Name)).Select(n => new ProductNotes { ProductId = n.Id, NoteId = n.Id }).ToList(),
+                YearOfManufacture = p.YearOfManufacture,
+                SearchText = this.productsService.GetSearchText(p.Name, p.Description),
+            });
+
+            await dbContext.Products.AddRangeAsync(productModels);
         }
     }
 }

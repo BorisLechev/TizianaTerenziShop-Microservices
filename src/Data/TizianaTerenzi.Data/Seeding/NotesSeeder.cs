@@ -11,6 +11,11 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.Notes.Any())
+            {
+                return;
+            }
+
             var notes = new List<string>
             {
                 "Aldehydes",
@@ -236,17 +241,9 @@
                 "Cyperus esculentus",
             };
 
-            foreach (var note in notes)
-            {
-                if (!dbContext.Notes.Any(n => n.Name == note))
-                {
-                    await dbContext.Notes.AddAsync(
-                        new Note
-                        {
-                            Name = note,
-                        });
-                }
-            }
+            var noteModels = notes.Select(n => new Note { Name = n });
+
+            await dbContext.Notes.AddRangeAsync(noteModels);
         }
     }
 }

@@ -11,6 +11,11 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.FragranceGroups.Any())
+            {
+                return;
+            }
+
             var fragranceGroups = new List<string>
             {
                 "Aromatic Aquatic",
@@ -41,17 +46,9 @@
                 "Woody Spicy",
             };
 
-            foreach (var fragranceGroup in fragranceGroups)
-            {
-                if (!dbContext.FragranceGroups.Any(fg => fg.Name == fragranceGroup))
-                {
-                    await dbContext.FragranceGroups.AddAsync(
-                        new FragranceGroup
-                        {
-                            Name = fragranceGroup,
-                        });
-                }
-            }
+            var fragranceGroupModels = fragranceGroups.Select(fg => new FragranceGroup { Name = fg });
+
+            await dbContext.FragranceGroups.AddRangeAsync(fragranceGroupModels);
         }
     }
 }

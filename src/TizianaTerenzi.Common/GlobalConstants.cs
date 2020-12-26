@@ -13,5 +13,7 @@
         public const string TempDataSuccessMessageKey = "SuccessMessage";
 
         public const string SystemEmail = "b.k.lechev@gmail.com";
+
+        public const int ImageMaxSizeMB = 10;
     }
 }

@@ -11,25 +11,24 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.DiscountCodes.Any())
+            {
+                return;
+            }
+
             var discountCodes = new List<string>
             {
                 "Test15",
-                "Christmas15",
             };
 
-            foreach (var discountCode in discountCodes)
+            var discountCodeModels = discountCodes.Select(dc => new DiscountCode
             {
-                if (!dbContext.DiscountCodes.Any(dc => dc.Name == discountCode))
-                {
-                    await dbContext.DiscountCodes
-                        .AddAsync(new DiscountCode
-                        {
-                            Name = discountCode,
-                            Discount = 15,
-                            ExpiresOn = new DateTime(2020, 12, 26, 23, 59, 59),
-                        });
-                }
-            }
+                Name = dc,
+                Discount = 15,
+                ExpiresOn = new DateTime(2021, 12, 31, 23, 59, 59),
+            });
+
+            await dbContext.DiscountCodes.AddRangeAsync(discountCodeModels);
         }
     }
 }

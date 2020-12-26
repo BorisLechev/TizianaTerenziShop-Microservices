@@ -2,6 +2,7 @@
 {
     using System;
     using System.Security.Claims;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -59,9 +60,51 @@
                 return this.LocalRedirect(returnUrl);
             }
 
+            if (inputModel.EmailOrUserName.IndexOf('@') > -1)
+            {
+                // Validate email format
+                string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                                    @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                                    @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+                Regex re = new Regex(emailRegex);
+
+                if (!re.IsMatch(inputModel.EmailOrUserName))
+                {
+                    this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+            }
+            else
+            {
+                //validate Username format
+                string emailRegex = @"^[a-zA-Z0-9]*$";
+                Regex re = new Regex(emailRegex);
+                if (!re.IsMatch(inputModel.EmailOrUserName))
+                {
+                    this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+            }
+
             if (this.ModelState.IsValid)
             {
-                var result = await this.signInManager.PasswordSignInAsync(inputModel.Email, inputModel.Password, inputModel.RememberMe, lockoutOnFailure: true);
+                var userName = inputModel.EmailOrUserName;
+
+                // This if the user would like to loging with username or email
+                if (userName.IndexOf('@') > -1)
+                {
+                    var user = await this.userManager.FindByEmailAsync(inputModel.EmailOrUserName);
+
+                    if (user == null)
+                    {
+                        this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        //return this.View(this.Input);
+                    }
+                    else
+                    {
+                        userName = user.UserName;
+                    }
+                }
+
+                var result = await this.signInManager.PasswordSignInAsync(userName, inputModel.Password, inputModel.RememberMe, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
@@ -103,7 +146,7 @@
             {
                 var user = new ApplicationUser
                 {
-                    UserName = inputModel.Email,
+                    UserName = inputModel.UserName,
                     Email = inputModel.Email,
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,

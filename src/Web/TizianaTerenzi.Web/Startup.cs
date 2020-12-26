@@ -29,6 +29,7 @@
     using TizianaTerenzi.Services;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Comments;
+    using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.DiscountCodes;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
@@ -181,6 +182,7 @@
             services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<IPersonalDataService, PersonalDataService>();
             services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<ISlugGenerator, SlugGenerator>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

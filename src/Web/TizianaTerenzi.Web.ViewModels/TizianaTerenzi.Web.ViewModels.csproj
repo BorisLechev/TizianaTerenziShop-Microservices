@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services\TizianaTerenzi.Services.csproj" />
+    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Web.Infrastructure\TizianaTerenzi.Web.Infrastructure.csproj" />
   </ItemGroup>
 

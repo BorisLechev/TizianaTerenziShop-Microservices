@@ -7,8 +7,8 @@
     public class UserLoginInputModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Email or Username")]
+        public string EmailOrUserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
