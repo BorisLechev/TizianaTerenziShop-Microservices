@@ -89,3 +89,5 @@ Example:
   * DataTables
   * OpenStreetMap && Leaflet
   * Highcharts
+  * English language
+  * Bulgarian language
