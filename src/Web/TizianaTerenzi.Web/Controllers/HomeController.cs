@@ -1,7 +1,10 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
 
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Web.ViewModels;
 
@@ -28,6 +31,17 @@
         public IActionResult Terms()
         {
             return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            this.Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(7), SameSite = SameSiteMode.Strict });
+
+            return this.LocalRedirect(returnUrl);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

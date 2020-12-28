@@ -1,7 +1,8 @@
-﻿@model IEnumerable<OrderProductsListingViewModel>
+﻿@inject IViewLocalizer Localizer
+@model IEnumerable<OrderProductsListingViewModel>
 
 @{
-    ViewData["Title"] = "My order products";
+    ViewData["Title"] = Localizer["My order products"];
 }
 
 <div class="container" style="margin-top: 100px;">
@@ -13,12 +14,12 @@
         <table class="table table-hover dt-responsive dataTable nowrap" style="width: 100%;">
             <thead>
                 <tr class="font-weight-bold">
-                    <th>Product</th>
-                    <th>Order Date</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total price</th>
-                    <th>DiscountCode</th>
+                    <th>@Localizer["Product"]</th>
+                    <th>@Localizer["Order Date"]</th>
+                    <th>@Localizer["Quantity"]</th>
+                    <th>@Localizer["Price"]</th>
+                    <th>@Localizer["Total price"]</th>
+                    <th>@Localizer["Discount code name"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,5 +43,5 @@
                 }
             </tbody>
         </table>
-    </div> 
+    </div>
 </div>

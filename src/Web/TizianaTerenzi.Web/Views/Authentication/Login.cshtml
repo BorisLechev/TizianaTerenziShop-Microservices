@@ -1,8 +1,9 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject IViewLocalizer Localizer
 @model UserLoginInputModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = Localizer["Log in"];
     Layout = "_Bubbleslayout";
 }
 
@@ -44,11 +45,11 @@
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary w-100 p-3">Log in</button>
+            <button type="submit" class="btn btn-primary w-100 p-3">@Localizer["Log in"]</button>
         </div>
         <div class="form-group">
             <p>
-                <a asp-controller="Authentication" asp-action="Register">Register as a new user</a>
+                <a asp-controller="Authentication" asp-action="Register">@Localizer["Register as a new user"]</a>
             </p>
         </div>
 

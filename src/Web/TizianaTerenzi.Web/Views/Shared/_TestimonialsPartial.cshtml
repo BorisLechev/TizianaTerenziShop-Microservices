@@ -1,8 +1,10 @@
-﻿<article>
+﻿@inject IViewLocalizer Localizer
+
+<article>
     <section class="testimonials-container">
         <article class="testimonials-inner-container">
             <header>
-                <h3>testimonials</h3>
+                <h3>@Localizer["testimonials"]</h3>
             </header>
             <main class="row">
                 <article class="testimonial">
@@ -37,7 +39,7 @@
                 </article>
             </main>
             <footer>
-                <a asp-area="" asp-controller="Products" asp-action="All" class="button">discover</a>
+                <a asp-area="" asp-controller="Products" asp-action="All" class="button">@Localizer["discover"]</a>
             </footer>
         </article>
     </section>

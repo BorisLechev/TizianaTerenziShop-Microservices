@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
+@inject IViewLocalizer Localizer
 
 @{
     var consentFeature = this.Context.Features.Get<ITrackingConsentFeature>();
@@ -16,9 +17,9 @@
         z-index: 9999;
     }
 
-    #cookieConsent.box-shadow {
-        opacity: 0.9;
-    }
+        #cookieConsent.box-shadow {
+            opacity: 0.9;
+        }
 </style>
 
 @if (showBanner)
@@ -27,11 +28,11 @@
         <div class="container d-flex flex-row">
             <i class="fas fa-cookie-bite fa-2x align-self-center"></i>
             <div class="pl-3">
-                <strong>@GlobalConstants.SystemName uses cookies to provide you with a better experience.</strong>
-                <p class="mb-0">By continuing to use this website, you consent to the use of cookies.</p>
+                <strong>@GlobalConstants.SystemName @Localizer["uses cookies to provide you with a better experience."]</strong>
+                <p class="mb-0">@Localizer["By continuing to use this website, you consent to the use of cookies."]</p>
             </div>
             <div class="align-self-center ml-auto">
-                <button type="button" class="btn btn-secondary" id="cookieAcceptButton" data-cookie-string="@cookieString">Accept</button>
+                <button type="button" class="btn btn-secondary" id="cookieAcceptButton" data-cookie-string="@cookieString">@Localizer["Accept"]</button>
             </div>
         </div>
     </div>

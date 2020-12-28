@@ -1,17 +1,18 @@
-﻿@model SubscribeInputModel
+﻿@inject IViewLocalizer Localizer
+@model SubscribeInputModel
 
 <section class="subscribe-container">
     <section class="container">
         <section class="row align-items-lg-end">
             <section class="col-12 offset-lg-1 col-lg-5 order-lg-2">
                 <form class="subscribe-form" method="post">
-                    <h6 class="title">newsletter</h6>
+                    <h6 class="title">@Localizer["newsletter"]</h6>
                     <section class="input-holder">
                         <input asp-for="Email" class="form-control subcribe-input" placeholder="email" type="email" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </section>
                     <section class="form-btn">
-                        <button asp-controller="Subscribe" asp-action="Index" class="button subscribe-btn" type="submit">subscribe</button>
+                        <button asp-controller="Subscribe" asp-action="Index" class="button subscribe-btn" type="submit">@Localizer["subscribe"]</button>
                     </section>
                 </form>
             </section>

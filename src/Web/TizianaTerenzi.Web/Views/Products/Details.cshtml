@@ -1,4 +1,5 @@
-﻿@model ProductDetailsViewModel
+﻿@inject IViewLocalizer Localizer
+@model ProductDetailsViewModel
 
 <main id="main">
     <section>
@@ -45,7 +46,7 @@
                         <main class="details-main-container">
                             <dl>
                                 <dt class="year-section">
-                                    <h6 class="section-title">Year</h6>
+                                    <h6 class="section-title">@Localizer["Year"]</h6>
                                 </dt>
                                 <dd>
                                     <p class="year">@Model.YearOfManufacture</p>
@@ -53,7 +54,7 @@
                             </dl>
                             <dl>
                                 <dt class="notes-section">
-                                    <h6 class="section-title">Notes</h6>
+                                    <h6 class="section-title">@Localizer["Notes"]</h6>
                                 </dt>
                                 <dd>
                                     <p class="notes">@string.Join(", ", Model.Notes)</p>
@@ -69,7 +70,7 @@
                             </section>
                             <section class="btn-container">
                                 <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@Model.Id" method="post">
-                                    <button class="button" type="submit">Add to Cart</button>
+                                    <button class="button" type="submit">@Localizer["Add to Cart"]</button>
                                 </form>
                             </section>
                         </main>
@@ -79,14 +80,14 @@
         </section>
         <section class="description">
             <header>
-                <h5 class="description-title">Description</h5>
+                <h5 class="description-title">@Localizer["Description"]</h5>
             </header>
             <main>
                 <p>@Html.Raw(Model.SanitizedDescription)</p>
             </main>
         </section>
 
-      <partial name="_CommentsPartial.cshtml" />
+        <partial name="_CommentsPartial.cshtml" />
     </section>
 </main>
 

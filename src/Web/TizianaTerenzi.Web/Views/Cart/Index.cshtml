@@ -1,4 +1,5 @@
-﻿@model List<ProductsInTheCartViewModel>
+﻿@inject IViewLocalizer Localizer
+@model List<ProductsInTheCartViewModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,15 +12,15 @@
         <section class="row">
             <section class="shopping-cart-container">
                 <header>
-                    <h5 class="cart-title">shopping cart</h5>
+                    <h5 class="cart-title">@Localizer["shopping cart"]</h5>
                 </header>
                 <main>
                     <table class="custom-table">
                         <thead>
                             <tr>
-                                <th>product</th>
-                                <th>quantity</th>
-                                <th class="price-header">price</th>
+                                <th>@Localizer["product"]</th>
+                                <th>@Localizer["quantity"]</th>
+                                <th class="price-header">@Localizer["price"]</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -68,7 +69,7 @@
                         <section class="cart-form-inner-footer">
                             <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
                                 <section class="discount-box">
-                                    <a class="button cart-button" asp-controller="Products" asp-action="All">Continue Shopping</a>
+                                    <a class="button cart-button" asp-controller="Products" asp-action="All">@Localizer["Continue Shopping"]</a>
                                 </section>
                             </section>
                             <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
@@ -86,20 +87,20 @@
                                 }
                                 <section class="discount-box">
                                     <form id="apply-discount" method="post">
-                                        <input id="discount-input" class="discount-input" type="text" placeholder="Discount">
-                                        <button id="apply-btn" class="button cart-button" type="submit">Apply</button>
+                                        <input id="discount-input" class="discount-input" type="text" placeholder="@Localizer["Discount"]">
+                                        <button id="apply-btn" class="button cart-button" type="submit">@Localizer["Apply"]</button>
                                     </form>
                                 </section>
                             </section>
                             <section class="col-sm-6 offset-sm-3 col-lg-6 offset-lg-0">
                                 <section class="cart-form-inner-footer">
                                     <section class="col-lg-6 update-check-out-btn">
-                                        <a class="button cart-button">Update Cart</a>
+                                        <a class="button cart-button">@Localizer["Update Cart"]</a>
                                     </section>
                                     <section class="col-lg-6 update-check-out-btn">
                                         <section class="cart-summary">
                                             <section class="total-price-container">
-                                                <div class="label-price">total price</div>
+                                                <div class="label-price">@Localizer["total price"]</div>
                                                 <div class="price-container">
                                                     <span class="currency-sign-total-price">
                                                         € <span class="total-price">@this.Model.Sum(order => order.TotalPrice).ToString("F2")</span>
@@ -107,7 +108,7 @@
                                                 </div>
                                             </section>
                                             <form asp-area="" asp-controller="Cart" asp-action="CheckOut" method="post">
-                                                <button class="button cart-button" type="submit">Check Out</button>
+                                                <button class="button cart-button" type="submit">@Localizer["Check Out"]</button>
                                             </form>
                                         </section>
                                     </section>

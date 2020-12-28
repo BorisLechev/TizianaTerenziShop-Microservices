@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
 
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
@@ -16,10 +17,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Register">Register</a>
+            <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Register">@Localizer["Register"]</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Login">Login</a>
+            <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Login">@Localizer["Login"]</a>
         </li>
     }
 </ul>

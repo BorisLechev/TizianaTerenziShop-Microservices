@@ -1,4 +1,6 @@
 ﻿@using TizianaTerenzi.Common
+@inject IViewLocalizer Localizer
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +26,7 @@
         </div>
 
         <div class="py-4 text-center">
-            <a class="mx-auto btn btn-outline-secondary text-white" href="/">Home page</a>
+            <a asp-controller="Home" asp-action="Index" class="mx-auto btn btn-outline-secondary text-white">@Localizer["Home page"]</a>
         </div>
     </main>
 

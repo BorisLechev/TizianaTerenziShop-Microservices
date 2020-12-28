@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Web
 {
     using System;
+    using System.Globalization;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Reflection;
@@ -14,12 +15,15 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Options;
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common;
     using TizianaTerenzi.Data.Common.Repositories;
@@ -68,6 +72,25 @@
             Cloudinary cloudinary = new Cloudinary(account);
 
             services.AddSingleton(cloudinary);
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("bg"),
+                };
+
+                options.DefaultRequestCulture = new RequestCulture(culture: "en", uiCulture: "en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -146,7 +169,8 @@
 
                         var response = await context.Backchannel.SendAsync(
                             request,
-                            HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                            HttpCompletionOption.ResponseHeadersRead,
+                            context.HttpContext.RequestAborted);
                         response.EnsureSuccessStatusCode();
 
                         var user = JsonSerializer.Deserialize<JsonElement>(await response.Content.ReadAsStringAsync());
@@ -224,6 +248,8 @@
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
             app.UseEndpoints(
                 endpoints =>

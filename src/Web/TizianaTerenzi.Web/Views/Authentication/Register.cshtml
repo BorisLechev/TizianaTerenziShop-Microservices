@@ -1,8 +1,9 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject IViewLocalizer Localizer
 @model UserRegisterInputModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["Register"];
     Layout = "_BubblesLayout";
 }
 
@@ -55,17 +56,17 @@
             <input asp-for="@Model.ConfirmPassword" class="form-control" />
             <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary w-100 p-3">Register</button>
+        <button type="submit" class="btn btn-primary w-100 p-3">@Localizer["Register"]</button>
 
         <small>
-            By clicking the above button, you agree to our
-            <a asp-controller="Home" asp-action="Terms">Terms and conditions</a> and
-            <a asp-controller="Home" asp-action="Privacy">Privacy policy</a>
+            @Localizer["By clicking the above button, you agree to our"]
+            <a asp-controller="Home" asp-action="Terms">@Localizer["Terms and conditions"]</a> and
+            <a asp-controller="Home" asp-action="Privacy">@Localizer["Privacy policy"]</a>
         </small>
 
         <div class="form-group">
             <p>
-                <a asp-controller="Authentication" asp-action="Login">Login as an existing user</a>
+                <a asp-controller="Authentication" asp-action="Login">@Localizer["Login as an existing user"]</a>
             </p>
         </div>
 

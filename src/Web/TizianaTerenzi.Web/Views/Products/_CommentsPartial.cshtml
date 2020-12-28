@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@inject IViewLocalizer Localizer
 @model ProductDetailsViewModel
 
 @{
@@ -33,17 +34,17 @@
                                         {
                                             <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }
-                                    <div>
-                                        @if (!comment.Votes.Any(v => v.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))) || (int)(comment.Votes.SingleOrDefault(vote => vote.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))).Type) == 0)
-                                        {
-                                            <i id="heart-@comment.Id" class="fa fa-heart" onclick="sendVote(@comment.Id)"></i>
-                                        }
-                                        else
-                                        {
-                                            <i id="heart-@comment.Id" class="fa fa-heart voted" onclick="sendVote(@comment.Id)"></i>
-                                        }
-                                        <span id="votesCount-@comment.Id" style="float: right;">@comment.VotesSum</span>
-                                    </div>
+                                        <div>
+                                            @if (!comment.Votes.Any(v => v.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))) || (int)(comment.Votes.SingleOrDefault(vote => vote.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))).Type) == 0)
+                                            {
+                                                <i id="heart-@comment.Id" class="fa fa-heart" onclick="sendVote(@comment.Id)"></i>
+                                            }
+                                            else
+                                            {
+                                                <i id="heart-@comment.Id" class="fa fa-heart voted" onclick="sendVote(@comment.Id)"></i>
+                                            }
+                                            <span id="votesCount-@comment.Id" style="float: right;">@comment.VotesSum</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="comment-content">
@@ -62,7 +63,7 @@
 
 @if (this.User.Identity.IsAuthenticated)
 {
-    <div class="px-4 pt-3"> <button type="button" class="btn btn-primary btn-comment float-right" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; Comment</button> </div>
+    <div class="px-4 pt-3"> <button type="button" class="btn btn-primary btn-comment float-right" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button> </div>
     <div class="clearfix"></div>
 }
 @{ DisplayComments(null); }

@@ -1,22 +1,23 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject IViewLocalizer Localizer
 @model ContactMessageInputModel
 
 <section class="contacts-container">
     <section class="container-holder">
-        <h2 class="main-title">contacts</h2>
+        <h2 class="main-title">@Localizer["contacts"]</h2>
         <section class="items-container">
             <article class="col-lg-3 contact-container">
                 <section class="row">
                     <section class="col-12">
-                        <h5 class="contact-title">customer service</h5>
+                        <h5 class="contact-title">@Localizer["customer service"]</h5>
                     </section>
                     <section class="col-6 col-lg-12 contact-block-item">
                         <dl>
-                            <dt>Phone:</dt>
+                            <dt>@Localizer["Phone"]:</dt>
                             <dd><a href="tel:+390541820311">+39 0541 820311</a></dd>
-                            <dt>Fax:</dt>
+                            <dt>@Localizer["Fax"]:</dt>
                             <dd><a href="fax:+390541.820312">+39 0541.820312</a></dd>
-                            <dt>Emails:</dt>
+                            <dt>@Localizer["Emails"]:</dt>
                             <dd><a href="mailto:info@cereriaterenzi.com">info@cereriaterenzi.com</a></dd>
                             <dd><a href="mailto:info@tizianaterenzi.com">info@tizianaterenzi.com</a></dd>
                             <dd><a href="mailto:cereriaterenzievelino@pec.it">cereriaterenzievelino@pec.it</a></dd>
@@ -31,10 +32,10 @@
             </article>
             <article class="col-lg-4 col-xl-4">
                 <form asp-controller="Contacts" asp-action="Index" id="contact-form" class="contact-form" method="post">
-                    <h5 class="form-title">contact form</h5>
+                    <h5 class="form-title">@Localizer["contact form"]</h5>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <section class="input-holder form-group">
-                        <input asp-for="@this.Model.Name" type="text" placeholder="name">
+                        <input asp-for="@this.Model.Name" type="text" placeholder="@Localizer["name"]">
                         <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
                     </section>
                     <section class="input-holder form-group">
@@ -42,21 +43,21 @@
                         <span asp-validation-for="@this.Model.Email" class="text-danger"></span>
                     </section>
                     <section class="input-holder form-group">
-                        <input asp-for="@this.Model.Subject" type="text" placeholder="subject">
+                        <input asp-for="@this.Model.Subject" type="text" placeholder="@Localizer["subject"]">
                         <span asp-validation-for="@this.Model.Subject" class="text-danger"></span>
                     </section>
                     <section class="input-holder pt-4 pt-lg-3 form-group">
-                        <textarea asp-for="@this.Model.Content" name="content" rows="6" placeholder="message"></textarea>
+                        <textarea asp-for="@this.Model.Content" name="content" rows="6" placeholder="@Localizer["message"]"></textarea>
                         <span asp-validation-for="@this.Model.Content" class="text-danger"></span>
                     </section>
                     <section class="form-btn">
                         <p>
-                            By clicking ‘Submit’ button below, I agree to the
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                            @Localizer["By clicking ‘Submit’ button below, I agree to the"]
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy Policy"]</a>
                         </p>
                         <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
                         <span asp-validation-for="@this.Model.RecaptchaValue" class="text-danger"></span>
-                        <button class="button contact-button" type="submit">send</button>
+                        <button class="button contact-button" type="submit">@Localizer["send"]</button>
                     </section>
                 </form>
             </article>
@@ -84,7 +85,7 @@
     <script>
         var mymap = L.map('mapdiv').setView([43.9496852, 12.7372585], 13);
 
-        // TODO: add access_token
+        // TODO: do not use the documentation access_token. Make your own access_token.
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 18,
