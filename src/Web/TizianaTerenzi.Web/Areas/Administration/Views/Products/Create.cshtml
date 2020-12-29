@@ -1,4 +1,5 @@
-﻿@model CreateProductInputModel
+﻿@using TizianaTerenzi.Common
+@model CreateProductInputModel
 
 @{
     ViewData["Title"] = "Create a Product";
@@ -91,62 +92,6 @@
     <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 
     <script>
-        var productType = $('#productType');
-        var selectedProductType = $('#productTypeSelected');
-
-        productType.find('option:first').appendTo(productType);
-
-        productType.change(function () {
-            var value = $(this).val();
-
-            if (value == 'OtherProductType') {
-                selectedProductType.show();
-                selectedProductType.val('');
-                selectedProductType.trigger('focus');
-            } else {
-                selectedProductType.hide();
-                selectedProductType.val(value);
-                $('#fragranceGroup').trigger('focus');
-            }
-        });
-
-        var fragranceGroup = $('#fragranceGroup');
-        var selectedFragranceGroup = $('#fragranceGroupSelected');
-
-        fragranceGroup.find('option:first').appendTo(fragranceGroup);
-
-        fragranceGroup.change(function () {
-            var value = $(this).val();
-
-            if (value == 'OtherFragranceGroup') {
-                selectedFragranceGroup.show();
-                selectedFragranceGroup.val('');
-                selectedFragranceGroup.trigger('focus');
-            } else {
-                selectedFragranceGroup.hide();
-                selectedFragranceGroup.val(value);
-                $('#note').trigger('focus');
-            }
-        });
-
-        var note = $('#note');
-        var selectedNote = $('#noteSelected');
-
-        note.find('option:first').appendTo(note);
-
-        note.change(function () {
-            var value = $(this).val();
-
-            if (value == 'OtherNote') {
-                selectedNote.show();
-                selectedNote.val('');
-                selectedNote.trigger('focus');
-            } else {
-                selectedNote.hide();
-                selectedNote.val(value);
-            }
-        });
-
         tinymce.init({
             selector: "textarea",
             plugins: [
