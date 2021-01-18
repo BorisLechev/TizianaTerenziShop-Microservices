@@ -47,6 +47,7 @@
 .half-picture {
     width: 60%;
     height: auto;
+    vertical-align: middle;
 }
 
 .subscribe-btn {

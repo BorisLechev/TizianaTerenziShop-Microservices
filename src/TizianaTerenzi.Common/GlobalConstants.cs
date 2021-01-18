@@ -15,5 +15,7 @@
         public const string SystemEmail = "b.k.lechev@gmail.com";
 
         public const int ImageMaxSizeMB = 10;
+
+        public const int ShippingFee = 15;
     }
 }

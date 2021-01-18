@@ -1,0 +1,153 @@
+﻿@inject IViewLocalizer Localizer
+@model OrderCheckOutViewModel
+
+@{
+    this.ViewData["Title"] = "Information";
+}
+
+<div class="content">
+    <section class="wrap">
+        <main class="main">
+            <header class="main-header">
+                <a class="logo">
+                    <img class="logo-img" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" alt="logo-img">
+                </a>
+            </header>
+            <main class="main-content">
+                <section>
+                    <form>
+                        <section class="sections">
+                            <article class="shipping-address-container">
+                                <header class="shipping-address-header">
+                                    <h1 class="title">Shipping address</h1>
+                                </header>
+                                <main class="shipping-address-main">
+                                    <section class="fieldset">
+                                        <section class="address-input-fields">
+                                            <section class="field-wrapper half-field">
+                                                <section class="field-inner-wrapper">
+                                                    <input asp-for="@this.Model.FirstName" class="input-field" placeholder="First Name" type="text">
+                                                    <span asp-validation-for="@this.Model.FirstName" class="text-danger"></span>
+                                                </section>
+                                            </section>
+                                            <section class="field-wrapper half-field">
+                                                <section class="field-inner-wrapper">
+                                                    <input asp-for="@this.Model.LastName" class="input-field" placeholder="Last name" type="text">
+                                                    <span asp-validation-for="@this.Model.LastName" class="text-danger"></span>
+                                                </section>
+                                            </section>
+                                            <section class="field-wrapper">
+                                                <section class="field-inner-wrapper">
+                                                    <input asp-for="@this.Model.Address" class="input-field" placeholder="Address" type="text">
+                                                    <span asp-validation-for="@this.Model.Address" class="text-danger"></span>
+                                                </section>
+                                            </section>
+                                            <section class="field-wrapper">
+                                                <section class="field-inner-wrapper">
+                                                    <input asp-for="@this.Model.City" class="input-field" placeholder="City" type="text">
+                                                    <span asp-validation-for="@this.Model.City" class="text-danger"></span>
+                                                </section>
+                                            </section>
+                                            <section class="field-wrapper half-field">
+                                                <section class="field-inner-wrapper">
+                                                    <select asp-for="@this.Model.CountryId" asp-items="@this.Model.Countries" class="input-field" name="country">
+                                                        <option value="">Select one...</option>
+                                                    </select>
+                                                </section>
+                                            </section>
+                                            <section class="field-wrapper half-field">
+                                                <section class="field-inner-wrapper">
+                                                    <input asp-for="@this.Model.PostalCode" class="input-field" placeholder="Postal code" type="text">
+                                                    <span asp-validation-for="@this.Model.PostalCode" class="text-danger"></span>
+                                                </section>
+                                            </section>
+                                            <section class="field-wrapper">
+                                                <section class="field-inner-wrapper">
+                                                    <input asp-for="@this.Model.PhoneNumber" class="input-field" placeholder="Phone" type="text">
+                                                    <span asp-validation-for="@this.Model.PhoneNumber" class="text-danger"></span>
+                                                </section>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </main>
+                            </article>
+                        </section>
+                    </form>
+                </section>
+            </main>
+            <footer class="shipping-address-footer">
+                <a asp-controller="Products" asp-action="All" class="return-link">
+                    <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
+                    <span>@Localizer["Return to shopping"]</span>
+                </a>
+                <form asp-area="" asp-controller="Payment" asp-action="Pay" method="post">
+                    <button class="continue-btn btn btn-secondary" type="submit">@Localizer["Continue to payment"]</button>
+                </form>
+            </footer>
+        </main>
+        <aside class="sidebar">
+            <section class="sidebar-content">
+                <article class="product-list">
+                    <section class="product-list-inner">
+                        <table class="product-table">
+                            <tbody>
+                                @foreach (var product in this.Model.Products)
+                                {
+                                    <tr class="product-row">
+                                        <td class="product-image">
+                                            <section class="product-thumbnail-wrapper">
+                                                <section class="product-thumbnail">
+                                                    <img class="product-thumbnail-image" src="@product.ProductPicture" alt="image-@product.ProductName">
+                                                </section>
+                                                <span class="product-thumbnail-quantity">@product.Quantity</span>
+                                            </section>
+                                        </td>
+                                        <th class="product-description">
+                                            <span class="product-description-name">@product.ProductName</span>
+                                            @if (product.DiscountCodeName != null)
+                                            {
+                                                <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                                <span>@product.DiscountCodeName</span>
+                                            }
+                                        </th>
+                                        <td class="product-price">
+                                            <span>€ @product.ProductPriceAfterDiscount</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </section>
+                </article>
+                <article class="order-summary">
+                    <table>
+                        <tbody class="summary-tbody">
+                            <tr>
+                                <th class="subtotal-line">@Localizer["Subtotal"]</th>
+                                <td class="subtotal-line price">
+                                    <span class="subtotal-line-price">€ @this.Model.Products.Sum(order => order.TotalPrice).ToString("F2")</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="subtotal-line">@Localizer["Shipping"]</th>
+                                <td class="subtotal-line">
+                                    <span class="subtotal-line-price">€ 15.00</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="summary-tfoot">
+                            <tr>
+                                <th class="total-line-name"><span>@Localizer["Total"]</span></th>
+                                <td class="total-line-price"><span>€ @(this.Model.Products.Sum(order => order.TotalPrice) + @GlobalConstants.ShippingFee)</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </article>
+            </section>
+        </aside>
+    </section>
+</div>
+
+@section CustomCss {
+    <link href="~/css/order-details.css" rel="stylesheet" asp-append-version="true" />
+}

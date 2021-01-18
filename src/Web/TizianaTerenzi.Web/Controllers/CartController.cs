@@ -9,8 +9,10 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.DiscountCodes;
     using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Web.ViewModels.Orders;
 
     public class CartController : BaseController
     {
@@ -20,17 +22,21 @@
 
         private readonly IDiscountCodesService discountCodesService;
 
+        private readonly ICountriesService countriesService;
+
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartController(
             ICartService cartService,
             IProductsService productsService,
             IDiscountCodesService discountCodesService,
+            ICountriesService countriesService,
             UserManager<ApplicationUser> userManager)
         {
             this.cartService = cartService;
             this.productsService = productsService;
             this.discountCodesService = discountCodesService;
+            this.countriesService = countriesService;
             this.userManager = userManager;
         }
 
@@ -106,7 +112,7 @@
                 await this.cartService.AddProductInTheCart(product, userId);
             }
 
-            return this.RedirectToAction("Index", "Cart");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [HttpPost]
@@ -118,7 +124,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
@@ -127,7 +133,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -138,12 +144,12 @@
             {
                 this.Error(NotificationMessages.AlreadyAppliedDiscountCode);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
 
-            return this.RedirectToAction("Index", "Cart");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [HttpPost]
@@ -155,7 +161,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
@@ -164,7 +170,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -175,12 +181,12 @@
             {
                 this.Error(NotificationMessages.CannotDeleteDiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             this.Success(NotificationMessages.SuccessfullyDeletedDiscountCode);
 
-            return this.RedirectToAction("Index", "Cart");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [HttpPost]
@@ -198,10 +204,10 @@
                 this.Error(NotificationMessages.CannotDeleteThisProductInTheCartError);
             }
 
-            return this.RedirectToAction("Index", "Cart");
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> CheckOut()
         {
             if (!this.User.Identity.IsAuthenticated)
@@ -209,22 +215,29 @@
                 return this.RedirectToAction("Login", "Authentication");
             }
 
-            var userId = this.userManager.GetUserId(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
             var productsInTheCart = await this.cartService
-                 .GetAllProductsInTheCartByUserId(userId);
+                 .GetAllProductsInTheCartByUserId(user.Id);
+            var countries = await this.countriesService.GetAllCountriesAsync();
+
+            var viewModel = new OrderCheckOutViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CountryId = user.CountryId,
+                PhoneNumber = user.PhoneNumber,
+                Products = productsInTheCart,
+                Countries = countries,
+            };
 
             if (!productsInTheCart.Any())
             {
                 this.Error(NotificationMessages.EmptyCartError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
-            await this.cartService.CheckOutAsync(userId, productsInTheCart);
-
-            await this.cartService.DeleteAllProductsInTheCartByUserId(userId);
-
-            return this.RedirectToAction("Index", "Home");
+            return this.View(viewModel);
         }
     }
 }
