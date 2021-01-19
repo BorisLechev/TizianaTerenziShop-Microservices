@@ -2,9 +2,13 @@
 @inject IViewLocalizer Localizer
 @model ContactMessageInputModel
 
+@{ 
+    this.ViewData["Title"] = Localizer["Contacts"];
+}
+
 <section class="contacts-container">
     <section class="container-holder">
-        <h2 class="main-title">@Localizer["contacts"]</h2>
+        <h2 class="main-title">@Localizer["Contacts"]</h2>
         <section class="items-container">
             <article class="col-lg-3 contact-container">
                 <section class="row">

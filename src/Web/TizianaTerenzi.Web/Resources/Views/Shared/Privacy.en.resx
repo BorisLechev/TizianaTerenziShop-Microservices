@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Continue to payment" xml:space="preserve">
-    <value>Продължи към плащането</value>
-  </data>
-  <data name="Return to shopping" xml:space="preserve">
-    <value>Продължи с пазаруването</value>
-  </data>
-  <data name="Shipping" xml:space="preserve">
-    <value>Доставка</value>
-  </data>
-  <data name="Subtotal" xml:space="preserve">
-    <value>Междинна сума</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Общо</value>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Privacy Policy</value>
   </data>
 </root>

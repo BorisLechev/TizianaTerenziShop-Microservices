@@ -1,10 +1,12 @@
-﻿@{
-    this.ViewData["Title"] = "Privacy Policy";
+﻿@inject IViewLocalizer Localizer
+@{
+    this.ViewData["Title"] = Localizer["Privacy Policy"];
 }
 
 <div class="container" style="margin-top: 150px;">
     <header style="text-align: center;">
         <h1>@this.ViewData["Title"] for @GlobalConstants.SystemName</h1>
+    </header>
     <hr>
     <main>
         <p>

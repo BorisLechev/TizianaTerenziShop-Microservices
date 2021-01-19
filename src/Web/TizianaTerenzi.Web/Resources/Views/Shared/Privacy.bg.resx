@@ -117,22 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отказ</value>
-  </data>
-  <data name="Delete account" xml:space="preserve">
-    <value>Изтриване на акаунта</value>
-  </data>
-  <data name="Download" xml:space="preserve">
-    <value>Изтегли</value>
-  </data>
-  <data name="Download personal data" xml:space="preserve">
-    <value>Изтегляне на профилните данни</value>
-  </data>
-  <data name="Edit profile" xml:space="preserve">
-    <value>Редактиране на профила</value>
-  </data>
-  <data name="My profile" xml:space="preserve">
-    <value>Моят профил</value>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Политика за поверителност</value>
   </data>
 </root>

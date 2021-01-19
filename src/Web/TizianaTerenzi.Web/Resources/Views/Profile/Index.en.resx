@@ -132,4 +132,7 @@
   <data name="Edit profile" xml:space="preserve">
     <value>Edit profile</value>
   </data>
+  <data name="My profile" xml:space="preserve">
+    <value>My profile</value>
+  </data>
 </root>

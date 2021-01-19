@@ -18,7 +18,7 @@
         [Route("/about-us")]
         public IActionResult AboutUs()
         {
-            return this.View();
+            return this.View("~/Views/AboutUs/AboutUs.cshtml");
         }
 
         [Route("/privacy")]

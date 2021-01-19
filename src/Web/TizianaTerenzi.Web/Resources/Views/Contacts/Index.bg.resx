@@ -123,8 +123,8 @@
   <data name="contact form" xml:space="preserve">
     <value>форма за контакт</value>
   </data>
-  <data name="contacts" xml:space="preserve">
-    <value>контакти</value>
+  <data name="Contacts" xml:space="preserve">
+    <value>Контакти</value>
   </data>
   <data name="customer service" xml:space="preserve">
     <value>обслужване на клиенти</value>

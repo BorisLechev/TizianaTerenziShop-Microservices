@@ -2,7 +2,7 @@
 @model ProfileViewModel
 
 @{
-    ViewData["Title"] = "My profile";
+    ViewData["Title"] = Localizer["My profile"];
 }
 
 <div class="mx-auto text-center pb-3" style="margin-top: 6rem;">
@@ -11,14 +11,14 @@
         <i class="fas fa-user fa-3x mb-4 text-primary"></i>
         <h1>@Model.FullName</h1>
         <h4 class="text-muted">@Model.Email</h4>
-        <div class="mt-4 d-flex flex-column">
-            <a class="btn btn-outline-primary mx-auto" href="/account/edit">
+        <div class="mt-4">
+            <a class="btn btn-outline-primary mx-auto px-4" href="/account/edit">
                 <i class="far fa-edit"></i> @Localizer["Edit profile"]
             </a>
-            <button class="btn btn-link mx-auto mt-2" data-toggle="modal" data-target="#downloadDataModal">
+            <button class="btn btn-link mx-auto mt-2 px-4" data-toggle="modal" data-target="#downloadDataModal">
                 <i class="fas fa-download"></i> @Localizer["Download personal data"]
             </button>
-            <button class="btn btn-link mx-auto mt-2" data-toggle="modal" data-target="#deleteAccountModal">
+            <button class="btn btn-link mx-auto mt-2 px-4" data-toggle="modal" data-target="#deleteAccountModal">
                 <i class="fas fa-trash"></i> @Localizer["Delete account"]
             </button>
         </div>

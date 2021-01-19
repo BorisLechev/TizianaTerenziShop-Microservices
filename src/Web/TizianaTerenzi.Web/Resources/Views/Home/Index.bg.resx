@@ -123,6 +123,9 @@
   <data name="discover" xml:space="preserve">
     <value>разгледай</value>
   </data>
+  <data name="Home Page" xml:space="preserve">
+    <value>Начало</value>
+  </data>
   <data name="Our passion for what we do is the engine that transforms ideas into art." xml:space="preserve">
     <value>Нашата страст е двигателят, който превръща идеите в изкуство.</value>
   </data>

@@ -1,6 +1,9 @@
 ﻿@inject IViewLocalizer Localizer
 @model ProductDetailsViewModel
 
+@{ 
+    this.ViewData["Title"] = Model.Name;
+}
 <main id="main">
     <section>
         <section class="section-product-details">
