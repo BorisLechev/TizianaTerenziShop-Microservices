@@ -36,6 +36,7 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.DiscountCodes;
     using TizianaTerenzi.Services.Data.FragranceGroups;
+    using TizianaTerenzi.Services.Data.Location;
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
@@ -207,6 +208,7 @@
             services.AddTransient<IPersonalDataService, PersonalDataService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<ICountriesService, CountriesService>();
+            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<ISlugGenerator, SlugGenerator>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

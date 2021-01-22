@@ -12,6 +12,8 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Data.Location;
     using TizianaTerenzi.Web.ViewModels.Authentication;
 
     public class AuthenticationController : BaseController
@@ -24,16 +26,24 @@
 
         private readonly ICartService cartService;
 
+        private readonly ILocationService locationService;
+
+        private readonly ICountriesService countriesService;
+
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<AuthenticationController> logger,
-            ICartService cartService)
+            ICartService cartService,
+            ILocationService locationService,
+            ICountriesService countriesService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.cartService = cartService;
+            this.locationService = locationService;
+            this.countriesService = countriesService;
         }
 
         [Route("/login")]
@@ -144,12 +154,16 @@
 
             if (this.ModelState.IsValid)
             {
+                var country = await this.locationService.GetLocationAsync();
+                var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+
                 var user = new ApplicationUser
                 {
                     UserName = inputModel.UserName,
                     Email = inputModel.Email,
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,
+                    CountryId = countryId,
                 };
 
                 var result = await this.userManager.CreateAsync(user, inputModel.Password);
@@ -265,12 +279,16 @@
                 }
             }
 
+            var country = await this.locationService.GetLocationAsync();
+            var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+
             var user = new ApplicationUser
             {
                 UserName = $"{inputModel.Email}_Google",
                 Email = inputModel.Email,
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
+                CountryId = countryId,
             };
 
             var resultAfterCreate = await this.signInManager.UserManager.CreateAsync(user);
@@ -364,12 +382,16 @@
                 }
             }
 
+            var country = await this.locationService.GetLocationAsync();
+            var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+
             var user = new ApplicationUser
             {
                 UserName = $"{inputModel.Email}_Facebook",
                 Email = inputModel.Email,
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
+                CountryId = countryId,
             };
 
             var resultAfterCreate = await this.signInManager.UserManager.CreateAsync(user);
@@ -488,12 +510,16 @@
 
             if (this.ModelState.IsValid)
             {
+                var country = await this.locationService.GetLocationAsync();
+                var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+
                 var user = new ApplicationUser()
                 {
                     UserName = $"{inputModel.Email}_GitHub",
                     Email = inputModel.Email,
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,
+                    CountryId = countryId,
                 };
 
                 var result = await this.signInManager.UserManager.CreateAsync(user);

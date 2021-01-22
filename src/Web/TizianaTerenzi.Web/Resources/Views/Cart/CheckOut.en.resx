@@ -120,8 +120,8 @@
   <data name="Continue to payment" xml:space="preserve">
     <value>Continue to payment</value>
   </data>
-  <data name="Return to shopping" xml:space="preserve">
-    <value>Return to shopping</value>
+  <data name="Return to cart" xml:space="preserve">
+    <value>Return to cart</value>
   </data>
   <data name="Shipping" xml:space="preserve">
     <value>Shipping</value>

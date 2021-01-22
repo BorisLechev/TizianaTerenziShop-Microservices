@@ -76,9 +76,9 @@
                 </section>
             </main>
             <footer class="shipping-address-footer">
-                <a asp-controller="Products" asp-action="All" class="return-link">
+                <a asp-controller="Cart" asp-action="Index" class="return-link">
                     <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
-                    <span>@Localizer["Return to shopping"]</span>
+                    <span>@Localizer["Return to cart"]</span>
                 </a>
                 <form asp-area="" asp-controller="Payment" asp-action="Pay" method="post">
                     <button class="continue-btn btn btn-secondary" type="submit">@Localizer["Continue to payment"]</button>

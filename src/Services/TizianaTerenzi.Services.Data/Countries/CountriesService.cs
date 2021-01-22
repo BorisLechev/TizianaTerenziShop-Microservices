@@ -33,5 +33,16 @@
 
             return countries;
         }
+
+        public async Task<int> GetCountryIdByNameAsync(string countryName)
+        {
+            var countryId = await this.countriesRepository
+                .AllAsNoTracking()
+                .Where(c => c.Name == countryName)
+                .Select(c => c.Id)
+                .SingleOrDefaultAsync();
+
+            return countryId;
+        }
     }
 }

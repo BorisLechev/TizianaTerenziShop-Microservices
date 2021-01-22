@@ -72,6 +72,17 @@ Example:
   "ApiKey": "[[SendGrid Api Key]]"
 },
 ```
+
+## Set up IpInfo
+1. In the *TizianaTerenzi.Web/appsettings.json* configuration file insert the Api Key.
+
+Example:
+```
+"IpInfo": {
+  "ApiKey": "[[IpInfo Api Key]]"
+},
+```
+
 ## Build with:
   * C#
   * ASP.NET Core MVC
@@ -89,5 +100,6 @@ Example:
   * DataTables
   * OpenStreetMap && Leaflet
   * Highcharts
+  * IpInfo
   * English language
   * Bulgarian language

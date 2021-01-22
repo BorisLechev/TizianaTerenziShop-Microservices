@@ -8,5 +8,7 @@
     public interface ICountriesService
     {
         Task<IEnumerable<SelectListItem>> GetAllCountriesAsync();
+
+        Task<int> GetCountryIdByNameAsync(string countryName);
     }
 }
