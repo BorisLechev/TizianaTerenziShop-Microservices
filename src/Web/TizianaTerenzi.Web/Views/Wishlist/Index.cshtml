@@ -1,0 +1,81 @@
+﻿@inject IViewLocalizer Localizer
+@model WishlistViewModel
+
+@{
+    this.ViewData["Title"] = Localizer["Wishlist"];
+}
+
+<div class="main">
+    <header class="text-center pt-4">
+        <h2>@ViewData["Title"]</h2>
+    </header>
+    <section class="container">
+        <section class="row">
+            <section class="inner-row">
+                <section class="products-list-container">
+                    <section class="products-list">
+                        @foreach (var product in Model.Products)
+                        {
+                            <article class="items-col">
+                                <section class="wrapper-item">
+                                    <section class="wrapper-item-inner">
+                                        <section class="product-image-container">
+                                            <a class="product-image-link" href="@product.Url" title="@product.ProductName">
+                                                <img class="product-image front" src="@product.ProductPicture" alt="@product.ProductName">
+                                                <img class="product-image back" src="@product.ProductPicture" alt="@product.ProductName">
+                                                <section class="image-overlay"></section>
+                                            </a>
+                                        </section>
+                                        <section>
+                                            <form asp-area="" asp-controller="Wishlist" asp-action="Delete" asp-route-productId="@product.Id" method="post">
+                                                <button class="wishlist-btn" type="submit">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </section>
+                                        <section class="actions">
+                                            <div class="link-actions"></div>
+                                            <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
+                                                <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
+                                            </form>
+                                            @if (this.User.Identity.IsAuthenticated)
+                                            {
+                                                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                                {
+                                                    <a class="btn-edit" href="/administration/product/edit/@product.Id">
+                                                        <span>@Localizer["Edit Product"]</span>
+                                                    </a>
+                                                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" method="post">
+                                                        <button class="button-delete" type="submit">
+                                                            <span>@Localizer["Delete Product"]</span>
+                                                        </button>
+                                                    </form>
+                                                }
+                                            }
+                                        </section>
+                                    </section>
+                                    <section class="product-info">
+                                        <a title="@product.ProductName" href="@product.Url">
+                                            <header>
+                                                <h6 class="product-name">
+                                                    <span>@product.ProductName</span>
+                                                </h6>
+                                            </header>
+                                            <footer class="price-box">
+                                                <span class="price">EUR @product.ProductPrice</span>
+                                            </footer>
+                                        </a>
+                                    </section>
+                                </section>
+                            </article>
+                        }
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+</div>
+
+@section CustomCss {
+    <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
+}

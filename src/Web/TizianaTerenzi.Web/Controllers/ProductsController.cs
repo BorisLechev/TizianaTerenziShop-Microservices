@@ -20,8 +20,8 @@
         private readonly IDeletableEntityRepository<Product> productsRepository;
 
         public ProductsController(
-            IProductsService productsService,
-            IDeletableEntityRepository<Product> productsRepository)
+            IDeletableEntityRepository<Product> productsRepository,
+            IProductsService productsService)
         {
             this.productsService = productsService;
             this.productsRepository = productsRepository;

@@ -8,6 +8,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Account;
 
@@ -25,13 +26,16 @@
 
         private readonly ICountriesService countriesService;
 
+        private readonly IWishlistService wishlistService;
+
         public PersonalDataService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
             IDeletableEntityRepository<Vote> votesRepository,
-            ICountriesService countriesService)
+            ICountriesService countriesService,
+            IWishlistService wishlistService)
         {
             this.usersRepository = usersRepository;
 
@@ -40,6 +44,7 @@
             this.commentsRepository = commentsRepository;
             this.votesRepository = votesRepository;
             this.countriesService = countriesService;
+            this.wishlistService = wishlistService;
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
@@ -60,6 +65,7 @@
 
             try
             {
+                // TODO: move it in services
                 var orders = await this.ordersRepository
                     .All()
                     .Where(o => o.UserId == userId)
@@ -87,6 +93,8 @@
                     .ToArrayAsync();
 
                 this.votesRepository.DeleteRange(votes);
+
+                await this.wishlistService.DeleteAllProductsInTheWishlistAsync(userId);
 
                 this.usersRepository.Delete(user);
 
@@ -169,6 +177,12 @@
                     .ToArray(),
                 })
                 .ToArray(),
+                FavoriteProduct = user.FavoriteProducts.Select(fp => new
+                {
+                    fp.Id,
+                    fp.CreatedOn,
+                    fp.Product.Name,
+                }),
             };
 
             var json = JsonConvert.SerializeObject(personalData, Formatting.Indented);

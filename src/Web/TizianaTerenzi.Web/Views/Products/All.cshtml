@@ -67,6 +67,16 @@
                                                 <section class="image-overlay"></section>
                                             </a>
                                         </section>
+                                        @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <section>
+                                                <form asp-area="" asp-controller="Wishlist" asp-action="Add" asp-route-productId="@product.Id" method="post">
+                                                    <button class="wishlist-btn" type="submit">
+                                                        <i class="wishlist-icon"></i>
+                                                    </button>
+                                                </form>
+                                            </section>
+                                        }
                                         <section class="actions">
                                             <div class="link-actions"></div>
                                             <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
@@ -76,7 +86,7 @@
                                             {
                                                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                                 {
-                                                    <a class="btn-edit" href="/administration/product/edit/@product.Id">
+                                                    <a asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@product.Id" class="btn-edit">
                                                         <span>@Localizer["Edit Product"]</span>
                                                     </a>
                                                     <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" method="post">

@@ -43,6 +43,7 @@
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Services.Data.Votes;
+    using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Services.Messaging;
     using TizianaTerenzi.Web.ViewModels;
@@ -209,6 +210,7 @@
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IWishlistService, WishlistService>();
             services.AddTransient<ISlugGenerator, SlugGenerator>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
