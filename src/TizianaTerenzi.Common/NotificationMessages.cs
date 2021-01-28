@@ -33,6 +33,9 @@
         public const string AlreadyAppliedDiscountCode = "You have already applied a discount code.";
         public const string CannotDeleteDiscountCodeError = "Something went wrong.";
         public const string SuccessfullyDeletedDiscountCode = "You have successfully deleted the discount code.";
+        public const string SuccessfullyAppliedGeneralDiscount = "You have successfully applied the general discount.";
+        public const string SuccessfullyDisabledGeneralDiscount = "You have successfully disabled the general discount.";
+        public const string CannotApplyOrDisableGeneralDiscount = "Something went wrong.";
 
         public const string ProcessOrderSuccessfully = "Order processed successfully.";
         public const string ProcessOrderError = "Something went wrong.";

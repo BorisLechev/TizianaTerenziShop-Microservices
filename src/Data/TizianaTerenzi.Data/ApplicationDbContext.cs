@@ -45,6 +45,8 @@
 
         public DbSet<DiscountCode> DiscountCodes { get; set; }
 
+        public DbSet<GeneralDiscount> GeneralDiscounts { get; set; }
+
         public DbSet<Vote> Votes { get; set; }
 
         public DbSet<ProductSorting> ProductSortings { get; set; }

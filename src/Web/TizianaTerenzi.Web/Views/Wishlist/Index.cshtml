@@ -28,24 +28,46 @@
                                         </section>
                                         <section>
                                             <form asp-area="" asp-controller="Wishlist" asp-action="Delete" asp-route-productId="@product.Id" method="post">
-                                                <button class="wishlist-btn" type="submit">
+                                                <button class="wishlist-btn stickers" type="submit">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
                                             </form>
                                         </section>
+                                        @if (product.ProductPrice != product.ProductPriceWithDiscount)
+                                        {
+                                            <section>
+                                                <div class="sticker-discount stickers">
+                                                    <span class="sticker-text">-@product.Discount%</span>
+                                                </div>
+                                            </section>
+                                        }
+                                        <section>
+                                            @if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.Year - 1) && product.ProductPrice == product.ProductPriceWithDiscount)
+                                            {
+                                                <div class="sticker-new-top stickers">
+                                                    <span class="sticker-text">@Localizer["New"]</span>
+                                                </div>
+                                            }
+                                            else if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.Year - 1) && product.ProductPrice != product.ProductPriceWithDiscount)
+                                            {
+                                                <div class="sticker-new stickers">
+                                                    <span class="sticker-text">@Localizer["New"]</span>
+                                                </div>
+                                            }
+                                        </section>
                                         <section class="actions">
                                             <div class="link-actions"></div>
-                                            <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
+                                            <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.ProductId" method="post">
                                                 <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
                                             </form>
                                             @if (this.User.Identity.IsAuthenticated)
                                             {
                                                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                                 {
-                                                    <a class="btn-edit" href="/administration/product/edit/@product.Id">
+                                                    <a class="btn-edit" href="/administration/product/edit/@product.ProductId">
                                                         <span>@Localizer["Edit Product"]</span>
                                                     </a>
-                                                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" method="post">
+                                                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.ProductId" method="post">
                                                         <button class="button-delete" type="submit">
                                                             <span>@Localizer["Delete Product"]</span>
                                                         </button>
@@ -62,7 +84,15 @@
                                                 </h6>
                                             </header>
                                             <footer class="price-box">
-                                                <span class="price">EUR @product.ProductPrice</span>
+                                                @if (product.ProductPrice > product.ProductPriceWithDiscount)
+                                                {
+                                                    <div class="old-price-box">
+                                                        <span class="old-price">@product.ProductPrice</span>
+                                                    </div>
+                                                }
+                                                <div>
+                                                    <span class="price">EUR @product.ProductPriceWithDiscount</span>
+                                                </div>
                                             </footer>
                                         </a>
                                     </section>

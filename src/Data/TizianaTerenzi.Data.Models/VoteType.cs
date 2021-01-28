@@ -4,5 +4,5 @@
     {
         Neutral = 0,
         UpVote = 1,
-    };
+    }
 }

@@ -164,6 +164,38 @@
             return result > 0;
         }
 
+        public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
+        {
+            var products = this.productsRepository
+                .All();
+
+            foreach (var product in products)
+            {
+                product.PriceWithDiscount -= product.Price * discountPercent / 100;
+            }
+
+            products.ToList();
+            var result = await this.productsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync()
+        {
+            var products = this.productsRepository
+                .All();
+
+            foreach (var product in products)
+            {
+                product.PriceWithDiscount = product.Price;
+            }
+
+            products.ToList();
+            var result = await this.productsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public string GetSearchText(string name, string description)
         {
             // Append title

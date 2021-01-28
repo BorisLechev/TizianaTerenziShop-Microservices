@@ -18,7 +18,7 @@
                                 <div class="slider-wrapper">
                                     <div class=inner>
                                         <article>
-                                            <img class="product-image" src="@Model.Picture" />
+                                            <img class="product-image" src="@this.Model.Picture" />
                                         </article>
                                         @*<article>
                                                 <img class="product-image" src="@Model.Picture" />
@@ -43,8 +43,8 @@
                     </article>
                     <article class="details-wrapper">
                         <header class="details-header-container">
-                            <h1 class="product-title">@Model.Name</h1>
-                            <h5>@Model.FragranceGroupName</h5>
+                            <h1 class="product-title">@this.Model.Name</h1>
+                            <h5>@this.Model.FragranceGroupName</h5>
                         </header>
                         <main class="details-main-container">
                             <dl>
@@ -52,7 +52,7 @@
                                     <h6 class="section-title">@Localizer["Year"]</h6>
                                 </dt>
                                 <dd>
-                                    <p class="year">@Model.YearOfManufacture</p>
+                                    <p class="year">@this.Model.YearOfManufacture</p>
                                 </dd>
                             </dl>
                             <dl>
@@ -63,7 +63,11 @@
                                     <p class="notes">@string.Join(", ", Model.Notes)</p>
                                 </dd>
                             </dl>
-                            <section class="product-price-container">€ @Model.Price EUR</section>
+                            <section class="product-price-container">€ @this.Model.PriceWithDiscount EUR</section>
+                            @if (this.Model.Price > this.Model.PriceWithDiscount)
+                            {
+                                <section class="product-old-price-container">€ @this.Model.Price EUR</section>
+                            }
                             <section class="product-quantity-container">
                                 <span class="product-quantity-inner-container">
                                     <span class="quantity">1</span>
@@ -72,7 +76,7 @@
                                 </span>
                             </section>
                             <section class="btn-container">
-                                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@Model.Id" method="post">
+                                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
                                     <button class="button" type="submit">@Localizer["Add to Cart"]</button>
                                 </form>
                             </section>

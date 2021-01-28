@@ -1,0 +1,89 @@
+﻿@model GeneralDiscountViewModel
+
+@{
+    this.ViewData["Title"] = "General discount";
+}
+
+<div class="container all-general-discounts-wrapper">
+    <div class="mx-auto my-4">
+        <div class="text-center mb-3">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        <table class="table table-hover dt-responsive dataTable nowrap" style="width: 100%;">
+            <thead>
+                <tr class="font-weight-bold">
+                    <th>Discount</th>
+                    <th>Off / On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select class="form-control selectpicker" data-live-search="true" title="Select Percent..."
+                                id="discount-percent" asp-for="@this.Model.PercentId" asp-items="@this.Model.Percents">
+                        </select>
+                    </td>
+                    <td>
+                        <div class="custom-control custom-switch">
+                            @if (this.Model.IsActive == 0)
+                            {
+                                <input id="customSwitch1" class="custom-control-input" type="checkbox">
+                            }
+                            else
+                            {
+                                <input id="customSwitch1" class="custom-control-input" type="checkbox" checked>
+                            }
+                            <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<form method="post" id="antiForgeryForm"></form>
+@section Scripts {
+    <script>
+        $('#customSwitch1').change(function () {
+            if ($("#customSwitch1").prop('checked') == true) {
+                let percent = +$("#discount-percent option:selected").text();
+
+                if (percent > 0) {
+                    let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+                    let json = { percent: percent }; // GeneralDiscountInputModel
+
+                    $.ajax({
+                        url: `/administration/generaldiscounts/apply`,
+                        type: "POST",
+                        data: JSON.stringify(json),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        headers: { 'X-CSRF-TOKEN': antiForgeryToken },
+                        success: function () {
+                        },
+                    });
+                }
+            } else {
+                let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+
+                $.ajax({
+                    url: `/administration/generaldiscounts/disable`,
+                    type: "POST",
+                    headers: { 'X-CSRF-TOKEN': antiForgeryToken },
+                    success: function () {
+                    },
+                });
+            }
+        });
+    </script>
+}
+
+@section CustomCss {
+    <style>
+        .all-general-discounts-wrapper {
+            padding-top: 100px;
+        }
+    </style>
+}

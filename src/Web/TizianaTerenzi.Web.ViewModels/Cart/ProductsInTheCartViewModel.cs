@@ -13,7 +13,7 @@
 
         public string ProductPicture { get; set; }
 
-        public decimal ProductPrice { get; set; }
+        public decimal ProductPriceWithDiscount { get; set; }
 
         public decimal ProductPriceAfterDiscount { get; set; }
 

@@ -10,7 +10,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
-    using TizianaTerenzi.Services.Data.DiscountCodes;
+    using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Web.ViewModels.Orders;
 

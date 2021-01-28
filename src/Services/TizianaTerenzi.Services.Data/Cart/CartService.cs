@@ -38,7 +38,7 @@
                 UserId = userId,
                 ProductId = product.Id,
                 Quantity = 1,
-                ProductPriceAfterDiscount = product.Price,
+                ProductPriceAfterDiscount = product.PriceWithDiscount,
             };
 
             await this.productsInTheCartRepository.AddAsync(productInTheCart);

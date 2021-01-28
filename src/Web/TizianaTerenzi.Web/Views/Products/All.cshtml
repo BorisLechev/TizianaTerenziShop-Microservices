@@ -71,12 +71,34 @@
                                         {
                                             <section>
                                                 <form asp-area="" asp-controller="Wishlist" asp-action="Add" asp-route-productId="@product.Id" method="post">
-                                                    <button class="wishlist-btn" type="submit">
+                                                    <button class="wishlist-btn stickers" type="submit">
                                                         <i class="wishlist-icon"></i>
                                                     </button>
                                                 </form>
                                             </section>
                                         }
+                                        @if (product.Price != product.PriceWithDiscount)
+                                        {
+                                            <section>
+                                                <div class="sticker-discount stickers">
+                                                    <span class="sticker-text">-@product.Discount%</span>
+                                                </div>
+                                            </section>
+                                        }
+                                        <section>
+                                            @if ((product.YearOfManufacture == DateTime.UtcNow.Year || product.YearOfManufacture == DateTime.UtcNow.Year - 1) && product.Price == product.PriceWithDiscount)
+                                            {
+                                                <div class="sticker-new-top stickers">
+                                                    <span class="sticker-text">@Localizer["New"]</span>
+                                                </div>
+                                            }
+                                            else if ((product.YearOfManufacture == DateTime.UtcNow.Year || product.YearOfManufacture == DateTime.UtcNow.Year - 1) && product.Price != product.PriceWithDiscount)
+                                            {
+                                                <div class="sticker-new stickers">
+                                                    <span class="sticker-text">@Localizer["New"]</span>
+                                                </div>
+                                            }
+                                        </section>
                                         <section class="actions">
                                             <div class="link-actions"></div>
                                             <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.Id" method="post">
@@ -106,7 +128,15 @@
                                                 </h6>
                                             </header>
                                             <footer class="price-box">
-                                                <span class="price">EUR @product.Price</span>
+                                                @if (product.Price > product.PriceWithDiscount)
+                                                {
+                                                    <div class="old-price-box">
+                                                        <span class="old-price">@product.Price</span>
+                                                    </div>
+                                                }
+                                                <div>
+                                                    <span class="price">EUR @product.PriceWithDiscount</span>
+                                                </div>
                                             </footer>
                                         </a>
                                     </section>

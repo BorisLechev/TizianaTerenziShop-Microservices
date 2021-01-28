@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Services.Data.DiscountCodes
+﻿namespace TizianaTerenzi.Services.Data.Discounts
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

@@ -21,5 +21,9 @@
         Task<bool> EditProductAsync(EditProductInputModel inputModel, Product product);
 
         Task<bool> DeleteProductAsync(int productId);
+
+        Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
+
+        Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
     }
 }

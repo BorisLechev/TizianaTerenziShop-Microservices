@@ -24,7 +24,13 @@
 
         public decimal Price { get; set; }
 
+        public decimal PriceWithDiscount { get; set; }
+
+        public int Discount => this.Price == this.PriceWithDiscount ? 0 : (int)((this.Price - this.PriceWithDiscount) / this.Price * 100);
+
         public string Picture { get; set; }
+
+        public int YearOfManufacture { get; set; }
 
         public string Url => this.urlGenerator.GenerateUrl(this.Id, this.Name);
     }

@@ -234,15 +234,37 @@ img {
 }
 
 .price-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 0.833em;
     margin: 15px 0;
     line-height: 0;
 }
 
 .price {
-    font-size: 1em;
+    font-size: 1.2em;
     line-height: normal;
     color: rgb(145, 121, 43);
+}
+
+.old-price {
+    position: relative;
+    font-size: 14px;
+    color: #aaa;
+    padding-right: 0.5rem;
+}
+
+.old-price:after {
+    position: absolute;
+    content: '';
+    top: 8px;
+    left: 4px;
+    width: 28px;
+    height: 2px;
+    background: #aaa;
+    z-index: 20;
+    transform: rotate(-50deg);
 }
 
 .product-info::before {
@@ -323,18 +345,21 @@ img {
 /*------*/
 
 /*wishlist button && icon*/
-.wishlist-btn {
+.stickers {
     position: absolute;
     top: 0.5rem;
+    width: 42px;
+    height: 42px;
+    z-index: 20;
+    border: 1px solid rgb(145, 121, 43);
+    transition: all 0.2s linear;
+}
+
+.wishlist-btn {
     left: 0.5rem;
     float: left;
-    width: 42px;
-    height: 40px;
     background: rgb(255, 255, 255);
-    border: 1px solid rgb(145, 121, 43);
     border-radius: 100%;
-    z-index: 20;
-    transition: all 0.2s linear;
 }
 
 .wishlist-icon {
@@ -347,7 +372,7 @@ img {
 
 .wishlist-btn:hover {
     border: none;
-    box-shadow: 0px 50px 0px 0px #da2e2a inset;
+    box-shadow: 0px 50px 0px 0px rgb(218, 46, 42) inset;
 }
 
 .wishlist-btn:hover
@@ -372,5 +397,54 @@ img {
     75% {
         transform: scale(0.8);
     }
+}
+
+.sticker-new-top,
+.sticker-discount {
+    right: 0.5rem;
+    background: rgb(65, 176, 149);
+    border-radius: 50%;
+}
+
+.sticker-new {
+    top: 4rem;
+    right: 0.5rem;
+    background: rgb(65, 176, 149);
+    border-radius: 50%;
+}
+
+.sticker-discount {
+    background: rgb(223, 42, 33);
+}
+
+.sticker-discount .sticker-text {
+    font-weight: 600;
+}
+
+.sticker-text {
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 40px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+.sticker-new:hover,
+.sticker-new-top:hover {
+    border: none;
+    box-shadow: 0px 50px 0px 0px rgb(57, 185, 80) inset;
+}
+
+.sticker-discount:hover {
+    border: 0;
+    box-shadow: 0px 50px 0px 0px rgb(207, 57, 91) inset;
+}
+
+.sticker-new:hover .sticker-text,
+.sticker-new-top:hover .sticker-text,
+.sticker-discount:hover .sticker-text {
+    -webkit-animation: beating ease-out 1.5s infinite alternate;
 }
 /*---------------------------------*/

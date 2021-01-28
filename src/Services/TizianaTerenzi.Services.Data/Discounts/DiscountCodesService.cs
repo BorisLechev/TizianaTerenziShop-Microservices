@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Services.Data.DiscountCodes
+﻿namespace TizianaTerenzi.Services.Data.Discounts
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -120,7 +120,7 @@
 
             foreach (var productInTheCart in productsInTheCart)
             {
-                productInTheCart.ProductPriceAfterDiscount = productInTheCart.Product.Price;
+                productInTheCart.ProductPriceAfterDiscount = productInTheCart.Product.PriceWithDiscount;
                 productInTheCart.DiscountCodeId = null;
             }
 

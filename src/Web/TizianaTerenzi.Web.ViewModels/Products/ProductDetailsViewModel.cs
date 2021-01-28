@@ -20,6 +20,8 @@
 
         public decimal Price { get; set; }
 
+        public decimal PriceWithDiscount { get; set; }
+
         public string Picture { get; set; }
 
         public virtual IEnumerable<string> Notes { get; set; }

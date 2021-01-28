@@ -126,6 +126,9 @@
   <data name="Edit Product" xml:space="preserve">
     <value>Edit Product</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>

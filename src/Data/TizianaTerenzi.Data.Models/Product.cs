@@ -18,6 +18,8 @@
 
         public decimal Price { get; set; }
 
+        public decimal PriceWithDiscount { get; set; }
+
         public string Picture { get; set; }
 
         public int ProductTypeId { get; set; }
