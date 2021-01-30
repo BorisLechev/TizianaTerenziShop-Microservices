@@ -27,7 +27,7 @@
 
         private readonly ICommentsService commentsService;
 
-        private readonly IVotesService votesService;
+        private readonly ICommentVotesService commentVotesService;
 
         private readonly ICloudinaryService cloudinaryService;
 
@@ -37,7 +37,7 @@
             IFragranceGroupsService fragranceGroupsService,
             IProductsService productsService,
             ICommentsService commentsService,
-            IVotesService votesService,
+            ICommentVotesService commentVotesService,
             ICloudinaryService cloudinaryService)
         {
             this.notesService = notesService;
@@ -46,7 +46,7 @@
 
             this.productsService = productsService;
             this.commentsService = commentsService;
-            this.votesService = votesService;
+            this.commentVotesService = commentVotesService;
             this.cloudinaryService = cloudinaryService;
         }
 
@@ -199,7 +199,7 @@
             try
             {
                 await this.notesService.DeleteProductNotesAsync(id);
-                await this.votesService.DeleteRangeAsync(id);
+                await this.commentVotesService.DeleteRangeAsync(id);
                 await this.commentsService.DeleteRangeAsync(id);
                 await this.productsService.DeleteProductAsync(id);
 

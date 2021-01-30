@@ -1,0 +1,13 @@
+﻿namespace TizianaTerenzi.Services.Data.Votes
+{
+    using System.Threading.Tasks;
+
+    public interface IProductVotesService
+    {
+        Task<bool> VoteAsync(int productId, string userId, byte value);
+
+        Task<double> GetAverageVotesAsync(int productId);
+
+        Task<int> GetNumberOfVotersAsync(int productId);
+    }
+}

@@ -205,13 +205,14 @@
             services.AddTransient<IProductTypesService, ProductTypesService>();
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
             services.AddTransient<ICommentsService, CommentsService>();
-            services.AddTransient<IVotesService, VotesService>();
+            services.AddTransient<ICommentVotesService, CommentVotesService>();
             services.AddTransient<IPersonalDataService, PersonalDataService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IWishlistService, WishlistService>();
             services.AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
+            services.AddTransient<IProductVotesService, ProductVotesService>();
             services.AddTransient<ISlugGenerator, SlugGenerator>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

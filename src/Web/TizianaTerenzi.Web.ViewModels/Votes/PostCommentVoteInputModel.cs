@@ -1,6 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.ViewModels.Votes
 {
-    public class VotesInputModel
+    public class PostCommentVoteInputModel
     {
         public int CommentId { get; set; }
     }

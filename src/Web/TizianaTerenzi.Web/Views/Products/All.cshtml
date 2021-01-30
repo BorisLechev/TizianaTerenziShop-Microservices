@@ -120,6 +120,23 @@
                                             }
                                         </section>
                                     </section>
+                                    <section class="star-rating" title="@product.AverageVote">
+                                        <div class="back-stars">
+                                            <i class="fa fa-star" onclick="sendVote(@product.Id, 1)"></i>
+                                            <i class="fa fa-star" onclick="sendVote(@product.Id, 2)"></i>
+                                            <i class="fa fa-star" onclick="sendVote(@product.Id, 3)"></i>
+                                            <i class="fa fa-star" onclick="sendVote(@product.Id, 4)"></i>
+                                            <i class="fa fa-star" onclick="sendVote(@product.Id, 5)"></i>
+
+                                            <div class="front-stars" id="stars-@product.Id" style="width: @(product.PercentFillStars)%">
+                                                <i class="fa fa-star" onclick="sendVote(@product.Id, 1)"></i>
+                                                <i class="fa fa-star" onclick="sendVote(@product.Id, 2)"></i>
+                                                <i class="fa fa-star" onclick="sendVote(@product.Id, 3)"></i>
+                                                <i class="fa fa-star" onclick="sendVote(@product.Id, 4)"></i>
+                                                <i class="fa fa-star" onclick="sendVote(@product.Id, 5)"></i>
+                                            </div>
+                                        </div>
+                                    </section>
                                     <section class="product-info">
                                         <a title="@product.Name" href="@product.Url">
                                             <header>
@@ -152,6 +169,8 @@
 
 <partial name="_PagingPartial" model="@Model" />
 
+<form method="post" id="antiForgeryForm"></form>
+
 @section CustomCss {
     <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
 }
@@ -161,5 +180,25 @@
         $("#sort").change(function () {
             $("#sorting-form").submit();
         });
+
+        function sendVote(productId, voteValue) {
+            let data = { productId: productId, value: voteValue }; // postCommentVoteInputModel
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+
+            $.ajax({
+                url: "/votes/product/post",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                headers: { "X-CSRF-TOKEN": antiForgeryToken },
+                success: function (data) {
+                    $(`#stars-${data.productId}`).css('width', `${+data.averageVote * 20}%`);
+                    $(`#stars-${data.productId}`).css('position', 'absolute');
+                    $(`#stars-${data.productId}`).css('color', 'rgb(255, 188, 11)');
+                    $(`#stars-${data.productId}`).css('overflow', 'hidden');
+                    $('.star-rating').attr('title', data.averageVote);
+                },
+            });
+        }
     </script>
 }

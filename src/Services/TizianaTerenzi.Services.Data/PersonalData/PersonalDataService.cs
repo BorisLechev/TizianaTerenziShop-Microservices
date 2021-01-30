@@ -22,7 +22,7 @@
 
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
 
-        private readonly IDeletableEntityRepository<Vote> votesRepository;
+        private readonly IDeletableEntityRepository<CommentVote> commentVotesRepository;
 
         private readonly ICountriesService countriesService;
 
@@ -33,7 +33,7 @@
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
             IDeletableEntityRepository<Comment> commentsRepository,
-            IDeletableEntityRepository<Vote> votesRepository,
+            IDeletableEntityRepository<CommentVote> commentVotesRepository,
             ICountriesService countriesService,
             IWishlistService wishlistService)
         {
@@ -42,7 +42,7 @@
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
             this.commentsRepository = commentsRepository;
-            this.votesRepository = votesRepository;
+            this.commentVotesRepository = commentVotesRepository;
             this.countriesService = countriesService;
             this.wishlistService = wishlistService;
         }
@@ -87,12 +87,12 @@
 
                 this.commentsRepository.DeleteRange(comments);
 
-                var votes = await this.votesRepository
+                var votes = await this.commentVotesRepository
                     .All()
                     .Where(v => v.UserId == userId)
                     .ToArrayAsync();
 
-                this.votesRepository.DeleteRange(votes);
+                this.commentVotesRepository.DeleteRange(votes);
 
                 await this.wishlistService.DeleteAllProductsInTheWishlistAsync(userId);
 

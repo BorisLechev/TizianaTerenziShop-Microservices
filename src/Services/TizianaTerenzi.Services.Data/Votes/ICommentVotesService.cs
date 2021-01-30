@@ -4,13 +4,13 @@
 
     using TizianaTerenzi.Data.Models;
 
-    public interface IVotesService
+    public interface ICommentVotesService
     {
         Task<bool> VoteAsync(int commentId, string userId);
 
         Task<int> GetVotesAsync(int commentId);
 
-        Task<Vote> GetVoteAsync(int commentId, string loggedInUserId);
+        Task<CommentVote> GetVoteAsync(int commentId, string loggedInUserId);
 
         Task DeleteRangeAsync(int productId);
     }

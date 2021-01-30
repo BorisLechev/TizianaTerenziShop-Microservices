@@ -9,6 +9,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
@@ -17,13 +18,17 @@
 
         private readonly IProductsService productsService;
 
+        private readonly IProductVotesService productVotesService;
+
         private readonly IDeletableEntityRepository<Product> productsRepository;
 
         public ProductsController(
             IDeletableEntityRepository<Product> productsRepository,
-            IProductsService productsService)
+            IProductsService productsService,
+            IProductVotesService productVotesService)
         {
             this.productsService = productsService;
+            this.productVotesService = productVotesService;
             this.productsRepository = productsRepository;
         }
 
@@ -64,6 +69,9 @@
             {
                 return this.NotFound();
             }
+
+            var numberOfVoters = await this.productVotesService.GetNumberOfVotersAsync(id.Value);
+            productDetailsViewModel.NumberOfVoters = numberOfVoters;
 
             return this.View(productDetailsViewModel);
         }

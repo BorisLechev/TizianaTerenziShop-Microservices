@@ -7,17 +7,17 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
 
-    public class VotesService : IVotesService
+    public class CommentVotesService : ICommentVotesService
     {
-        private readonly IDeletableEntityRepository<Vote> votesRepository;
+        private readonly IDeletableEntityRepository<CommentVote> commentVotesRepository;
 
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
 
-        public VotesService(
-            IDeletableEntityRepository<Vote> votesRepository,
+        public CommentVotesService(
+            IDeletableEntityRepository<CommentVote> commentVotesRepository,
             IDeletableEntityRepository<Comment> commentsRepository)
         {
-            this.votesRepository = votesRepository;
+            this.commentVotesRepository = commentVotesRepository;
             this.commentsRepository = commentsRepository;
         }
 
@@ -29,21 +29,21 @@
                 .Select(c => c.Id)
                 .ToListAsync();
 
-            var votes = await this.votesRepository
+            var votes = await this.commentVotesRepository
                 .All()
                 .Where(v => commentIds.Contains(v.CommentId))
                 .ToListAsync();
 
             if (votes.Any())
             {
-                this.votesRepository.DeleteRange(votes);
-                await this.votesRepository.SaveChangesAsync();
+                this.commentVotesRepository.DeleteRange(votes);
+                await this.commentVotesRepository.SaveChangesAsync();
             }
         }
 
-        public async Task<Vote> GetVoteAsync(int commentId, string loggedInUserId)
+        public async Task<CommentVote> GetVoteAsync(int commentId, string loggedInUserId)
         {
-            var vote = await this.votesRepository
+            var vote = await this.commentVotesRepository
                 .All()
                 .SingleOrDefaultAsync(v => v.CommentId == commentId && v.UserId == loggedInUserId);
 
@@ -52,7 +52,7 @@
 
         public async Task<int> GetVotesAsync(int commentId)
         {
-            var votesSum = await this.votesRepository
+            var votesSum = await this.commentVotesRepository
                 .All()
                 .Where(c => c.CommentId == commentId)
                 .SumAsync(v => (int)v.Type); // Type e enum DownVote -1, UpVote 1
@@ -62,31 +62,31 @@
 
         public async Task<bool> VoteAsync(int commentId, string userId)
         {
-            var vote = await this.votesRepository
+            var vote = await this.commentVotesRepository
                 .All()
                 .SingleOrDefaultAsync(v => v.CommentId == commentId && v.UserId == userId);
 
-            if (vote != null && vote.Type == VoteType.UpVote)
+            if (vote != null && vote.Type == CommentVoteType.UpVote)
             {
-                vote.Type = VoteType.Neutral;
+                vote.Type = CommentVoteType.Neutral;
             }
-            else if (vote != null && vote.Type == VoteType.Neutral)
+            else if (vote != null && vote.Type == CommentVoteType.Neutral)
             {
-                vote.Type = VoteType.UpVote;
+                vote.Type = CommentVoteType.UpVote;
             }
             else
             {
-                vote = new Vote
+                vote = new CommentVote
                 {
                     CommentId = commentId,
                     UserId = userId,
-                    Type = VoteType.UpVote,
+                    Type = CommentVoteType.UpVote,
                 };
 
-                await this.votesRepository.AddAsync(vote);
+                await this.commentVotesRepository.AddAsync(vote);
             }
 
-            var result = await this.votesRepository.SaveChangesAsync();
+            var result = await this.commentVotesRepository.SaveChangesAsync();
 
             return result > 0;
         }

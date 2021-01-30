@@ -26,7 +26,7 @@
 
         public int VotesSum { get; set; }
 
-        public IEnumerable<DetailsVotesViewModel> Votes { get; set; }
+        public IEnumerable<DetailsCommentVotesViewModel> Votes { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

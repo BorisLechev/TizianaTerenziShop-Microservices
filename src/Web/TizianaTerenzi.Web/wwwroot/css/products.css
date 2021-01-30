@@ -217,7 +217,7 @@ img {
     text-transform: uppercase;
     line-height: normal;
     margin: 0;
-    padding: 15px 0;
+    padding: 0.6rem 0;
     max-height: 61px;
     overflow: hidden;
     border-bottom: 1px solid rgb(235, 235, 235);
@@ -448,3 +448,26 @@ img {
     -webkit-animation: beating ease-out 1.5s infinite alternate;
 }
 /*---------------------------------*/
+
+/*rating*/
+.star-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.3rem 0;
+}
+
+.back-stars {
+    display: flex;
+    font-size: 14px;
+    position: relative;
+}
+
+.front-stars {
+    display: flex;
+    position: absolute;
+    color: rgb(255, 188, 11);
+    overflow: hidden;
+    transition: all .5s;
+}
+/*------------------*/

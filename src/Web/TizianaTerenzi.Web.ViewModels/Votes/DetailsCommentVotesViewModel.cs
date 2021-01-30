@@ -3,10 +3,10 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 
-    public class DetailsVotesViewModel : IMapFrom<Vote>
+    public class DetailsCommentVotesViewModel : IMapFrom<CommentVote>
     {
         public string UserId { get; set; }
 
-        public VoteType Type { get; set; }
+        public CommentVoteType Type { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TizianaTerenzi.Data.Models
 {
-    public enum VoteType
+    public enum CommentVoteType
     {
         Neutral = 0,
         UpVote = 1,

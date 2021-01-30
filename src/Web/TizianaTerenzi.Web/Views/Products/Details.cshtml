@@ -49,6 +49,31 @@
                         <main class="details-main-container">
                             <dl>
                                 <dt class="year-section">
+                                    <h6 class="section-title">@Localizer["Rating"]</h6>
+                                </dt>
+                                <dd>
+                                    <section class="star-rating" title="@this.Model.AverageVote">
+                                        <div class="back-stars">
+                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 1)"></i>
+                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 2)"></i>
+                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 3)"></i>
+                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 4)"></i>
+                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 5)"></i>
+
+                                            <div class="front-stars" id="stars-@this.Model.Id" style="width: @(this.Model.PercentFillStars)%">
+                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 1)"></i>
+                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 2)"></i>
+                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 3)"></i>
+                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 4)"></i>
+                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 5)"></i>
+                                            </div>
+                                        </div>
+                                        <span id="averageVoteValue">@this.Model.AverageVote.ToString("0.0")</span><span> / 5</span><span id="numberOfVoters"> (@this.Model.NumberOfVoters)</span>
+                                    </section>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt class="year-section">
                                     <h6 class="section-title">@Localizer["Year"]</h6>
                                 </dt>
                                 <dd>
@@ -98,6 +123,8 @@
     </section>
 </main>
 
+<form method="post" id="antiForgeryForm"></form>
+
 <script src="~/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     tinymce.init({
@@ -117,16 +144,16 @@
         }
 
         function sendVote(commentId) {
-            let token = $("#votesForm input[name=__RequestVerificationToken]").val();
-            let json = { commentId: commentId }; // votesInputModel
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let json = { commentId: commentId }; // postCommentVoteInputModel
 
             $.ajax({
-                url: "/api/votes",
+                url: "/votes/comment/post",
                 type: "POST",
                 data: JSON.stringify(json),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                headers: { 'X-CSRF-TOKEN': token },
+                headers: { 'X-CSRF-TOKEN': antiForgeryToken },
                 success: function (data) {
                     $(`#votesCount-${commentId}`).html(data.votesCount);
                     if (data.isUpVoted === true) {
@@ -135,6 +162,28 @@
                         $(`#heart-${commentId}`).removeClass("voted");
                     }
                 }
+            });
+        }
+
+        function sendProductVote(productId, voteValue) {
+            let data = { productId: productId, value: voteValue }; // postCommentVoteInputModel
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+
+            $.ajax({
+                url: "/votes/product/post",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                headers: { "X-CSRF-TOKEN": antiForgeryToken },
+                success: function (data) {
+                    $(`#stars-${data.productId}`).css('width', `${+data.averageVote * 20}%`);
+                    $(`#stars-${data.productId}`).css('position', 'absolute');
+                    $(`#stars-${data.productId}`).css('color', 'rgb(255, 188, 11)');
+                    $(`#stars-${data.productId}`).css('overflow', 'hidden');
+                    $('#averageVoteValue').html(data.averageVote);
+                    $('.star-rating').attr('title', data.averageVote);
+                    $('#numberOfVoters').html(`(${data.numberOfVoters})`);
+                },
             });
         }
     </script>

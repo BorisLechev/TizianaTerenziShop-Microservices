@@ -4,7 +4,7 @@
 
     using TizianaTerenzi.Data.Common.Models;
 
-    public class Vote : BaseDeletableModel<int>
+    public class CommentVote : BaseDeletableModel<int>
     {
         public int CommentId { get; set; }
 
@@ -15,6 +15,6 @@
 
         public virtual ApplicationUser User { get; set; }
 
-        public VoteType Type { get; set; }
+        public CommentVoteType Type { get; set; }
     }
 }

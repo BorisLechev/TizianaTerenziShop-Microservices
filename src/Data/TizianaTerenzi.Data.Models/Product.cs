@@ -10,6 +10,7 @@
         {
             this.Comments = new HashSet<Comment>();
             this.Notes = new HashSet<ProductNotes>();
+            this.Votes = new HashSet<ProductVote>();
         }
 
         public string Name { get; set; }
@@ -37,5 +38,7 @@
         public virtual ICollection<ProductNotes> Notes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<ProductVote> Votes { get; set; }
     }
 }

@@ -9,7 +9,7 @@
     {
         public Comment()
         {
-            this.Votes = new HashSet<Vote>();
+            this.Votes = new HashSet<CommentVote>();
         }
 
         public int ProductId { get; set; }
@@ -27,6 +27,6 @@
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<Vote> Votes { get; set; }
+        public virtual ICollection<CommentVote> Votes { get; set; }
     }
 }

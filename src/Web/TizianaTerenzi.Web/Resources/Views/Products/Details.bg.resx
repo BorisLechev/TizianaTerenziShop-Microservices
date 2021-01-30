@@ -129,6 +129,9 @@
   <data name="Notes" xml:space="preserve">
     <value>Мириси</value>
   </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
   <data name="Year" xml:space="preserve">
     <value>Година</value>
   </data>
