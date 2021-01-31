@@ -123,14 +123,26 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="Do you have an opinion on this product?" xml:space="preserve">
+    <value>Do you have an opinion on this product?</value>
+  </data>
   <data name="Edit Product" xml:space="preserve">
     <value>Edit Product</value>
   </data>
   <data name="Notes" xml:space="preserve">
     <value>Notes</value>
   </data>
+  <data name="Opinions" xml:space="preserve">
+    <value>Opinions</value>
+  </data>
   <data name="Rating" xml:space="preserve">
     <value>Rating</value>
+  </data>
+  <data name="stars" xml:space="preserve">
+    <value>stars</value>
+  </data>
+  <data name="voters" xml:space="preserve">
+    <value>voters</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Year</value>

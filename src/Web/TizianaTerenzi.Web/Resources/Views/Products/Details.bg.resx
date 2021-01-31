@@ -123,14 +123,26 @@
   <data name="Description" xml:space="preserve">
     <value>Описание</value>
   </data>
+  <data name="Do you have an opinion on this product?" xml:space="preserve">
+    <value>Имаш ли мнение за този продукт?</value>
+  </data>
   <data name="Edit Product" xml:space="preserve">
     <value>Edit Product</value>
   </data>
   <data name="Notes" xml:space="preserve">
     <value>Мириси</value>
   </data>
+  <data name="Opinions" xml:space="preserve">
+    <value>Мнения</value>
+  </data>
   <data name="Rating" xml:space="preserve">
     <value>Рейтинг</value>
+  </data>
+  <data name="stars" xml:space="preserve">
+    <value>звезди</value>
+  </data>
+  <data name="voters" xml:space="preserve">
+    <value>оценки</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Година</value>

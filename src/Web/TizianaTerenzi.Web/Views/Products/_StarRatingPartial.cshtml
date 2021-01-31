@@ -1,0 +1,15 @@
+﻿<div class="back-stars">
+    <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 1)"></i>
+    <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 2)"></i>
+    <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 3)"></i>
+    <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 4)"></i>
+    <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 5)"></i>
+
+    <div class="front-stars stars-@this.Model.Id" style="width: @(this.Model.PercentFillStars)%">
+        <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 1)"></i>
+        <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 2)"></i>
+        <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 3)"></i>
+        <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 4)"></i>
+        <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 5)"></i>
+    </div>
+</div>

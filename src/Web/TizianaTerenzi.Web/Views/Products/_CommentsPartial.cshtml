@@ -61,11 +61,6 @@
     <form id="votesForm" method="post"></form>
 }
 
-@if (this.User.Identity.IsAuthenticated)
-{
-    <div class="px-4 pt-3"> <button type="button" class="btn btn-primary btn-comment float-right" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button> </div>
-    <div class="clearfix"></div>
-}
 @{ DisplayComments(null); }
 <section style="margin-left: 1rem; margin-right: 1rem;">
     <form asp-controller="Comments" asp-action="Create" method="post" id="AddCommentForm" style="display: none">

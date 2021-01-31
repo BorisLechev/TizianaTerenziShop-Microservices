@@ -52,23 +52,9 @@
                                     <h6 class="section-title">@Localizer["Rating"]</h6>
                                 </dt>
                                 <dd>
-                                    <section class="star-rating" title="@this.Model.AverageVote">
-                                        <div class="back-stars">
-                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 1)"></i>
-                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 2)"></i>
-                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 3)"></i>
-                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 4)"></i>
-                                            <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 5)"></i>
-
-                                            <div class="front-stars" id="stars-@this.Model.Id" style="width: @(this.Model.PercentFillStars)%">
-                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 1)"></i>
-                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 2)"></i>
-                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 3)"></i>
-                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 4)"></i>
-                                                <i class="fa fa-star" onclick="sendProductVote(@this.Model.Id, 5)"></i>
-                                            </div>
-                                        </div>
-                                        <span id="averageVoteValue">@this.Model.AverageVote.ToString("0.0")</span><span> / 5</span><span id="numberOfVoters"> (@this.Model.NumberOfVoters)</span>
+                                    <section class="star-rating" title="@this.Model.AverageVote.ToString("0.0")">
+                                        <partial name="_StarRatingPartial" />
+                                        <span class="averageVoteValue">@this.Model.AverageVote.ToString("0.0")</span><span> / 5</span><span id="numberOfVoters"> (@this.Model.NumberOfVoters)</span>
                                     </section>
                                 </dd>
                             </dl>
@@ -116,6 +102,96 @@
             </header>
             <main>
                 <p>@Html.Raw(Model.SanitizedDescription)</p>
+            </main>
+        </section>
+        <section class="col-xs-12">
+            <header class="rating-chart-header">
+                <span class="row-title">
+                    <h3 class="rating-chart-title">@Localizer["Opinions"]</h3>
+                </span>
+            </header>
+            <main class="col-xs-12" style="display: flex;">
+                <div class="col-md-7">
+                    <div class="rating-chart-container">
+                        <div class="rating-avrg-box">
+                            <span class="average-wrapper">
+                                <strong class="average-rating">
+                                    <strong class="averageVoteValue">@this.Model.AverageVote.ToString("0.0")</strong>
+                                </strong>
+                                 / 
+                                <strong>5</strong>
+                            </span>
+                            <section class="star-rating" title="@this.Model.AverageVote.ToString("0.0")">
+                                <partial name="_StarRatingPartial" />
+                            </section>
+                            <section class="voters-wrapper">
+                                <span class="count-voters">@this.Model.NumberOfVoters </span>
+                                <span>@Localizer["voters"]</span>
+                            </section>
+                        </div>
+                        <div class="ratings-chart-wrapper">
+                            <div class="rating-box-wrapper rating-row-5">
+                                <a class="rating-info rating-colour-row-5" onclick="sendProductVote(@this.Model.Id, 5)">
+                                    <span>5 @Localizer["stars"]</span>
+                                </a>
+                                <span class="rating-box">
+                                    <span class="rating" style="width: 66.666666666667%;"></span>
+                                </span>
+                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
+                            </div>
+                            <div class="rating-box-wrapper rating-row-4">
+                                <a class="rating-info rating-colour-row-4" onclick="sendProductVote(@this.Model.Id, 4)">
+                                    <span>4 @Localizer["stars"]</span>
+                                </a>
+                                <span class="rating-box">
+                                    <span class="rating" style="width: 0%;"></span>
+                                </span>
+                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
+                            </div>
+                            <div class="rating-box-wrapper rating-row-3">
+                                <a class="rating-info rating-colour-row-3" onclick="sendProductVote(@this.Model.Id, 3)">
+                                    <span>3 @Localizer["stars"]</span>
+                                </a>
+                                <span class="rating-box">
+                                    <span class="rating" style="width: 0%;"></span>
+                                </span>
+                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
+                            </div>
+                            <div class="rating-box-wrapper rating-row-2">
+                                <a class="rating-info rating-colour-row-2" onclick="sendProductVote(@this.Model.Id, 2)">
+                                    <span>2 @Localizer["stars"]</span>
+                                </a>
+                                <span class="rating-box">
+                                    <span class="rating" style="width: 0%;"></span>
+                                </span>
+                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
+                            </div>
+                            <div class="rating-box-wrapper rating-row-1">
+                                <a class="rating-info rating-colour-row-1" onclick="sendProductVote(@this.Model.Id, 1)">
+                                    <span>1 @Localizer["stars"]</span>
+                                </a>
+                                <span class="rating-box">
+                                    <span class="rating" style="width: 33.333333333333%"></span>
+                                </span>
+                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <header class="add-review-header">
+                        <h3 class="opinion-title-question">@Localizer["Do you have an opinion on this product?"]</h3>
+                    </header>
+                    <main>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <div>
+                                <button type="button" class="btn btn-primary btn-comment float-left" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button> 
+                            </div>
+                            <div class="clearfix"></div>
+                        }
+                    </main>
+                </div>
             </main>
         </section>
 
@@ -176,13 +252,18 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: { "X-CSRF-TOKEN": antiForgeryToken },
                 success: function (data) {
-                    $(`#stars-${data.productId}`).css('width', `${+data.averageVote * 20}%`);
-                    $(`#stars-${data.productId}`).css('position', 'absolute');
-                    $(`#stars-${data.productId}`).css('color', 'rgb(255, 188, 11)');
-                    $(`#stars-${data.productId}`).css('overflow', 'hidden');
-                    $('#averageVoteValue').html(data.averageVote);
-                    $('.star-rating').attr('title', data.averageVote);
+                    $(`.stars-${data.productId}`).css({
+                        'width': `${+data.averageVote * 20}%`,
+                        'position': 'absolute',
+                        'color': 'rgb(255, 188, 11)',
+                        'overflow': 'hidden',
+                    });
+
+                    $('.averageVoteValue').html(data.averageVote.toFixed(1));
+                    $('.star-rating').attr('title', data.averageVote.toFixed(1));
                     $('#numberOfVoters').html(`(${data.numberOfVoters})`);
+                    $('.count-voters').html(data.numberOfVoters);
+                    $('.rating-colour-row-5').css('width', data.countVotesWithValueFive)
                 },
             });
         }

@@ -1,6 +1,8 @@
 ﻿namespace TizianaTerenzi.Services.Data.Votes
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using TizianaTerenzi.Data.Models;
 
     public interface IProductVotesService
     {
