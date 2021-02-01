@@ -7,8 +7,9 @@
     using Ganss.XSS;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Web.ViewModels.Votes;
 
-    public class ProductDetailsViewModel : IMapFrom<Product>, IHaveCustomMappings
+    public class ProductDetailsViewModel : ProductVoteResponseModel, IMapFrom<Product>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -30,11 +31,7 @@
 
         public int YearOfManufacture { get; set; }
 
-        public double AverageVote { get; set; }
-
         public double PercentFillStars => this.AverageVote * 20;
-
-        public int NumberOfVoters { get; set; }
 
         public IEnumerable<ProductCommentViewModel> Comments { get; set; }
 

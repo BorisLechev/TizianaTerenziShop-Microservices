@@ -10,6 +10,7 @@
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Web.ViewModels.Comments;
 
+    [Authorize]
     public class CommentsController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -25,7 +26,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
         {
             var parentId = inputModel.ParentId == 0 ? (int?)null : inputModel.ParentId;

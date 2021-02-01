@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -67,8 +68,25 @@
 
             var averageVotes = await this.productVotesService.GetAverageVotesAsync(inputModel.ProductId);
             var numberOfVoters = await this.productVotesService.GetNumberOfVotersAsync(inputModel.ProductId);
+            var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(inputModel.ProductId);
 
-            return new ProductVoteResponseModel { AverageVote = averageVotes, NumberOfVoters = numberOfVoters, ProductId = inputModel.ProductId };
+            var countOfVotesWithValueFive = allValues.Where(pv => pv == 5).Count();
+            var countOfVotesWithValueFour = allValues.Where(pv => pv == 4).Count();
+            var countOfVotesWithValueThree = allValues.Where(pv => pv == 3).Count();
+            var countOfVotesWithValueTwo = allValues.Where(pv => pv == 2).Count();
+            var countOfVotesWithValueOne = allValues.Where(pv => pv == 1).Count();
+
+            return new ProductVoteResponseModel
+            {
+                AverageVote = averageVotes,
+                NumberOfVoters = numberOfVoters,
+                ProductId = inputModel.ProductId,
+                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / (double)numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / (double)numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / (double)numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / (double)numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / (double)numberOfVoters * 100 : 0,
+            };
         }
     }
 }

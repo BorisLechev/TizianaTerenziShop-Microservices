@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using TizianaTerenzi.Data.Models;
 
     public interface IProductVotesService
@@ -11,5 +12,7 @@
         Task<double> GetAverageVotesAsync(int productId);
 
         Task<int> GetNumberOfVotersAsync(int productId);
+
+        Task<IEnumerable<byte>> GetAllValuesByProductIdAsync(int productId);
     }
 }

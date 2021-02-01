@@ -137,10 +137,10 @@
 
 .description {
     text-align: center;
-    padding: 0 8%;
 }
 
 .description-title {
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -149,6 +149,10 @@
     #main {
         padding: 0 80px;
     }
+}
+
+.description main p {
+    padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .description main p,
@@ -200,24 +204,16 @@
 }
 
 .rating-chart-header {
-    padding: 16px 0px 29px 0px;
-    margin-bottom: 20px;
+    padding: 1rem 0px 1rem 0px;
     text-align: center;
-}
-
-.row-title {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: bold;
     transition: all 0.2s linear;
 }
 
 .rating-chart-title {
-    font-size: 22px;
+    font-size: 1.5rem;
     line-height: 26px;
     font-weight: bold;
-    padding: 0;
-    margin: 20px 0px 15px 0px;
+    margin: 1rem 0 1rem 0;
 }
 
 .rating-chart-container {
@@ -231,7 +227,6 @@
 .rating-avrg-box {
     position: relative;
     width: 132px;
-    height: 100px;
     margin: 10px 0;
     text-align: center;
     float: left;
@@ -260,7 +255,6 @@
 
 .rating-box-wrapper {
     display: flex;
-    justify-content: start;
     margin: 10px 0;
 }
 
@@ -271,7 +265,6 @@
     line-height: 1;
     color: rgb(17, 129, 183);
     font-size: 14px;
-    float: left;
     margin-top: -2px;
 }
 
@@ -306,14 +299,22 @@
 }
 
 .rating {
-    float: left;
     border-radius: 10px;
 }
 
-.number-of-voters {
-    text-align: right;
-    line-height: 1;
-    margin-top: -2px;
-    margin-left: 8px;
+@media screen and (max-width: 1300px) {
+    .rating-avrg-box {
+        float: none;
+        margin: 0 auto 10px auto;
+    }
+
+    .ratings-chart-wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .rating-info {
+        width: 20%;
+    }
 }
 /*------------------*/

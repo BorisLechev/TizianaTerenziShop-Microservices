@@ -98,7 +98,7 @@
         </section>
         <section class="description">
             <header>
-                <h5 class="description-title">@Localizer["Description"]</h5>
+                <h3 class="description-title">@Localizer["Description"]</h3>
             </header>
             <main>
                 <p>@Html.Raw(Model.SanitizedDescription)</p>
@@ -106,11 +106,9 @@
         </section>
         <section class="col-xs-12">
             <header class="rating-chart-header">
-                <span class="row-title">
-                    <h3 class="rating-chart-title">@Localizer["Opinions"]</h3>
-                </span>
+                <h3 class="rating-chart-title">@Localizer["Opinions"]</h3>
             </header>
-            <main class="col-xs-12" style="display: flex;">
+            <main class="col-xs-12" style="display: flex; flex-wrap: wrap;">
                 <div class="col-md-7">
                     <div class="rating-chart-container">
                         <div class="rating-avrg-box">
@@ -131,49 +129,44 @@
                         </div>
                         <div class="ratings-chart-wrapper">
                             <div class="rating-box-wrapper rating-row-5">
-                                <a class="rating-info rating-colour-row-5" onclick="sendProductVote(@this.Model.Id, 5)">
+                                <a class="rating-info" onclick="sendProductVote(@this.Model.Id, 5)">
                                     <span>5 @Localizer["stars"]</span>
                                 </a>
                                 <span class="rating-box">
-                                    <span class="rating" style="width: 66.666666666667%;"></span>
+                                    <span class="rating rating-colour-row-5" style="width: @(this.Model.ShareOfVotesWithValueOfFive)%;"></span>
                                 </span>
-                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
                             </div>
                             <div class="rating-box-wrapper rating-row-4">
-                                <a class="rating-info rating-colour-row-4" onclick="sendProductVote(@this.Model.Id, 4)">
+                                <a class="rating-info" onclick="sendProductVote(@this.Model.Id, 4)">
                                     <span>4 @Localizer["stars"]</span>
                                 </a>
                                 <span class="rating-box">
-                                    <span class="rating" style="width: 0%;"></span>
+                                    <span class="rating rating-colour-row-4" style="width: @(this.Model.ShareOfVotesWithValueOfFour)%;"></span>
                                 </span>
-                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
                             </div>
                             <div class="rating-box-wrapper rating-row-3">
-                                <a class="rating-info rating-colour-row-3" onclick="sendProductVote(@this.Model.Id, 3)">
+                                <a class="rating-info" onclick="sendProductVote(@this.Model.Id, 3)">
                                     <span>3 @Localizer["stars"]</span>
                                 </a>
                                 <span class="rating-box">
-                                    <span class="rating" style="width: 0%;"></span>
+                                    <span class="rating rating-colour-row-3" style="width: @(this.Model.ShareOfVotesWithValueOfThree)%;"></span>
                                 </span>
-                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
                             </div>
                             <div class="rating-box-wrapper rating-row-2">
-                                <a class="rating-info rating-colour-row-2" onclick="sendProductVote(@this.Model.Id, 2)">
+                                <a class="rating-info" onclick="sendProductVote(@this.Model.Id, 2)">
                                     <span>2 @Localizer["stars"]</span>
                                 </a>
                                 <span class="rating-box">
-                                    <span class="rating" style="width: 0%;"></span>
+                                    <span class="rating rating-colour-row-2" style="width: @(this.Model.ShareOfVotesWithValueOfTwo)%;"></span>
                                 </span>
-                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
                             </div>
                             <div class="rating-box-wrapper rating-row-1">
-                                <a class="rating-info rating-colour-row-1" onclick="sendProductVote(@this.Model.Id, 1)">
+                                <a class="rating-info" onclick="sendProductVote(@this.Model.Id, 1)">
                                     <span>1 @Localizer["stars"]</span>
                                 </a>
                                 <span class="rating-box">
-                                    <span class="rating" style="width: 33.333333333333%"></span>
+                                    <span class="rating rating-colour-row-1" style="width: @(this.Model.ShareOfVotesWithValueOfOne)%"></span>
                                 </span>
-                                <span class="number-of-voters">(@this.Model.NumberOfVoters)</span>
                             </div>
                         </div>
                     </div>
@@ -242,7 +235,7 @@
         }
 
         function sendProductVote(productId, voteValue) {
-            let data = { productId: productId, value: voteValue }; // postCommentVoteInputModel
+            let data = { productId: productId, value: voteValue, }; // postProductVoteInputModel
             let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
 
             $.ajax({
@@ -263,7 +256,11 @@
                     $('.star-rating').attr('title', data.averageVote.toFixed(1));
                     $('#numberOfVoters').html(`(${data.numberOfVoters})`);
                     $('.count-voters').html(data.numberOfVoters);
-                    $('.rating-colour-row-5').css('width', data.countVotesWithValueFive)
+                    $('.rating-colour-row-5').css('width', `${data.shareOfVotesWithValueOfFive.toFixed(1)}%`);
+                    $('.rating-colour-row-4').css('width', `${data.shareOfVotesWithValueOfFour.toFixed(1)}%`);
+                    $('.rating-colour-row-3').css('width', `${data.shareOfVotesWithValueOfThree.toFixed(1)}%`);
+                    $('.rating-colour-row-2').css('width', `${data.shareOfVotesWithValueOfTwo.toFixed(1)}%`);
+                    $('.rating-colour-row-1').css('width', `${data.shareOfVotesWithValueOfOne.toFixed(1)}%`);
                 },
             });
         }

@@ -18,10 +18,21 @@
             this.productVotesRepository = productVotesRepository;
         }
 
+        public async Task<IEnumerable<byte>> GetAllValuesByProductIdAsync(int productId)
+        {
+            var voteValues = await this.productVotesRepository
+                .AllAsNoTracking()
+                .Where(pv => pv.ProductId == productId)
+                .Select(pv => pv.Value)
+                .ToListAsync();
+
+            return voteValues;
+        }
+
         public async Task<double> GetAverageVotesAsync(int productId)
         {
             return await this.productVotesRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(pv => pv.ProductId == productId)
                 .AverageAsync(pv => pv.Value);
         }
