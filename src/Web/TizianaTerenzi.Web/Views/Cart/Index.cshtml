@@ -74,9 +74,21 @@
                                 </section>
                             </section>
                             <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
-                                @if (hasDiscountCode == true && this.User.Identity.IsAuthenticated)
+                                @if (hasDiscountCode == true)
                                 {
-                                    <section id="discount-tag-container" class="discount-tag-container">
+                                    <section id="discount-tag-container" class="discount-tag-container" style="display: block;">
+                                        <section class="discount-tag">
+                                            <form id="delete-discount" method="post">
+                                                <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                                <p class="discount-code">@this.Model[0].DiscountCodeName</p>
+                                                <button id="delete-discount" class="btn-delete"></button>
+                                            </form>
+                                        </section>
+                                    </section>
+                                }
+                                else
+                                {
+                                    <section id="discount-tag-container" class="discount-tag-container" style="display: none;">
                                         <section class="discount-tag">
                                             <form id="delete-discount" method="post">
                                                 <span class="tag-icon fas fa-tags" alt="tags"></span>
@@ -193,17 +205,19 @@
         $('#apply-btn').click(function (event) {
             event.preventDefault();
 
-            let discountName = $('#discount-input').val();
+            let discountName = $('#discount-input').val().toUpperCase();
             let antiForgeryToken = $("#apply-discount input[name=__RequestVerificationToken]").val();
 
             $.ajax({
-                type: "POST",
                 url: `/cart/discount/${discountName}/apply`,
+                type: "POST",
                 headers: {
                     "X-CSRF-TOKEN": antiForgeryToken,
                 },
                 success: function () {
                     $("#discount-tag-container").show();
+                    $('.discount-code').text(discountName);
+                    location.reload();
                 },
             });
         });
@@ -223,6 +237,7 @@
                 success: function () {
                     $('#discount-tag-container').hide();
                     $('#discount-input').val('');
+                    location.reload();
                 },
             });
         })

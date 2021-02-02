@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Data.Models;
-
     public interface IProductVotesService
     {
         Task<bool> VoteAsync(int productId, string userId, byte value);
