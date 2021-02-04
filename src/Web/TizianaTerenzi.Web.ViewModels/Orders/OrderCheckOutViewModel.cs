@@ -5,7 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class OrderCheckOutViewModel
+    public class OrderCheckoutViewModel
     {
         public string FirstName { get; set; }
 

@@ -12,7 +12,6 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.Products;
-    using TizianaTerenzi.Web.ViewModels.DiscountCodes;
     using TizianaTerenzi.Web.ViewModels.Orders;
 
     public class CartController : BaseController
@@ -209,7 +208,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> CheckOut()
+        public async Task<IActionResult> Checkout()
         {
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -221,7 +220,7 @@
                  .GetAllProductsInTheCartByUserId(user.Id);
             var countries = await this.countriesService.GetAllCountriesAsync();
 
-            var viewModel = new OrderCheckOutViewModel
+            var viewModel = new OrderCheckoutViewModel
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,

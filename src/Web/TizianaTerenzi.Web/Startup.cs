@@ -24,6 +24,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
+    using Stripe;
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common;
     using TizianaTerenzi.Data.Common.Repositories;
@@ -66,7 +67,7 @@
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-            Account account = new Account(
+            CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(
                 this.configuration["Cloudinary:CloudName"],
                 this.configuration["Cloudinary:ApiKey"],
                 this.configuration["Cloudinary:ApiSecret"]);
@@ -74,6 +75,9 @@
             Cloudinary cloudinary = new Cloudinary(account);
 
             services.AddSingleton(cloudinary);
+
+            // Stripe Setup
+            //services.Configure<StripeSettings>(this.configuration.GetSection("Stripe"));
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -256,6 +260,8 @@
             app.UseAuthorization();
 
             app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
+            StripeConfiguration.ApiKey = this.configuration["Stripe:SecretKey"];
 
             app.UseEndpoints(
                 endpoints =>

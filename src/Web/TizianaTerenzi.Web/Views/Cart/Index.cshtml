@@ -16,119 +16,126 @@
                     <h5 class="cart-title">@Localizer["shopping cart"]</h5>
                 </header>
                 <main>
-                    <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th>@Localizer["product"]</th>
-                                <th>@Localizer["quantity"]</th>
-                                <th class="price-header">@Localizer["price"]</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < this.Model.Count; i++)
-                            {
-                                <tr class="order">
-                                    <td data-title="product">
-                                        <section class="cart-item">
-                                            <article class="cart-item-img">
-                                                <a>
-                                                    <picture>
-                                                        <img src="@this.Model[i].ProductPicture" alt="photo">
-                                                    </picture>
-                                                </a>
-                                            </article>
-                                            <article class="cart-item-heading">
-                                                <section class="cart-item-title">
-                                                    <a>@this.Model[i].ProductName</a>
-                                                </section>
-                                            </article>
-                                        </section>
-                                    </td>
-                                    <td data-title="quantity">
-                                        <span class="product-quantity-inner-container">
-                                            <span class="quantity">@this.Model[i].Quantity</span>
-                                            <span id="@(this.Model[i].Id)-increase" class="increase-btn"></span>
-                                            <span id="@(this.Model[i].Id)-decrease" class="decrease-btn"></span>
-                                        </span>
-                                    </td>
-                                    <td data-title="price">
-                                        <section class="cart-item-price">
-                                            <span class="price">€ @(this.Model[i].ProductPriceAfterDiscount) EUR</span>
-                                        </section>
-                                    </td>
-                                    <td>
-                                        <form asp-controller="Cart" asp-action="DeleteProduct" asp-route-id="@this.Model[i].Id" method="post">
-                                            <button class="btn-delete" type="submit"></button>
-                                        </form>
-                                    </td>
+                    @if (this.Model.Any())
+                    {
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>@Localizer["product"]</th>
+                                    <th>@Localizer["quantity"]</th>
+                                    <th class="price-header">@Localizer["price"]</th>
+                                    <th></th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <section class="cart-form-footer">
-                        <section class="cart-form-inner-footer">
-                            <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
-                                <section class="discount-box">
-                                    <a class="button cart-button" asp-controller="Products" asp-action="All">@Localizer["Continue Shopping"]</a>
-                                </section>
-                            </section>
-                            <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
-                                @if (hasDiscountCode == true)
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < this.Model.Count; i++)
                                 {
-                                    <section id="discount-tag-container" class="discount-tag-container" style="display: block;">
-                                        <section class="discount-tag">
-                                            <form id="delete-discount" method="post">
-                                                <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                                <p class="discount-code">@this.Model[0].DiscountCodeName</p>
-                                                <button id="delete-discount" class="btn-delete"></button>
-                                            </form>
-                                        </section>
-                                    </section>
-                                }
-                                else
-                                {
-                                    <section id="discount-tag-container" class="discount-tag-container" style="display: none;">
-                                        <section class="discount-tag">
-                                            <form id="delete-discount" method="post">
-                                                <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                                <p class="discount-code">@this.Model[0].DiscountCodeName</p>
-                                                <button id="delete-discount" class="btn-delete"></button>
-                                            </form>
-                                        </section>
-                                    </section>
-                                }
-                                <section class="discount-box">
-                                    <form id="apply-discount" method="post">
-                                        <input id="discount-input" class="discount-input" type="text" placeholder="@Localizer["Discount"]">
-                                        <button id="apply-btn" class="button cart-button" type="submit">@Localizer["Apply"]</button>
-                                    </form>
-                                </section>
-                            </section>
-                            <section class="col-sm-6 offset-sm-3 col-lg-6 offset-lg-0">
-                                <section class="cart-form-inner-footer">
-                                    <section class="col-lg-6 update-check-out-btn">
-                                        <a class="button cart-button">@Localizer["Update Cart"]</a>
-                                    </section>
-                                    <section class="col-lg-6 update-check-out-btn">
-                                        <section class="cart-summary">
-                                            <section class="total-price-container">
-                                                <div class="label-price">@Localizer["total price"]</div>
-                                                <div class="price-container">
-                                                    <span class="currency-sign-total-price">
-                                                        € <span class="total-price">@this.Model.Sum(order => order.TotalPrice).ToString("F2")</span>
-                                                    </span>
-                                                </div>
+                                    <tr class="order">
+                                        <td data-title="product">
+                                            <section class="cart-item">
+                                                <article class="cart-item-img">
+                                                    <a>
+                                                        <picture>
+                                                            <img src="@this.Model[i].ProductPicture" alt="photo">
+                                                        </picture>
+                                                    </a>
+                                                </article>
+                                                <article class="cart-item-heading">
+                                                    <section class="cart-item-title">
+                                                        <a>@this.Model[i].ProductName</a>
+                                                    </section>
+                                                </article>
                                             </section>
-                                            <form asp-area="" asp-controller="Cart" asp-action="CheckOut" method="get">
-                                                <button class="button cart-button" type="submit">@Localizer["Check Out"]</button>
+                                        </td>
+                                        <td data-title="quantity">
+                                            <span class="product-quantity-inner-container">
+                                                <span class="quantity">@this.Model[i].Quantity</span>
+                                                <span id="@(this.Model[i].Id)-increase" class="increase-btn"></span>
+                                                <span id="@(this.Model[i].Id)-decrease" class="decrease-btn"></span>
+                                            </span>
+                                        </td>
+                                        <td data-title="price">
+                                            <section class="cart-item-price">
+                                                <span class="price">€ @(this.Model[i].ProductPriceAfterDiscount) EUR</span>
+                                            </section>
+                                        </td>
+                                        <td>
+                                            <form asp-controller="Cart" asp-action="DeleteProduct" asp-route-id="@this.Model[i].Id" method="post">
+                                                <button class="btn-delete" type="submit"></button>
                                             </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <section class="cart-form-footer">
+                            <section class="cart-form-inner-footer">
+                                <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
+                                    <section class="discount-box">
+                                        <a class="button cart-button" asp-controller="Products" asp-action="All">@Localizer["Continue Shopping"]</a>
+                                    </section>
+                                </section>
+                                <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
+                                    @if (hasDiscountCode == true)
+                                    {
+                                        <section id="discount-tag-container" class="discount-tag-container" style="display: block;">
+                                            <section class="discount-tag">
+                                                <form id="delete-discount" method="post">
+                                                    <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                                    <p class="discount-code">@this.Model[0].DiscountCodeName</p>
+                                                    <button id="delete-discount" class="btn-delete"></button>
+                                                </form>
+                                            </section>
+                                        </section>
+                                    }
+                                    else
+                                    {
+                                        <section id="discount-tag-container" class="discount-tag-container" style="display: none;">
+                                            <section class="discount-tag">
+                                                <form id="delete-discount" method="post">
+                                                    <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                                    <p class="discount-code">@this.Model[0].DiscountCodeName</p>
+                                                    <button id="delete-discount" class="btn-delete"></button>
+                                                </form>
+                                            </section>
+                                        </section>
+                                    }
+                                    <section class="discount-box">
+                                        <form id="apply-discount" method="post">
+                                            <input id="discount-input" class="discount-input" type="text" placeholder="@Localizer["Discount"]">
+                                            <button id="apply-btn" class="button cart-button" type="submit">@Localizer["Apply"]</button>
+                                        </form>
+                                    </section>
+                                </section>
+                                <section class="col-sm-6 offset-sm-3 col-lg-6 offset-lg-0">
+                                    <section class="cart-form-inner-footer">
+                                        <section class="col-lg-6 update-check-out-btn">
+                                            <a class="button cart-button">@Localizer["Update Cart"]</a>
+                                        </section>
+                                        <section class="col-lg-6 update-check-out-btn">
+                                            <section class="cart-summary">
+                                                <section class="total-price-container">
+                                                    <div class="label-price">@Localizer["total price"]</div>
+                                                    <div class="price-container">
+                                                        <span class="currency-sign-total-price">
+                                                            € <span class="total-price">@this.Model.Sum(order => order.TotalPrice).ToString("F2")</span>
+                                                        </span>
+                                                    </div>
+                                                </section>
+                                                <form asp-area="" asp-controller="Cart" asp-action="Checkout" method="get">
+                                                    <button class="button cart-button" type="submit">@Localizer["Check Out"]</button>
+                                                </form>
+                                            </section>
                                         </section>
                                     </section>
                                 </section>
                             </section>
                         </section>
-                    </section>
+                    }
+                    else
+                    {
+                        <p style="text-align: center; padding-top: 1.5rem; padding-bottom: 0;">Product cart is empty.</p>
+                    }
                 </main>
             </section>
         </section>
