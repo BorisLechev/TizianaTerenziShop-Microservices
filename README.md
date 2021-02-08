@@ -83,6 +83,17 @@ Example:
 },
 ```
 
+## Set up Stripe
+1. In the *TizianaTerenzi.Web/appsettings.json* configuration file insert the Publishable Key and Secret Key.
+
+Example:
+```
+"Stripe": {
+    "PublishableKey": "[[Stripe Publishable Key]]",
+    "SecretKey": "[[Stripe Secret Key]]"
+  },
+```
+
 ## Build with:
   * C#
   * ASP.NET Core MVC
@@ -101,5 +112,6 @@ Example:
   * OpenStreetMap && Leaflet
   * Highcharts
   * IpInfo
+  * Stripe
   * English language
   * Bulgarian language
