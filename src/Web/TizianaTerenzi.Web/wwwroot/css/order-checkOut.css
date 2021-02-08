@@ -378,7 +378,9 @@ table tr:nth-child(odd) {
 }
 
 .total-line-name,
-.total-line-price {
+.total-line-price,
+.payment-label,
+.payment-button {
     padding-top: 1.5rem;
     position: relative;
 }

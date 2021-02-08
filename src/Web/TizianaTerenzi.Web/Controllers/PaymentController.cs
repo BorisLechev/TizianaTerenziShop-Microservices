@@ -11,7 +11,6 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
-    using TizianaTerenzi.Web.ViewModels.Orders;
 
     [Authorize]
     [ApiController]
@@ -31,7 +30,7 @@
 
         [HttpPost]
         [Route("payment/pay")]
-        public async Task<IActionResult> Create(OrderCheckoutInputModel inputModel)
+        public async Task<IActionResult> Create()
         {
             if (!this.User.Identity.IsAuthenticated)
             {

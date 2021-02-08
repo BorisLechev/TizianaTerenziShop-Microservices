@@ -29,11 +29,27 @@
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
+        public string Town { get; set; }
+
         [Display(Name = "Country")]
         public int? CountryId { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
+        [Required]
+        [MinLength(2)]
+        [MaxLength(100)]
+        [Display(Name ="Postal code")]
+        public string PostalCode { get; set; }
+
+        [Required]
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         [MinLength(2)]
         [MaxLength(100)]
         [Display(Name = "Address")]

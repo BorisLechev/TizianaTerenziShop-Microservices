@@ -192,13 +192,7 @@
                 return this.View(inputModel);
             }
 
-            user.FirstName = inputModel.FirstName;
-            user.LastName = inputModel.LastName;
-            user.UserName = inputModel.UserName;
-            user.CountryId = inputModel.CountryId;
-            user.Address = inputModel.Address;
-
-            await this.userManager.UpdateAsync(user);
+            await this.personalDataService.EditUserDetailsAsync(user, inputModel);
 
             this.Success(NotificationMessages.ProfileDetailsUpdated);
 

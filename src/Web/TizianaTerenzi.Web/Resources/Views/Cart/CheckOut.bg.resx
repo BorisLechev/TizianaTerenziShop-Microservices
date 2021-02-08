@@ -126,6 +126,9 @@
   <data name="Return to cart" xml:space="preserve">
     <value>Върни се в количката</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Запази</value>
+  </data>
   <data name="Shipping" xml:space="preserve">
     <value>Доставка</value>
   </data>

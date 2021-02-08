@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using TizianaTerenzi.Data.Common.Repositories;
@@ -27,6 +28,7 @@
         private readonly ICountriesService countriesService;
 
         private readonly IWishlistService wishlistService;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public PersonalDataService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
@@ -35,7 +37,8 @@
             IDeletableEntityRepository<Comment> commentsRepository,
             IDeletableEntityRepository<CommentVote> commentVotesRepository,
             ICountriesService countriesService,
-            IWishlistService wishlistService)
+            IWishlistService wishlistService,
+            UserManager<ApplicationUser> userManager)
         {
             this.usersRepository = usersRepository;
 
@@ -45,6 +48,7 @@
             this.commentVotesRepository = commentVotesRepository;
             this.countriesService = countriesService;
             this.wishlistService = wishlistService;
+            this.userManager = userManager;
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
@@ -106,6 +110,20 @@
             }
 
             return true;
+        }
+
+        public async Task EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel)
+        {
+            user.FirstName = inputModel.FirstName;
+            user.LastName = inputModel.LastName;
+            user.UserName = inputModel.UserName;
+            user.CountryId = inputModel.CountryId;
+            user.Address = inputModel.Address;
+            user.Town = inputModel.Town;
+            user.PostalCode = inputModel.PostalCode;
+            user.PhoneNumber = inputModel.PhoneNumber;
+
+            await this.userManager.UpdateAsync(user);
         }
 
         public async Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId)

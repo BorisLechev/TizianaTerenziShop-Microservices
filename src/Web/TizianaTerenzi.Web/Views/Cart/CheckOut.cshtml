@@ -9,14 +9,16 @@
 <div class="content">
     <section class="wrap">
         <main class="main">
-            <header class="main-header">
-                <a class="logo">
-                    <img class="logo-img" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" alt="logo-img">
-                </a>
-            </header>
-            <main class="main-content">
-                <section>
-                    <form>
+            <form asp-area="" asp-controller="Cart" asp-action="SaveShippingData" method="post">
+                <header class="main-header">
+                    <a class="logo">
+                        <img class="logo-img" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" alt="logo-img">
+                    </a>
+                </header>
+                <main class="main-content">
+                    <section>
+                        <div asp-validation-summary="All" id="form-errors" class="text-danger"></div>
+
                         <section class="sections">
                             <article class="shipping-address-container">
                                 <header class="shipping-address-header">
@@ -27,44 +29,44 @@
                                         <section class="address-input-fields">
                                             <section class="field-wrapper half-field">
                                                 <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.FirstName" class="input-field" placeholder="First Name" type="text">
+                                                    <input asp-for="@this.Model.FirstName" id="first-name" class="input-field" placeholder="First Name" type="text">
                                                     <span asp-validation-for="@this.Model.FirstName" class="text-danger"></span>
                                                 </section>
                                             </section>
                                             <section class="field-wrapper half-field">
                                                 <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.LastName" class="input-field" placeholder="Last name" type="text">
+                                                    <input asp-for="@this.Model.LastName" id="last-name" class="input-field" placeholder="Last name" type="text">
                                                     <span asp-validation-for="@this.Model.LastName" class="text-danger"></span>
                                                 </section>
                                             </section>
                                             <section class="field-wrapper">
                                                 <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.Address" class="input-field" placeholder="Address" type="text">
+                                                    <input asp-for="@this.Model.Address" id="address" class="input-field" placeholder="Address" type="text">
                                                     <span asp-validation-for="@this.Model.Address" class="text-danger"></span>
                                                 </section>
                                             </section>
                                             <section class="field-wrapper">
                                                 <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.City" class="input-field" placeholder="City" type="text">
-                                                    <span asp-validation-for="@this.Model.City" class="text-danger"></span>
+                                                    <input asp-for="@this.Model.Town" id="town" class="input-field" placeholder="City" type="text">
+                                                    <span asp-validation-for="@this.Model.Town" class="text-danger"></span>
                                                 </section>
                                             </section>
                                             <section class="field-wrapper half-field">
                                                 <section class="field-inner-wrapper">
-                                                    <select asp-for="@this.Model.CountryId" asp-items="@this.Model.Countries" class="input-field" name="country">
+                                                    <select asp-for="@this.Model.CountryId" data-live-search="true" title="Select Country..." asp-items="@this.Model.Countries" id="country" class="input-field">
                                                         <option value="">Select one...</option>
                                                     </select>
                                                 </section>
                                             </section>
                                             <section class="field-wrapper half-field">
                                                 <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.PostalCode" class="input-field" placeholder="Postal code" type="text">
+                                                    <input asp-for="@this.Model.PostalCode" id="postal-code" class="input-field" placeholder="Postal code" type="text">
                                                     <span asp-validation-for="@this.Model.PostalCode" class="text-danger"></span>
                                                 </section>
                                             </section>
                                             <section class="field-wrapper">
                                                 <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.PhoneNumber" class="input-field" placeholder="Phone" type="text">
+                                                    <input asp-for="@this.Model.PhoneNumber" id="phone-number" class="input-field" placeholder="Phone" type="text">
                                                     <span asp-validation-for="@this.Model.PhoneNumber" class="text-danger"></span>
                                                 </section>
                                             </section>
@@ -73,18 +75,16 @@
                                 </main>
                             </article>
                         </section>
-                    </form>
-                </section>
-            </main>
-            <footer class="shipping-address-footer">
-                <a asp-controller="Cart" asp-action="Index" class="return-link">
-                    <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
-                    <span>@Localizer["Return to cart"]</span>
-                </a>
-                @*<form asp-area="" asp-controller="Payment" asp-action="Pay" method="post">*@
-                <button class="continue-btn btn btn-secondary" id="checkout-button" type="submit">@Localizer["Continue to payment"]</button>
-                @*</form>*@
-            </footer>
+                    </section>
+                </main>
+                <footer class="shipping-address-footer">
+                    <a asp-controller="Cart" asp-action="Index" class="return-link">
+                        <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
+                        <span>@Localizer["Return to cart"]</span>
+                    </a>
+                    <button onclick="showPaymentButton()" class="continue-btn btn btn-secondary" type="submit">@Localizer["Save"]</button>
+                </footer>
+            </form>
         </main>
         <aside class="sidebar">
             <section class="sidebar-content">
@@ -145,6 +145,12 @@
                                     </span>
                                 </td>
                             </tr>
+                            <tr id="payment-button-wrapper" style="display: none;">
+                                <th class="payment-label">Pay</th>
+                                <td class="payment-button">
+                                    <button id="checkout-button" class="continue-btn btn btn-secondary" type="submit">@Localizer["Continue to payment"]</button>
+                                </td>
+                            </tr>
                         </tfoot>
                     </table>
                 </article>
@@ -162,20 +168,28 @@
 @section Scripts {
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script type="text/javascript">
-        // Create an instance of the Stripe object with your publishable API key
+    <script>
+        let errors = $('#form-errors').val();
         let checkoutButton = document.getElementById("checkout-button");
+
+        function showPaymentButton() {
+            if (errors == "") {
+                $("#payment-button-wrapper").show();
+            }
+        }
 
         checkoutButton.addEventListener("click", function () {
             let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            // Create an instance of the Stripe object with your publishable API key
             let stripe = Stripe("@this.Configuration["Stripe:PublishableKey"]");
-            let totalPrice = $('#total-line-price-without-currency').text();
-            let json = { totalPrice: +totalPrice }; // OrderCheckoutInputModel
 
             fetch("/payment/pay", {
                 method: "POST",
-                body: JSON.stringify(json),
-                headers: { 'X-CSRF-TOKEN': antiForgeryToken, 'Content-Type': 'application/json' },
+                //body: JSON.stringify(json),
+                headers: {
+                    'X-CSRF-TOKEN': antiForgeryToken,
+                    //'Content-Type': 'application/json'
+                },
             })
             .then(function (response) {
                 return response.json();

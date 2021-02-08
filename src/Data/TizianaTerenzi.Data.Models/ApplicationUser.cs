@@ -40,6 +40,10 @@ namespace TizianaTerenzi.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
+        public string Town { get; set; }
+
+        public string PostalCode { get; set; }
+
         public int? CountryId { get; set; }
 
         public virtual Country Country { get; set; }

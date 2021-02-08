@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
@@ -20,14 +21,18 @@
 
         private readonly IOrderStatusesService orderStatusesService;
 
+        private readonly UserManager<ApplicationUser> userManager;
+
         public CartService(
             IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository,
             IDeletableEntityRepository<Order> ordersRepository,
-            IOrderStatusesService orderStatusesService)
+            IOrderStatusesService orderStatusesService,
+            UserManager<ApplicationUser> userManager)
         {
             this.productsInTheCartRepository = productsInTheCartRepository;
             this.ordersRepository = ordersRepository;
             this.orderStatusesService = orderStatusesService;
+            this.userManager = userManager;
         }
 
         public async Task<bool> AddProductInTheCart(Product product, string userId)
@@ -184,6 +189,17 @@
             int result = await this.productsInTheCartRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task SaveShippingDataAsync(ApplicationUser user, OrderCheckoutViewModel inputModel)
+        {
+            user.CountryId = inputModel.CountryId;
+            user.Address = inputModel.Address;
+            user.Town = inputModel.Town;
+            user.PostalCode = inputModel.PostalCode;
+            user.PhoneNumber = inputModel.PhoneNumber;
+
+            await this.userManager.UpdateAsync(user);
         }
     }
 }

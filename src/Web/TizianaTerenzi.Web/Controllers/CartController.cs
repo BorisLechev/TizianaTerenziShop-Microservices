@@ -1,11 +1,13 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
@@ -207,7 +209,6 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        [HttpGet]
         public async Task<IActionResult> Checkout()
         {
             if (!this.User.Identity.IsAuthenticated)
@@ -225,6 +226,9 @@
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 CountryId = user.CountryId,
+                Town = user.Town,
+                Address = user.Address,
+                PostalCode = user.PostalCode,
                 PhoneNumber = user.PhoneNumber,
                 Products = productsInTheCart,
                 Countries = countries,
@@ -238,6 +242,36 @@
             }
 
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveShippingData(OrderCheckoutViewModel viewModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(viewModel);
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.cartService.SaveShippingDataAsync(user, viewModel);
+
+            var personalData = new
+            {
+                user.CountryId,
+            };
+
+            var json = JsonConvert.SerializeObject(personalData, Formatting.Indented);
+
+            this.Response.Headers.Add("Content-Disposition",
+                "attachment; filename=" + string.Format("{0}_PersonalData_{1}_{2}.json", GlobalConstants.SystemName, user.FirstName, user.LastName));
+
+            return new FileContentResult(Encoding.UTF8.GetBytes(json), "text/json");
         }
     }
 }
