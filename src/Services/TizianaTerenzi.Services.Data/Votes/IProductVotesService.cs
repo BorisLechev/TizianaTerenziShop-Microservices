@@ -12,5 +12,7 @@
         Task<int> GetNumberOfVotersAsync(int productId);
 
         Task<IEnumerable<byte>> GetAllValuesByProductIdAsync(int productId);
+
+        Task DeleteProductVotesAsync(int productId);
     }
 }

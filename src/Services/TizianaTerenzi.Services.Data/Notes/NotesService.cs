@@ -25,9 +25,9 @@
 
         public async Task<bool> CreateNoteAsync(string noteName)
         {
-            var check = await this.FindNoteByNameAsync(noteName);
+            var isExisting = await this.FindNoteByNameAsync(noteName);
 
-            if (check == null)
+            if (isExisting == false)
             {
                 Note note = new Note
                 {
@@ -43,13 +43,13 @@
             return false;
         }
 
-        public async Task<Note> FindNoteByNameAsync(string noteName)
+        public async Task<bool> FindNoteByNameAsync(string noteName)
         {
-            var note = await this.notesRepository
-                .All()
-                .SingleOrDefaultAsync(n => n.Name == noteName);
+            var isExisting = await this.notesRepository
+                .AllAsNoTracking()
+                .AnyAsync(n => n.Name == noteName);
 
-            return note;
+            return isExisting;
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAllNotesAsync()
@@ -84,7 +84,7 @@
             return notes;
         }
 
-        public async Task<bool> DeleteProductNotesAsync(int productId)
+        public async Task<bool> DeleteAllProductNotesAsync(int productId)
         {
             var productNotes = await this.productNotesRepository
                 .All()
@@ -112,6 +112,5 @@
 
             return productNoteIds;
         }
-
     }
 }

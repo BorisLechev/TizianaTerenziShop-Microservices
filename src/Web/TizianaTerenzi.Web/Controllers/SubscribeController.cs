@@ -1,11 +1,9 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Web.ViewModels.Subscribe;
 
@@ -22,19 +20,16 @@
         [HttpPost]
         public async Task<IActionResult> Index(SubscribeInputModel inputModel)
         {
-            if ((await this.subscribeService.GetAllEmailsAsync()).Any(s => s.Email == inputModel.Email))
+            var isTheEmailAlreadySubscribed = await this.subscribeService.IsTheEmailAlreadySubscribedAsync(inputModel.Email);
+
+            if (isTheEmailAlreadySubscribed == true)
             {
                 this.Error(NotificationMessages.SubscriberEmailExists);
 
                 return this.RedirectToAction("Index", "Home");
             }
 
-            var subscriber = new Subscriber
-            {
-                Email = inputModel.Email,
-            };
-
-            var result = await this.subscribeService.SubscribeForNewsletterAsync(subscriber);
+            var result = await this.subscribeService.SubscribeForNewsletterAsync(inputModel.Email);
 
             if (result == true)
             {

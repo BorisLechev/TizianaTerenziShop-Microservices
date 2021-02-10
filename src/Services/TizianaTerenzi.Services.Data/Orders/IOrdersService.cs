@@ -13,12 +13,16 @@
 
         Task<IEnumerable<OrdersListingViewModel>> GetAllProcessedOrdersAsync();
 
-        Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUserAsync(string userName);
+        Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUserIdAsync(string userId);
 
-        Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(int orderId);
+        Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByOrderIdAsync(int orderId);
 
-        Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByUserAsync(string userName, int orderId);
+        Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(string userId, int orderId);
 
         Task<bool> ProcessOrderAsync(int orderId);
+
+        Task DeleteAllOrdersByUserIdAsync(string userId);
+
+        Task DeleteAllOrderProductsByUserIdAsync(string userId);
     }
 }

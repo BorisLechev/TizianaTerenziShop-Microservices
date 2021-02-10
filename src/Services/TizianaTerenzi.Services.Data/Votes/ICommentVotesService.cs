@@ -12,6 +12,8 @@
 
         Task<CommentVote> GetVoteAsync(int commentId, string loggedInUserId);
 
-        Task DeleteRangeAsync(int productId);
+        Task DeleteRangeByProductIdAsync(int productId);
+
+        Task DeleteRangeByUserIdAsync(string userId);
     }
 }

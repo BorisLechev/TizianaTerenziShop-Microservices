@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@
     using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Web.ViewModels.Account;
 
+    [Authorize]
     public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -46,7 +48,7 @@
 
             if (!hasPassword)
             {
-                return this.RedirectToAction("SetPassword");
+                return this.RedirectToAction(nameof(this.SetPassword));
             }
 
             var inputModel = new UserChangePasswordInputModel
@@ -62,7 +64,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("ChangePassword");
+                return this.RedirectToAction(nameof(this.ChangePassword));
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
@@ -101,14 +103,14 @@
 
             if (user == null)
             {
-                return this.NotFound();
+                return this.NotFound(NotificationMessages.UserNotFound);
             }
 
             var hasPassword = await this.userManager.HasPasswordAsync(user);
 
             if (hasPassword)
             {
-                return this.RedirectToAction("ChangePassword");
+                return this.RedirectToAction(nameof(this.ChangePassword));
             }
 
             var inputModel = new UserSetPasswordInputModel
@@ -124,7 +126,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("SetPassword");
+                return this.RedirectToAction(nameof(this.SetPassword));
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
@@ -136,7 +138,7 @@
 
             if (await this.userManager.HasPasswordAsync(user))
             {
-                return this.RedirectToAction("ChangePassword");
+                return this.RedirectToAction(nameof(this.ChangePassword));
             }
 
             var addPasswordResult = await this.userManager.AddPasswordAsync(user, inputModel.NewPassword);
@@ -167,7 +169,7 @@
 
             if (user == null)
             {
-                return this.NotFound();
+                return this.NotFound(NotificationMessages.UserNotFound);
             }
 
             var inputModel = await this.personalDataService.GetDetailsForUserEditAsync(user.Id);

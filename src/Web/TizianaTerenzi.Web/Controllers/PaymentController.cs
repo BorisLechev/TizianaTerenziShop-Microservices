@@ -30,7 +30,7 @@
 
         [HttpPost]
         [Route("payment/pay")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Pay()
         {
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -85,7 +85,14 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            await this.cartService.CheckOutAsync(userId, productsInTheCart);
+            var result = await this.cartService.CheckOutAsync(userId, productsInTheCart);
+
+            if (result == false)
+            {
+                this.Error(NotificationMessages.ProcessOrderError);
+
+                return this.RedirectToAction("Index", "Cart");
+            }
 
             await this.cartService.DeleteAllProductsInTheCartByUserId(userId);
 

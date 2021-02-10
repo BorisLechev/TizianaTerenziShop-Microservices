@@ -18,6 +18,20 @@
             this.productVotesRepository = productVotesRepository;
         }
 
+        public async Task DeleteProductVotesAsync(int productId)
+        {
+            var votes = await this.productVotesRepository
+                    .All()
+                    .Where(v => v.ProductId == productId)
+                    .ToArrayAsync();
+
+            if (votes.Any())
+            {
+                this.productVotesRepository.DeleteRange(votes);
+                await this.productVotesRepository.SaveChangesAsync();
+            }
+        }
+
         public async Task<IEnumerable<byte>> GetAllValuesByProductIdAsync(int productId)
         {
             var voteValues = await this.productVotesRepository

@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
@@ -13,8 +12,6 @@
 
     public class OrdersService : IOrdersService
     {
-        private readonly UserManager<ApplicationUser> userManager;
-
         private readonly IDeletableEntityRepository<Order> ordersRepository;
 
         private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
@@ -22,47 +19,31 @@
         private readonly IOrderStatusesService orderStatusesService;
 
         public OrdersService(
-            UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
             IOrderStatusesService orderStatusesService)
         {
-            this.userManager = userManager;
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
             this.orderStatusesService = orderStatusesService;
         }
 
-        public async Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUserAsync(string userName)
+        public async Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUserIdAsync(string userId)
         {
-            if (userName == null)
-            {
-                return null;
-            }
-
-            var user = await this.userManager.FindByNameAsync(userName);
-
             var ordersByUser = await this.ordersRepository
                 .AllAsNoTracking()
-                .Where(op => op.UserId == user.Id)
+                .Where(op => op.UserId == userId)
                 .To<OrdersListingViewModel>()
                 .ToListAsync();
 
             return ordersByUser;
         }
 
-        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByUserAsync(string userName, int orderId)
+        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(string userId, int orderId)
         {
-            if (userName == null)
-            {
-                return null;
-            }
-
-            var user = await this.userManager.FindByNameAsync(userName);
-
             var orderProductsByUser = await this.orderProductsRepository
                 .AllAsNoTracking()
-                .Where(op => op.UserId == user.Id && op.OrderId == orderId)
+                .Where(op => op.UserId == userId && op.OrderId == orderId)
                 .To<OrderProductsListingViewModel>()
                 .ToListAsync();
 
@@ -101,7 +82,7 @@
             return orders;
         }
 
-        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(int orderId)
+        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByOrderIdAsync(int orderId)
         {
             var orderProducts = await this.orderProductsRepository
                 .AllAsNoTracking()
@@ -118,12 +99,40 @@
                 .All()
                 .SingleOrDefaultAsync(o => o.Id == orderId);
 
-            var orderStatus = await this.orderStatusesService.FindByNameAsync("Completed");
+            var orderStatusId = await this.orderStatusesService.FindByNameAsync("Completed");
 
-            order.StatusId = orderStatus.Id;
+            order.StatusId = orderStatusId;
             var result = await this.ordersRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task DeleteAllOrdersByUserIdAsync(string userId)
+        {
+            var orders = await this.ordersRepository
+                    .All()
+                    .Where(o => o.UserId == userId)
+                    .ToArrayAsync();
+
+            if (orders.Any())
+            {
+                this.ordersRepository.DeleteRange(orders);
+                await this.ordersRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteAllOrderProductsByUserIdAsync(string userId)
+        {
+            var orderProducts = await this.orderProductsRepository
+                    .All()
+                    .Where(op => op.UserId == userId)
+                    .ToArrayAsync();
+
+            if (orderProducts.Any())
+            {
+                this.orderProductsRepository.DeleteRange(orderProducts);
+                await this.orderProductsRepository.SaveChangesAsync();
+            }
         }
     }
 }

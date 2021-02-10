@@ -3,13 +3,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.ValidationAttributes;
 
-    public class UserEditInputModel : IMapFrom<ApplicationUser>
+    public class UserEditInputModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>, IHaveCustomMappings
     {
         [MinLength(2)]
         [MaxLength(30)]
@@ -60,5 +61,11 @@
         [AllowedExtensions]
         [MaxFileSize]
         public IFormFile AvatarImage { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<ApplicationUser, UserEditInputModel>()
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId));
+        }
     }
 }

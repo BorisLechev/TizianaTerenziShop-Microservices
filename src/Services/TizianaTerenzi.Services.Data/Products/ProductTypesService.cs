@@ -41,14 +41,5 @@
 
             return productTypes;
         }
-
-        public async Task<ProductType> GetProductTypeById(int id)
-        {
-            var productType = await this.productTypesRepository
-                .AllAsNoTracking()
-                .SingleOrDefaultAsync(pt => pt.Id == id);
-
-            return productType;
-        }
     }
 }

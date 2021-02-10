@@ -129,9 +129,9 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
+            var isExisting = await this.discountCodesService.FindDiscountByNameAsync(discountName);
 
-            if (discountCode == null)
+            if (isExisting == false)
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
@@ -140,7 +140,7 @@
 
             var userId = this.userManager.GetUserId(this.User);
 
-            var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountCode, userId);
+            var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountName, userId);
 
             if (result == false)
             {
@@ -166,9 +166,9 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var discountCode = await this.discountCodesService.GetDiscountByNameAsync(discountName);
+            var isExisting = await this.discountCodesService.FindDiscountByNameAsync(discountName);
 
-            if (discountCode == null)
+            if (isExisting == false)
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 

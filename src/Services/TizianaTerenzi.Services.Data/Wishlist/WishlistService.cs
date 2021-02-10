@@ -19,8 +19,14 @@
             this.favoriteProductsRepository = favoriteProductsRepository;
         }
 
-        public async Task<bool> AddProductToTheWishlistAsync(FavoriteProduct product)
+        public async Task<bool> AddProductToTheWishlistAsync(int productId, string userId)
         {
+            var product = new FavoriteProduct
+            {
+                ProductId = productId,
+                UserId = userId,
+            };
+
             await this.favoriteProductsRepository.AddAsync(product);
             int result = await this.favoriteProductsRepository.SaveChangesAsync();
 

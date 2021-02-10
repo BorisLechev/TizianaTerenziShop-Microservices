@@ -1,13 +1,10 @@
 ﻿namespace TizianaTerenzi.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
@@ -29,7 +26,7 @@
 
         private readonly ICommentVotesService commentVotesService;
 
-        private readonly ICloudinaryService cloudinaryService;
+        private readonly IProductVotesService productVotesService;
 
         public ProductsController(
             INotesService notesService,
@@ -38,7 +35,7 @@
             IProductsService productsService,
             ICommentsService commentsService,
             ICommentVotesService commentVotesService,
-            ICloudinaryService cloudinaryService)
+            IProductVotesService productVotesService)
         {
             this.notesService = notesService;
             this.productTypesService = productTypesService;
@@ -47,7 +44,7 @@
             this.productsService = productsService;
             this.commentsService = commentsService;
             this.commentVotesService = commentVotesService;
-            this.cloudinaryService = cloudinaryService;
+            this.productVotesService = productVotesService;
         }
 
         [HttpGet]
@@ -83,33 +80,9 @@
                 return this.View(inputModel);
             }
 
-            var notesIds = inputModel.NoteIds
-                        .First()
-                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(int.Parse);
+            var result = await this.productsService.CreateProductAsync(inputModel);
 
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
-
-            var product = new Product
-            {
-                Name = inputModel.Name,
-                Description = inputModel.Description,
-                ProductTypeId = inputModel.ProductTypeId,
-                FragranceGroupId = inputModel.FragranceGroupId,
-                YearOfManufacture = inputModel.YearOfManufacture,
-                Price = inputModel.Price,
-                Notes = notesIds.Select(id => new ProductNotes
-                {
-                    NoteId = id,
-                })
-                .ToList(),
-            };
-
-            product.Picture = pictureUrl;
-
-            var result = await this.productsService.CreateProductAsync(product);
-
-            if (!result)
+            if (result == false)
             {
                 this.Error(NotificationMessages.CreateProductError);
 
@@ -123,18 +96,18 @@
 
         [HttpGet]
         [Route("/administration/product/edit/{productId}")]
-        public async Task<IActionResult> Edit(int? productId)
+        public async Task<IActionResult> Edit(int productId)
         {
-            if (productId == null)
+            if (productId <= 0)
             {
                 this.NotFound();
             }
 
             var productTypes = await this.productTypesService.GetAllProductTypesAsync();
             var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
-            var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId.Value);
+            var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
 
-            var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId.Value);
+            var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
             editProductInputModel.ProductTypes = productTypes;
             editProductInputModel.FragranceGroups = fragranceGroups;
             editProductInputModel.Notes = notes;
@@ -144,37 +117,19 @@
 
         [HttpPost]
         [Route("/administration/product/edit/{productId}")]
-        public async Task<IActionResult> Edit(EditProductInputModel inputModel, int? productId)
+        public async Task<IActionResult> Edit(EditProductInputModel inputModel, int productId)
         {
-            if (productId == null)
+            if (productId <= 0)
             {
                 this.NotFound();
             }
 
-            var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId.Value);
-
-            var product = await this.productsService.GetProductByIdAsync(productId);
-
             if (!this.ModelState.IsValid)
             {
-                var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-                var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
-
-                inputModel.Id = productId.Value;
-                inputModel.Name = product.Name;
-                inputModel.Description = product.Description;
-                inputModel.Price = product.Price;
-                inputModel.YearOfManufacture = product.YearOfManufacture;
-                inputModel.FragranceGroupId = product.FragranceGroupId;
-                inputModel.FragranceGroups = fragranceGroups;
-                inputModel.ProductTypeId = product.ProductTypeId;
-                inputModel.ProductTypes = productTypes;
-                inputModel.Notes = notes;
-
                 return this.View(inputModel);
             }
 
-            var result = await this.productsService.EditProductAsync(inputModel, product);
+            var result = await this.productsService.EditProductAsync(inputModel, productId);
 
             if (result == true)
             {
@@ -198,9 +153,10 @@
 
             try
             {
-                await this.notesService.DeleteProductNotesAsync(id);
-                await this.commentVotesService.DeleteRangeAsync(id);
-                await this.commentsService.DeleteRangeAsync(id);
+                await this.notesService.DeleteAllProductNotesAsync(id);
+                await this.commentVotesService.DeleteRangeByProductIdAsync(id);
+                await this.commentsService.DeleteRangeByProductIdAsync(id);
+                await this.productVotesService.DeleteProductVotesAsync(id);
                 await this.productsService.DeleteProductAsync(id);
 
                 this.Success(NotificationMessages.DeleteProductSuccessfully);

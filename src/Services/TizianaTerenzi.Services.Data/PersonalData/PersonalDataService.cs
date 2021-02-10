@@ -8,47 +8,47 @@
     using Newtonsoft.Json;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Data.Orders;
+    using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Account;
+    using TizianaTerenzi.Web.ViewModels.Profile;
 
     public class PersonalDataService : IPersonalDataService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
-        private readonly IDeletableEntityRepository<Order> ordersRepository;
-
-        private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
-
-        private readonly IDeletableEntityRepository<Comment> commentsRepository;
-
-        private readonly IDeletableEntityRepository<CommentVote> commentVotesRepository;
-
         private readonly ICountriesService countriesService;
 
         private readonly IWishlistService wishlistService;
+
+        private readonly IOrdersService ordersService;
+
+        private readonly ICommentsService commentsService;
+
+        private readonly ICommentVotesService commentVotesService;
+
         private readonly UserManager<ApplicationUser> userManager;
 
         public PersonalDataService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
-            IDeletableEntityRepository<Order> ordersRepository,
-            IDeletableEntityRepository<OrderProduct> orderProductsRepository,
-            IDeletableEntityRepository<Comment> commentsRepository,
-            IDeletableEntityRepository<CommentVote> commentVotesRepository,
             ICountriesService countriesService,
             IWishlistService wishlistService,
+            IOrdersService ordersService,
+            ICommentsService commentsService,
+            ICommentVotesService commentVotesService,
             UserManager<ApplicationUser> userManager)
         {
             this.usersRepository = usersRepository;
-
-            this.ordersRepository = ordersRepository;
-            this.orderProductsRepository = orderProductsRepository;
-            this.commentsRepository = commentsRepository;
-            this.commentVotesRepository = commentVotesRepository;
             this.countriesService = countriesService;
             this.wishlistService = wishlistService;
             this.userManager = userManager;
+            this.ordersService = ordersService;
+            this.commentsService = commentsService;
+            this.commentVotesService = commentVotesService;
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
@@ -69,35 +69,10 @@
 
             try
             {
-                // TODO: move it in services
-                var orders = await this.ordersRepository
-                    .All()
-                    .Where(o => o.UserId == userId)
-                    .ToArrayAsync();
-
-                this.ordersRepository.DeleteRange(orders);
-
-                var orderProducts = await this.orderProductsRepository
-                    .All()
-                    .Where(op => op.UserId == userId)
-                    .ToArrayAsync();
-
-                this.orderProductsRepository.DeleteRange(orderProducts);
-
-                var comments = await this.commentsRepository
-                    .All()
-                    .Where(c => c.UserId == userId)
-                    .ToArrayAsync();
-
-                this.commentsRepository.DeleteRange(comments);
-
-                var votes = await this.commentVotesRepository
-                    .All()
-                    .Where(v => v.UserId == userId)
-                    .ToArrayAsync();
-
-                this.commentVotesRepository.DeleteRange(votes);
-
+                await this.ordersService.DeleteAllOrdersByUserIdAsync(userId);
+                await this.ordersService.DeleteAllOrderProductsByUserIdAsync(userId);
+                await this.commentsService.DeleteRangeByUserIdAsync(userId);
+                await this.commentVotesService.DeleteRangeByUserIdAsync(userId);
                 await this.wishlistService.DeleteAllProductsInTheWishlistAsync(userId);
 
                 this.usersRepository.Delete(user);
@@ -148,10 +123,10 @@
             }
 
             var user = await this.usersRepository
-                .All()
-                .Include(u => u.Orders).ThenInclude(o => o.Products).ThenInclude(o => o.Product)
-                .Include(u => u.Comments).ThenInclude(c => c.Votes)
-                .SingleOrDefaultAsync(u => u.Id == userId);
+                .AllAsNoTracking()
+                .Where(u => u.Id == userId)
+                .To<DownloadPersonalDataViewModel>()
+                .SingleOrDefaultAsync();
 
             if (user == null)
             {
@@ -163,32 +138,37 @@
                 user.FirstName,
                 user.LastName,
                 user.Email,
+                user.CreatedOn,
+                user.CountryName,
+                user.Town,
+                user.PostalCode,
+                user.Address,
                 Orders = user.Orders.Select(o => new
                 {
                     o.Id,
                     OrderProducts = o.Products.Select(op => new
                     {
-                        op.Product.Name,
-                        op.Quantity,
-                        op.Product.Price,
                         op.CreatedOn,
-                        //ProductTypeName = op.Product.ProductType.Name,
-                        //FragranceGroupName = op.Product.FragranceGroup.Name,
-                        op.Product.YearOfManufacture,
-                        op.Product.Description,
+                        op.ProductName,
+                        op.Quantity,
+                        op.ProductPrice,
                     })
                     .ToArray(),
                 })
                 .ToArray(),
+                Votes = user.ProductVotes.Select(pv => new
+                {
+                    pv.CreatedOn,
+                    pv.ProductName,
+                    pv.Value,
+                })
+                .ToArray(),
                 Comments = user.Comments.Select(c => new
                 {
-                    c.Id,
                     c.CreatedOn,
                     c.Content,
                     Votes = c.Votes.Select(v => new
                     {
-                        v.Id,
-                        v.CommentId,
                         v.CreatedOn,
                         v.Type,
                     })
@@ -199,8 +179,9 @@
                 {
                     fp.Id,
                     fp.CreatedOn,
-                    fp.Product.Name,
-                }),
+                    fp.ProductName,
+                })
+                .ToArray(),
             };
 
             var json = JsonConvert.SerializeObject(personalData, Formatting.Indented);

@@ -33,12 +33,26 @@
             return result > 0;
         }
 
-        public async Task DeleteRangeAsync(int productId)
+        public async Task DeleteRangeByProductIdAsync(int productId)
         {
             var comments = await this.commentsRepository
                 .All()
                 .Where(c => c.ProductId == productId)
                 .ToListAsync();
+
+            if (comments.Any())
+            {
+                this.commentsRepository.DeleteRange(comments);
+                await this.commentsRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteRangeByUserIdAsync(string userId)
+        {
+            var comments = await this.commentsRepository
+                    .All()
+                    .Where(c => c.UserId == userId)
+                    .ToArrayAsync();
 
             if (comments.Any())
             {

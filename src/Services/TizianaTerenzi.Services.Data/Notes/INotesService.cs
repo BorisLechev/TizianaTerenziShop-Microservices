@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using TizianaTerenzi.Data.Models;
 
     public interface INotesService
     {
@@ -12,10 +11,10 @@
 
         Task<IEnumerable<SelectListItem>> GetAllNotesAsync();
 
-        Task<Note> FindNoteByNameAsync(string noteName);
+        Task<bool> FindNoteByNameAsync(string noteName);
 
         Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedByProductIdAsync(int productId);
 
-        Task<bool> DeleteProductNotesAsync(int productId);
+        Task<bool> DeleteAllProductNotesAsync(int productId);
     }
 }

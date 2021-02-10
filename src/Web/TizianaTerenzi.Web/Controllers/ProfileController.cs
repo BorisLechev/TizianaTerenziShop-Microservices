@@ -64,13 +64,12 @@
             {
                 this.Error(NotificationMessages.InvalidPassword);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             var json = await this.personalDataService.GetPersonalDataForUserJsonAsync(user.Id);
 
-            this.Response.Headers.Add("Content-Disposition",
-                "attachment; filename=" + string.Format(PersonalDataFileName, GlobalConstants.SystemName, user.FirstName, user.LastName));
+            this.Response.Headers.Add("Content-Disposition", "attachment; filename=" + string.Format(PersonalDataFileName, GlobalConstants.SystemName, user.FirstName, user.LastName));
 
             return new FileContentResult(Encoding.UTF8.GetBytes(json), "text/json");
         }
@@ -88,16 +87,16 @@
             {
                 this.Error(NotificationMessages.InvalidPassword);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             var result = await this.personalDataService.DeleteUserAsync(user.Id);
 
-            if (!result)
+            if (result == false)
             {
                 this.Error(NotificationMessages.AccountDeleteError);
 
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             await this.signInManager.SignOutAsync();
@@ -110,8 +109,9 @@
         [Route("/profile/orders/my")]
         public async Task<IActionResult> MyOrders()
         {
-            var allOrdersByUser = await this.ordersService
-                .GetAllOrdersByUserAsync(this.User.Identity.Name);
+            var userId = this.userManager.GetUserId(this.User);
+
+            var allOrdersByUser = await this.ordersService.GetAllOrdersByUserIdAsync(userId);
 
             return this.View(allOrdersByUser);
         }
@@ -119,8 +119,9 @@
         [Route("/profile/order/{orderId}")]
         public async Task<IActionResult> MyOrderProducts(int orderId)
         {
-            var allOrderProductsByUser = await this.ordersService
-                .GetAllOrderProductsByUserAsync(this.User.Identity.Name, orderId);
+            var userId = this.userManager.GetUserId(this.User);
+
+            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsAsync(userId, orderId);
 
             return this.View(allOrderProductsByUser);
         }

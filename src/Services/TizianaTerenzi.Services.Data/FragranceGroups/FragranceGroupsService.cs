@@ -19,14 +19,6 @@
             this.fragranceGroupsRepository = fragranceGroupsRepository;
         }
 
-        public async Task<bool> CreateFragranceGroupAsync(FragranceGroup fragranceGroup)
-        {
-            await this.fragranceGroupsRepository.AddAsync(fragranceGroup);
-            int result = await this.fragranceGroupsRepository.SaveChangesAsync();
-
-            return result > 0;
-        }
-
         public async Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync()
         {
             var fragranceGroups = await this.fragranceGroupsRepository
@@ -40,15 +32,6 @@
                 .ToListAsync();
 
             return fragranceGroups;
-        }
-
-        public async Task<FragranceGroup> GetFragranceGroupById(int id)
-        {
-            var fragranceGroup = await this.fragranceGroupsRepository
-                .AllAsNoTracking()
-                .SingleOrDefaultAsync(fg => fg.Id == id);
-
-            return fragranceGroup;
         }
     }
 }

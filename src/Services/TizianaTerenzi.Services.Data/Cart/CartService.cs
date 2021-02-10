@@ -63,7 +63,7 @@
             return result;
         }
 
-        public async Task<Order> CheckOutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart)
+        public async Task<bool> CheckOutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart)
         {
             var orderProducts = productsInTheCart
                 .Select(op => new OrderProduct
@@ -79,28 +79,20 @@
 
             var discountCodeId = productsInTheCart.FirstOrDefault().DiscountCodeId;
 
-            var pendingStatus = await this.orderStatusesService
-                .FindByNameAsync("Pending");
+            var pendingStatusId = await this.orderStatusesService.FindByNameAsync("Pending");
 
             var order = new Order
             {
                 UserId = userId,
-                StatusId = pendingStatus.Id,
-                Status = pendingStatus,
+                StatusId = pendingStatusId,
                 Products = orderProducts,
                 DiscountCodeId = discountCodeId,
             };
 
             await this.ordersRepository.AddAsync(order);
-            await this.ordersRepository.SaveChangesAsync();
+            var result = await this.ordersRepository.SaveChangesAsync();
 
-            var createdOrder = await this.ordersRepository
-                .All()
-                .Include(o => o.Products) // TODO: do not use Include
-                .ThenInclude(o => o.Product)
-                .SingleOrDefaultAsync(o => o.Id == order.Id);
-
-            return createdOrder;
+            return result > 0;
         }
 
         public async Task<bool> DeleteAllProductsInTheCartByUserId(string userId)

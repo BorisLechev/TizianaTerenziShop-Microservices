@@ -2,14 +2,13 @@
 {
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Web.ViewModels.Products;
 
     public interface IWishlistService
     {
         Task<WishlistViewModel> GetAllProductsFromUserWishlistAsync(string userId);
 
-        Task<bool> AddProductToTheWishlistAsync(FavoriteProduct product);
+        Task<bool> AddProductToTheWishlistAsync(int productId, string userId);
 
         Task<bool> DeleteProductInTheWishlistAsync(int productId, string userId);
 

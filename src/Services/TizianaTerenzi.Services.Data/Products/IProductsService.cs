@@ -14,11 +14,11 @@
 
         Task<T> GetProductByIdAsync<T>(int? id);
 
-        Task<bool> CreateProductAsync(Product product);
+        Task<bool> CreateProductAsync(CreateProductInputModel inputModel);
 
         string GetSearchText(string name, string description);
 
-        Task<bool> EditProductAsync(EditProductInputModel inputModel, Product product);
+        Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId);
 
         Task<bool> DeleteProductAsync(int productId);
 

@@ -7,12 +7,10 @@
 
     public interface ISubscribeService
     {
-        Task<bool> SubscribeForNewsletterAsync(Subscriber subscriber);
-
-        Task<bool> DeleteEmailAsync(int emailId);
+        Task<bool> SubscribeForNewsletterAsync(string email);
 
         Task<IEnumerable<Subscriber>> GetAllEmailsAsync();
 
-        Task<Subscriber> FindByNameAsync(string email);
+        Task<bool> IsTheEmailAlreadySubscribedAsync(string email);
     }
 }

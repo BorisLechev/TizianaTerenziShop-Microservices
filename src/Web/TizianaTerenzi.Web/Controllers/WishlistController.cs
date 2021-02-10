@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Wishlist;
 
     [Authorize]
@@ -46,15 +45,9 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var product = new FavoriteProduct
-            {
-                ProductId = productId,
-                UserId = userId,
-            };
+            var result = await this.wishlistService.AddProductToTheWishlistAsync(productId, userId);
 
-            var result = await this.wishlistService.AddProductToTheWishlistAsync(product);
-
-            if (!result)
+            if (result == false)
             {
                 this.Error(NotificationMessages.CannotAddProductInTheWishlist);
 
@@ -78,7 +71,7 @@
 
             var result = await this.wishlistService.DeleteProductInTheWishlistAsync(productId, userId);
 
-            if (!result)
+            if (result == false)
             {
                 this.Error(NotificationMessages.CannotDeleteProductInTheWishlist);
 

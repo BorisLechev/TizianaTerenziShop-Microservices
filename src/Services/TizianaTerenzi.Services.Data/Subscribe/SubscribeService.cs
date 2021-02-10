@@ -16,38 +16,31 @@
             this.subscribersRepository = subscribersRepository;
         }
 
-        public async Task<bool> DeleteEmailAsync(int emailId)
+        public async Task<bool> IsTheEmailAlreadySubscribedAsync(string email)
         {
-            var email = await this.subscribersRepository
-                .All()
-                .SingleOrDefaultAsync(s => s.Id == emailId);
+            var isAlreadySubscribed = await this.subscribersRepository
+                .AllAsNoTracking()
+                .AnyAsync(s => s.Email == email);
 
-            this.subscribersRepository.Delete(email);
-            var result = await this.subscribersRepository.SaveChangesAsync();
-
-            return result > 0;
-        }
-
-        public async Task<Subscriber> FindByNameAsync(string email)
-        {
-            var selectedEmail = await this.subscribersRepository
-                .All()
-                .SingleOrDefaultAsync(s => s.Email == email);
-
-            return selectedEmail;
+            return isAlreadySubscribed;
         }
 
         public async Task<IEnumerable<Subscriber>> GetAllEmailsAsync()
         {
             var subscribers = await this.subscribersRepository
-                .All()
+                .AllAsNoTracking()
                 .ToListAsync();
 
             return subscribers;
         }
 
-        public async Task<bool> SubscribeForNewsletterAsync(Subscriber subscriber)
+        public async Task<bool> SubscribeForNewsletterAsync(string email)
         {
+            var subscriber = new Subscriber
+            {
+                Email = email,
+            };
+
             await this.subscribersRepository.AddAsync(subscriber);
             var result = await this.subscribersRepository.SaveChangesAsync();
 

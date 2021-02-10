@@ -26,17 +26,17 @@
 
         public async Task<bool> CreateDiscountCodeAsync(CreateDiscountCodeInputModel inputModel)
         {
-            var discountCode = new DiscountCode
-            {
-                Name = inputModel.Name,
-                Discount = inputModel.Discount,
-                ExpiresOn = inputModel.ExpiresOn,
-            };
+            var isExisting = await this.FindDiscountByNameAsync(inputModel.Name);
 
-            var check = await this.GetDiscountByNameAsync(discountCode.Name);
-
-            if (check == null)
+            if (isExisting == false)
             {
+                var discountCode = new DiscountCode
+                {
+                    Name = inputModel.Name,
+                    Discount = inputModel.Discount,
+                    ExpiresOn = inputModel.ExpiresOn,
+                };
+
                 await this.discountCodesRepository.AddAsync(discountCode);
                 var result = await this.discountCodesRepository.SaveChangesAsync();
 
@@ -63,13 +63,13 @@
             return result > 0;
         }
 
-        public async Task<DiscountCode> GetDiscountByNameAsync(string discountName)
+        public async Task<bool> FindDiscountByNameAsync(string discountCodeName)
         {
-            var discountCode = await this.discountCodesRepository
+            var isExisting = await this.discountCodesRepository
                 .AllAsNoTracking()
-                .SingleOrDefaultAsync(dc => dc.Name == discountName);
+                .AnyAsync(dc => dc.Name == discountCodeName);
 
-            return discountCode;
+            return isExisting;
         }
 
         public async Task<IEnumerable<T>> GetAllDiscountCodesAsync<T>()
@@ -82,8 +82,18 @@
             return discountCodes;
         }
 
-        public async Task<bool> ModifyThePricesAfterAppliedDiscountCodeAsync(DiscountCode discountCode, string userId)
+        public async Task<DiscountCode> GetDiscountCodeByNameAsync(string discountCodeName)
         {
+            var discountCode = await this.discountCodesRepository
+                .All()
+                .SingleOrDefaultAsync(dc => dc.Name == discountCodeName);
+
+            return discountCode;
+        }
+
+        public async Task<bool> ModifyThePricesAfterAppliedDiscountCodeAsync(string discountCodeName, string userId)
+        {
+            var discountCode = await this.GetDiscountCodeByNameAsync(discountCodeName);
             var productsInTheCart = await this.productsInTheCartRepository
                 .All()
                 .Where(p => p.UserId == userId && p.DiscountCodeId == null)

@@ -21,7 +21,7 @@
             this.commentsRepository = commentsRepository;
         }
 
-        public async Task DeleteRangeAsync(int productId)
+        public async Task DeleteRangeByProductIdAsync(int productId)
         {
             var commentIds = await this.commentsRepository
                 .AllAsNoTracking()
@@ -33,6 +33,20 @@
                 .All()
                 .Where(v => commentIds.Contains(v.CommentId))
                 .ToListAsync();
+
+            if (votes.Any())
+            {
+                this.commentVotesRepository.DeleteRange(votes);
+                await this.commentVotesRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteRangeByUserIdAsync(string userId)
+        {
+            var votes = await this.commentVotesRepository
+                    .All()
+                    .Where(v => v.UserId == userId)
+                    .ToArrayAsync();
 
             if (votes.Any())
             {

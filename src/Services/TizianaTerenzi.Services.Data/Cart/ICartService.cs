@@ -24,7 +24,7 @@
 
         Task<bool> IncreaseQuantity(string productId);
 
-        Task<Order> CheckOutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart);
+        Task<bool> CheckOutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart);
 
         Task SaveShippingDataAsync(ApplicationUser user, OrderCheckoutViewModel inputModel);
     }
