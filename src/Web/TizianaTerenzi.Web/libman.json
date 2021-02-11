@@ -11,7 +11,7 @@
       ]
     },
     {
-      "library": "bootstrap@4.5.3",
+      "library": "bootstrap@4.6.0",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "dist/css/bootstrap.css",
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "library": "jquery-validation-unobtrusive@3.2.11",
+      "library": "jquery-validation-unobtrusive@3.2.12",
       "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
       "files": [
         "dist/jquery.validate.unobtrusive.js",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "library": "tinymce@5.6.2",
+      "library": "tinymce@5.7.0",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "library": "highcharts@8.2.2",
+      "library": "highcharts@9.0.0",
       "destination": "wwwroot/lib/highcharts/",
       "files": [
         "highcharts.js"
