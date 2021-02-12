@@ -38,6 +38,9 @@
             await service.VoteAsync(1, "1", 5);
             await service.VoteAsync(1, "1", 5);
 
+            // how many times the method AddAsync is used
+            mockRepo.Verify(x => x.AddAsync(It.IsAny<ProductVote>()), Times.Exactly(1));
+
             // Assert
             Assert.Single(list);
             Assert.Equal(5, list.First().Value);
