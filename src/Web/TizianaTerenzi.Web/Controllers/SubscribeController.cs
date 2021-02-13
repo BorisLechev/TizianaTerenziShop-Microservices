@@ -20,15 +20,6 @@
         [HttpPost]
         public async Task<IActionResult> Index(SubscribeInputModel inputModel)
         {
-            var isTheEmailAlreadySubscribed = await this.subscribeService.IsTheEmailAlreadySubscribedAsync(inputModel.Email);
-
-            if (isTheEmailAlreadySubscribed == true)
-            {
-                this.Error(NotificationMessages.SubscriberEmailExists);
-
-                return this.RedirectToAction("Index", "Home");
-            }
-
             var result = await this.subscribeService.SubscribeForNewsletterAsync(inputModel.Email);
 
             if (result == true)

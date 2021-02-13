@@ -36,6 +36,13 @@
 
         public async Task<bool> SubscribeForNewsletterAsync(string email)
         {
+            var isTheEmailAlreadySubscribed = await this.IsTheEmailAlreadySubscribedAsync(email);
+
+            if (isTheEmailAlreadySubscribed == true)
+            {
+                return false;
+            }
+
             var subscriber = new Subscriber
             {
                 Email = email,

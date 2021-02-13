@@ -168,7 +168,7 @@
 
             // Assert
             Assert.Equal(0, await service.GetVotesAsync(1));
-            //Assert.Equal(1, await service.GetVotesAsync(2));
+            Assert.Equal(2, await service.GetVotesAsync(2));
         }
     }
 }
