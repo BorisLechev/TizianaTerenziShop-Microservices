@@ -10,7 +10,7 @@
 
         Task DeleteRangeByProductIdAsync(int productId);
 
-        Task DeleteRangeByUserIdAsync(string userId);
+        Task<bool> DeleteRangeByUserIdAsync(string userId);
 
         Task<bool> IsInProductIdAsync(int commentId, int productId);
     }

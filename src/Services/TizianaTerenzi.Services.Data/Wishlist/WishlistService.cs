@@ -33,7 +33,7 @@
             return result > 0;
         }
 
-        public async Task DeleteAllProductsInTheWishlistAsync(string userId)
+        public async Task<bool> DeleteAllProductsInTheWishlistAsync(string userId)
         {
             var products = await this.favoriteProductsRepository
                 .All()
@@ -41,7 +41,9 @@
                 .ToListAsync();
 
             this.favoriteProductsRepository.DeleteRange(products);
-            await this.favoriteProductsRepository.SaveChangesAsync();
+            var result = await this.favoriteProductsRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<bool> DeleteProductInTheWishlistAsync(int productId, string userId)

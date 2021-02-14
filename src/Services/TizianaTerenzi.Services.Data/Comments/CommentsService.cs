@@ -47,7 +47,7 @@
             }
         }
 
-        public async Task DeleteRangeByUserIdAsync(string userId)
+        public async Task<bool> DeleteRangeByUserIdAsync(string userId)
         {
             var comments = await this.commentsRepository
                     .All()
@@ -57,8 +57,12 @@
             if (comments.Any())
             {
                 this.commentsRepository.DeleteRange(comments);
-                await this.commentsRepository.SaveChangesAsync();
+                var result = await this.commentsRepository.SaveChangesAsync();
+
+                return result > 0;
             }
+
+            return true;
         }
 
         public async Task<bool> IsInProductIdAsync(int commentId, int productId)

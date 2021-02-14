@@ -12,7 +12,7 @@
 
         Task<bool> DeleteProductInTheWishlistAsync(int productId, string userId);
 
-        Task DeleteAllProductsInTheWishlistAsync(string userId);
+        Task<bool> DeleteAllProductsInTheWishlistAsync(string userId);
 
         Task<bool> IsTheProductAlreadyAddedInWishlistAsync(int productId, string userId);
     }

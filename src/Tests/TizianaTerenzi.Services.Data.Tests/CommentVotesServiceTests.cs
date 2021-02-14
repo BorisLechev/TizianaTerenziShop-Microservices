@@ -23,21 +23,20 @@
             var list = new List<CommentVote>();
             var mockList = list.AsQueryable().BuildMock();
 
-            var mockCommentVotesRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
-            mockCommentVotesRepo.Setup(cv => cv.All())
+            var mockRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
+            mockRepo.Setup(cv => cv.All())
                     .Returns(mockList.Object);
-            mockCommentVotesRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
+            mockRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
                     .Callback((CommentVote vote) => list.Add(vote));
-            var mockCommentsRepo = new Mock<IDeletableEntityRepository<Comment>>();
 
-            var service = new CommentVotesService(mockCommentVotesRepo.Object, mockCommentsRepo.Object);
+            var service = new CommentVotesService(mockRepo.Object, null);
 
             // Act
             await service.VoteAsync(1, "1");
             await service.VoteAsync(1, "1");
 
             // how many times the method AddAsync is used
-            mockCommentVotesRepo.Verify(x => x.AddAsync(It.IsAny<CommentVote>()), Times.Exactly(1));
+            mockRepo.Verify(x => x.AddAsync(It.IsAny<CommentVote>()), Times.Exactly(1));
 
             // Assert
             Assert.Equal(0, await service.GetVotesAsync(1));
@@ -50,14 +49,13 @@
             var list = new List<CommentVote>();
             var mockList = list.AsQueryable().BuildMock();
 
-            var mockCommentVotesRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
-            mockCommentVotesRepo.Setup(cv => cv.All())
+            var mockRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
+            mockRepo.Setup(cv => cv.All())
                     .Returns(mockList.Object);
-            mockCommentVotesRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
+            mockRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
                     .Callback((CommentVote vote) => list.Add(vote));
-            var mockCommentsRepo = new Mock<IDeletableEntityRepository<Comment>>();
 
-            var service = new CommentVotesService(mockCommentVotesRepo.Object, mockCommentsRepo.Object);
+            var service = new CommentVotesService(mockRepo.Object, null);
 
             // Act
             await service.VoteAsync(1, "1");
@@ -65,7 +63,7 @@
             await service.VoteAsync(1, "1");
 
             // how many times the method AddAsync is used
-            mockCommentVotesRepo.Verify(x => x.AddAsync(It.IsAny<CommentVote>()), Times.Exactly(1));
+            mockRepo.Verify(x => x.AddAsync(It.IsAny<CommentVote>()), Times.Exactly(1));
 
             // Assert
             Assert.Equal(1, await service.GetVotesAsync(1));
@@ -78,14 +76,13 @@
             var list = new List<CommentVote>();
             var mockList = list.AsQueryable().BuildMock();
 
-            var mockCommentVotesRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
-            mockCommentVotesRepo.Setup(cv => cv.All())
+            var mockRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
+            mockRepo.Setup(cv => cv.All())
                     .Returns(mockList.Object);
-            mockCommentVotesRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
+            mockRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
                     .Callback((CommentVote vote) => list.Add(vote));
-            var mockCommentsRepo = new Mock<IDeletableEntityRepository<Comment>>();
 
-            var service = new CommentVotesService(mockCommentVotesRepo.Object, mockCommentsRepo.Object);
+            var service = new CommentVotesService(mockRepo.Object, null);
 
             // Act
             await service.VoteAsync(1, "2");
@@ -97,7 +94,7 @@
             await service.VoteAsync(1, "4");
 
             // how many times the method AddAsync is used
-            mockCommentVotesRepo.Verify(x => x.AddAsync(It.IsAny<CommentVote>()), Times.Exactly(4));
+            mockRepo.Verify(x => x.AddAsync(It.IsAny<CommentVote>()), Times.Exactly(4));
 
             // Assert
             Assert.Equal(3, await service.GetVotesAsync(1));
@@ -110,7 +107,7 @@
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("test");
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-            var service = new CommentVotesService(new EfDeletableEntityRepository<CommentVote>(dbContext), new EfDeletableEntityRepository<Comment>(dbContext));
+            var service = new CommentVotesService(new EfDeletableEntityRepository<CommentVote>(dbContext), null);
 
             // Act
             await service.VoteAsync(1, "1");
