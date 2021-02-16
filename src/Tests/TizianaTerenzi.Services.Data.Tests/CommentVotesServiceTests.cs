@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -105,7 +106,7 @@
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("test");
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             var service = new CommentVotesService(new EfDeletableEntityRepository<CommentVote>(dbContext), null);
 
@@ -128,32 +129,35 @@
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("test");
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             var service = new CommentVotesService(new EfDeletableEntityRepository<CommentVote>(dbContext), new EfDeletableEntityRepository<Comment>(dbContext));
 
-            var comments = new List<Comment>();
-            var comment1 = new Comment
-            {
-                Id = 1,
-                ProductId = 1,
-                ParentId = 0,
-                UserId = "1",
-                Content = "aaa",
-            };
-            comments.Add(comment1);
-
-            var comment2 = new Comment
-            {
-                Id = 2,
-                ProductId = 2,
-                ParentId = 0,
-                UserId = "2",
-                Content = "bbb",
-            };
-            comments.Add(comment2);
-
-            await dbContext.Comments.AddRangeAsync(comments);
+            await dbContext.Comments.AddRangeAsync(
+                new Comment
+                {
+                    Id = 1,
+                    ProductId = 1,
+                    ParentId = 0,
+                    UserId = "1",
+                    Content = "aaa",
+                },
+                new Comment
+                {
+                    Id = 2,
+                    ProductId = 2,
+                    ParentId = 0,
+                    UserId = "2",
+                    Content = "bbb",
+                },
+                new Comment
+                {
+                    Id = 3,
+                    ProductId = 3,
+                    ParentId = 0,
+                    UserId = "3",
+                    Content = "ccc",
+                });
             await dbContext.SaveChangesAsync();
 
             // Act
@@ -161,11 +165,15 @@
             await service.VoteAsync(2, "3");
             await service.VoteAsync(2, "3");
             await service.VoteAsync(2, "2");
+            await service.VoteAsync(2, "3");
+            await service.VoteAsync(3, "3");
             await service.DeleteRangeByProductIdAsync(1);
+            await service.DeleteRangeByProductIdAsync(3);
 
             // Assert
             Assert.Equal(0, await service.GetVotesAsync(1));
             Assert.Equal(2, await service.GetVotesAsync(2));
+            Assert.Equal(0, await service.GetVotesAsync(3));
         }
     }
 }

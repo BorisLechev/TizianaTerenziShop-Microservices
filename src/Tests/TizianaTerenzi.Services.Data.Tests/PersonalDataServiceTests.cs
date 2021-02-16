@@ -24,7 +24,7 @@
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("test");
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
             var user = new ApplicationUser
@@ -125,7 +125,7 @@
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("test");
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
             var userId = Guid.NewGuid().ToString();
@@ -144,7 +144,7 @@
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("test");
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
             var mockCountriesService = new Mock<ICountriesService>();
@@ -237,7 +237,7 @@
 
         //    // Arrange
         //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //        .UseInMemoryDatabase("test");
+        //        .UseInMemoryDatabase(Guid.NewGuid().ToString());
         //    var dbContext = new ApplicationDbContext(optionsBuilder.Options);
         //    var service = new PersonalDataService(new EfDeletableEntityRepository<ApplicationUser>(dbContext), null, null, null, null, null, null);
 

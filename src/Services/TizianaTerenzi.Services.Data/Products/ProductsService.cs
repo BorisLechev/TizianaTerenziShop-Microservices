@@ -18,27 +18,21 @@
 
         private readonly INotesService notesService;
 
-        private readonly ICloudinaryService cloudinaryService;
-
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
-            INotesService notesService,
-            ICloudinaryService cloudinaryService)
+            INotesService notesService)
         {
             this.productsRepository = productsRepository;
             this.notesService = notesService;
-            this.cloudinaryService = cloudinaryService;
         }
 
         public ProductsService()
         {
         }
 
-        public async Task<bool> CreateProductAsync(CreateProductInputModel inputModel)
+        public async Task<bool> CreateProductAsync(CreateProductInputModel inputModel, string pictureUrl)
         {
             var notesIds = inputModel.NoteIds.Select(int.Parse);
-
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
 
             var product = new Product
             {
@@ -49,14 +43,13 @@
                 YearOfManufacture = inputModel.YearOfManufacture,
                 Price = inputModel.Price,
                 PriceWithDiscount = inputModel.Price,
+                Picture = pictureUrl,
                 Notes = notesIds.Select(id => new ProductNotes
                 {
                     NoteId = id,
                 })
                 .ToList(),
             };
-
-            product.Picture = pictureUrl;
 
             product.SearchText = this.GetSearchText(product.Name, product.Description);
 
@@ -66,17 +59,9 @@
             return result > 0;
         }
 
-        public async Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId)
+        public async Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId, string pictureUrl)
         {
             var product = await this.GetProductByIdAsync(productId);
-
-            if (inputModel.Picture == null)
-            {
-                return false;
-            }
-
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
-            product.Picture = pictureUrl;
 
             var notesIds = inputModel.NoteIds.Select(int.Parse);
 
@@ -89,6 +74,7 @@
             product.YearOfManufacture = inputModel.YearOfManufacture;
             product.FragranceGroupId = inputModel.FragranceGroupId;
             product.ProductTypeId = inputModel.ProductTypeId;
+            product.Picture = pictureUrl;
             product.Notes = notesIds.Select(id => new ProductNotes
             {
                 NoteId = id,
@@ -162,6 +148,11 @@
             var product = await this.productsRepository
                 .All()
                 .SingleOrDefaultAsync(p => p.Id == productId);
+
+            if (product == null)
+            {
+                return false;
+            }
 
             this.productsRepository.Delete(product);
             var result = await this.productsRepository.SaveChangesAsync();

@@ -5,6 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Services;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
@@ -28,6 +29,8 @@
 
         private readonly IProductVotesService productVotesService;
 
+        private readonly ICloudinaryService cloudinaryService;
+
         public ProductsController(
             INotesService notesService,
             IProductTypesService productTypesService,
@@ -35,7 +38,8 @@
             IProductsService productsService,
             ICommentsService commentsService,
             ICommentVotesService commentVotesService,
-            IProductVotesService productVotesService)
+            IProductVotesService productVotesService,
+            ICloudinaryService cloudinaryService)
         {
             this.notesService = notesService;
             this.productTypesService = productTypesService;
@@ -45,6 +49,7 @@
             this.commentsService = commentsService;
             this.commentVotesService = commentVotesService;
             this.productVotesService = productVotesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [HttpGet]
@@ -80,7 +85,8 @@
                 return this.View(inputModel);
             }
 
-            var result = await this.productsService.CreateProductAsync(inputModel);
+            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+            var result = await this.productsService.CreateProductAsync(inputModel, pictureUrl);
 
             if (result == false)
             {
@@ -129,7 +135,9 @@
                 return this.View(inputModel);
             }
 
-            var result = await this.productsService.EditProductAsync(inputModel, productId);
+            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+
+            var result = await this.productsService.EditProductAsync(inputModel, productId, pictureUrl);
 
             if (result == true)
             {

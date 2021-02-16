@@ -25,8 +25,6 @@
         private const string PriceErrorMessage = "Price should be at least €10.";
         private const string YearErrorMessage = "Year should be be after 1700.";
 
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(NameMaximumLength, MinimumLength = NameMinimumLength, ErrorMessage = NameErrorMessage)]
         public string Name { get; set; }
@@ -39,6 +37,7 @@
         [Range(MinimumPrice, double.MaxValue, ErrorMessage = PriceErrorMessage)]
         public decimal Price { get; set; }
 
+        [Required]
         public IFormFile Picture { get; set; }
 
         public IEnumerable<string> NoteIds { get; set; }
