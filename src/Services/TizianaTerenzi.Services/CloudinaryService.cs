@@ -16,6 +16,14 @@
             this.cloudinary = cloudinary;
         }
 
+        public async Task DeletePictureAsync(string url)
+        {
+            var publicId = this.GetCloudinaryPublicIdFromUrl(url);
+
+            var deletionParams = new DeletionParams(publicId);
+            await this.cloudinary.DestroyAsync(deletionParams);
+        }
+
         public async Task<string> UploadPictureAsync(IFormFile pictureFile, string fileName)
         {
             byte[] destinationData;
@@ -40,6 +48,15 @@
             }
 
             return uploadResult?.SecureUrl.AbsoluteUri;
+        }
+
+        private string GetCloudinaryPublicIdFromUrl(string url)
+        {
+            var startIndex = url.IndexOf('/') + 1;
+            var length = url.LastIndexOf('.') - startIndex;
+            var publicId = url.Substring(startIndex, length);
+
+            return publicId;
         }
     }
 }
