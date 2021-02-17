@@ -56,9 +56,9 @@
             return this.View(productsViewModel);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || id <= 0)
+            if (id <= 0)
             {
                 this.NotFound();
             }
@@ -70,10 +70,10 @@
                 return this.NotFound();
             }
 
-            var numberOfVoters = await this.productVotesService.GetNumberOfVotersAsync(id.Value);
+            var numberOfVoters = await this.productVotesService.GetNumberOfVotersAsync(id);
             productDetailsViewModel.NumberOfVoters = numberOfVoters;
 
-            var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(id.Value);
+            var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(id);
 
             var countOfVotesWithValueFive = allValues.Where(pv => pv == 5).Count();
             var countOfVotesWithValueFour = allValues.Where(pv => pv == 4).Count();

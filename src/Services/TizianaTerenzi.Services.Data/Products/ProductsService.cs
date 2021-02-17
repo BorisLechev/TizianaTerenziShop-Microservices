@@ -122,7 +122,7 @@
             return viewModel;
         }
 
-        public async Task<Product> GetProductByIdAsync(int? id)
+        public async Task<Product> GetProductByIdAsync(int id)
         {
             var product = await this.productsRepository
                 .AllAsNoTracking()
@@ -132,7 +132,7 @@
             return product;
         }
 
-        public async Task<T> GetProductByIdAsync<T>(int? id)
+        public async Task<T> GetProductByIdAsync<T>(int id)
         {
             var product = await this.productsRepository
                 .AllAsNoTracking()
