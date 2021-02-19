@@ -39,7 +39,6 @@
         {
             var productInTheCart = new ProductInTheCart
             {
-                Id = Guid.NewGuid().ToString(), // TODO: make it int
                 UserId = userId,
                 ProductId = product.Id,
                 Quantity = 1,

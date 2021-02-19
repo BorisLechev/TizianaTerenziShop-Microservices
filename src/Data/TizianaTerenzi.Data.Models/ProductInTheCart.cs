@@ -1,9 +1,16 @@
 ﻿namespace TizianaTerenzi.Data.Models
 {
+    using System;
+
     using TizianaTerenzi.Data.Common.Models;
 
     public class ProductInTheCart : BaseDeletableModel<string> // TODO: make it int
     {
+        public ProductInTheCart()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         public int Quantity { get; set; }
 
         public int ProductId { get; set; }

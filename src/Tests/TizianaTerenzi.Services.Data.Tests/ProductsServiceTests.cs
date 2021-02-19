@@ -241,8 +241,10 @@
                 NoteIds = new string[] { "1", "2", "3" },
             };
 
+            // Act
             var result = await service.CreateProductAsync(inputModel, "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg");
 
+            // Assert
             Assert.True(result);
         }
 
@@ -297,8 +299,10 @@
 
             var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
 
+            // Act
             var result = await service.DeleteProductAsync(1);
 
+            // Assert
             Assert.True(result);
             Assert.Equal(0, await dbContext.Products.Where(p => p.DeletedOn != null).CountAsync());
         }
@@ -324,8 +328,10 @@
 
             var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
 
+            // Act
             var result = await service.DeleteProductAsync(1);
 
+            // Assert
             Assert.False(result);
             Assert.Equal(0, await dbContext.Products.CountAsync());
         }
@@ -381,8 +387,10 @@
 
             var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
 
+            // Act
             var result = await service.UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(20);
 
+            // Assert
             Assert.True(result);
         }
 
@@ -437,8 +445,10 @@
 
             var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
 
+            // Act
             var result = await service.UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
 
+            // Assert
             Assert.True(result);
         }
 
@@ -492,8 +502,10 @@
 
             var service = new ProductsService(mockRepo.Object, null);
 
+            // Act
             var product = await service.GetProductByIdAsync(1);
 
+            // Assert
             Assert.Equal("Kiki", product.Name);
             Assert.Equal("https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg", product.Picture);
             Assert.Equal(320, product.Price);
@@ -553,8 +565,10 @@
 
             var service = new ProductsService(mockRepo.Object, null);
 
+            // Act
             var product = await service.GetProductByIdAsync(2);
 
+            // Assert
             Assert.Null(product);
         }
     }
