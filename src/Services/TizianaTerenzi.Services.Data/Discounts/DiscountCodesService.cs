@@ -99,7 +99,7 @@
                 .Where(p => p.UserId == userId && p.DiscountCodeId == null)
                 .ToListAsync();
 
-            if (productsInTheCart == null)
+            if (productsInTheCart.Count() == 0)
             {
                 return false;
             }
@@ -120,7 +120,7 @@
             var productsInTheCart = await this.productsInTheCartRepository
                .All()
                .Where(p => p.UserId == userId && p.DiscountCodeId != null)
-               .Include(p => p.Product)
+               .Include(p => p.Product) // TODO: Do not use Include
                .ToListAsync();
 
             if (productsInTheCart == null)
