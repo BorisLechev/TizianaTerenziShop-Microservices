@@ -99,6 +99,7 @@ Example:
   * ASP.NET Core MVC
   * Entity Framework Core
   * Automapper
+  * Google ReCaptcha v3
   * Cloudinary
   * SendGrid
   * jQuery
@@ -113,5 +114,7 @@ Example:
   * Highcharts
   * IpInfo
   * Stripe
+  * xUnit
+  * Moq && MockQueryable.Moq
   * English language
   * Bulgarian language
