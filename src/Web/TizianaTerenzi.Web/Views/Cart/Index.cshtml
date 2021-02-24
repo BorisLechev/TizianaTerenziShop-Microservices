@@ -9,6 +9,20 @@
 }
 
 <section class="cart-section">
+    <section class="breadcrumbs-banner" style="padding-bottom: 2rem;">
+        <div style="width: 100%;">
+            <nav class="breadcrumbs">
+                <ul>
+                    <li class="home">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                    </li>
+                    <li class="dashboard">
+                        <span>@this.ViewData["Title"]</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
     <section class="container">
         <section class="row">
             <section class="shopping-cart-container">
@@ -253,4 +267,5 @@
 
 @section CustomCss {
     <link href="~/css/cart.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
 }

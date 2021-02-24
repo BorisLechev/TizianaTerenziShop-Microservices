@@ -132,6 +132,9 @@
   <data name="Discount" xml:space="preserve">
     <value>Ваучер</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
+  </data>
   <data name="price" xml:space="preserve">
     <value>цена</value>
   </data>

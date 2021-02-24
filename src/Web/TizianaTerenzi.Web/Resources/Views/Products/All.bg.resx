@@ -126,6 +126,9 @@
   <data name="Edit Product" xml:space="preserve">
     <value>Редактирай</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>Ново</value>
   </data>

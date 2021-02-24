@@ -323,7 +323,7 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding-top: 50px;
+    padding-top: 1rem;
 }
 
 .found-products-count-container {

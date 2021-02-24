@@ -6,6 +6,20 @@
 }
 
 <div class="main">
+    <section class="breadcrumbs-banner">
+        <div style="width: 100%;">
+            <nav class="breadcrumbs">
+                <ul>
+                    <li class="home">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                    </li>
+                    <li class="dashboard">
+                        <span>@this.ViewData["Title"]</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
     <header class="text-center pt-4">
         <h2>@ViewData["Title"]</h2>
     </header>
@@ -110,4 +124,5 @@
 
 @section CustomCss {
     <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
 }

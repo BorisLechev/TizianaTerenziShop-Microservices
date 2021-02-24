@@ -1,0 +1,38 @@
+﻿.breadcrumbs-banner {
+    width: 100%;
+    padding: 0 1.5rem;
+}
+
+.breadcrumbs ul {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.breadcrumbs ul li {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    font-size: 13px;
+    line-height: 16px;
+    color: rgb(153, 153, 153);
+    list-style: none;
+}
+
+.breadcrumbs ul li.home {
+    padding-left: 0;
+}
+
+.breadcrumbs ul li a {
+    color: rgb(34, 34, 34);
+    transition: all 0.2s linear;
+}
+
+    .breadcrumbs ul li.dashboard:before {
+        position: absolute;
+        top: 4px;
+        left: 9px;
+        content: '';
+        width: 5px;
+        height: 9px;
+        background: url('https://res.cloudinary.com/pictures-storage/image/upload/v1614172406/product_images/zorqhuoxzhreuqk9igdg.svg') no-repeat left top;
+    }

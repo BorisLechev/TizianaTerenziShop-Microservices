@@ -132,6 +132,9 @@
   <data name="Discount" xml:space="preserve">
     <value>Discount</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="price" xml:space="preserve">
     <value>price</value>
   </data>

@@ -1,12 +1,29 @@
 ﻿@inject IViewLocalizer Localizer
 @model ProductDetailsViewModel
 
-@{ 
+@{
     this.ViewData["Title"] = Model.Name;
 }
 <main id="main">
     <section>
         <section class="section-product-details">
+            <section class="breadcrumbs-banner" style="padding-top: 3rem;">
+                <div style="width: 100%;">
+                    <nav class="breadcrumbs">
+                        <ul>
+                            <li class="home">
+                                <a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            </li>
+                            <li class="dashboard">
+                                <a asp-area="" asp-controller="Products" asp-action="All">@Localizer["All Products"]</a>
+                            </li>
+                            <li class="dashboard">
+                                <span>@this.ViewData["Title"]</span>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
             <section class="page-container">
                 <section class="row">
                     <article class="image-wrapper">
@@ -116,7 +133,7 @@
                                 <strong class="average-rating">
                                     <strong class="averageVoteValue">@this.Model.AverageVote.ToString("0.0")</strong>
                                 </strong>
-                                 / 
+                                /
                                 <strong>5</strong>
                             </span>
                             <section class="star-rating" title="@this.Model.AverageVote.ToString("0.0")">
@@ -179,7 +196,7 @@
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <div>
-                                <button type="button" class="btn btn-primary btn-comment float-left" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button> 
+                                <button type="button" class="btn btn-primary btn-comment float-left" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button>
                             </div>
                             <div class="clearfix"></div>
                         }
@@ -270,4 +287,5 @@
 @section CustomCss {
     <link href="~/css/product-details.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/comments.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
 }

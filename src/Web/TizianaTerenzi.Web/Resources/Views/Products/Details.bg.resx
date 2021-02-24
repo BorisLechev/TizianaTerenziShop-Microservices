@@ -120,6 +120,9 @@
   <data name="Add to Cart" xml:space="preserve">
     <value>Добави в количка</value>
   </data>
+  <data name="All Products" xml:space="preserve">
+    <value>Всички продукти</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Описание</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="Edit Product" xml:space="preserve">
     <value>Edit Product</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
   </data>
   <data name="Notes" xml:space="preserve">
     <value>Мириси</value>
