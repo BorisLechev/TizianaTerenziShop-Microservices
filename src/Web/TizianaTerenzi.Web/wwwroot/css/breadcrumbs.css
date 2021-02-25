@@ -27,12 +27,12 @@
     transition: all 0.2s linear;
 }
 
-    .breadcrumbs ul li.dashboard:before {
-        position: absolute;
-        top: 4px;
-        left: 9px;
-        content: '';
-        width: 5px;
-        height: 9px;
-        background: url('https://res.cloudinary.com/pictures-storage/image/upload/v1614172406/product_images/zorqhuoxzhreuqk9igdg.svg') no-repeat left top;
-    }
+.breadcrumbs ul li.dashboard:before {
+    position: absolute;
+    top: 4px;
+    left: 9px;
+    content: '';
+    width: 5px;
+    height: 9px;
+    background: url('https://res.cloudinary.com/pictures-storage/image/upload/v1614172406/product_images/zorqhuoxzhreuqk9igdg.svg') no-repeat left top;
+}

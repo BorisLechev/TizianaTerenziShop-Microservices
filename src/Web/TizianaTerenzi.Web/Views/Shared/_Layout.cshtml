@@ -15,6 +15,7 @@
     <link href="~/css/buttons.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/testimonials.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/navbar.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/footer.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.min.css" rel="stylesheet" asp-append-version="true" />
     @await this.RenderSectionAsync("CustomCss", false)
 </head>
@@ -171,7 +172,55 @@
     <vc:subscribe-newsletter></vc:subscribe-newsletter>
 
     <footer id="site-footer" class="border-top footer text-muted bg-gray">
-        <div class="row">
+        <div class="first-footer row">
+            <div class="col-lg-3 logo-footer-container">
+                <a asp-area="" asp-controller="Home" asp-action="Index">
+                    <picture>
+                        <img src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" id="logo" alt="Tiziana-Terenzi-logo" style="filter: invert(1);" />
+                    </picture>
+                </a>
+            </div>
+            <div class="col-lg-3 mb-2">
+                <header>
+                    <h5 class="footer-col-title">Tiziana Terenzi</h5>
+                </header>
+                <main class="footer-list-items">
+                    <ul>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="AboutUs">About us</a></li>
+                        <li><a asp-area="" asp-controller="Products" asp-action="All">Products</a></li>
+                        <li><a asp-area="" asp-controller="Cart" asp-action="Index">Cart</a></li>
+                    </ul>
+                </main>
+            </div>
+            <div class="col-lg-3 mb-2">
+                <header>
+                    <h5 class="footer-col-title">Contacts</h5>
+                </header>
+                <main class="footer-list-items">
+                    <ul>
+                        <li><a asp-area="" asp-controller="Contacts" asp-action="Index">Contacts</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Terms">Terms</a></li>
+                    </ul>
+                </main>
+            </div>
+            <div class="col-lg-2">
+                <div class="social-box">
+                    <p>Follow us on social media</p>
+                    <a class="social">
+                        <img class="icon-svg facebook" src="https://res.cloudinary.com/pictures-storage/image/upload/v1614244514/product_images/xfp7lmiynhsftuuqw7bd.svg" />
+                    </a>
+                    <a class="social">
+                        <img class="icon-svg twitter" src="https://res.cloudinary.com/pictures-storage/image/upload/v1614248499/product_images/mze9x24cs1cynxz6vuyz.svg" />
+                    </a>
+                    <a class="social">
+                        <img class="icon-svg youtube" src="https://res.cloudinary.com/pictures-storage/image/upload/v1614248523/product_images/sz6umluver1vmvftosc6.svg" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="second-footer row">
             <div class="text-center col-md-3">
                 <span>&copy; 2011-@DateTime.UtcNow.Year - <a href="https://tizianaterenzi.com/" target="_blank">@GlobalConstants.SystemName</a></span>
             </div>
