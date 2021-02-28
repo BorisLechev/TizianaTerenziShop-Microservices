@@ -1,54 +1,52 @@
 ﻿@inject IViewLocalizer Localizer
 
-<article>
-    <section class="testimonials-container">
-        <article class="testimonials-inner-container">
-            <header>
-                <h3>@Localizer["testimonials"]</h3>
-            </header>
-            <main class="row">
-                <article class="testimonial">
-                    <a>
-                        <picture>
-                            <img href="https://www.youtube.com/watch?v=cS0-Jvmyd68" data-youtube-id="cS0-Jvmyd68" class="video-thumb js-trigger-modal w3-card" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236082/product_images/y4s9zafdl1plu7ieaiuo.png" alt="pic1">
-                        </picture>
-                    </a>
-                    <footer class="author">
-                        <a>Sabastian Jara</a>
-                    </footer>
-                </article>
-                <article class="testimonial">
-                    <a>
-                        <picture>
-                            <img href="https://www.youtube.com/watch?v=E1MwnKr82pE" data-youtube-id="E1MwnKr82pE" class="video-thumb js-trigger-modal w3-card" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588235375/product_images/nsztdqfg2cvwz4fnip5q.png" alt="pic2">
-                        </picture>
-                    </a>
-                    <footer class="author">
-                        <a>Redolessence</a>
-                    </footer>
-                </article>
-                <article class="testimonial">
-                    <a>
-                        <picture>
-                            <img href="https://www.youtube.com/watch?v=qdXNwqfSgco" data-youtube-id="qdXNwqfSgco" class="video-thumb js-trigger-modal w3-card" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236164/product_images/aamq64g9uwnwk50hbk0o.png" alt="pic3">
-                        </picture>
-                    </a>
-                    <footer class="author">
-                        <a>Yana Tommelise</a>
-                    </footer>
-                </article>
-            </main>
-            <footer>
-                <a asp-area="" asp-controller="Products" asp-action="All" class="button">@Localizer["discover"]</a>
-            </footer>
-        </article>
-    </section>
-    <section class="video-modal">
-        <div id="video-modal-content" class="video-modal-content">
-            <img class="video-sizer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaAQAAAAAXvWD/AAAAAnRSTlMAAHaTzTgAAAAWSURBVHgBY6ABGAWjYBSMglEwCkYBAAdiAAFufS70AAAAAElFTkSuQmCC" />
-            <iframe id="youtube" width="100%" height="100%" frameborder="0" allowfullscreen src=''></iframe>
-            <a class="close-video-modal">×</a>
-        </div>
-        <div class="overlay"></div>
-    </section>
-</article>
+<section class="testimonials-container animate__animated" data-aos="fade-up">
+    <article class="testimonials-inner-container">
+        <header>
+            <h3>@Localizer["testimonials"]</h3>
+        </header>
+        <main class="row">
+            <article class="testimonial">
+                <a>
+                    <picture>
+                        <img href="https://www.youtube.com/watch?v=cS0-Jvmyd68" data-youtube-id="cS0-Jvmyd68" class="video-thumb js-trigger-modal w3-card" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236082/product_images/y4s9zafdl1plu7ieaiuo.png" alt="pic1">
+                    </picture>
+                </a>
+                <footer class="author">
+                    <a>Sabastian Jara</a>
+                </footer>
+            </article>
+            <article class="testimonial">
+                <a>
+                    <picture>
+                        <img href="https://www.youtube.com/watch?v=E1MwnKr82pE" data-youtube-id="E1MwnKr82pE" class="video-thumb js-trigger-modal w3-card" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588235375/product_images/nsztdqfg2cvwz4fnip5q.png" alt="pic2">
+                    </picture>
+                </a>
+                <footer class="author">
+                    <a>Redolessence</a>
+                </footer>
+            </article>
+            <article class="testimonial">
+                <a>
+                    <picture>
+                        <img href="https://www.youtube.com/watch?v=qdXNwqfSgco" data-youtube-id="qdXNwqfSgco" class="video-thumb js-trigger-modal w3-card" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236164/product_images/aamq64g9uwnwk50hbk0o.png" alt="pic3">
+                    </picture>
+                </a>
+                <footer class="author">
+                    <a>Yana Tommelise</a>
+                </footer>
+            </article>
+        </main>
+        <footer>
+            <a asp-area="" asp-controller="Products" asp-action="All" class="button">@Localizer["discover"]</a>
+        </footer>
+    </article>
+</section>
+<section class="video-modal">
+    <div id="video-modal-content" class="video-modal-content">
+        <img class="video-sizer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaAQAAAAAXvWD/AAAAAnRSTlMAAHaTzTgAAAAWSURBVHgBY6ABGAWjYBSMglEwCkYBAAdiAAFufS70AAAAAElFTkSuQmCC" />
+        <iframe id="youtube" width="100%" height="100%" frameborder="0" allowfullscreen src=''></iframe>
+        <a class="close-video-modal">×</a>
+    </div>
+    <div class="overlay"></div>
+</section>

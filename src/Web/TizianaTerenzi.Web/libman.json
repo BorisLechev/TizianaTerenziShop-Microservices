@@ -111,6 +111,21 @@
       "files": [
         "highcharts.js"
       ]
+    },
+    {
+      "library": "animate.css@4.1.1",
+      "destination": "wwwroot/lib/animate.css/",
+      "files": [
+        "animate.min.css"
+      ]
+    },
+    {
+      "library": "aos@2.3.4",
+      "destination": "wwwroot/lib/aos/",
+      "files": [
+        "dist/aos.min.css",
+        "dist/aos.min.js"
+      ]
     }
   ]
 }
