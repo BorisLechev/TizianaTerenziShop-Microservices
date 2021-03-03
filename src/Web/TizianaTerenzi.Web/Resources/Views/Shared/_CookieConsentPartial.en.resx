@@ -120,8 +120,11 @@
   <data name="Accept" xml:space="preserve">
     <value>Accept</value>
   </data>
-  <data name="By continuing to use this website, you consent to the use of cookies." xml:space="preserve">
-    <value>By continuing to use this website, you consent to the use of cookies.</value>
+  <data name="and" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="By continuing to use this website, you consent to the use of cookies. For more information:" xml:space="preserve">
+    <value>By continuing to use this website, you consent to the use of cookies. For more information:</value>
   </data>
   <data name="uses cookies to provide you with a better experience." xml:space="preserve">
     <value>uses cookies to provide you with a better experience.</value>

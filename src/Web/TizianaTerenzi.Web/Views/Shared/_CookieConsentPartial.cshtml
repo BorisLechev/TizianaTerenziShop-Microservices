@@ -17,19 +17,19 @@
         z-index: 9999;
     }
 
-        #cookieConsent.box-shadow {
-            opacity: 0.9;
-        }
+    #cookieConsent.box-shadow {
+        opacity: 0.9;
+    }
 </style>
 
 @if (showBanner)
 {
-    <div class="alert alert-warning fade show mb-0" role="alert" id="cookieConsent">
-        <div class="container d-flex flex-row">
+    <div class="alert alert-warning fade show mb-0" role="alert" id="cookieConsent" style="border-radius: 2.5rem 2.5rem 0 0;">
+        <div class="d-flex flex-row flex-wrap justify-content-center">
             <i class="fas fa-cookie-bite fa-2x align-self-center"></i>
             <div class="pl-3">
                 <strong>@GlobalConstants.SystemName @Localizer["uses cookies to provide you with a better experience."]</strong>
-                <p class="mb-0">@Localizer["By continuing to use this website, you consent to the use of cookies."]</p>
+                <p class="mb-0">@Localizer["By continuing to use this website, you consent to the use of cookies. For more information:"] "<a asp-controller="Home" asp-action="Privacy" style="text-decoration:underline;">Policy</a>" @Localizer["and"] "<a asp-controller="Home" asp-action="Terms"style="text-decoration:underline;">Terms</a>".</p>
             </div>
             <div class="align-self-center ml-auto">
                 <button type="button" class="btn btn-secondary" id="cookieAcceptButton" data-cookie-string="@cookieString">@Localizer["Accept"]</button>

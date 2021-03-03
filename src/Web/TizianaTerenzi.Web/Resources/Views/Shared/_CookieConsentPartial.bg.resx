@@ -120,8 +120,11 @@
   <data name="Accept" xml:space="preserve">
     <value>Приемам</value>
   </data>
-  <data name="By continuing to use this website, you consent to the use of cookies." xml:space="preserve">
-    <value>продължавайки да използвате този сайт, Вие се съгласявате с използването на бисквитки.</value>
+  <data name="and" xml:space="preserve">
+    <value>и</value>
+  </data>
+  <data name="By continuing to use this website, you consent to the use of cookies. For more information:" xml:space="preserve">
+    <value>Продължавайки да използвате този сайт, Вие се съгласявате с използването на бисквитки. За повече информация:</value>
   </data>
   <data name="uses cookies to provide you with a better experience." xml:space="preserve">
     <value>използва бисквитки, за да Ви предоставят по-добро изживяване.</value>
