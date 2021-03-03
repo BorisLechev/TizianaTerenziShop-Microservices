@@ -76,9 +76,6 @@
 
             services.AddSingleton(cloudinary);
 
-            // Stripe Setup
-            //services.Configure<StripeSettings>(this.configuration.GetSection("Stripe"));
-
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddMvc()

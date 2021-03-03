@@ -38,11 +38,12 @@
     width: 2.5em;
 }
 
-.cart-badge:after {
+.cart-badge-count {
     position: absolute;
-    right: 15%;
+    right: -2%;
     top: 8%;
-    content: attr(data-count);
+    width: 20px;
+    height: auto;
     font-size: 0.8rem;
     padding: 0.2em;
     border-radius: 50%;
