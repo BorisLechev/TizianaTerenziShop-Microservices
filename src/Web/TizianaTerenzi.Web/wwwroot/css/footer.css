@@ -3,10 +3,9 @@
 }
 
 @media screen and (max-width: 1023px) {
-    .footer-col-title {
-        text-align: center;
-    }
-
+    .footer-col-title,
+    .footer-subtitle,
+    .footer-where-we-are-list-items,
     .social-box {
         text-align: center;
     }
@@ -15,7 +14,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        text-align: left;
+        text-align: center;
     }
 }
 
@@ -25,6 +24,12 @@
     color: rgb(222, 193, 124);
     line-height: 18px;
     text-transform: uppercase;
+}
+
+.footer-subtitle {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 18px;
 }
 
 #site-footer .logo-footer-container {
@@ -40,6 +45,8 @@
 }
 
 #site-footer ul li {
+    width: 50%;
+    float: left;
     line-height: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -47,6 +54,16 @@
 #site-footer ul li a {
     color: rgb(0, 0, 0);
     transition: all 0.2s linear;
+}
+
+.footer-where-we-are-list-items p {
+    color: rgb(0, 0, 0);
+    padding-bottom: 0.5rem;
+    line-height: 2;
+}
+
+.footer-where-we-are-list-items p > a {
+    color: rgb(0, 0, 0);
 }
 
 .social {
