@@ -182,7 +182,7 @@
             return result > 0;
         }
 
-        public async Task SaveShippingDataAsync(ApplicationUser user, OrderCheckoutViewModel inputModel)
+        public async Task SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel)
         {
             user.CountryId = inputModel.CountryId;
             user.Address = inputModel.Address;

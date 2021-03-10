@@ -26,6 +26,6 @@
 
         Task<bool> CheckOutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart);
 
-        Task SaveShippingDataAsync(ApplicationUser user, OrderCheckoutViewModel inputModel);
+        Task SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel);
     }
 }

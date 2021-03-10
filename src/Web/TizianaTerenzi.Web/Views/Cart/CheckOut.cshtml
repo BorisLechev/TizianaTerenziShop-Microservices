@@ -26,7 +26,7 @@
     </section>
     <section class="wrap">
         <main class="main">
-            <form asp-area="" asp-controller="Cart" asp-action="SaveShippingData" method="post">
+            @*<form asp-area="" asp-controller="Cart" asp-action="SaveShippingData" method="post">*@
                 <header class="main-header">
                     <a class="logo">
                         <img class="logo-img" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" alt="logo-img">
@@ -99,9 +99,9 @@
                         <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
                         <span>@Localizer["Return to cart"]</span>
                     </a>
-                    <button onclick="showPaymentButton()" class="continue-btn btn btn-secondary" type="submit">@Localizer["Save"]</button>
+                    <button id="checkout-button" class="continue-btn btn btn-secondary" type="submit">@Localizer["Pay"]</button>
                 </footer>
-            </form>
+            @*</form>*@
         </main>
         <aside class="sidebar">
             <section class="sidebar-content">
@@ -171,12 +171,6 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr id="payment-button-wrapper" style="display: none;">
-                                <th class="payment-label">Pay</th>
-                                <td class="payment-button">
-                                    <button id="checkout-button" class="continue-btn btn btn-secondary" type="submit">@Localizer["Continue to payment"]</button>
-                                </td>
-                            </tr>
                         </tfoot>
                     </table>
                 </article>
@@ -188,7 +182,7 @@
 <form method="post" id="antiForgeryForm"></form>
 
 @section CustomCss {
-    <link href="~/css/order-checkOut.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/order-checkout.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
 }
 
@@ -199,23 +193,26 @@
         let errors = $('#form-errors').val();
         let checkoutButton = document.getElementById("checkout-button");
 
-        function showPaymentButton() {
-            if (errors == "") {
-                $("#payment-button-wrapper").show();
-            }
-        }
-
         checkoutButton.addEventListener("click", function () {
             let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
             // Create an instance of the Stripe object with your publishable API key
             let stripe = Stripe("@this.Configuration["Stripe:PublishableKey"]");
+            let firstName = $("#first-name").val();
+            let lastName = $("#last-name").val();
+            let address = $("#address").val();
+            let town = $("#town").val();
+            let country = $("#country").val();
+            let postalCode = $("#postal-code").val();
+            let phoneNumber = $("#phone-number").val();
+
+            let json = { firstName: firstName, lastName: lastName, address: address, town: town, countryId: country, postalCode: postalCode, phoneNumber: phoneNumber }; // shippingDataInputModel
 
             fetch("/payment/pay", {
                 method: "POST",
-                //body: JSON.stringify(json),
+                body: JSON.stringify(json),
                 headers: {
                     'X-CSRF-TOKEN': antiForgeryToken,
-                    //'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
             })
             .then(function (response) {

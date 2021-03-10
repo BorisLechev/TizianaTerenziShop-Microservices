@@ -4,9 +4,8 @@
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using TizianaTerenzi.Common;
 
-    public class OrderCheckoutViewModel
+    public class ShippingDataInputModel
     {
         [Required]
         [StringLength(30, MinimumLength = 2)]
@@ -43,11 +42,5 @@
         [MaxLength(100)]
         [Display(Name = "Address")]
         public string Address { get; set; }
-
-        public IEnumerable<ProductsInTheCartViewModel> Products { get; set; }
-
-        public int BulgariaId { get; set; }
-
-        public string ShippingFeeRow => this.CountryId == this.BulgariaId ? "Free" : $"€ {GlobalConstants.ShippingFee}";
     }
 }

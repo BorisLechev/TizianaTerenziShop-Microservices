@@ -11,6 +11,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Web.ViewModels.Orders;
 
     [Authorize]
     [ApiController]
@@ -30,11 +31,16 @@
 
         [HttpPost]
         [Route("payment/pay")]
-        public async Task<IActionResult> Pay()
+        public async Task<IActionResult> Pay(ShippingDataInputModel viewModel)
         {
             if (!this.User.Identity.IsAuthenticated)
             {
                 return this.RedirectToAction("Login", "Authentication");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Checkout", "Cart");
             }
 
             var domain = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
@@ -75,8 +81,11 @@
             var service = new SessionService();
             Session session = service.Create(options);
 
-            var userId = this.userManager.GetUserId(this.User);
-            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserId(userId);
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.cartService.SaveShippingDataAsync(user, viewModel);
+
+            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserId(user.Id);
 
             if (!productsInTheCart.Any())
             {
@@ -85,7 +94,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            var result = await this.cartService.CheckOutAsync(userId, productsInTheCart);
+            var result = await this.cartService.CheckOutAsync(user.Id, productsInTheCart);
 
             if (result == false)
             {
@@ -94,7 +103,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            await this.cartService.DeleteAllProductsInTheCartByUserId(userId);
+            await this.cartService.DeleteAllProductsInTheCartByUserId(user.Id);
 
             return this.Json(new { id = session.Id });
         }
