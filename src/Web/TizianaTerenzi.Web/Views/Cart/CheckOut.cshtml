@@ -146,19 +146,28 @@
                                     <span class="subtotal-line-price">€ @this.Model.Products.Sum(order => order.TotalPrice).ToString("F2")</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <th class="subtotal-line">@Localizer["Shipping"]</th>
-                                <td class="subtotal-line">
-                                    <span class="subtotal-line-price">€ @GlobalConstants.ShippingFee</span>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th class="subtotal-line">@Localizer["Shipping"]</th>
+                                    <td class="subtotal-line">
+                                        <span class="subtotal-line-price">@this.Model.ShippingFeeRow</span>
+                                    </td>
+                                </tr>
                         </tbody>
                         <tfoot class="summary-tfoot">
                             <tr>
                                 <th class="total-line-name"><span>@Localizer["Total"]</span></th>
                                 <td class="total-line-price">
                                     <span>
-                                        € <span id="total-line-price-without-currency">@(this.Model.Products.Sum(order => order.TotalPrice) + @GlobalConstants.ShippingFee)</span>
+                                        € <span id="total-line-price-without-currency">
+                                            @if (this.Model.CountryId != this.Model.BulgariaId)
+                                            {
+                                                @(this.Model.Products.Sum(order => order.TotalPrice) + @GlobalConstants.ShippingFee)
+                                            }
+                                            else
+                                            {
+                                                @(this.Model.Products.Sum(order => order.TotalPrice))
+                                            }
+                                         </span>
                                     </span>
                                 </td>
                             </tr>

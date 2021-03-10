@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using TizianaTerenzi.Common;
 
     public class OrderCheckoutViewModel
     {
@@ -52,5 +53,9 @@
         public string Address { get; set; }
 
         public IEnumerable<ProductsInTheCartViewModel> Products { get; set; }
+
+        public int BulgariaId { get; set; }
+
+        public string ShippingFeeRow => this.CountryId == this.BulgariaId ? "Free" : $"€ {GlobalConstants.ShippingFee}";
     }
 }

@@ -220,6 +220,7 @@
             var productsInTheCart = await this.cartService
                  .GetAllProductsInTheCartByUserId(user.Id);
             var countries = await this.countriesService.GetAllCountriesAsync();
+            var bulgariaId = countries.Single(c => c.Text == "Bulgaria").Value;
 
             var viewModel = new OrderCheckoutViewModel
             {
@@ -232,6 +233,7 @@
                 PhoneNumber = user.PhoneNumber,
                 Products = productsInTheCart,
                 Countries = countries,
+                BulgariaId = int.Parse(bulgariaId),
             };
 
             if (!productsInTheCart.Any())

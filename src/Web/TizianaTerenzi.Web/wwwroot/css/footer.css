@@ -77,15 +77,15 @@
     line-height: 24px;
 }
 
-.icon-svg {
+.icon-media-svg {
     width: 45px;
     height: 46px;
     float: left;
     transition: all 0.2s linear;
 }
 
-.icon-svg:hover,
-.icon-svg:focus {
+.icon-media-svg:hover,
+.icon-media-svg:focus {
     filter: invert(73%) sepia(29%) saturate(460%) hue-rotate(4deg) brightness(99%) contrast(97%);
 }
 
