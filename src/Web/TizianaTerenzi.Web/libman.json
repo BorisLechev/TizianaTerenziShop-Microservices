@@ -3,7 +3,7 @@
   "defaultProvider": "jsdelivr",
   "libraries": [
     {
-      "library": "jquery@3.5.1",
+      "library": "jquery@3.6.0",
       "destination": "wwwroot/lib/jquery/",
       "files": [
         "dist/jquery.min.js",
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "library": "highcharts@9.0.0",
+      "library": "highcharts@9.0.1",
       "destination": "wwwroot/lib/highcharts/",
       "files": [
         "highcharts.js"
