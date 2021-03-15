@@ -33,6 +33,7 @@
             var ordersByUser = await this.ordersRepository
                 .AllAsNoTracking()
                 .Where(op => op.UserId == userId)
+                .OrderByDescending(x => x.CreatedOn)
                 .To<OrdersListingViewModel>()
                 .ToListAsync();
 
@@ -54,6 +55,7 @@
         {
             var orders = await this.ordersRepository
                 .AllAsNoTracking()
+                .OrderByDescending(x => x.CreatedOn)
                 .To<OrdersListingViewModel>()
                 .ToListAsync();
 
@@ -65,6 +67,7 @@
             var orders = await this.ordersRepository
                 .AllAsNoTracking()
                 .Where(o => o.Status.Name == "Pending")
+                .OrderByDescending(x => x.CreatedOn)
                 .To<OrdersListingViewModel>()
                 .ToListAsync();
 
@@ -76,6 +79,7 @@
             var orders = await this.ordersRepository
                 .AllAsNoTracking()
                 .Where(o => o.Status.Name == "Completed")
+                .OrderByDescending(x => x.CreatedOn)
                 .To<OrdersListingViewModel>()
                 .ToListAsync();
 
