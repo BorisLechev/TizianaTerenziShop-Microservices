@@ -1,0 +1,134 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Comfortaa:700|Roboto:900|Russo+One");
+
+#thank-you-background {
+    background: rgb(222, 193, 124);
+    text-align: center;
+    width: 100%;
+    height: 400px;
+    position: relative;
+}
+
+.thank-you-heart {
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    content: '';
+    transform: translateX(-50%);
+    animation: heart 5s linear infinite;
+}
+
+.thank-you-text {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    content: '';
+    transform: translateX(-40%);
+}
+
+.thank-you-text p {
+    display: inline-block;
+    padding-bottom: 0;
+    width: 32px;
+    font-size: 0;
+    font-family: "Russo One";
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+}
+
+.thank-you-text p:nth-child(1) {
+    animation: showup 5s infinite 0.2s;
+}
+
+.thank-you-text p:nth-child(2) {
+    animation: showup 5s infinite 0.4s;
+}
+
+.thank-you-text p:nth-child(3) {
+    animation: showup 5s infinite 0.6s;
+}
+
+.thank-you-text p:nth-child(4) {
+    animation: showup 5s infinite 0.8s;
+}
+
+.thank-you-text p:nth-child(5) {
+    animation: showup 5s infinite 1s;
+}
+
+.thank-you-text p:nth-child(6) {
+    animation: showup 5s infinite 1.2s;
+}
+
+.thank-you-text p:nth-child(7) {
+    animation: showup 5s infinite 1.4s;
+}
+
+.thank-you-text p:nth-child(8) {
+    animation: showup 5s infinite 1.6s;
+}
+
+.thank-you-text p:nth-child(9) {
+    animation: showup 5s infinite 1.8s;
+}
+
+@keyframes showup {
+    0% {
+        font-size: 0px;
+        transform: rotate(90deg);
+    }
+
+    5% {
+        font-size: 3rem;
+    }
+
+    10% {
+        font-size: 3.1rem;
+        transform: rotate(0deg);
+    }
+
+    60% {
+        font-size: 3.1rem;
+        opacity: 1;
+    }
+
+    71% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+        font-size: 3.1rem;
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes heart {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0;
+        font-size: 42px;
+    }
+
+    40% {
+        opacity: 1;
+        font-size: 42px;
+    }
+
+    70% {
+        opacity: 1;
+        font-size: 42px;
+    }
+
+    80% {
+        opacity: 0;
+        font-size: 30px;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

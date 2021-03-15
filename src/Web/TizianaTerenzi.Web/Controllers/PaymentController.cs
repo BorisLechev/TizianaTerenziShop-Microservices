@@ -74,7 +74,7 @@
                   },
                 },
                 Mode = "payment",
-                SuccessUrl = domain + "/home/index",
+                SuccessUrl = domain + "/payment/success",
                 CancelUrl = domain + "/cart/checkout",
             };
 
@@ -106,6 +106,12 @@
             await this.cartService.DeleteAllProductsInTheCartByUserId(user.Id);
 
             return this.Json(new { id = session.Id });
+        }
+
+        [Route("payment/success")]
+        public IActionResult ThankYou()
+        {
+            return this.View();
         }
     }
 }
