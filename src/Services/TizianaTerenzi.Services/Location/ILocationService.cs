@@ -4,6 +4,6 @@
 
     public interface ILocationService
     {
-        public Task<string> GetLocationAsync();
+        public Task<(string CountryName, string Town, string Ip)> GetLocationAsync();
     }
 }

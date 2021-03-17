@@ -16,7 +16,7 @@
             this.configuration = configuration;
         }
 
-        public async Task<string> GetLocationAsync()
+        public async Task<(string CountryName, string Town, string Ip)> GetLocationAsync()
         {
             using var client = new HttpClient();
             var key = this.configuration["IpInfo:ApiKey"];
@@ -25,8 +25,10 @@
             var response = await api.GetCurrentInformationAsync();
             RegionInfo countryInfo = new RegionInfo(response.Country);
             var countryName = countryInfo.EnglishName;
+            var town = response.City;
+            var ip = response.Ip;
 
-            return countryName;
+            return (countryName, town, ip);
         }
     }
 }
