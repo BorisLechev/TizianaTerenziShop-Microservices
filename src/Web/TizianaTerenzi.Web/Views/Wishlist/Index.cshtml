@@ -56,13 +56,13 @@
                                             </section>
                                         }
                                         <section>
-                                            @if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.Year - 1) && product.ProductPrice == product.ProductPriceWithDiscount)
+                                            @if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && product.ProductPrice == product.ProductPriceWithDiscount)
                                             {
                                                 <div class="sticker-new-top stickers">
                                                     <span class="sticker-text">@Localizer["New"]</span>
                                                 </div>
                                             }
-                                            else if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.Year - 1) && product.ProductPrice != product.ProductPriceWithDiscount)
+                                            else if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && product.ProductPrice != product.ProductPriceWithDiscount)
                                             {
                                                 <div class="sticker-new stickers">
                                                     <span class="sticker-text">@Localizer["New"]</span>
@@ -74,19 +74,16 @@
                                             <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.ProductId" method="post">
                                                 <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
                                             </form>
-                                            @if (this.User.Identity.IsAuthenticated)
+                                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                             {
-                                                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                                                {
-                                                    <a class="btn-edit" href="/administration/product/edit/@product.ProductId">
-                                                        <span>@Localizer["Edit Product"]</span>
-                                                    </a>
-                                                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.ProductId" method="post">
-                                                        <button class="button-delete" type="submit">
-                                                            <span>@Localizer["Delete Product"]</span>
-                                                        </button>
-                                                    </form>
-                                                }
+                                                <a class="btn-edit" href="/administration/product/edit/@product.ProductId">
+                                                    <span>@Localizer["Edit Product"]</span>
+                                                </a>
+                                                <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.ProductId" method="post">
+                                                    <button class="button-delete" type="submit">
+                                                        <span>@Localizer["Delete Product"]</span>
+                                                    </button>
+                                                </form>
                                             }
                                         </section>
                                     </section>

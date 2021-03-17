@@ -62,7 +62,7 @@
             return result;
         }
 
-        public async Task<bool> CheckOutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart)
+        public async Task<bool> CheckoutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart)
         {
             var orderProducts = productsInTheCart
                 .Select(op => new OrderProduct

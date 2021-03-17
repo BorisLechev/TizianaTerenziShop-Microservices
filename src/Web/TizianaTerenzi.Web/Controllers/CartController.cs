@@ -241,7 +241,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            return this.View(viewModel);
+            return this.View("~/Views/Payment/Index.cshtml", viewModel);
         }
     }
 }

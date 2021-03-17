@@ -12,6 +12,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
+    using TizianaTerenzi.Services.Cloudinary;
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Services.Mapping;

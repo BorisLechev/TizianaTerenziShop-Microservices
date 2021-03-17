@@ -123,8 +123,8 @@
   <data name="Cart" xml:space="preserve">
     <value>Cart</value>
   </data>
-  <data name="Check Out" xml:space="preserve">
-    <value>Check Out</value>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
   </data>
   <data name="Continue Shopping" xml:space="preserve">
     <value>Continue Shopping</value>

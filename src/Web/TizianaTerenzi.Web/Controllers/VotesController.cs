@@ -67,8 +67,8 @@
             }
 
             var averageVotes = await this.productVotesService.GetAverageVotesAsync(inputModel.ProductId);
-            var numberOfVoters = await this.productVotesService.GetNumberOfVotersAsync(inputModel.ProductId);
             var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(inputModel.ProductId);
+            var numberOfVoters = allValues.Count();
 
             var countOfVotesWithValueFive = allValues.Where(pv => pv == 5).Count();
             var countOfVotesWithValueFour = allValues.Where(pv => pv == 4).Count();

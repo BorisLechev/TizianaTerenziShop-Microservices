@@ -123,7 +123,7 @@
   <data name="Cart" xml:space="preserve">
     <value>Количка</value>
   </data>
-  <data name="Check Out" xml:space="preserve">
+  <data name="Checkout" xml:space="preserve">
     <value>Завършване</value>
   </data>
   <data name="Continue Shopping" xml:space="preserve">

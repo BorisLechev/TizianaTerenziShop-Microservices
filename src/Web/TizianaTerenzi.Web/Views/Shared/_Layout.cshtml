@@ -166,7 +166,7 @@
     }
 
     <main>
-        <div style="overflow: hidden;">
+        <div>
             @this.RenderBody()
             <partial name="_BackToTheTopPartial" />
         </div>
@@ -232,10 +232,10 @@
             <div class="text-center col-md-3">
                 <span>&copy; 2011-@DateTime.UtcNow.Year - <a href="https://tizianaterenzi.com/" target="_blank">@GlobalConstants.SystemName</a></span>
             </div>
-            <div class="text-center col-md-6">
-                <span>@Localizer["This site is made for educational and non-commercial purposes only"]. - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
+            <div class="text-center col-md-7">
+                <span>@Localizer["This site is made by Boris Lechev for educational and non-commercial purposes only."] - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
             </div>
-            <div class="text-center col-md-3">
+            <div class="text-center col-md-2">
                 <a href="https://github.com/BorisLechev/TizianaTerenziShop-MVC" target="_blank">
                     <i class="fab fa-github"></i> @Localizer["Open source system"]
                 </a>

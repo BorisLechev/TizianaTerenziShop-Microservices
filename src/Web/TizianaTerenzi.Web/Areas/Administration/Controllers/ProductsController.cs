@@ -5,7 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services;
+    using TizianaTerenzi.Services.Cloudinary;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;

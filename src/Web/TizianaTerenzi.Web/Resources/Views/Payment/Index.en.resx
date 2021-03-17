@@ -118,30 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Cart" xml:space="preserve">
-    <value>Количка</value>
-  </data>
-  <data name="Continue to payment" xml:space="preserve">
-    <value>Продължи към плащането</value>
+    <value>Cart</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Начало</value>
-  </data>
-  <data name="Information" xml:space="preserve">
-    <value>Информация</value>
+    <value>Home</value>
   </data>
   <data name="Pay" xml:space="preserve">
-    <value>Плати</value>
+    <value>Pay</value>
   </data>
   <data name="Return to cart" xml:space="preserve">
-    <value>Върни се в количката</value>
+    <value>Return to cart</value>
   </data>
   <data name="Shipping" xml:space="preserve">
-    <value>Доставка</value>
+    <value>Shipping</value>
   </data>
   <data name="Subtotal" xml:space="preserve">
-    <value>Междинна сума</value>
+    <value>Subtotal</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Общо</value>
+    <value>Total</value>
   </data>
 </root>

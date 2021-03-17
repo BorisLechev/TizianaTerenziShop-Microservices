@@ -1,19 +1,19 @@
 ﻿namespace TizianaTerenzi.Web.ViewModels.Wishlist
 {
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services;
     using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Services.SlugGenerator;
 
     public class ProductInWishlistViewModel : IMapFrom<FavoriteProduct>
     {
-        private readonly ISlugGenerator urlGenerator;
+        private readonly ISlugGeneratorService urlGenerator;
 
         public ProductInWishlistViewModel()
-            : this(new SlugGenerator())
+            : this(new SlugGeneratorService())
         {
         }
 
-        public ProductInWishlistViewModel(ISlugGenerator urlGenerator)
+        public ProductInWishlistViewModel(ISlugGeneratorService urlGenerator)
         {
             this.urlGenerator = urlGenerator;
         }

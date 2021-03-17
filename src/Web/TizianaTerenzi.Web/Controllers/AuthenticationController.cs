@@ -13,7 +13,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
-    using TizianaTerenzi.Services.Data.Location;
+    using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.Web.ViewModels.Authentication;
 
     public class AuthenticationController : BaseController

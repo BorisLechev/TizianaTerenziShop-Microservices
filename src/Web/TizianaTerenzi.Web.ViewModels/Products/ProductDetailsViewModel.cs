@@ -25,7 +25,7 @@
 
         public string Picture { get; set; }
 
-        public virtual IEnumerable<string> Notes { get; set; }
+        public IEnumerable<string> Notes { get; set; }
 
         public string FragranceGroupName { get; set; }
 

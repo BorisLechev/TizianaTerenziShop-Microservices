@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Tests
 {
+    using TizianaTerenzi.Services.SlugGenerator;
     using Xunit;
 
     public class SlugGeneratorTests
@@ -9,7 +10,7 @@
         {
             var id = 17;
             var productName = "Atlantide";
-            var slugGenerator = new SlugGenerator();
+            var slugGenerator = new SlugGeneratorService();
 
             var result = slugGenerator.GenerateUrl(id, productName);
 

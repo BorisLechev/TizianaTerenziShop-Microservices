@@ -14,7 +14,9 @@
 
   <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.15.0" />
+    <PackageReference Include="IpInfo" Version="1.0.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.321" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

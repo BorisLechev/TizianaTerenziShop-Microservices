@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Services.Data.Location
+﻿namespace TizianaTerenzi.Services.Location
 {
     using System.Globalization;
     using System.Net.Http;

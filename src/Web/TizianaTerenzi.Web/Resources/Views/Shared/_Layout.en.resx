@@ -150,7 +150,7 @@
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
-  <data name="This site is made for educational and non-commercial purposes only" xml:space="preserve">
-    <value>This site is made for educational and non-commercial purposes only</value>
+  <data name="This site is made by Boris Lechev for educational and non-commercial purposes only." xml:space="preserve">
+    <value>This site is made by Boris Lechev for educational and non-commercial purposes only.</value>
   </data>
 </root>

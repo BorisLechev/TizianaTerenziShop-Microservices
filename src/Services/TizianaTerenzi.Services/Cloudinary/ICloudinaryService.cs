@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Services
+﻿namespace TizianaTerenzi.Services.Cloudinary
 {
     using System.Threading.Tasks;
 

@@ -140,7 +140,7 @@
 }
 
 .description-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -168,12 +168,10 @@
 .add-review-header {
     float: left;
     width: 100%;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
 }
 
 .opinion-title-question {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 /*rating*/
@@ -210,7 +208,7 @@
 }
 
 .rating-chart-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 26px;
     font-weight: bold;
     margin: 1rem 0 1rem 0;
@@ -226,7 +224,7 @@
 
 .rating-avrg-box {
     position: relative;
-    width: 132px;
+    width: 152px;
     margin: 10px 0;
     text-align: center;
     float: left;

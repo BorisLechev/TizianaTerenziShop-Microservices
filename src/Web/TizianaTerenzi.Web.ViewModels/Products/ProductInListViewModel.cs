@@ -4,19 +4,19 @@
 
     using AutoMapper;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services;
     using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Services.SlugGenerator;
 
     public class ProductInListViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
-        private readonly ISlugGenerator urlGenerator;
+        private readonly ISlugGeneratorService urlGenerator;
 
         public ProductInListViewModel()
-            : this(new SlugGenerator())
+            : this(new SlugGeneratorService())
         {
         }
 
-        public ProductInListViewModel(ISlugGenerator urlGenerator)
+        public ProductInListViewModel(ISlugGeneratorService urlGenerator)
         {
             this.urlGenerator = urlGenerator;
         }

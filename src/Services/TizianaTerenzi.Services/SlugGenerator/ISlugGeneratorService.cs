@@ -1,6 +1,6 @@
-﻿namespace TizianaTerenzi.Services
+﻿namespace TizianaTerenzi.Services.SlugGenerator
 {
-    public interface ISlugGenerator
+    public interface ISlugGeneratorService
     {
         string GenerateUrl(int id, string name);
 

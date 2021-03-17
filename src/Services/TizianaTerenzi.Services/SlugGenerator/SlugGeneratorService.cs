@@ -1,8 +1,8 @@
-﻿namespace TizianaTerenzi.Services
+﻿namespace TizianaTerenzi.Services.SlugGenerator
 {
     using System.Text.RegularExpressions;
 
-    public class SlugGenerator : ISlugGenerator
+    public class SlugGeneratorService : ISlugGeneratorService
     {
         public string GenerateUrl(int id, string name)
         {

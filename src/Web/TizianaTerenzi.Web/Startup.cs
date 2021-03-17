@@ -31,13 +31,12 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Data.Seeding;
-    using TizianaTerenzi.Services;
+    using TizianaTerenzi.Services.Cloudinary;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.FragranceGroups;
-    using TizianaTerenzi.Services.Data.Location;
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
@@ -45,8 +44,10 @@
     using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
+    using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Services.Messaging;
+    using TizianaTerenzi.Services.SlugGenerator;
     using TizianaTerenzi.Web.ViewModels;
 
     public class Startup
@@ -214,7 +215,7 @@
             services.AddTransient<IWishlistService, WishlistService>();
             services.AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
             services.AddTransient<IProductVotesService, ProductVotesService>();
-            services.AddTransient<ISlugGenerator, SlugGenerator>();
+            services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

@@ -94,7 +94,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            var result = await this.cartService.CheckOutAsync(user.Id, productsInTheCart);
+            var result = await this.cartService.CheckoutAsync(user.Id, productsInTheCart);
 
             if (result == false)
             {

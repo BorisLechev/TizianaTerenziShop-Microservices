@@ -38,8 +38,11 @@
             var skip = (page - 1) * ItemsPerPage;
 
             var query = this.productsRepository.AllAsNoTracking();
-            var words = search?.Split(' ').Select(x => x.Trim())
-                .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 2).ToList();
+            var words = search?
+                        .Split(' ')
+                        .Select(x => x.Trim())
+                        .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 2)
+                        .ToList();
 
             if (words != null)
             {
@@ -70,10 +73,10 @@
                 return this.NotFound();
             }
 
-            var numberOfVoters = await this.productVotesService.GetNumberOfVotersAsync(id);
-            productDetailsViewModel.NumberOfVoters = numberOfVoters;
-
             var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(id);
+            var numberOfVoters = allValues.Count();
+
+            productDetailsViewModel.NumberOfVoters = numberOfVoters;
 
             var countOfVotesWithValueFive = allValues.Where(pv => pv == 5).Count();
             var countOfVotesWithValueFour = allValues.Where(pv => pv == 4).Count();
@@ -81,11 +84,11 @@
             var countOfVotesWithValueTwo = allValues.Where(pv => pv == 2).Count();
             var countOfVotesWithValueOne = allValues.Where(pv => pv == 1).Count();
 
-            productDetailsViewModel.ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / (double)numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / (double)numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / (double)numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / (double)numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / (double)numberOfVoters * 100 : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / numberOfVoters * 100 : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / numberOfVoters * 100 : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / numberOfVoters * 100 : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / numberOfVoters * 100 : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / numberOfVoters * 100 : 0;
 
             return this.View(productDetailsViewModel);
         }
