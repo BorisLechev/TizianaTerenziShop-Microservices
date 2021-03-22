@@ -8,11 +8,11 @@
     {
         public Note()
         {
-            this.Products = new HashSet<ProductNotes>();
+            this.Products = new HashSet<ProductNote>();
         }
 
         public string Name { get; set; }
 
-        public virtual ICollection<ProductNotes> Products { get; set; }
+        public virtual ICollection<ProductNote> Products { get; set; }
     }
 }

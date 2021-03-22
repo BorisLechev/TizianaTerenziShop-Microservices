@@ -13,11 +13,11 @@
     {
         private readonly IRepository<Note> notesRepository;
 
-        private readonly IDeletableEntityRepository<ProductNotes> productNotesRepository;
+        private readonly IDeletableEntityRepository<ProductNote> productNotesRepository;
 
         public NotesService(
             IRepository<Note> notesRepository,
-            IDeletableEntityRepository<ProductNotes> productNotesRepository)
+            IDeletableEntityRepository<ProductNote> productNotesRepository)
         {
             this.notesRepository = notesRepository;
             this.productNotesRepository = productNotesRepository;

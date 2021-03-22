@@ -2,7 +2,7 @@
 {
     using TizianaTerenzi.Data.Common.Models;
 
-    public class ProductNotes : BaseDeletableModel<int>
+    public class ProductNote : BaseDeletableModel<int>
     {
         public int ProductId { get; set; }
 

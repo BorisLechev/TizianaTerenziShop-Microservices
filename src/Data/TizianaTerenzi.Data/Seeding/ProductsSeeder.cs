@@ -5,23 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Products;
 
     public class ProductsSeeder : ISeeder
     {
-        private readonly IProductsService productsService;
-
-        public ProductsSeeder()
-            : this(new ProductsService())
-        {
-        }
-
-        public ProductsSeeder(IProductsService productsService)
-        {
-            this.productsService = productsService;
-        }
-
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             if (dbContext.Products.Any())
@@ -274,9 +262,9 @@
                 Picture = p.Picture,
                 ProductTypeId = p.ProductTypeId,
                 FragranceGroupId = p.FragranceGroupId,
-                Notes = dbContext.Notes.Where(n => p.Notes.Contains(n.Name)).Select(n => new ProductNotes { ProductId = n.Id, NoteId = n.Id }).ToList(),
+                Notes = dbContext.Notes.Where(n => p.Notes.Contains(n.Name)).Select(n => new ProductNote { ProductId = n.Id, NoteId = n.Id }).ToList(),
                 YearOfManufacture = p.YearOfManufacture,
-                SearchText = this.productsService.GetSearchText(p.Name, p.Description),
+                SearchText = StringExtensions.GetSearchText(p.Name),
             });
 
             await dbContext.Products.AddRangeAsync(productModels);

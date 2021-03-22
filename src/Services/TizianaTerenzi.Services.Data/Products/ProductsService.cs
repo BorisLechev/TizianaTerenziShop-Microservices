@@ -1,11 +1,10 @@
 ﻿namespace TizianaTerenzi.Services.Data.Products
 {
-    using System;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Notes;
@@ -44,14 +43,14 @@
                 Price = inputModel.Price,
                 PriceWithDiscount = inputModel.Price,
                 Picture = pictureUrl,
-                Notes = notesIds.Select(id => new ProductNotes
+                Notes = notesIds.Select(id => new ProductNote
                 {
                     NoteId = id,
                 })
                 .ToList(),
             };
 
-            product.SearchText = this.GetSearchText(product.Name, product.Description);
+            product.SearchText = StringExtensions.GetSearchText(product.Name);
 
             await this.productsRepository.AddAsync(product);
             int result = await this.productsRepository.SaveChangesAsync();
@@ -75,13 +74,13 @@
             product.FragranceGroupId = inputModel.FragranceGroupId;
             product.ProductTypeId = inputModel.ProductTypeId;
             product.Picture = pictureUrl;
-            product.Notes = notesIds.Select(id => new ProductNotes
+            product.Notes = notesIds.Select(id => new ProductNote
             {
                 NoteId = id,
             })
             .ToList();
 
-            product.SearchText = this.GetSearchText(product.Name, product.Description);
+            product.SearchText = StringExtensions.GetSearchText(product.Name);
 
             this.productsRepository.Update(product);
             var result = await this.productsRepository.SaveChangesAsync();
@@ -190,23 +189,6 @@
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;
-        }
-
-        public string GetSearchText(string name, string description)
-        {
-            // Append title
-            var text = name + " " + description;
-            text.ToLower();
-
-            // Remove all non-alphanumeric characters
-            var regex = new Regex(@"[^\w\d]", RegexOptions.Compiled);
-            text = regex.Replace(text, " ");
-
-            // Split words and remove duplicate values
-            var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries).Where(x => x.Length > 1).Distinct();
-
-            // Combine all words
-            return string.Join(" ", words);
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

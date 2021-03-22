@@ -2,14 +2,16 @@
 {
     using System.Collections.Generic;
 
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Models;
 
+    [Index(nameof(SearchText), IsUnique = true)]
     public class Product : BaseDeletableModel<int>
     {
         public Product()
         {
             this.Comments = new HashSet<Comment>();
-            this.Notes = new HashSet<ProductNotes>();
+            this.Notes = new HashSet<ProductNote>();
             this.Votes = new HashSet<ProductVote>();
         }
 
@@ -35,7 +37,7 @@
 
         public string SearchText { get; set; }
 
-        public virtual ICollection<ProductNotes> Notes { get; set; }
+        public virtual ICollection<ProductNote> Notes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 

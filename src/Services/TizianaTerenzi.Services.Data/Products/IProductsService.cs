@@ -16,8 +16,6 @@
 
         Task<bool> CreateProductAsync(CreateProductInputModel inputModel, string pictureUrl);
 
-        string GetSearchText(string name, string description);
-
         Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId, string pictureUrl);
 
         Task<bool> DeleteProductAsync(int productId);
