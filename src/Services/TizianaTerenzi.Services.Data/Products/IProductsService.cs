@@ -20,8 +20,8 @@
 
         Task<bool> DeleteProductAsync(int productId);
 
-        Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
+        Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
 
-        Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
+        Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
     }
 }

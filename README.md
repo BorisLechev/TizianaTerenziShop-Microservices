@@ -98,6 +98,7 @@ Example:
   * C#
   * ASP.NET Core MVC
   * Entity Framework Core
+  * Entity Framework Plus
   * Automapper
   * Google ReCaptcha v3
   * Cloudinary

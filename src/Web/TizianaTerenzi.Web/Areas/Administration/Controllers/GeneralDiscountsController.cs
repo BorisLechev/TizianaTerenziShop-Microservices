@@ -45,9 +45,9 @@
         [HttpPost]
         public async Task<IActionResult> Apply(GeneralDiscountInputModel inputModel)
         {
-            var result = await this.productsService.UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(inputModel.Percent);
+            var productsCount = await this.productsService.UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(inputModel.Percent);
 
-            if (result == false)
+            if (productsCount == 0)
             {
                 this.Error(NotificationMessages.CannotApplyOrDisableGeneralDiscount);
 
@@ -71,9 +71,9 @@
         [HttpPost]
         public async Task<IActionResult> Disable()
         {
-            var result = await this.productsService.UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
+            var productsCount = await this.productsService.UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
 
-            if (result == false)
+            if (productsCount == 0)
             {
                 this.Error(NotificationMessages.CannotApplyOrDisableGeneralDiscount);
 

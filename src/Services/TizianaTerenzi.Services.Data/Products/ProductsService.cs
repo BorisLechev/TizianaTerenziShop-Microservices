@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Products
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Products;
+    using Z.EntityFramework.Plus;
 
     public class ProductsService : IProductsService
     {
@@ -48,9 +50,8 @@
                     NoteId = id,
                 })
                 .ToList(),
+                SearchText = StringExtensions.GetSearchText(inputModel.Name),
             };
-
-            product.SearchText = StringExtensions.GetSearchText(product.Name);
 
             await this.productsRepository.AddAsync(product);
             int result = await this.productsRepository.SaveChangesAsync();
@@ -64,7 +65,7 @@
 
             var notesIds = inputModel.NoteIds.Select(int.Parse);
 
-            await this.notesService.DeleteAllProductNotesAsync(product.Id);
+            await this.notesService.HardDeleteAllProductNotesAsync(product.Id);
 
             product.Name = inputModel.Name;
             product.Description = inputModel.Description;
@@ -159,36 +160,22 @@
             return result > 0;
         }
 
-        public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
+        public async Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
         {
-            var products = await this.productsRepository
-                .All()
-                .ToListAsync();
+            var productsCount = await this.productsRepository
+                .AllAsNoTracking()
+                .UpdateAsync(p => new Product { PriceWithDiscount = p.Price - (p.Price * discountPercent / 100), ModifiedOn = DateTime.UtcNow });
 
-            foreach (var product in products)
-            {
-                product.PriceWithDiscount -= product.Price * discountPercent / 100;
-            }
-
-            var result = await this.productsRepository.SaveChangesAsync();
-
-            return result > 0;
+            return productsCount;
         }
 
-        public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync()
+        public async Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync()
         {
-            var products = await this.productsRepository
-                .All()
-                .ToListAsync();
+            var productsCount = await this.productsRepository
+                .AllAsNoTracking()
+                .UpdateAsync(p => new Product { PriceWithDiscount = p.Price, ModifiedOn = DateTime.UtcNow });
 
-            foreach (var product in products)
-            {
-                product.PriceWithDiscount = product.Price;
-            }
-
-            var result = await this.productsRepository.SaveChangesAsync();
-
-            return result > 0;
+            return productsCount;
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

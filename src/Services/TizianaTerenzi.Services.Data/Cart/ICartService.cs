@@ -10,9 +10,9 @@
     {
         Task<bool> AddProductInTheCart(Product product, string userId);
 
-        Task<bool> DeleteProductInTheCart(string productId);
+        Task<int> DeleteProductInTheCart(string productId);
 
-        Task<bool> DeleteAllProductsInTheCartByUserId(string userId);
+        Task<int> DeleteAllProductsInTheCartByUserId(string userId);
 
         Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserId(string userId);
 

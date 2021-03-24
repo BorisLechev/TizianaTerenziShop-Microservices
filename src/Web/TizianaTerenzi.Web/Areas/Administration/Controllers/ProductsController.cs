@@ -161,7 +161,7 @@
 
             try
             {
-                await this.notesService.DeleteAllProductNotesAsync(id);
+                await this.notesService.SoftDeleteAllProductNotesAsync(id);
                 await this.commentVotesService.DeleteRangeByProductIdAsync(id);
                 await this.commentsService.DeleteRangeByProductIdAsync(id);
                 await this.productVotesService.DeleteProductVotesAsync(id);

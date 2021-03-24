@@ -15,6 +15,8 @@
 
         Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedByProductIdAsync(int productId);
 
-        Task<bool> DeleteAllProductNotesAsync(int productId);
+        Task<bool> SoftDeleteAllProductNotesAsync(int productId);
+
+        Task<int> HardDeleteAllProductNotesAsync(int productId);
     }
 }

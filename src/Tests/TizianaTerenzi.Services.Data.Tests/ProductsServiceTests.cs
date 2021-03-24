@@ -337,121 +337,121 @@
             Assert.Equal(0, await dbContext.Products.CountAsync());
         }
 
-        [Fact]
-        public async Task UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedSuccessfullyTheResultShouldBeTrue()
-        {
-            // Arrange
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
-            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+        //[Fact]
+        //public async Task UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedSuccessfullyTheResultShouldBeTrue()
+        //{
+        //    // Arrange
+        //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+        //        .UseInMemoryDatabase(Guid.NewGuid().ToString());
+        //    var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
-            var productType = new ProductType
-            {
-                Name = "Fragrance",
-            };
+        //    var productType = new ProductType
+        //    {
+        //        Name = "Fragrance",
+        //    };
 
-            await dbContext.ProductTypes.AddAsync(productType);
+        //    await dbContext.ProductTypes.AddAsync(productType);
 
-            var fragranceGroup = new FragranceGroup
-            {
-                Name = "Chypre",
-            };
+        //    var fragranceGroup = new FragranceGroup
+        //    {
+        //        Name = "Chypre",
+        //    };
 
-            await dbContext.FragranceGroups.AddAsync(fragranceGroup);
+        //    await dbContext.FragranceGroups.AddAsync(fragranceGroup);
 
-            var newProduct = new Product
-            {
-                Name = "Kiki",
-                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
-                Price = 320,
-                PriceWithDiscount = 320,
-                FragranceGroupId = 1,
-                ProductTypeId = 1,
-                YearOfManufacture = 2015,
-            };
+        //    var newProduct = new Product
+        //    {
+        //        Name = "Kiki",
+        //        Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        //        Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
+        //        Price = 320,
+        //        PriceWithDiscount = 320,
+        //        FragranceGroupId = 1,
+        //        ProductTypeId = 1,
+        //        YearOfManufacture = 2015,
+        //    };
 
-            await dbContext.Products.AddAsync(newProduct);
+        //    await dbContext.Products.AddAsync(newProduct);
 
-            var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
-            var mockRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var mockNotesService = new Mock<INotesService>();
+        //    var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
+        //    var mockRepo = new Mock<IDeletableEntityRepository<Product>>();
+        //    var mockNotesService = new Mock<INotesService>();
 
-            mockRepo.Setup(pv => pv.All())
-                    .Returns(productsRepository.All());
-            mockRepo.Setup(pv => pv.AllAsNoTracking())
-                    .Returns(productsRepository.AllAsNoTracking());
-            mockRepo.Setup(pv => pv.SaveChangesAsync())
-                    .Returns(productsRepository.SaveChangesAsync());
-            mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Product>()))
-                    .Callback((Product product) => productsRepository.AddAsync(product));
+        //    mockRepo.Setup(pv => pv.All())
+        //            .Returns(productsRepository.All());
+        //    mockRepo.Setup(pv => pv.AllAsNoTracking())
+        //            .Returns(productsRepository.AllAsNoTracking());
+        //    mockRepo.Setup(pv => pv.SaveChangesAsync())
+        //            .Returns(productsRepository.SaveChangesAsync());
+        //    mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Product>()))
+        //            .Callback((Product product) => productsRepository.AddAsync(product));
 
-            var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
+        //    var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
 
-            // Act
-            var result = await service.UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(20);
+        //    // Act
+        //    var result = await service.UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(20);
 
-            // Assert
-            Assert.True(result);
-        }
+        //    // Assert
+        //    Assert.True(result);
+        //}
 
-        [Fact]
-        public async Task UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledSuccessfullyTheResultShouldBeTrue()
-        {
-            // Arrange
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
-            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+        //[Fact]
+        //public async Task UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledSuccessfullyTheResultShouldBeTrue()
+        //{
+        //    // Arrange
+        //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+        //        .UseInMemoryDatabase(Guid.NewGuid().ToString());
+        //    var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
-            var productType = new ProductType
-            {
-                Name = "Fragrance",
-            };
+        //    var productType = new ProductType
+        //    {
+        //        Name = "Fragrance",
+        //    };
 
-            await dbContext.ProductTypes.AddAsync(productType);
+        //    await dbContext.ProductTypes.AddAsync(productType);
 
-            var fragranceGroup = new FragranceGroup
-            {
-                Name = "Chypre",
-            };
+        //    var fragranceGroup = new FragranceGroup
+        //    {
+        //        Name = "Chypre",
+        //    };
 
-            await dbContext.FragranceGroups.AddAsync(fragranceGroup);
+        //    await dbContext.FragranceGroups.AddAsync(fragranceGroup);
 
-            var newProduct = new Product
-            {
-                Name = "Kiki",
-                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
-                Price = 320,
-                PriceWithDiscount = 320,
-                FragranceGroupId = 1,
-                ProductTypeId = 1,
-                YearOfManufacture = 2015,
-            };
+        //    var newProduct = new Product
+        //    {
+        //        Name = "Kiki",
+        //        Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        //        Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
+        //        Price = 320,
+        //        PriceWithDiscount = 320,
+        //        FragranceGroupId = 1,
+        //        ProductTypeId = 1,
+        //        YearOfManufacture = 2015,
+        //    };
 
-            await dbContext.Products.AddAsync(newProduct);
+        //    await dbContext.Products.AddAsync(newProduct);
 
-            var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
-            var mockRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var mockNotesService = new Mock<INotesService>();
+        //    var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
+        //    var mockRepo = new Mock<IDeletableEntityRepository<Product>>();
+        //    var mockNotesService = new Mock<INotesService>();
 
-            mockRepo.Setup(pv => pv.All())
-                    .Returns(productsRepository.All());
-            mockRepo.Setup(pv => pv.AllAsNoTracking())
-                    .Returns(productsRepository.AllAsNoTracking());
-            mockRepo.Setup(pv => pv.SaveChangesAsync())
-                    .Returns(productsRepository.SaveChangesAsync());
-            mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Product>()))
-                    .Callback((Product product) => productsRepository.AddAsync(product));
+        //    mockRepo.Setup(pv => pv.All())
+        //            .Returns(productsRepository.All());
+        //    mockRepo.Setup(pv => pv.AllAsNoTracking())
+        //            .Returns(productsRepository.AllAsNoTracking());
+        //    mockRepo.Setup(pv => pv.SaveChangesAsync())
+        //            .Returns(productsRepository.SaveChangesAsync());
+        //    mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Product>()))
+        //            .Callback((Product product) => productsRepository.AddAsync(product));
 
-            var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
+        //    var service = new ProductsService(mockRepo.Object, mockNotesService.Object);
 
-            // Act
-            var result = await service.UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
+        //    // Act
+        //    var result = await service.UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
 
-            // Assert
-            Assert.True(result);
-        }
+        //    // Assert
+        //    Assert.True(result);
+        //}
 
         [Fact]
         public async Task GetProductDetailsWithValidProductId()

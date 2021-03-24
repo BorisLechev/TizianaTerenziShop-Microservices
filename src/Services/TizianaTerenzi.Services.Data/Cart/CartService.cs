@@ -12,6 +12,7 @@
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Orders;
+    using Z.EntityFramework.Plus;
 
     public class CartService : ICartService
     {
@@ -94,39 +95,24 @@
             return result > 0;
         }
 
-        public async Task<bool> DeleteAllProductsInTheCartByUserId(string userId)
+        public async Task<int> DeleteAllProductsInTheCartByUserId(string userId)
         {
-            var products = await this.productsInTheCartRepository
-                .All()
+            var productsCount = await this.productsInTheCartRepository
+                .AllAsNoTracking()
                 .Where(p => p.UserId == userId)
-                .ToListAsync();
+                .DeleteAsync();
 
-            if (products == null)
-            {
-                return false;
-            }
-
-            this.productsInTheCartRepository.HardDeleteRange(products);
-            await this.productsInTheCartRepository.SaveChangesAsync();
-
-            return true;
+            return productsCount;
         }
 
-        public async Task<bool> DeleteProductInTheCart(string productId)
+        public async Task<int> DeleteProductInTheCart(string productId)
         {
-            var product = await this.productsInTheCartRepository
-                .All()
-                .SingleOrDefaultAsync(p => p.Id == productId);
+            var productsCount = await this.productsInTheCartRepository
+                .AllAsNoTracking()
+                .Where(p => p.Id == productId)
+                .DeleteAsync();
 
-            if (product == null)
-            {
-                return false;
-            }
-
-            this.productsInTheCartRepository.HardDelete(product);
-            await this.productsInTheCartRepository.SaveChangesAsync();
-
-            return true;
+            return productsCount;
         }
 
         public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserId(string userId)

@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using Z.EntityFramework.Plus;
 
     public class NotesService : INotesService
     {
@@ -84,7 +85,7 @@
             return notes;
         }
 
-        public async Task<bool> DeleteAllProductNotesAsync(int productId)
+        public async Task<bool> SoftDeleteAllProductNotesAsync(int productId)
         {
             var productNotes = await this.productNotesRepository
                 .All()
@@ -100,6 +101,16 @@
             }
 
             return false;
+        }
+
+        public async Task<int> HardDeleteAllProductNotesAsync(int productId)
+        {
+            var productNotesCount = await this.productNotesRepository
+                .AllAsNoTracking()
+                .Where(pn => pn.ProductId == productId)
+                .DeleteAsync();
+
+            return productNotesCount;
         }
 
         private async Task<IEnumerable<int>> GetAllProductNoteIdsAsync(int productId)
