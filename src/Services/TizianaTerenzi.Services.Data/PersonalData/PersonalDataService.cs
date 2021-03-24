@@ -1,11 +1,11 @@
 ﻿namespace TizianaTerenzi.Services.Data.PersonalData
 {
     using System.Linq;
+    using System.Text.Json;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Comments;
@@ -184,7 +184,12 @@
                 .ToArray(),
             };
 
-            var json = JsonConvert.SerializeObject(personalData, Formatting.Indented);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
+
+            var json = JsonSerializer.Serialize(personalData, options);
 
             return json;
         }
