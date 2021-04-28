@@ -25,7 +25,7 @@
             {
                 Name = dc,
                 Discount = 15,
-                ExpiresOn = new DateTime(2021, 12, 31, 23, 59, 59),
+                ExpiresOn = new DateTime(DateTime.UtcNow.Year, 12, 31, 23, 59, 59),
             });
 
             await dbContext.DiscountCodes.AddRangeAsync(discountCodeModels);

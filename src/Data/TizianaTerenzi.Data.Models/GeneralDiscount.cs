@@ -4,7 +4,7 @@
 
     public class GeneralDiscount : BaseModel<int>
     {
-        public int Percent { get; set; }
+        public byte Percent { get; set; }
 
         public GeneralDiscountCondition IsActive { get; set; }
     }

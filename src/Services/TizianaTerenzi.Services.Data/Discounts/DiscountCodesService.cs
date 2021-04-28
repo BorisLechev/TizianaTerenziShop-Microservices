@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Discounts
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -26,7 +27,7 @@
 
         public async Task<bool> CreateDiscountCodeAsync(CreateDiscountCodeInputModel inputModel)
         {
-            var isExisting = await this.FindDiscountByNameAsync(inputModel.Name);
+            var isExisting = await this.CheckIfThereIsSuchaDiscountAsync(inputModel.Name);
 
             if (isExisting == false)
             {
@@ -49,8 +50,8 @@
         public async Task<bool> DeleteDiscountCodeAsync(int discountId)
         {
             var discountCode = await this.discountCodesRepository
-                .All()
-                .SingleOrDefaultAsync(dc => dc.Id == discountId);
+                 .All()
+                 .SingleOrDefaultAsync(dc => dc.Id == discountId);
 
             if (discountCode == null)
             {
@@ -63,11 +64,11 @@
             return result > 0;
         }
 
-        public async Task<bool> FindDiscountByNameAsync(string discountCodeName)
+        public async Task<bool> CheckIfThereIsSuchaDiscountAsync(string discountCodeName)
         {
             var isExisting = await this.discountCodesRepository
                 .AllAsNoTracking()
-                .AnyAsync(dc => dc.Name == discountCodeName);
+                .AnyAsync(dc => dc.Name == discountCodeName && dc.ExpiresOn.Value >= DateTime.UtcNow);
 
             return isExisting;
         }
@@ -106,7 +107,7 @@
 
             foreach (var productInTheCart in productsInTheCart)
             {
-                productInTheCart.ProductPriceAfterDiscount *= (decimal)(1 - (discountCode.Discount / 100));
+                productInTheCart.ProductPriceAfterDiscount *= 1 - ((decimal)discountCode.Discount / 100);
                 productInTheCart.DiscountCodeId = discountCode.Id;
             }
 

@@ -17,7 +17,7 @@
             this.generalDiscountsRepository = generalDiscountsRepository;
         }
 
-        public async Task<bool> ApplyDiscountToAllProductsAsync(int percent)
+        public async Task<bool> ApplyDiscountToAllProductsAsync(byte percent)
         {
             var discount = await this.GetGeneralDiscountAsync();
 

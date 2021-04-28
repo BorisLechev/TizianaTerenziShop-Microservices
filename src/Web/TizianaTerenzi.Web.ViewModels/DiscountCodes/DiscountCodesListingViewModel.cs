@@ -11,7 +11,7 @@
 
         public string Name { get; set; }
 
-        public double Discount { get; set; }
+        public byte Discount { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

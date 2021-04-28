@@ -127,7 +127,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var isExisting = await this.discountCodesService.FindDiscountByNameAsync(discountName);
+            var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
 
             if (isExisting == false)
             {
@@ -164,7 +164,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var isExisting = await this.discountCodesService.FindDiscountByNameAsync(discountName);
+            var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
 
             if (isExisting == false)
             {

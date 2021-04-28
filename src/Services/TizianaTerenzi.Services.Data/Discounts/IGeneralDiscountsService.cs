@@ -10,7 +10,7 @@
 
         Task<T> GetGeneralDiscountAsync<T>();
 
-        Task<bool> ApplyDiscountToAllProductsAsync(int percent);
+        Task<bool> ApplyDiscountToAllProductsAsync(byte percent);
 
         Task<bool> DisableDiscountToAllProductsAsync();
     }

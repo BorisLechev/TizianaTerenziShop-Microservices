@@ -14,7 +14,7 @@
 
         Task<IEnumerable<T>> GetAllDiscountCodesAsync<T>();
 
-        Task<bool> FindDiscountByNameAsync(string discountCodeName);
+        Task<bool> CheckIfThereIsSuchaDiscountAsync(string discountCodeName);
 
         Task<DiscountCode> GetDiscountCodeByNameAsync(string discountCodeName);
 

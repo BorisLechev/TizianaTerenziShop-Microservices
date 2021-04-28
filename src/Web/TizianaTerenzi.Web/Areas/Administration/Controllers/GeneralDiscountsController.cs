@@ -28,7 +28,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var range = Enumerable.Range(0, 100)
+            var range = Enumerable.Range(0, 101)
                 .Select(n => new SelectListItem
                 {
                     Value = n.ToString(),

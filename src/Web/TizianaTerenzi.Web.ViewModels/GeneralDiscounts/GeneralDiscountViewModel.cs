@@ -9,7 +9,7 @@
 
     public class GeneralDiscountViewModel : IMapFrom<GeneralDiscount>, IHaveCustomMappings
     {
-        public int PercentId { get; set; }
+        public byte PercentId { get; set; }
 
         public IEnumerable<SelectListItem> Percents { get; set; }
 

@@ -2,6 +2,6 @@
 {
     public class GeneralDiscountInputModel
     {
-        public int Percent { get; set; }
+        public byte Percent { get; set; }
     }
 }
