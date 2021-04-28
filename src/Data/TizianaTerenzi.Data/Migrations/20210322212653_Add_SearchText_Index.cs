@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace TizianaTerenzi.Data.Migrations
+﻿namespace TizianaTerenzi.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Add_SearchText_Index : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +31,7 @@ namespace TizianaTerenzi.Data.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -53,7 +54,7 @@ namespace TizianaTerenzi.Data.Migrations
                 name: "IX_Products_SearchText",
                 table: "Products",
                 column: "SearchText",
-                unique: true,
+                unique: false,
                 filter: "[SearchText] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
@@ -101,7 +102,7 @@ namespace TizianaTerenzi.Data.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NoteId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
