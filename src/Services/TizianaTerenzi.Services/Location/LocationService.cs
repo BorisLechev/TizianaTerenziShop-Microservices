@@ -6,6 +6,7 @@
 
     using IpInfo;
     using Microsoft.Extensions.Configuration;
+    using TizianaTerenzi.Services.Models.Location;
 
     public class LocationService : ILocationService
     {
@@ -16,7 +17,18 @@
             this.configuration = configuration;
         }
 
-        public async Task<(string CountryName, string Town, string Ip)> GetLocationAsync()
+        public async Task<string> GetIpAddress()
+        {
+            using var client = new HttpClient();
+            var key = this.configuration["IpInfo:ApiKey"];
+            var api = new IpInfoApi(key, client); // Some methods work without a token, for this case there is a constructor without a token.
+
+            var ip = await api.GetCurrentIpAsync();
+
+            return ip;
+        }
+
+        public async Task<CountryTownIpServiceModel> GetLocationAsync()
         {
             using var client = new HttpClient();
             var key = this.configuration["IpInfo:ApiKey"];
@@ -24,11 +36,15 @@
 
             var response = await api.GetCurrentInformationAsync();
             RegionInfo countryInfo = new RegionInfo(response.Country);
-            var countryName = countryInfo.EnglishName;
-            var town = response.City;
-            var ip = response.Ip;
 
-            return (countryName, town, ip);
+            var serviceModel = new CountryTownIpServiceModel
+            {
+                CountryName = countryInfo.EnglishName,
+                Town = response.City,
+                Ip = response.Ip,
+            };
+
+            return serviceModel;
         }
     }
 }

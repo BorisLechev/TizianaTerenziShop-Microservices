@@ -154,8 +154,8 @@
 
             if (this.ModelState.IsValid)
             {
-                (var country, var town, var ip) = await this.locationService.GetLocationAsync();
-                var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+                var location = await this.locationService.GetLocationAsync();
+                var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
                 var user = new ApplicationUser
                 {
@@ -164,7 +164,7 @@
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,
                     CountryId = countryId,
-                    Town = town,
+                    Town = location.Town,
                 };
 
                 var result = await this.userManager.CreateAsync(user, inputModel.Password);
@@ -280,8 +280,8 @@
                 }
             }
 
-            (var country, var town, var ip) = await this.locationService.GetLocationAsync();
-            var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+            var location = await this.locationService.GetLocationAsync();
+            var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
             var user = new ApplicationUser
             {
@@ -290,7 +290,7 @@
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
                 CountryId = countryId,
-                Town = town,
+                Town = location.Town,
             };
 
             var resultAfterCreate = await this.signInManager.UserManager.CreateAsync(user);
@@ -384,8 +384,8 @@
                 }
             }
 
-            (var country, var town, var ip) = await this.locationService.GetLocationAsync();
-            var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+            var location = await this.locationService.GetLocationAsync();
+            var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
             var user = new ApplicationUser
             {
@@ -394,7 +394,7 @@
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
                 CountryId = countryId,
-                Town = town,
+                Town = location.Town,
             };
 
             var resultAfterCreate = await this.signInManager.UserManager.CreateAsync(user);
@@ -513,8 +513,8 @@
 
             if (this.ModelState.IsValid)
             {
-                (var country, var town, var ip) = await this.locationService.GetLocationAsync();
-                var countryId = await this.countriesService.GetCountryIdByNameAsync(country);
+                var location = await this.locationService.GetLocationAsync();
+                var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
                 var user = new ApplicationUser()
                 {
@@ -523,7 +523,7 @@
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,
                     CountryId = countryId,
-                    Town = town,
+                    Town = location.Town,
                 };
 
                 var result = await this.signInManager.UserManager.CreateAsync(user);

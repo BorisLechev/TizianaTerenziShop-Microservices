@@ -54,5 +54,7 @@
         public const string CannotAddProductInTheWishlist = "Something went wrong.";
         public const string DeleteProductInTheWishlistSuccessfully = "You have deleted a product in the wishlist successfully.";
         public const string CannotDeleteProductInTheWishlist = "Something went wrong.";
+
+        public const string ContactFormSendMessageSuccessfully = "Thank You! We will contact you shortly…";
     }
 }

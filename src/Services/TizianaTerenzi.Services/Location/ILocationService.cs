@@ -2,8 +2,12 @@
 {
     using System.Threading.Tasks;
 
+    using TizianaTerenzi.Services.Models.Location;
+
     public interface ILocationService
     {
-        public Task<(string CountryName, string Town, string Ip)> GetLocationAsync();
+        public Task<CountryTownIpServiceModel> GetLocationAsync();
+
+        public Task<string> GetIpAddress();
     }
 }

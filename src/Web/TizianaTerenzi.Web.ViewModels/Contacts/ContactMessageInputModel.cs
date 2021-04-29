@@ -16,12 +16,12 @@
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter the subject of the email")]
-        [StringLength(100, ErrorMessage = "Subject should be at least {2} and no more than {1} characters.", MinimumLength = 5)]
+        [StringLength(100, ErrorMessage = "Subject should be at least {2} and no more than {1} characters.", MinimumLength = 4)]
         [Display(Name = "Subject")]
         public string Subject { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter the content of the message")]
-        [StringLength(10000, ErrorMessage = "The content should be at least {2} characters.", MinimumLength = 20)]
+        [StringLength(10000, ErrorMessage = "The content should be at least {2} characters.", MinimumLength = 10)]
         [Display(Name = "Content")]
         public string Content { get; set; }
 
