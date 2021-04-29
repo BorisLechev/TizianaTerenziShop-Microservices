@@ -129,7 +129,9 @@
             {
                 options.HeaderName = "X-CSRF-TOKEN";
             });
-            services.AddRazorPages();
+
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddAuthentication()
