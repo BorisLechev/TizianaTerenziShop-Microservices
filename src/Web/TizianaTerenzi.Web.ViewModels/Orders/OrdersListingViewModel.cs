@@ -16,7 +16,7 @@
 
         public string DiscountCodeName { get; set; }
 
-        public double? DiscountCodeDiscount { get; set; }
+        public byte? DiscountCodeDiscount { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

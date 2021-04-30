@@ -36,7 +36,7 @@
                     Name = "Kiki",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     Price = 320,
-                    PriceWithDiscount = 320,
+                    PriceWithGeneralDiscount = 320,
                     FragranceGroupId = 2,
                     ProductTypeId = 2,
                     YearOfManufacture = 2015,
@@ -46,7 +46,7 @@
                     Name = "Lili",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     Price = 420,
-                    PriceWithDiscount = 420,
+                    PriceWithGeneralDiscount = 420,
                     FragranceGroupId = 3,
                     ProductTypeId = 3,
                     YearOfManufacture = 2016,
@@ -56,7 +56,7 @@
                     Name = "Jiji",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     Price = 520,
-                    PriceWithDiscount = 520,
+                    PriceWithGeneralDiscount = 520,
                     FragranceGroupId = 4,
                     ProductTypeId = 4,
                     YearOfManufacture = 2017,
@@ -66,7 +66,7 @@
                     Name = "Fifi",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     Price = 520,
-                    PriceWithDiscount = 520,
+                    PriceWithGeneralDiscount = 520,
                     FragranceGroupId = 5,
                     ProductTypeId = 5,
                     YearOfManufacture = 2018,
@@ -76,7 +76,7 @@
                     Name = "Bibi",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     Price = 620,
-                    PriceWithDiscount = 620,
+                    PriceWithGeneralDiscount = 620,
                     FragranceGroupId = 6,
                     ProductTypeId = 6,
                     YearOfManufacture = 2019,
@@ -86,7 +86,7 @@
                     Name = "Hihi",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     Price = 720,
-                    PriceWithDiscount = 720,
+                    PriceWithGeneralDiscount = 720,
                     FragranceGroupId = 7,
                     ProductTypeId = 7,
                     YearOfManufacture = 2020,
@@ -140,7 +140,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 2,
                 ProductTypeId = 2,
                 YearOfManufacture = 2015,
@@ -188,7 +188,7 @@
             Assert.True(result);
             Assert.Equal("Bibi", product.Name);
             Assert.Equal(320, product.Price);
-            Assert.Equal(320, product.PriceWithDiscount);
+            Assert.Equal(320, product.PriceWithGeneralDiscount);
             Assert.Equal(1, product.FragranceGroupId);
             Assert.Equal(1, product.ProductTypeId);
             Assert.Equal(2015, product.YearOfManufacture);
@@ -279,7 +279,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 2,
                 ProductTypeId = 2,
                 YearOfManufacture = 2015,
@@ -481,7 +481,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -510,7 +510,7 @@
             Assert.Equal("Kiki", product.Name);
             Assert.Equal("https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg", product.Picture);
             Assert.Equal(320, product.Price);
-            Assert.Equal(320, product.PriceWithDiscount);
+            Assert.Equal(320, product.PriceWithGeneralDiscount);
             Assert.Equal(1, product.FragranceGroupId);
             Assert.Equal(1, product.ProductTypeId);
             Assert.Equal(2015, product.YearOfManufacture);
@@ -544,7 +544,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,

@@ -7,7 +7,7 @@
 
     public class OrderProductsListingViewModel : IMapFrom<OrderProduct>
     {
-        public virtual Product Product { get; set; }
+        public string ProductName { get; set; }
 
         public int Quantity { get; set; }
 
@@ -15,7 +15,7 @@
 
         public decimal TotalPrice => this.Quantity * this.Price;
 
-        public DiscountCode DiscountCode { get; set; }
+        public byte? OrderDiscountCodeDiscount { get; set; }
 
         public DateTime CreatedOn { get; set; }
     }

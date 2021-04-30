@@ -27,9 +27,9 @@
 
         public decimal Price { get; set; }
 
-        public decimal PriceWithDiscount { get; set; }
+        public decimal PriceWithGeneralDiscount { get; set; }
 
-        public int Discount => this.Price == this.PriceWithDiscount ? 0 : (int)((this.Price - this.PriceWithDiscount) / this.Price * 100);
+        public int Discount => this.Price == this.PriceWithGeneralDiscount ? 0 : (int)((this.Price - this.PriceWithGeneralDiscount) / this.Price * 100);
 
         public string Picture { get; set; }
 

@@ -6,8 +6,13 @@
 
     public class Country : BaseModel<int>
     {
+        public Country()
+        {
+            this.Users = new HashSet<ApplicationUser>();
+        }
+
         public string Name { get; set; }
 
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } // many-to-one
+        public virtual ICollection<ApplicationUser> Users { get; set; } // many-to-one
     }
 }

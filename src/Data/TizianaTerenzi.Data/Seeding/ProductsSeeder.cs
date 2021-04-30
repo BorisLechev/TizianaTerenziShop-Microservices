@@ -258,7 +258,7 @@
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
-                PriceWithDiscount = p.Price,
+                PriceWithGeneralDiscount = p.Price,
                 Picture = p.Picture,
                 ProductTypeId = p.ProductTypeId,
                 FragranceGroupId = p.FragranceGroupId,

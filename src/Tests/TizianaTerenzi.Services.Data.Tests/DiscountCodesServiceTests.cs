@@ -120,7 +120,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -128,22 +128,22 @@
 
             await dbContext.Products.AddAsync(newProduct);
 
-            var productInTheCart = new ProductInTheCart
+            var productInTheCart = new Cart
             {
                 ProductId = newProduct.Id,
-                ProductPriceAfterDiscount = newProduct.PriceWithDiscount,
+                ProductPriceWithDiscountCode = newProduct.PriceWithGeneralDiscount,
                 UserId = "1",
                 Quantity = 1,
             };
 
-            await dbContext.ProductsInTheCart.AddAsync(productInTheCart);
+            await dbContext.Carts.AddAsync(productInTheCart);
 
             var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
             var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-            var productsInTheCartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockProductsInTheCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var productsInTheCartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockProductsInTheCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             mockDiscountCodesRepo.Setup(dc => dc.All())
                     .Returns(discountCodesRepository.All());
@@ -157,7 +157,7 @@
 
             // Assert
             Assert.True(await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync("Test", "1"));
-            Assert.Equal(288, productInTheCart.ProductPriceAfterDiscount);
+            Assert.Equal(288, productInTheCart.ProductPriceWithDiscountCode);
         }
 
         [Fact]
@@ -183,7 +183,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -191,22 +191,22 @@
 
             await dbContext.Products.AddAsync(newProduct);
 
-            var productInTheCart = new ProductInTheCart
+            var productInTheCart = new Cart
             {
                 ProductId = newProduct.Id,
-                ProductPriceAfterDiscount = newProduct.PriceWithDiscount,
+                ProductPriceWithDiscountCode = newProduct.PriceWithGeneralDiscount,
                 UserId = "1",
                 Quantity = 1,
             };
 
-            await dbContext.ProductsInTheCart.AddAsync(productInTheCart);
+            await dbContext.Carts.AddAsync(productInTheCart);
 
             var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
             var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-            var productsInTheCartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockProductsInTheCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var productsInTheCartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockProductsInTheCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             mockDiscountCodesRepo.Setup(dc => dc.All())
                     .Returns(discountCodesRepository.All());
@@ -220,14 +220,14 @@
 
             // Assert
             Assert.True(await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync("Test", "1"));
-            Assert.Equal(288, productInTheCart.ProductPriceAfterDiscount);
+            Assert.Equal(288, productInTheCart.ProductPriceWithDiscountCode);
             Assert.Equal("Kiki", productInTheCart.Product.Name);
 
             productInTheCart.DiscountCodeId = 1;
             await dbContext.SaveChangesAsync();
 
             Assert.True(await discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync("1"));
-            Assert.Equal(320, productInTheCart.ProductPriceAfterDiscount);
+            Assert.Equal(320, productInTheCart.ProductPriceWithDiscountCode);
             Assert.Equal("Kiki", productInTheCart.Product.Name);
         }
     }

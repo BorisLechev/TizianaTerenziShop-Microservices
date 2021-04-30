@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Discount code name" xml:space="preserve">
-    <value>Discount code name</value>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
   </data>
   <data name="Order Date" xml:space="preserve">
     <value>Order Date</value>

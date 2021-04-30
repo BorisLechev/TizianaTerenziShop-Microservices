@@ -3,7 +3,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 
-    public class ProductsInTheCartViewModel : IMapFrom<ProductInTheCart>, IMapTo<ProductInTheCart>
+    public class ProductsInTheCartViewModel : IMapFrom<Cart>, IMapTo<Cart>
     {
         public string Id { get; set; } // TODO: make it int
 
@@ -13,11 +13,11 @@
 
         public string ProductPicture { get; set; }
 
-        public decimal ProductPriceWithDiscount { get; set; }
+        public decimal ProductPriceWithGeneralDiscount { get; set; }
 
-        public decimal ProductPriceAfterDiscount { get; set; }
+        public decimal ProductPriceWithDiscountCode { get; set; }
 
-        public decimal TotalPrice => this.ProductPriceAfterDiscount * this.Quantity;
+        public decimal TotalPrice => this.ProductPriceWithDiscountCode * this.Quantity;
 
         public int Quantity { get; set; }
 

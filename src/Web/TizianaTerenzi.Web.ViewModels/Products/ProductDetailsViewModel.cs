@@ -21,7 +21,7 @@
 
         public decimal Price { get; set; }
 
-        public decimal PriceWithDiscount { get; set; }
+        public decimal PriceWithGeneralDiscount { get; set; }
 
         public string Picture { get; set; }
 

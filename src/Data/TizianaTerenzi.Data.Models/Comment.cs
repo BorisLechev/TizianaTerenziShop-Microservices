@@ -12,6 +12,8 @@
             this.Votes = new HashSet<CommentVote>();
         }
 
+        public string Content { get; set; }
+
         public int ProductId { get; set; }
 
         public virtual Product Product { get; set; }
@@ -19,8 +21,6 @@
         public int? ParentId { get; set; }
 
         public virtual Comment Parent { get; set; } // rekursivno sochi kam sebe si diagrama ssms
-
-        public string Content { get; set; }
 
         [Required]
         public string UserId { get; set; }

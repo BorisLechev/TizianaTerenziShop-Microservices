@@ -119,9 +119,7 @@
         [Route("/profile/order/{orderId}")]
         public async Task<IActionResult> MyOrderProducts(int orderId)
         {
-            var userId = this.userManager.GetUserId(this.User);
-
-            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsAsync(userId, orderId);
+            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
 
             return this.View(allOrderProductsByUser);
         }

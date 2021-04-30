@@ -43,7 +43,7 @@
                 FragranceGroupId = inputModel.FragranceGroupId,
                 YearOfManufacture = inputModel.YearOfManufacture,
                 Price = inputModel.Price,
-                PriceWithDiscount = inputModel.Price,
+                PriceWithGeneralDiscount = inputModel.Price,
                 Picture = pictureUrl,
                 Notes = notesIds.Select(id => new ProductNote
                 {
@@ -70,7 +70,7 @@
             product.Name = inputModel.Name;
             product.Description = inputModel.Description;
             product.Price = inputModel.Price;
-            product.PriceWithDiscount = inputModel.Price;
+            product.PriceWithGeneralDiscount = inputModel.Price;
             product.YearOfManufacture = inputModel.YearOfManufacture;
             product.FragranceGroupId = inputModel.FragranceGroupId;
             product.ProductTypeId = inputModel.ProductTypeId;
@@ -164,7 +164,11 @@
         {
             var productsCount = await this.productsRepository
                 .AllAsNoTracking()
-                .UpdateAsync(p => new Product { PriceWithDiscount = p.Price - (p.Price * discountPercent / 100), ModifiedOn = DateTime.UtcNow });
+                .UpdateAsync(p => new Product
+                {
+                    PriceWithGeneralDiscount = p.Price - (p.Price * discountPercent / 100),
+                    ModifiedOn = DateTime.UtcNow,
+                });
 
             return productsCount;
         }
@@ -173,7 +177,11 @@
         {
             var productsCount = await this.productsRepository
                 .AllAsNoTracking()
-                .UpdateAsync(p => new Product { PriceWithDiscount = p.Price, ModifiedOn = DateTime.UtcNow });
+                .UpdateAsync(p => new Product
+                {
+                    PriceWithGeneralDiscount = p.Price,
+                    ModifiedOn = DateTime.UtcNow,
+                });
 
             return productsCount;
         }

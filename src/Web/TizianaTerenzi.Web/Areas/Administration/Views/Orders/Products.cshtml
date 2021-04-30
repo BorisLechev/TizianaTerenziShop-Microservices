@@ -18,21 +18,21 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Total price</th>
-                    <th>DiscountCode</th>
+                    <th>Discount</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var product in Model)
                 {
                     <tr>
-                        <td>@product.Product.Name</td>
+                        <td>@product.ProductName</td>
                         <td><time datetime="@product.CreatedOn.ToString("O")"></time></td>
                         <td>@product.Quantity</td>
                         <td>@product.Price</td>
                         <td>@product.TotalPrice</td>
-                        @if (product.DiscountCode != null && product.DiscountCode.Name != null)
+                        @if (product.OrderDiscountCodeDiscount != null)
                         {
-                            <td>@product.DiscountCode.Name</td>
+                            <td>@product.OrderDiscountCodeDiscount</td>
                         }
                         else
                         {

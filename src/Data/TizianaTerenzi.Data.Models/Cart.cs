@@ -4,20 +4,20 @@
 
     using TizianaTerenzi.Data.Common.Models;
 
-    public class ProductInTheCart : BaseDeletableModel<string> // TODO: make it int
+    public class Cart : BaseDeletableModel<string> // TODO: make it int
     {
-        public ProductInTheCart()
+        public Cart()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
         public int Quantity { get; set; }
 
+        public decimal ProductPriceWithDiscountCode { get; set; }
+
         public int ProductId { get; set; }
 
         public Product Product { get; set; }
-
-        public decimal ProductPriceAfterDiscount { get; set; } // zaradi discount
 
         public string UserId { get; set; }
 

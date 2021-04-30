@@ -12,12 +12,12 @@
 
     public class NumberOfProductsInTheUsersCartViewComponent : ViewComponent
     {
-        private readonly IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository;
+        private readonly IDeletableEntityRepository<Cart> productsInTheCartRepository;
 
         private readonly UserManager<ApplicationUser> userManager;
 
         public NumberOfProductsInTheUsersCartViewComponent(
-            IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository,
+            IDeletableEntityRepository<Cart> productsInTheCartRepository,
             UserManager<ApplicationUser> userManager)
         {
             this.productsInTheCartRepository = productsInTheCartRepository;

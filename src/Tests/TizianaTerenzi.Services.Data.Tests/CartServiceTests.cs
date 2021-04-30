@@ -49,7 +49,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -59,14 +59,14 @@
 
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockProductsRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
             var ordersRepository = new EfDeletableEntityRepository<Order>(dbContext);
             var mockOrdersRepo = new Mock<IDeletableEntityRepository<Order>>();
             var mockNotesService = new Mock<INotesService>();
 
-            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<ProductInTheCart>()))
-                    .Callback((ProductInTheCart product) => cartRepository.AddAsync(product));
+            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
+                    .Callback((Cart product) => cartRepository.AddAsync(product));
             mockCartRepo.Setup(pv => pv.SaveChangesAsync())
                    .Returns(cartRepository.SaveChangesAsync());
 
@@ -108,7 +108,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -118,19 +118,19 @@
 
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockProductsRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
             var ordersRepository = new EfDeletableEntityRepository<Order>(dbContext);
             var mockOrdersRepo = new Mock<IDeletableEntityRepository<Order>>();
             var mockNotesService = new Mock<INotesService>();
 
-            var list = new List<ProductInTheCart>();
+            var list = new List<Cart>();
             var mockList = list.AsQueryable().BuildMock();
 
             mockCartRepo.Setup(pv => pv.AllAsNoTracking())
                     .Returns(mockList.Object);
-            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<ProductInTheCart>()))
-                    .Callback((ProductInTheCart product) => list.Add(product));
+            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
+                    .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(pv => pv.SaveChangesAsync())
                    .Returns(cartRepository.SaveChangesAsync());
 
@@ -173,7 +173,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -183,21 +183,21 @@
 
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockProductsRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
             var ordersRepository = new EfDeletableEntityRepository<Order>(dbContext);
             var mockOrdersRepo = new Mock<IDeletableEntityRepository<Order>>();
             var mockNotesService = new Mock<INotesService>();
 
-            var list = new List<ProductInTheCart>();
+            var list = new List<Cart>();
             var mockList = list.AsQueryable().BuildMock();
 
             mockCartRepo.Setup(pv => pv.All())
                     .Returns(mockList.Object);
             mockCartRepo.Setup(pv => pv.AllAsNoTracking())
                     .Returns(mockList.Object);
-            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<ProductInTheCart>()))
-                    .Callback((ProductInTheCart product) => list.Add(product));
+            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
+                    .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(pv => pv.SaveChangesAsync())
                    .Returns(cartRepository.SaveChangesAsync());
 
@@ -243,7 +243,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -253,21 +253,21 @@
 
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockProductsRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
             var ordersRepository = new EfDeletableEntityRepository<Order>(dbContext);
             var mockOrdersRepo = new Mock<IDeletableEntityRepository<Order>>();
             var mockNotesService = new Mock<INotesService>();
 
-            var list = new List<ProductInTheCart>();
+            var list = new List<Cart>();
             var mockList = list.AsQueryable().BuildMock();
 
             mockCartRepo.Setup(pv => pv.All())
                     .Returns(mockList.Object);
             mockCartRepo.Setup(pv => pv.AllAsNoTracking())
                     .Returns(mockList.Object);
-            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<ProductInTheCart>()))
-                    .Callback((ProductInTheCart product) => list.Add(product));
+            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
+                    .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(pv => pv.SaveChangesAsync())
                    .Returns(cartRepository.SaveChangesAsync());
 
@@ -314,7 +314,7 @@
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
                 Price = 320,
-                PriceWithDiscount = 320,
+                PriceWithGeneralDiscount = 320,
                 FragranceGroupId = 1,
                 ProductTypeId = 1,
                 YearOfManufacture = 2015,
@@ -324,21 +324,21 @@
 
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockProductsRepo = new Mock<IDeletableEntityRepository<Product>>();
-            var cartRepository = new EfDeletableEntityRepository<ProductInTheCart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<ProductInTheCart>>();
+            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
+            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
             var ordersRepository = new EfDeletableEntityRepository<Order>(dbContext);
             var mockOrdersRepo = new Mock<IDeletableEntityRepository<Order>>();
             var mockNotesService = new Mock<INotesService>();
 
-            var list = new List<ProductInTheCart>();
+            var list = new List<Cart>();
             var mockList = list.AsQueryable().BuildMock();
 
             mockCartRepo.Setup(pv => pv.All())
                     .Returns(mockList.Object);
             mockCartRepo.Setup(pv => pv.AllAsNoTracking())
                     .Returns(mockList.Object);
-            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<ProductInTheCart>()))
-                    .Callback((ProductInTheCart product) => list.Add(product));
+            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
+                    .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(pv => pv.SaveChangesAsync())
                    .Returns(cartRepository.SaveChangesAsync());
 

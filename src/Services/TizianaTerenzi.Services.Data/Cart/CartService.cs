@@ -16,7 +16,7 @@
 
     public class CartService : ICartService
     {
-        private readonly IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository;
+        private readonly IDeletableEntityRepository<Cart> productsInTheCartRepository;
 
         private readonly IDeletableEntityRepository<Order> ordersRepository;
 
@@ -25,7 +25,7 @@
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartService(
-            IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository,
+            IDeletableEntityRepository<Cart> productsInTheCartRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IOrderStatusesService orderStatusesService,
             UserManager<ApplicationUser> userManager)
@@ -38,12 +38,12 @@
 
         public async Task<bool> AddProductInTheCart(Product product, string userId)
         {
-            var productInTheCart = new ProductInTheCart
+            var productInTheCart = new Cart
             {
                 UserId = userId,
                 ProductId = product.Id,
                 Quantity = 1,
-                ProductPriceAfterDiscount = product.PriceWithDiscount,
+                ProductPriceWithDiscountCode = product.PriceWithGeneralDiscount,
             };
 
             await this.productsInTheCartRepository.AddAsync(productInTheCart);
@@ -66,14 +66,12 @@
         public async Task<bool> CheckoutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart)
         {
             var orderProducts = productsInTheCart
-                .Select(op => new OrderProduct
+                .Select(x => new OrderProduct
                 {
-                    ProductId = op.ProductId,
-                    Price = op.ProductPriceAfterDiscount,
-                    Quantity = op.Quantity,
+                    ProductId = x.ProductId,
+                    Price = x.ProductPriceWithDiscountCode,
+                    Quantity = x.Quantity,
                     CreatedOn = DateTime.UtcNow,
-                    UserId = userId,
-                    DiscountCodeId = op.DiscountCodeId,
                 })
                 .ToList();
 

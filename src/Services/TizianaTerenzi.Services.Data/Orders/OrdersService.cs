@@ -40,17 +40,6 @@
             return ordersByUser;
         }
 
-        public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsAsync(string userId, int orderId)
-        {
-            var orderProductsByUser = await this.orderProductsRepository
-                .AllAsNoTracking()
-                .Where(op => op.UserId == userId && op.OrderId == orderId)
-                .To<OrderProductsListingViewModel>()
-                .ToListAsync();
-
-            return orderProductsByUser;
-        }
-
         public async Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersAsync()
         {
             var orders = await this.ordersRepository
@@ -129,7 +118,7 @@
         {
             var orderProducts = await this.orderProductsRepository
                     .All()
-                    .Where(op => op.UserId == userId)
+                    .Where(op => op.Order.UserId == userId)
                     .ToArrayAsync();
 
             if (orderProducts.Any())

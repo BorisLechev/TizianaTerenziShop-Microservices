@@ -70,7 +70,7 @@
                                         </td>
                                         <td data-title="price">
                                             <section class="cart-item-price">
-                                                <span class="price">€ @(this.Model[i].ProductPriceAfterDiscount) EUR</span>
+                                                <span class="price">€ @(this.Model[i].ProductPriceWithDiscountCode) EUR</span>
                                             </section>
                                         </td>
                                         <td>
@@ -86,7 +86,7 @@
                             <section class="cart-form-inner-footer">
                                 <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
                                     <section class="discount-box">
-                                        <a class="button cart-button" asp-controller="Products" asp-action="All">@Localizer["Continue Shopping"]</a>
+                                        <a href="javascript:window.history.back();" class="button cart-button">@Localizer["Continue Shopping"]</a>
                                     </section>
                                 </section>
                                 <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">

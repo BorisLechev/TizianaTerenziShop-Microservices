@@ -15,11 +15,11 @@
     {
         private readonly IDeletableEntityRepository<DiscountCode> discountCodesRepository;
 
-        private readonly IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository;
+        private readonly IDeletableEntityRepository<Cart> productsInTheCartRepository;
 
         public DiscountCodesService(
             IDeletableEntityRepository<DiscountCode> discountCodesRepository,
-            IDeletableEntityRepository<ProductInTheCart> productsInTheCartRepository)
+            IDeletableEntityRepository<Cart> productsInTheCartRepository)
         {
             this.discountCodesRepository = discountCodesRepository;
             this.productsInTheCartRepository = productsInTheCartRepository;
@@ -107,7 +107,7 @@
 
             foreach (var productInTheCart in productsInTheCart)
             {
-                productInTheCart.ProductPriceAfterDiscount *= 1 - ((decimal)discountCode.Discount / 100);
+                productInTheCart.ProductPriceWithDiscountCode *= 1 - ((decimal)discountCode.Discount / 100);
                 productInTheCart.DiscountCodeId = discountCode.Id;
             }
 
@@ -131,7 +131,7 @@
 
             foreach (var productInTheCart in productsInTheCart)
             {
-                productInTheCart.ProductPriceAfterDiscount = productInTheCart.Product.PriceWithDiscount;
+                productInTheCart.ProductPriceWithDiscountCode = productInTheCart.Product.PriceWithGeneralDiscount;
                 productInTheCart.DiscountCodeId = null;
             }
 
