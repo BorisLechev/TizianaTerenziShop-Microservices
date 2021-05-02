@@ -8,54 +8,44 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Web.Infrastructure.ValidationAttributes;
 
     public class CreateProductInputModel : IMapTo<Product>
     {
-        private const int NameMinimumLength = 2;
-        private const int NameMaximumLength = 25;
-        private const int DescriptionMinimumLength = 10;
-        private const int DescriptionMaximumLength = 1500;
-        private const double MinimumPrice = 10;
-        private const int MinimumYear = 1700;
-        private const int MaximumYear = 2050;
-
-        private const string NameErrorMessage = "Name should be at least 2 characters long and not more than 25.";
-        private const string DescriptionErrorMessage = "Description should be at least 10 characters long and not more than 1500.";
-        private const string PriceErrorMessage = "Price should be at least €10.";
-        private const string YearErrorMessage = "Year should be be after 1700.";
-
-        [Required(ErrorMessage = "Name is required.")]
-        [StringLength(NameMaximumLength, MinimumLength = NameMinimumLength, ErrorMessage = NameErrorMessage)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required.")]
+        [StringLength(25, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Description is required.")]
-        [StringLength(DescriptionMaximumLength, MinimumLength = DescriptionMinimumLength, ErrorMessage = DescriptionErrorMessage)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Description is required.")]
+        [StringLength(1500, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 10)]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Price is required.")]
-        [Range(MinimumPrice, double.MaxValue, ErrorMessage = PriceErrorMessage)]
+        [Range(10, double.MaxValue, ErrorMessage = "Price should be at least €{1}.")]
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "Picture is required.")]
+        [DataType(DataType.Upload)]
+        [AllowedExtensions]
+        [MaxFileSize]
         public IFormFile Picture { get; set; }
 
         [Required]
+        [Display(Name = "Notes")]
         public IEnumerable<string> NoteIds { get; set; }
 
         public IEnumerable<SelectListItem> Notes { get; set; }
 
-        [Required]
+        [Display(Name = "Product Type")]
         public int ProductTypeId { get; set; }
 
         public IEnumerable<SelectListItem> ProductTypes { get; set; }
 
-        [Required]
+        [Display(Name = "Fragrance Group")]
         public int FragranceGroupId { get; set; }
 
         public IEnumerable<SelectListItem> FragranceGroups { get; set; }
 
-        [Required(ErrorMessage = "Year is required.")]
-        [Range(MinimumYear, MaximumYear, ErrorMessage = YearErrorMessage)]
+        [ProductYearMinMaxValue(2000)]
         public int YearOfManufacture { get; set; }
     }
 }

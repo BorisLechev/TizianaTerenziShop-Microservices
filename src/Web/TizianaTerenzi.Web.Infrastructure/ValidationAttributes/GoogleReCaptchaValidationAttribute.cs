@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.Infrastructure
+﻿namespace TizianaTerenzi.Web.Infrastructure.ValidationAttributes
 {
     using System;
     using System.Collections.Generic;

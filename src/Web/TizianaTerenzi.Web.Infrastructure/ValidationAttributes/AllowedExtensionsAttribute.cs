@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.ValidationAttributes
+﻿namespace TizianaTerenzi.Web.Infrastructure.ValidationAttributes
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
     {
         private readonly string[] extensions =
         {
-            ".ai", ".gif", ".webp", ".bmp", ".djvu", ".ps", ".ept", ".eps", ".eps3", ".fbx", ".flif", ".gif",
+            ".ai", ".webp", ".bmp", ".djvu", ".ps", ".ept", ".eps", ".eps3", ".fbx", ".flif", ".gif",
             ".gltf", ".heif", ".heic", ".ico", ".indd", ".jpg", ".jpe", ".jpeg", ".jp24", ".wdp", ".jxr",
             ".hdp", ".pdf", ".png", ".psd", ".arw", ".cr2", ".svg", ".tga", ".tif", ".tiff", ".webp",
         };
@@ -37,7 +37,7 @@
             {
                 var file = value as IFormFile;
 
-                if (!(file == null))
+                if (file != null)
                 {
                     if (!this.extensions.Any(e => file.FileName.ToLower().EndsWith(e)))
                     {

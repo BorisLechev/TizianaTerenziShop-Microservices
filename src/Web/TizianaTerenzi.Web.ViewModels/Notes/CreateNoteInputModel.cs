@@ -4,14 +4,10 @@
 
     public class CreateNoteInputModel
     {
-        private const int NameMinimumLength = 2;
+        private const string NameErrorMessage = "Name should be between 2 and 25 characters long and first letter should be capital.";
 
-        private const int NameMaximumLength = 25;
-
-        private const string NameErrorMessage = "Name should be at least 2 characters long and not more than 25 and first letter should be capital.";
-
-        [Required(ErrorMessage = "Name is required.")]
-        [StringLength(NameMaximumLength, MinimumLength = NameMinimumLength, ErrorMessage = NameErrorMessage)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required.")]
+        [StringLength(25, ErrorMessage = NameErrorMessage, MinimumLength = 2)]
         [RegularExpression(@"^([A-Z])([a-z\s]{1,24})$", ErrorMessage = NameErrorMessage)]
         public string Name { get; set; }
     }

@@ -7,7 +7,7 @@
     {
         public int ProductId { get; set; }
 
-        [Range(1, 5)]
+        [Range(1, 5, ErrorMessage = "Vote should be between {1} and {2}.")]
         public byte Value { get; set; }
     }
 }

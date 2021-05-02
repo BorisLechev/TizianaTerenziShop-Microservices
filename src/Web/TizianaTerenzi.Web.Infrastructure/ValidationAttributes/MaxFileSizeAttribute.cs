@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.ValidationAttributes
+﻿namespace TizianaTerenzi.Web.Infrastructure.ValidationAttributes
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
 
     public class MaxFileSizeAttribute : ValidationAttribute
     {
-        private readonly long maxFileSize = GlobalConstants.ImageMaxSizeMB * 1024 * 1024;
+        private readonly double maxFileSize = GlobalConstants.ImageMaxSizeMB * 1024 * 1024;
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {

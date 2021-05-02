@@ -8,30 +8,31 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.ValidationAttributes;
+    using TizianaTerenzi.Web.Infrastructure.ValidationAttributes;
 
     public class UserEditInputModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>, IHaveCustomMappings
     {
-        [MinLength(2)]
-        [MaxLength(30)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Username is required.")]
+        [StringLength(15, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [DataType(DataType.EmailAddress)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required.")]
+        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(30, MinimumLength = 2)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "First name is required.")]
+        [StringLength(20, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
-        [Required]
-        [StringLength(30, MinimumLength = 2)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Last name is required.")]
+        [StringLength(20, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Town is required.")]
+        [StringLength(20, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Town { get; set; }
 
         [Display(Name = "Country")]
@@ -39,27 +40,25 @@
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
-        [Required]
-        [MinLength(2)]
-        [MaxLength(100)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Postal code is required.")]
+        [StringLength(20, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         [Display(Name ="Postal code")]
         public string PostalCode { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Phone number is required.")]
         [Phone]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [MinLength(2)]
-        [MaxLength(100)]
-        [Display(Name = "Address")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Address is required.")]
+        [StringLength(30, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Address { get; set; }
 
-        [Display(Name = "Profile Picture")]
+        [Required(ErrorMessage = "Profile picture is required.")]
         [DataType(DataType.Upload)]
         [AllowedExtensions]
         [MaxFileSize]
+        [Display(Name = "Profile Picture")]
         public IFormFile AvatarImage { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

@@ -5,21 +5,11 @@
 
     public class CreateDiscountCodeInputModel
     {
-        private const int NameMinimumLength = 3;
-        private const int NameMaximumLength = 30;
-
-        private const int MinimumDiscount = 1;
-        private const int MaximumDiscount = 100;
-
-        private const string NameErrorMessage = "Discount code should be at least 3 characters long and not more than 30.";
-        private const string DiscountErrorMessage = "Discount should be at least 1% and no more than 100%.";
-
-        [Required(ErrorMessage = "Name is required.")]
-        [StringLength(NameMaximumLength, MinimumLength = NameMinimumLength, ErrorMessage = NameErrorMessage)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required.")]
+        [StringLength(30, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 3)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Discount is required.")]
-        [Range(MinimumDiscount, MaximumDiscount, ErrorMessage = DiscountErrorMessage)]
+        [Range(1, 100, ErrorMessage = "Discount should be between {1}% and {2}%.")]
         public byte Discount { get; set; }
 
         public DateTime? ExpiresOn { get; set; }

@@ -2,27 +2,25 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using TizianaTerenzi.Web.Infrastructure;
+    using TizianaTerenzi.Web.Infrastructure.ValidationAttributes;
 
     public class ContactMessageInputModel
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter your name")]
-        [Display(Name = "Name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter your name.")]
+        [StringLength(30, ErrorMessage = "Name should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter your email")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter your email.")]
         [EmailAddress(ErrorMessage = "Please, enter a valid email")]
-        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter the subject of the email")]
-        [StringLength(100, ErrorMessage = "Subject should be at least {2} and no more than {1} characters.", MinimumLength = 4)]
-        [Display(Name = "Subject")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter the subject of the email.")]
+        [StringLength(20, ErrorMessage = "Subject should be between {2} and {1} characters long.", MinimumLength = 4)]
         public string Subject { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter the content of the message")]
-        [StringLength(10000, ErrorMessage = "The content should be at least {2} characters.", MinimumLength = 10)]
-        [Display(Name = "Content")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, enter the content of the message.")]
+        [StringLength(10000, ErrorMessage = "The content should be between {2} and {1} characters long.", MinimumLength = 5)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
         [GoogleReCaptchaValidation]
