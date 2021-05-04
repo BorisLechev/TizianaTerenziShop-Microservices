@@ -10,5 +10,11 @@
         public IDictionary<DateTime, decimal> SalesValueFromTheLast10Days { get; set; }
 
         public IDictionary<string, int> NumberOfPurchasesForEachProductForThisMonth { get; set; }
+
+        public decimal TotalRevenueForTheCurrentMonth { get; set; }
+
+        public int NumberOfOrdersForTheCurrentMonth { get; set; }
+
+        public int NumberOfRegisteredUsers { get; set; }
     }
 }

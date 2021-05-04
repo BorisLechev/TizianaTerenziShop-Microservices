@@ -15,12 +15,16 @@
 
         private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
 
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+
         public StatisticsService(
             IDeletableEntityRepository<Order> ordersRepository,
-            IDeletableEntityRepository<OrderProduct> orderProductsRepository)
+            IDeletableEntityRepository<OrderProduct> orderProductsRepository,
+            IDeletableEntityRepository<ApplicationUser> usersRepository)
         {
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
+            this.usersRepository = usersRepository;
         }
 
         public async Task<IDictionary<DateTime, int>> GetAllOrdersForTheLast10DaysAsync()
@@ -75,7 +79,7 @@
             return result;
         }
 
-        public async Task<IDictionary<string, int>> GetNumberOfPurchasesForEachProductForThisMonthAsync()
+        public async Task<IDictionary<string, int>> GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync()
         {
             var orderProducts = await this.orderProductsRepository
                 .AllAsNoTracking()
@@ -89,6 +93,35 @@
                 .ToDictionaryAsync(op => op.Product, op => op.Value);
 
             return orderProducts;
+        }
+
+        public async Task<decimal> GetTotalRevenueForTheCurrentMonthAsync()
+        {
+            var totalRevenueForTheCurrentMonth = await this.orderProductsRepository
+                .AllAsNoTracking()
+                .Where(op => op.CreatedOn.Month == DateTime.UtcNow.Month)
+                .SumAsync(op => op.Price);
+
+            return totalRevenueForTheCurrentMonth;
+        }
+
+        public async Task<int> GetNumberOfOrdersForTheCurrentMonthAsync()
+        {
+            var numberOfOrdersForThisMonth = await this.ordersRepository
+                .AllAsNoTracking()
+                .Where(o => o.CreatedOn.Month == DateTime.UtcNow.Month)
+                .CountAsync();
+
+            return numberOfOrdersForThisMonth;
+        }
+
+        public async Task<int> GetNumberOfRegisteredUsersAsync()
+        {
+            var numberofRegisteredUsers = await this.usersRepository
+                .AllAsNoTracking()
+                .CountAsync();
+
+            return numberofRegisteredUsers;
         }
 
         private IDictionary<DateTime, int> CreateEmptyDictionaryWithDateTimeIntFor10Days()

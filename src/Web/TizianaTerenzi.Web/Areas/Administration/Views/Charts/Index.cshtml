@@ -5,10 +5,55 @@
 }
 
 <div class="container" style="padding-top: 100px;">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div class="dashboard-stat red">
+                <div class="visual">
+                    <i class="fas fa-euro-sign"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span>@this.Model.TotalRevenueForTheCurrentMonth</span>
+                    </div>
+                    <div class="desc">Total Revenue for @DateTime.UtcNow.ToString("MMMM", CultureInfo.InvariantCulture)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green">
+                <div class="visual">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span>@this.Model.NumberOfOrdersForTheCurrentMonth</span>
+                    </div>
+                    <div class="desc">All Orders in @DateTime.UtcNow.ToString("MMMM", CultureInfo.InvariantCulture)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div class="dashboard-stat blue">
+                <div class="visual">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span>@this.Model.NumberOfRegisteredUsers</span>
+                    </div>
+                    <div class="desc">Number of registered users</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="products-pie-chart-container"></div>
     <div id="orders-chart-container" style="margin-top: 2rem;"></div>
     <div id="orders-value-by-day-chart-container" style="margin-top: 2rem;"></div>
 </div>
+
+@section CustomCss {
+    <link href="~/css/statistics.css" rel="stylesheet" asp-append-version="true" />
+} 
 
 @section Scripts {
     <script src="~/lib/highcharts/highcharts.js" asp-append-version="true"></script>

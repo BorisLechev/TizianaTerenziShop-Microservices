@@ -1,0 +1,56 @@
+﻿.dashboard-stat {
+    display: block;
+    margin: 0 0 25px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.dashboard-stat.red {
+    background-color: rgb(231, 80, 90);
+}
+
+.dashboard-stat.green {
+    background-color: rgb(138, 227, 119);
+}
+
+.dashboard-stat.blue {
+    background-color: rgb(51, 122, 183);
+}
+
+.visual {
+    display: block;
+    width: 80px;
+    height: 80px;
+    float: left;
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+
+.visual i {
+    margin-left: -15px;
+    font-size: 100px;
+    color: rgb(255, 255, 255);
+    opacity: 0.2;
+}
+
+.details {
+    padding-right: 15px;
+    color: rgb(255, 255, 255);
+}
+
+.number {
+    font-size: 34px;
+    font-weight: 300;
+    text-align: right;
+    line-height: 36px;
+    padding-top: 25px;
+    letter-spacing: -1px;
+}
+
+.desc {
+   font-size: 16px;
+   font-weight: 300;
+   text-transform: capitalize;
+   text-align: right;
+   letter-spacing: 0;
+}

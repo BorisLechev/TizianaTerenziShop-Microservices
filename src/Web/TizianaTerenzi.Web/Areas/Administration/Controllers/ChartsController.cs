@@ -20,13 +20,19 @@
         {
             var orders = await this.statisticsService.GetAllOrdersForTheLast10DaysAsync();
             var ordersValue = await this.statisticsService.GetTheValueOfAllSalesForTheLast10DaysAsync();
-            var orderedProductsCountForThisMonth = await this.statisticsService.GetNumberOfPurchasesForEachProductForThisMonthAsync();
+            var orderedProductsCountForThisMonth = await this.statisticsService.GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync();
+            var totalRevenueForTheCurrentMonth = await this.statisticsService.GetTotalRevenueForTheCurrentMonthAsync();
+            var numberOfOrdersForThisMonth = await this.statisticsService.GetNumberOfOrdersForTheCurrentMonthAsync();
+            var numberofRegisteredUsers = await this.statisticsService.GetNumberOfRegisteredUsersAsync();
 
             var viewModel = new StatisticsIndexPageViewModel
             {
                 OrdersFromTheLast10Days = orders,
                 SalesValueFromTheLast10Days = ordersValue,
                 NumberOfPurchasesForEachProductForThisMonth = orderedProductsCountForThisMonth,
+                TotalRevenueForTheCurrentMonth = totalRevenueForTheCurrentMonth,
+                NumberOfOrdersForTheCurrentMonth = numberOfOrdersForThisMonth,
+                NumberOfRegisteredUsers = numberofRegisteredUsers,
             };
 
             return this.View(viewModel);

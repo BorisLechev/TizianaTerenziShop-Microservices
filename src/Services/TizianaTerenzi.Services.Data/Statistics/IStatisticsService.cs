@@ -10,6 +10,12 @@
 
         Task<IDictionary<DateTime, decimal>> GetTheValueOfAllSalesForTheLast10DaysAsync();
 
-        Task<IDictionary<string, int>> GetNumberOfPurchasesForEachProductForThisMonthAsync();
+        Task<IDictionary<string, int>> GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync();
+
+        Task<decimal> GetTotalRevenueForTheCurrentMonthAsync();
+
+        Task<int> GetNumberOfOrdersForTheCurrentMonthAsync();
+
+        Task<int> GetNumberOfRegisteredUsersAsync();
     }
 }
