@@ -3,29 +3,33 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Services.Data.Orders;
-    using TizianaTerenzi.Web.ViewModels.Orders;
+    using TizianaTerenzi.Services.Data.Statistics;
+    using TizianaTerenzi.Web.ViewModels.Statistics;
 
-    [ApiController]
-    [Route("administration/api/[controller]")]
     public class ChartsController : AdministrationController
     {
-        private readonly IOrdersService ordersService;
+        private readonly IStatisticsService statisticsService;
 
         public ChartsController(
-            IOrdersService ordersService)
+            IStatisticsService statisticsService)
         {
-            this.ordersService = ordersService;
+            this.statisticsService = statisticsService;
         }
 
-        public async Task<ActionResult<OrdersChartResponseModel>> Index()
+        public async Task<IActionResult> Index()
         {
-            var orders = await this.ordersService.GetAllOrdersAsync();
+            var orders = await this.statisticsService.GetAllOrdersForTheLast10DaysAsync();
+            var ordersValue = await this.statisticsService.GetTheValueOfAllSalesForTheLast10DaysAsync();
+            var orderedProductsCountForThisMonth = await this.statisticsService.GetNumberOfPurchasesForEachProductForThisMonthAsync();
 
-            return new OrdersChartResponseModel
+            var viewModel = new StatisticsIndexPageViewModel
             {
-                Orders = orders,
+                OrdersFromTheLast10Days = orders,
+                SalesValueFromTheLast10Days = ordersValue,
+                NumberOfPurchasesForEachProductForThisMonth = orderedProductsCountForThisMonth,
             };
+
+            return this.View(viewModel);
         }
     }
 }

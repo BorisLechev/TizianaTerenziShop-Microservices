@@ -41,6 +41,7 @@
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Services.Data.Statistics;
     using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
@@ -217,6 +218,7 @@
             services.AddTransient<IWishlistService, WishlistService>();
             services.AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
             services.AddTransient<IProductVotesService, ProductVotesService>();
+            services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
