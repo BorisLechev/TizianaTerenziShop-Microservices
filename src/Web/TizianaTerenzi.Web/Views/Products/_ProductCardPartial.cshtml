@@ -1,0 +1,87 @@
+﻿@inject IViewLocalizer Localizer
+
+<article class="items-col animate__animated" data-aos="zoom-in">
+    <section class="wrapper-item">
+        <section class="wrapper-item-inner">
+            <section class="product-image-container">
+                <a class="product-image-link" href="@this.Model.Url" title="@this.Model.Name">
+                    <img class="product-image front" src="@this.Model.Picture" alt="@this.Model.Name">
+                    <img class="product-image back" src="@this.Model.Picture" alt="@this.Model.Name">
+                    <section class="image-overlay"></section>
+                </a>
+            </section>
+            @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <section>
+                    <form asp-area="" asp-controller="Wishlist" asp-action="Add" asp-route-productId="@this.Model.Id" method="post">
+                        <button class="wishlist-btn stickers" type="submit">
+                            <i class="wishlist-icon"></i>
+                        </button>
+                    </form>
+                </section>
+            }
+            @if (this.Model.Price != this.Model.PriceWithGeneralDiscount)
+            {
+                <section>
+                    <div class="sticker-discount stickers">
+                        <span class="sticker-text">-@this.Model.Discount%</span>
+                    </div>
+                </section>
+            }
+            <section>
+                @if ((this.Model.YearOfManufacture == DateTime.UtcNow.Year || this.Model.YearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && this.Model.Price == this.Model.PriceWithGeneralDiscount)
+                {
+                    <div class="sticker-new-top stickers">
+                        <span class="sticker-text">@Localizer["New"]</span>
+                    </div>
+                }
+                else if ((this.Model.YearOfManufacture == DateTime.UtcNow.Year || this.Model.YearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && this.Model.Price != this.Model.PriceWithGeneralDiscount)
+                {
+                    <div class="sticker-new stickers">
+                        <span class="sticker-text">@Localizer["New"]</span>
+                    </div>
+                }
+            </section>
+            <section class="actions">
+                <div class="link-actions"></div>
+                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
+                    <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
+                </form>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@this.Model.Id" class="btn-edit">
+                        <span>@Localizer["Edit Product"]</span>
+                    </a>
+                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@this.Model.Id" method="post">
+                        <button class="button-delete" type="submit">
+                            <span>@Localizer["Delete Product"]</span>
+                        </button>
+                    </form>
+                }
+            </section>
+        </section>
+        <section class="star-rating" title="@this.Model.AverageVote.ToString("0.0")">
+            <partial name="_StarRatingPartial" model="@this.Model" />
+        </section>
+        <section class="product-info">
+            <a title="@this.Model.Name" href="@this.Model.Url">
+                <header>
+                    <h6 class="product-name">
+                        <span>@this.Model.Name</span>
+                    </h6>
+                </header>
+                <footer class="price-box">
+                    @if (this.Model.Price > this.Model.PriceWithGeneralDiscount)
+                    {
+                        <div class="old-price-box">
+                            <span class="old-price">@this.Model.Price</span>
+                        </div>
+                    }
+                    <div>
+                        <span class="price">EUR @this.Model.PriceWithGeneralDiscount</span>
+                    </div>
+                </footer>
+            </a>
+        </section>
+    </section>
+</article>

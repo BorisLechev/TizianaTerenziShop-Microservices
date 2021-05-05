@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Products
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -23,5 +24,7 @@
         Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
 
         Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
+
+        Task<IEnumerable<RelatedProductsViewModel>> GetRandomRelatedProductsAsync(int productId);
     }
 }

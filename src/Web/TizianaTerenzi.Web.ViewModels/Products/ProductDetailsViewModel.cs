@@ -35,6 +35,8 @@
 
         public IEnumerable<ProductCommentViewModel> Comments { get; set; }
 
+        public IEnumerable<RelatedProductsViewModel> RelatedProducts { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductDetailsViewModel>()

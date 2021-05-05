@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Services.Data.Products
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -184,6 +185,19 @@
                 });
 
             return productsCount;
+        }
+
+        public async Task<IEnumerable<RelatedProductsViewModel>> GetRandomRelatedProductsAsync(int productId)
+        {
+            var randomProducts = await this.productsRepository
+                .AllAsNoTracking()
+                .Where(p => p.Id != productId)
+                .OrderBy(p => Guid.NewGuid())
+                .Take(3)
+                .To<RelatedProductsViewModel>()
+                .ToListAsync();
+
+            return randomProducts;
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

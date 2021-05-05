@@ -144,6 +144,9 @@
   <data name="Rating" xml:space="preserve">
     <value>Rating</value>
   </data>
+  <data name="Related Products" xml:space="preserve">
+    <value>Related Products</value>
+  </data>
   <data name="stars" xml:space="preserve">
     <value>stars</value>
   </data>

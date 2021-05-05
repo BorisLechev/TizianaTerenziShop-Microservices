@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Home" xml:space="preserve">
-    <value>Начало</value>
+  <data name="Add to Cart" xml:space="preserve">
+    <value>Add to Cart</value>
   </data>
-  <data name="Products" xml:space="preserve">
-    <value>Продукти</value>
+  <data name="Delete Product" xml:space="preserve">
+    <value>Delete Product</value>
   </data>
-  <data name="Search" xml:space="preserve">
-    <value>Търси</value>
+  <data name="Edit Product" xml:space="preserve">
+    <value>Edit Product</value>
   </data>
-  <data name="Search for products, splitted by whitespace" xml:space="preserve">
-    <value>Търсене на продукти, разделени с интервал</value>
-  </data>
-  <data name="Sort by" xml:space="preserve">
-    <value>Сортирай по</value>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
   </data>
 </root>

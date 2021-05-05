@@ -201,13 +201,15 @@
     padding-left: 5px;
 }
 
-.rating-chart-header {
+.rating-chart-header,
+.related-products-header {
     padding: 1rem 0px 1rem 0px;
     text-align: center;
     transition: all 0.2s linear;
 }
 
-.rating-chart-title {
+.rating-chart-title,
+.related-products-title {
     font-size: 1.6rem;
     line-height: 26px;
     font-weight: bold;

@@ -90,6 +90,9 @@
             productDetailsViewModel.ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / numberOfVoters * 100 : 0;
             productDetailsViewModel.ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / numberOfVoters * 100 : 0;
 
+            var relatedProducts = await this.productsService.GetRandomRelatedProductsAsync(id);
+            productDetailsViewModel.RelatedProducts = relatedProducts;
+
             return this.View(productDetailsViewModel);
         }
     }

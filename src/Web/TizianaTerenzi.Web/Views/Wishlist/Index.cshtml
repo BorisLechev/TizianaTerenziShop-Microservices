@@ -47,7 +47,7 @@
                                                 </button>
                                             </form>
                                         </section>
-                                        @if (product.ProductPrice != product.ProductPriceWithDiscount)
+                                        @if (product.ProductPrice != product.ProductPriceWithGeneralDiscount)
                                         {
                                             <section>
                                                 <div class="sticker-discount stickers">
@@ -56,13 +56,13 @@
                                             </section>
                                         }
                                         <section>
-                                            @if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && product.ProductPrice == product.ProductPriceWithDiscount)
+                                            @if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && product.ProductPrice == product.ProductPriceWithGeneralDiscount)
                                             {
                                                 <div class="sticker-new-top stickers">
                                                     <span class="sticker-text">@Localizer["New"]</span>
                                                 </div>
                                             }
-                                            else if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && product.ProductPrice != product.ProductPriceWithDiscount)
+                                            else if ((product.ProductYearOfManufacture == DateTime.UtcNow.Year || product.ProductYearOfManufacture == DateTime.UtcNow.AddYears(-1).Year) && product.ProductPrice != product.ProductPriceWithGeneralDiscount)
                                             {
                                                 <div class="sticker-new stickers">
                                                     <span class="sticker-text">@Localizer["New"]</span>
@@ -95,14 +95,14 @@
                                                 </h6>
                                             </header>
                                             <footer class="price-box">
-                                                @if (product.ProductPrice > product.ProductPriceWithDiscount)
+                                                @if (product.ProductPrice > product.ProductPriceWithGeneralDiscount)
                                                 {
                                                     <div class="old-price-box">
                                                         <span class="old-price">@product.ProductPrice</span>
                                                     </div>
                                                 }
                                                 <div>
-                                                    <span class="price">EUR @product.ProductPriceWithDiscount</span>
+                                                    <span class="price">EUR @product.ProductPriceWithGeneralDiscount</span>
                                                 </div>
                                             </footer>
                                         </a>
@@ -121,5 +121,6 @@
 
 @section CustomCss {
     <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/product-card.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
 }
