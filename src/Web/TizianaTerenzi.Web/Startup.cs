@@ -48,6 +48,7 @@
     using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Services.Messaging;
+    using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.SlugGenerator;
     using TizianaTerenzi.Web.ViewModels;
 
@@ -200,6 +201,8 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<ISubscribeService, SubscribeService>();
             services.AddTransient<IProductsService, ProductsService>();

@@ -4,12 +4,15 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
+    using TizianaTerenzi.Services.PDF;
+    using TizianaTerenzi.Web.ViewModels.PDF;
     using TizianaTerenzi.Web.ViewModels.Profile;
 
     [Authorize]
@@ -25,16 +28,28 @@
 
         private readonly IOrdersService ordersService;
 
+        private readonly IViewRenderService viewRenderService;
+
+        private readonly IHtmlToPdfConverter htmlToPdfConverter;
+
+        private readonly IWebHostEnvironment environment;
+
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IPersonalDataService personalDataService,
-            IOrdersService ordersService)
+            IOrdersService ordersService,
+            IViewRenderService viewRenderService,
+            IHtmlToPdfConverter htmlToPdfConverter,
+            IWebHostEnvironment environment)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.personalDataService = personalDataService;
             this.ordersService = ordersService;
+            this.viewRenderService = viewRenderService;
+            this.htmlToPdfConverter = htmlToPdfConverter;
+            this.environment = environment;
         }
 
         [Route("/profile")]
@@ -122,6 +137,27 @@
             var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
 
             return this.View(allOrderProductsByUser);
+        }
+
+        public async Task<IActionResult> GeneratePdf(int orderId)
+        {
+            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var viewModel = new ExportPdfUserOrderProductsViewModel
+            {
+                FullName = $"{user.FirstName} {user.LastName}",
+                Email = user.Email,
+                Products = orderProducts,
+            };
+
+            var htmlData = await this.RenderViewAsync("GeneratePdf", viewModel);
+
+            this.Response.Headers.Add("Content-Disposition", "attachment; filename=" + string.Format("{0}_Order.pdf", user.UserName));
+
+            var fileContents = this.htmlToPdfConverter.Convert($"{this.environment.WebRootPath}/pdf", htmlData, FormatType.A4, OrientationType.Portrait);
+
+            return this.File(fileContents, "application/pdf");
         }
     }
 }

@@ -7,6 +7,8 @@
 
     public class OrderProductsListingViewModel : IMapFrom<OrderProduct>
     {
+        public int OrderId { get; set; }
+
         public string ProductName { get; set; }
 
         public int Quantity { get; set; }

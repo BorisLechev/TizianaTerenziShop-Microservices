@@ -117,5 +117,6 @@ Example:
   * Stripe
   * xUnit
   * Moq && MockQueryable.Moq
+  * PhantomJS v2.1.1 - to generate PDF reports
   * English language
   * Bulgarian language

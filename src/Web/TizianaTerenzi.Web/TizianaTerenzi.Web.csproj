@@ -20,6 +20,10 @@
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="rasterize.js" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -67,6 +71,7 @@
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="wwwroot\pdf\phantomjs.exe" />
   </ItemGroup>
 
   <ItemGroup>

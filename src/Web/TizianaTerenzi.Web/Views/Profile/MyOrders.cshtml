@@ -14,13 +14,14 @@
         <table class="table table-hover dt-responsive dataTable nowrap" style="width: 100%;">
             <thead>
                 <tr class="font-weight-bold">
-                    <th>@Localizer["Fullname"]</th>
+                    <th>@Localizer["Full name"]</th>
                     <th>@Localizer["Order Date"]</th>
                     <th>@Localizer["Total price"]</th>
                     <th>@Localizer["Discount code name"]</th>
                     <th>%</th>
                     <th>@Localizer["Status"]</th>
                     <th>@Localizer["Actions"]</th>
+                    <th>PDF</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +45,12 @@
                             <a class="btn btn-outline-primary" href="/profile/order/@order.Id">
                                 <i class="fas fa-pen"></i>
                                 @Localizer["Products"]
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-success" asp-area="" asp-controller="Profile" asp-action="GeneratePdf" asp-route-orderId="@order.Id">
+                                <i class="fas fa-file-pdf"></i>
+                                PDF
                             </a>
                         </td>
                     </tr>
