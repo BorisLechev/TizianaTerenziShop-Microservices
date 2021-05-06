@@ -47,13 +47,13 @@
         public const string EditProductSuccessfully = "You have edited the product successfully.";
         public const string EditProductError = "Something went wrong.";
 
-        public const string DeleteProductSuccessfully = "You have deleted the product successfully.";
+        public const string DeleteProductSuccessfully = "You have successfully deleted the product.";
         public const string DeleteProductError = "Something went wrong.";
 
-        public const string AddProductInTheWishlistSuccessfully = "You have successfully added a product in the wishlist.";
-        public const string CannotAddProductInTheWishlist = "Something went wrong.";
-        public const string DeleteProductInTheWishlistSuccessfully = "You have deleted a product in the wishlist successfully.";
-        public const string CannotDeleteProductInTheWishlist = "Something went wrong.";
+        public const string AddProductToTheWishlistSuccessfully = "You have successfully added a product to the wishlist.";
+        public const string CannotAddProductToTheWishlist = "Something went wrong.";
+        public const string DeleteProductFromTheWishlistSuccessfully = "You have successfully deleted a product from the wishlist.";
+        public const string CannotDeleteProductFromTheWishlist = "Something went wrong.";
 
         public const string ContactFormSendMessageSuccessfully = "Thank You! We will contact you shortly…";
     }

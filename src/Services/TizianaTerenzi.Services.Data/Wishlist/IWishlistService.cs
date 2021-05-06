@@ -1,19 +1,20 @@
 ﻿namespace TizianaTerenzi.Services.Data.Wishlist
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Web.ViewModels.Products;
 
     public interface IWishlistService
     {
-        Task<WishlistViewModel> GetAllProductsFromUserWishlistAsync(string userId);
+        Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlistAsync(string userId);
 
         Task<bool> AddProductToTheWishlistAsync(int productId, string userId);
 
-        Task<bool> DeleteProductInTheWishlistAsync(int productId, string userId);
+        Task<bool> DeleteProductFromTheWishlistAsync(int productId, string userId);
 
         Task<bool> DeleteAllProductsInTheWishlistAsync(string userId);
 
-        Task<bool> IsTheProductAlreadyAddedInWishlistAsync(int productId, string userId);
+        Task<bool> HasTheProductAlreadyAddedToTheWishlistAsync(int productId, string userId);
     }
 }

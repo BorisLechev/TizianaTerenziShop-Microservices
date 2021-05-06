@@ -1,5 +1,5 @@
 ﻿@inject IViewLocalizer Localizer
-@model WishlistViewModel
+@model IEnumerable<WishlistViewModel>
 
 @{
     this.ViewData["Title"] = Localizer["Wishlist"];
@@ -28,7 +28,7 @@
             <section class="inner-row">
                 <section class="products-list-container">
                     <section class="products-list">
-                        @foreach (var product in Model.Products)
+                        @foreach (var product in this.Model)
                         {
                             <article class="items-col">
                                 <section class="wrapper-item">

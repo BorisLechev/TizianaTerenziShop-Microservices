@@ -1,5 +1,7 @@
 ﻿namespace TizianaTerenzi.Services.Data.Wishlist
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,7 +10,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Products;
-    using TizianaTerenzi.Web.ViewModels.Wishlist;
+    using Z.EntityFramework.Plus;
 
     public class WishlistService : IWishlistService
     {
@@ -35,18 +37,15 @@
 
         public async Task<bool> DeleteAllProductsInTheWishlistAsync(string userId)
         {
-            var products = await this.favoriteProductsRepository
+            var affectedRows = await this.favoriteProductsRepository
                 .All()
                 .Where(fp => fp.UserId == userId)
-                .ToListAsync();
+                .UpdateAsync(fp => new FavoriteProduct { IsDeleted = true, ModifiedOn = DateTime.UtcNow });
 
-            this.favoriteProductsRepository.DeleteRange(products);
-            var result = await this.favoriteProductsRepository.SaveChangesAsync();
-
-            return result > 0;
+            return affectedRows > 0;
         }
 
-        public async Task<bool> DeleteProductInTheWishlistAsync(int productId, string userId)
+        public async Task<bool> DeleteProductFromTheWishlistAsync(int productId, string userId)
         {
             var product = await this.favoriteProductsRepository
                 .All()
@@ -64,23 +63,18 @@
             return result > 0;
         }
 
-        public async Task<WishlistViewModel> GetAllProductsFromUserWishlistAsync(string userId)
+        public async Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlistAsync(string userId)
         {
             var productsInWishlist = await this.favoriteProductsRepository
                 .AllAsNoTracking()
                 .Where(fp => fp.UserId == userId)
-                .To<ProductInWishlistViewModel>()
+                .To<WishlistViewModel>()
                 .ToListAsync();
 
-            var viewModel = new WishlistViewModel
-            {
-                Products = productsInWishlist,
-            };
-
-            return viewModel;
+            return productsInWishlist;
         }
 
-        public async Task<bool> IsTheProductAlreadyAddedInWishlistAsync(int productId, string userId)
+        public async Task<bool> HasTheProductAlreadyAddedToTheWishlistAsync(int productId, string userId)
         {
             var result = await this.favoriteProductsRepository
                 .AllAsNoTracking()

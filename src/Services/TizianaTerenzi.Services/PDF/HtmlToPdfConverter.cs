@@ -20,7 +20,6 @@
                     $"rasterize.js \"{inputFileName}\" \"{outputFileName}\" \"{formatType}\" \"{orientationType.ToString().ToLower()}\"",
                 UseShellExecute = false,
                 CreateNoWindow = true,
-
             };
 
             var process = new Process { StartInfo = startInfo };

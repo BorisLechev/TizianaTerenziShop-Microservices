@@ -23,9 +23,9 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var productsInWishlistViewModel = await this.wishlistService.GetAllProductsFromUserWishlistAsync(userId);
+            var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync(userId);
 
-            return this.View(productsInWishlistViewModel);
+            return this.View(wishlistViewModel);
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var isProductAdded = await this.wishlistService.IsTheProductAlreadyAddedInWishlistAsync(productId, userId);
+            var isProductAdded = await this.wishlistService.HasTheProductAlreadyAddedToTheWishlistAsync(productId, userId);
 
             if (isProductAdded)
             {
@@ -49,12 +49,12 @@
 
             if (result == false)
             {
-                this.Error(NotificationMessages.CannotAddProductInTheWishlist);
+                this.Error(NotificationMessages.CannotAddProductToTheWishlist);
 
                 return this.LocalRedirect("/products/all");
             }
 
-            this.Success(NotificationMessages.AddProductInTheWishlistSuccessfully);
+            this.Success(NotificationMessages.AddProductToTheWishlistSuccessfully);
 
             return this.RedirectToAction(nameof(this.Index));
         }
@@ -69,16 +69,16 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var result = await this.wishlistService.DeleteProductInTheWishlistAsync(productId, userId);
+            var result = await this.wishlistService.DeleteProductFromTheWishlistAsync(productId, userId);
 
             if (result == false)
             {
-                this.Error(NotificationMessages.CannotDeleteProductInTheWishlist);
+                this.Error(NotificationMessages.CannotDeleteProductFromTheWishlist);
 
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.Success(NotificationMessages.DeleteProductInTheWishlistSuccessfully);
+            this.Success(NotificationMessages.DeleteProductFromTheWishlistSuccessfully);
 
             return this.RedirectToAction(nameof(this.Index));
         }

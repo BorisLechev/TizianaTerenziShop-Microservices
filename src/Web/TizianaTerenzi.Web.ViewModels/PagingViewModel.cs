@@ -6,7 +6,7 @@
     {
         public int CurrentPage { get; set; }
 
-        public int PagesCount => (int)Math.Ceiling(this.ItemsCount / (decimal)this.ItemsPerPage);
+        public int PagesCount => this.ItemsCount <= this.ItemsPerPage ? 1 : (int)Math.Ceiling(this.ItemsCount / (decimal)this.ItemsPerPage);
 
         public int ItemsCount { get; set; }
 
