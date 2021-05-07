@@ -94,29 +94,33 @@ Example:
   },
 ```
 
-## Build with:
+## Built with:
   * C#
+  * Repository pattern
   * ASP.NET Core MVC
   * Entity Framework Core
   * Entity Framework Plus
   * Automapper
   * Google ReCaptcha v3
   * Cloudinary
-  * SendGrid
+  * SendGrid - for mailing
   * jQuery
   * AJAX
   * HTML
   * CSS
   * Bootstrap
-  * Moment.js
-  * TinyMCE
-  * DataTables
+  * FontAwesome
+  * Moment.js - to parse, validate and display dates and times in JavaScript
+  * TinyMCE - text editor
+  * HtmlSanitizer - library for cleaning HTML fragments and documents from constructs that can lead to XSS attacks.
+  * DataTables - tool that adds pagination, instant search, multi-column ordering etc. to any HTML table
   * OpenStreetMap && Leaflet
-  * Highcharts
-  * IpInfo
-  * Stripe
-  * xUnit
+  * Highcharts - create interactive charts for web and mobile apps
+  * IpInfo - API for getting access to reliable IP data
+  * Stripe - online payment processing platform
+  * xUnit - unit testing tool for .NET Framework
   * Moq && MockQueryable.Moq
   * PhantomJS v2.1.1 - to generate PDF reports
   * English language
   * Bulgarian language
+  * ASP .NET Core Template by: Nikolay Kostov
