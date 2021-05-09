@@ -4,7 +4,6 @@
 
     public class UserChangePasswordInputModel
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Еmail is required.")]
         [EmailAddress]
         public string Email { get; set; }
 

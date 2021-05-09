@@ -22,6 +22,8 @@
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content); // zaradi TinyMC
 
+        public string UserId { get; set; }
+
         public string UserUserName { get; set; } // Comment->ApplicationUser->IdentityUser->UserName
 
         public int VotesSum { get; set; }

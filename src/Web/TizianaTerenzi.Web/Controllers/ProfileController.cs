@@ -52,21 +52,32 @@
             this.environment = environment;
         }
 
-        [Route("/profile")]
-        public async Task<IActionResult> Index()
+        [Route("/profile/{userId}")]
+        public async Task<IActionResult> Index(string userId)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var user = await this.personalDataService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
 
             var profileViewModel = new ProfileViewModel
             {
                 FullName = $"{user.FirstName} {user.LastName}",
                 Email = user.Email,
+                Username = user.UserName,
+                Address = user.Address,
+                PostalCode = user.PostalCode,
+                Town = user.Town,
+                Phone = user.PhoneNumber,
             };
 
             return this.View(profileViewModel);
         }
 
         [HttpPost]
+        [Route("/profile/download")]
         public async Task<IActionResult> DownloadPersonalData(string password)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -75,7 +86,7 @@
                 (password != null &&
                 await this.userManager.CheckPasswordAsync(user, password));
 
-            if (!passwordValid)
+            if (passwordValid == false)
             {
                 this.Error(NotificationMessages.InvalidPassword);
 
@@ -90,6 +101,7 @@
         }
 
         [HttpPost]
+        [Route("/profile/delete")]
         public async Task<IActionResult> DeleteAccount(string password)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -98,11 +110,11 @@
                                 (password != null &&
                                 await this.userManager.CheckPasswordAsync(user, password));
 
-            if (!passwordValid)
+            if (passwordValid == false)
             {
                 this.Error(NotificationMessages.InvalidPassword);
 
-                return this.RedirectToAction(nameof(this.Index));
+                return this.LocalRedirect($"/profile/{user.Id}");
             }
 
             var result = await this.personalDataService.DeleteUserAsync(user.Id);
@@ -111,7 +123,7 @@
             {
                 this.Error(NotificationMessages.AccountDeleteError);
 
-                return this.RedirectToAction(nameof(this.Index));
+                return this.LocalRedirect($"/profile/{user.Id}");
             }
 
             await this.signInManager.SignOutAsync();

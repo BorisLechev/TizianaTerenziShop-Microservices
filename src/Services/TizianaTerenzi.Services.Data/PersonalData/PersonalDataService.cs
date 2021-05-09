@@ -193,5 +193,10 @@
 
             return json;
         }
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
+        {
+            return await this.usersRepository.AllAsNoTracking().SingleOrDefaultAsync(u => u.Id == userId);
+        }
     }
 }

@@ -17,7 +17,6 @@
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required.")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -54,7 +53,6 @@
         [StringLength(30, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "Profile picture is required.")]
         [DataType(DataType.Upload)]
         [AllowedExtensions]
         [MaxFileSize]
