@@ -1,5 +1,7 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
+    using System;
+    using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -19,6 +21,8 @@
     public class ProfileController : BaseController
     {
         private const string PersonalDataFileName = "{0}_PersonalData_{1}_{2}.json";
+
+        private const int UsersPerPage = 6;
 
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -170,6 +174,19 @@
             var fileContents = this.htmlToPdfConverter.Convert($"{this.environment.WebRootPath}/pdf", htmlData, FormatType.A4, OrientationType.Portrait);
 
             return this.File(fileContents, "application/pdf");
+        }
+
+        [Route("/profile/all")]
+        public async Task<IActionResult> All(int page = 0)
+        {
+            page = Math.Max(1, page);
+            var skip = (page - 1) * UsersPerPage;
+
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var usersViewModel = await this.personalDataService.GetAllUsersExceptCurrentLoggedInUserAsync(page, UsersPerPage, skip);
+
+            return this.View(usersViewModel);
         }
     }
 }

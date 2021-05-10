@@ -1,0 +1,17 @@
+﻿@model AllUsersListViewModel
+@{
+    this.ViewData["Title"] = "All Users";
+}
+
+<div class="container" style="padding-top: 100px;">
+    <div class="row">
+        @foreach (var user in this.Model.Users)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <partial name="_UserCardPartial" model="@user" />
+            </div>
+        }
+    </div>
+</div>
+
+<partial name="_PagingPartial" model="@this.Model" />

@@ -4,6 +4,7 @@
 
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Web.ViewModels.Account;
+    using TizianaTerenzi.Web.ViewModels.Profile;
 
     public interface IPersonalDataService
     {
@@ -16,5 +17,7 @@
         Task EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel);
 
         Task<ApplicationUser> GetUserByIdAsync(string userId);
+
+        Task<AllUsersListViewModel> GetAllUsersExceptCurrentLoggedInUserAsync(int page, int take, int skip = 0);
     }
 }

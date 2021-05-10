@@ -6,6 +6,7 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Comments;
@@ -99,6 +100,30 @@
             user.PhoneNumber = inputModel.PhoneNumber;
 
             await this.userManager.UpdateAsync(user);
+        }
+
+        public async Task<AllUsersListViewModel> GetAllUsersExceptCurrentLoggedInUserAsync(int page, int take, int skip = 0)
+        {
+            // TODO: Get All Users except admins
+            var users = await this.usersRepository
+                .AllAsNoTracking()
+                .Skip(skip)
+                .Take(take)
+                .To<UserInListViewModel>()
+                .OrderBy(u => u.UserName)
+                .ToListAsync();
+
+            var usersCount = await this.usersRepository.AllAsNoTracking().CountAsync();
+
+            var viewModel = new AllUsersListViewModel
+            {
+                Users = users,
+                CurrentPage = page,
+                ItemsCount = usersCount,
+                ItemsPerPage = take,
+            };
+
+            return viewModel;
         }
 
         public async Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId)
