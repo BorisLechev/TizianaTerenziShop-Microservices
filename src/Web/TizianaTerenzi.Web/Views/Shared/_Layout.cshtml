@@ -86,7 +86,7 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-user"></i>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-header" asp-area="Identity" asp-page="/Account/Manage/Index">
                                     @User.Identity.Name
                                     @{ var claim = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationmethod");
@@ -256,6 +256,7 @@
     <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
     <script src="~/js/datatables-init.js" asp-append-version="true"></script>
     <script src="~/js/datatables.min.js" asp-append-version="true"></script>
+    <script src="~/js/dropdown-animation.js" asp-append-version="true"></script>
     <script src="~/lib/aos/dist/aos.min.js" asp-append-version="true"></script>
     <script>
         AOS.init({
