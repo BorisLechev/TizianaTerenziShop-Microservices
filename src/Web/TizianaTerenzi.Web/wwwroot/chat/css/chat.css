@@ -1,0 +1,220 @@
+﻿.chat {
+    padding-top: 100px;
+}
+
+.chat-body-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.chat-body-content::-webkit-scrollbar-track {
+    background: rgb(241, 241, 241);
+}
+
+.chat-body-content::-webkit-scrollbar-thumb {
+    background: rgb(136, 136, 136);
+}
+
+.panel {
+    border: 3px solid rgb(0, 0, 0);
+    margin-bottom: 1.5rem;
+}
+
+.panel-heading {
+    height: 50px;
+    border-bottom: 1px solid #eee;
+}
+
+@media screen and (max-width: 1023px) {
+    .panel-heading-half-col {
+        width: 50%;
+    }
+}
+
+.panel-title {
+    padding: 0 20px;
+    line-height: 58px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+}
+
+.chat-body-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+.chat-body-container > .chat-body-content {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    padding: 1rem;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.message-list-item {
+    margin-bottom: 1rem;
+}
+
+.media-block .media-body {
+    display: block;
+    overflow: hidden;
+    width: auto;
+}
+
+.speech {
+    display: inline-block;
+    background: rgb(183, 220, 254);
+    color: rgb(49, 119, 135);
+    padding: 12px 20px;
+    border-radius: 15px;
+}
+
+.speech-time {
+    font-size: 0.7rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: -5px;
+    padding-bottom: 0;
+}
+
+.speech-right {
+    text-align: right;
+}
+
+.speech-right > .speech {
+    background: #ffda87;
+    color: #a07617;
+    text-align: right;
+    max-width: 500px;
+    border-radius: 15px;
+}
+
+.form-control {
+    font-size: 11px;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid #e9e9e9;
+    transition-duration: .5s;
+}
+
+.chat-input {
+    padding-right: 35px;
+    padding-left: 10px;
+    height: auto !important;
+    border: 1px solid #808080;
+    line-height: 33px;
+    -webkit-appearance: textfield;
+    overflow-y: scroll;
+    max-height: 51px;
+    overflow-x: hidden;
+    background: #f1f1f1;
+    border-radius: 6px;
+}
+
+.chat-input::-webkit-scrollbar {
+    width: 4px;
+}
+
+.chat-input::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-input::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-clip: padding-box;
+    background: #888;
+}
+
+.jumping-dot-1,
+.jumping-dot-2,
+.jumping-dot-3 {
+    height: 7px;
+    width: 7px;
+    background-color: #989898;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: -3px;
+}
+
+.jumping-dots span {
+    position: relative;
+    bottom: 0px;
+    -webkit-animation: jump 1500ms infinite;
+    animation: jump 2s infinite;
+}
+
+.jumping-dots .jumping-dot-1 {
+    -webkit-animation-delay: 200ms;
+    animation-delay: 200ms;
+}
+
+.jumping-dots .jumping-dot-2 {
+    -webkit-animation-delay: 400ms;
+    animation-delay: 400ms;
+}
+
+.jumping-dots .jumping-dot-3 {
+    -webkit-animation-delay: 600ms;
+    animation-delay: 600ms;
+}
+
+@-webkit-keyframes jump {
+    0% {
+        bottom: 0px;
+    }
+
+    20% {
+        bottom: 5px;
+    }
+
+    40% {
+        bottom: 0px;
+    }
+}
+
+@keyframes jump {
+    0% {
+        bottom: 0px;
+    }
+
+    20% {
+        bottom: 5px;
+    }
+
+    40% {
+        bottom: 0px;
+    }
+}
+
+.back-to-bottom-chat-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    color: rgb(255, 255, 255);
+    background-color: darkgray;
+    bottom: 10px;
+    right: 20px;
+    z-index: 1;
+    text-align: center;
+    border-radius: 50%;
+    visibility: hidden;
+}
+
+.back-to-bottom-chat-body:hover {
+    background-color: white;
+    color: darkgray;
+}
+
+.back-to-bottom-chat-body i {
+    padding-top: 3px;
+}
+
+p {
+    padding-bottom: 0.5rem;
+}

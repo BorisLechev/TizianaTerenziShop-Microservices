@@ -17,6 +17,8 @@ namespace TizianaTerenzi.Data.Models
             this.Comments = new HashSet<Comment>();
             this.FavoriteProducts = new HashSet<FavoriteProduct>();
             this.ProductVotes = new HashSet<ProductVote>();
+            this.ChatUserGroups = new HashSet<ChatUserGroup>();
+            this.ChatMessages = new HashSet<ChatMessage>();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
@@ -57,6 +59,10 @@ namespace TizianaTerenzi.Data.Models
         public virtual ICollection<FavoriteProduct> FavoriteProducts { get; set; }
 
         public virtual ICollection<ProductVote> ProductVotes { get; set; }
+
+        public virtual ICollection<ChatUserGroup> ChatUserGroups { get; set; }
+
+        public virtual ICollection<ChatMessage> ChatMessages { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

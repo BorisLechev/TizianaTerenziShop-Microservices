@@ -6,7 +6,6 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Comments;
@@ -107,10 +106,10 @@
             // TODO: Get All Users except admins
             var users = await this.usersRepository
                 .AllAsNoTracking()
+                .OrderBy(u => u.UserName)
                 .Skip(skip)
                 .Take(take)
                 .To<UserInListViewModel>()
-                .OrderBy(u => u.UserName)
                 .ToListAsync();
 
             var usersCount = await this.usersRepository.AllAsNoTracking().CountAsync();

@@ -1,7 +1,8 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System;
-    using System.Security.Claims;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -66,6 +67,9 @@
                 return this.NotFound();
             }
 
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+            var group = new List<string>() { currentUser.UserName, user.UserName };
+
             var profileViewModel = new ProfileViewModel
             {
                 FullName = $"{user.FirstName} {user.LastName}",
@@ -75,6 +79,7 @@
                 PostalCode = user.PostalCode,
                 Town = user.Town,
                 Phone = user.PhoneNumber,
+                GroupName = string.Join("->", group.OrderBy(x => x)),
             };
 
             return this.View(profileViewModel);
@@ -181,8 +186,6 @@
         {
             page = Math.Max(1, page);
             var skip = (page - 1) * UsersPerPage;
-
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var usersViewModel = await this.personalDataService.GetAllUsersExceptCurrentLoggedInUserAsync(page, UsersPerPage, skip);
 

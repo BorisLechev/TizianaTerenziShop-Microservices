@@ -33,6 +33,7 @@
     using TizianaTerenzi.Data.Seeding;
     using TizianaTerenzi.Services.Cloudinary;
     using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Discounts;
@@ -50,6 +51,7 @@
     using TizianaTerenzi.Services.Messaging;
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.SlugGenerator;
+    using TizianaTerenzi.Web.Hubs;
     using TizianaTerenzi.Web.ViewModels;
 
     public class Startup
@@ -188,6 +190,8 @@
                 };
             });
 
+            services.AddSignalR();
+
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             services.AddResponseCaching();
@@ -222,6 +226,7 @@
             services.AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
             services.AddTransient<IProductVotesService, ProductVotesService>();
             services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IChatService, ChatService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
@@ -285,6 +290,9 @@
                         endpoints.MapControllerRoute(
                             "default",
                             "{controller=Home}/{action=Index}/{id?}");
+
+                        endpoints.MapHub<ChatHub>("/chatHub");
+
                         endpoints.MapRazorPages();
                     });
         }

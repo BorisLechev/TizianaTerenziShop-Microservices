@@ -98,6 +98,7 @@ Example:
   * C#
   * Repository pattern
   * ASP.NET Core MVC
+  * SignalR - deliver up-to-date information without hitting a refresh button
   * Entity Framework Core
   * Entity Framework Plus
   * Automapper

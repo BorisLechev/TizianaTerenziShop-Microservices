@@ -1,0 +1,113 @@
+﻿@inject IViewLocalizer Localizer
+@model ChatViewModel
+@{
+    this.ViewData["Title"] = Localizer["Chat"];
+}
+
+<div class="container chat">
+    <header>
+        <h3 style="text-align: center; text-transform: uppercase;">@this.ViewData["Title"]</h3>
+        <input id="groupName" name="@this.Model.GroupName" value="@this.Model.GroupName" type="hidden" />
+    </header>
+    <main class="col-md-12">
+        <div id="chatPanel" class="panel">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-6 panel-heading-half-col">
+                        <a asp-area=""
+                           asp-controller="Profile"
+                           asp-action="Index"
+                           asp-route-userId="@this.Model.ReceiverId">
+                            <h3 id="receiver" class="panel-title" style="float: left;">@this.Model.ReceiverUsername</h3>
+                        </a>
+                    </div>
+                    <div class="col-md-6 panel-heading-half-col">
+                        <a asp-area=""
+                           asp-controller="Profile"
+                           asp-action="Index"
+                           asp-route-userId="@this.Model.SenderId">
+                            <h3 id="sender" class="panel-title" style="float: right;">@this.Model.SenderUsername</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-body-container">
+                <div id="scrollBottomButton" class="back-to-bottom-chat-body" onclick="scrollChatToBottom()">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div id="demo-chat-body" class="chat-body-content" tabindex="0">
+                    <ul id="messagesList" class="media-block">
+                        @if (this.Model.ChatMessages != null && this.Model.ChatMessages.Count > 0)
+                        {
+                            @foreach (var message in this.Model.ChatMessages.OrderBy(m => m.CreatedOn))
+                            {
+                                @if (message.ReceiverUsername == this.Model.ReceiverUsername && message.AuthorUserName != this.Model.ReceiverUsername)
+                                {
+                                    <li id="@message.Id" class="message-list-item">
+                                        <div class="media-body speech-right">
+                                            <div class="speech">
+                                                <p>@Html.Raw(message.Content)</p>
+                                                <p class="speech-time">
+                                                    <i class="far fa-clock"></i>
+                                                    <time datetime="@message.CreatedOn.ToString("O")"></time>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    @if (message.ReceiverUsername != Model.ReceiverUsername && message.AuthorUserName != Model.SenderUsername)
+                                    {
+                                        <li id="@message.Id" class="message-list-item">
+                                            <div class="media-body">
+                                                <div class="speech">
+                                                    <p>@Html.Raw(message.Content)</p>
+                                                    <p class="speech-time">
+                                                        <i class="fa fa-clock-o fa-fw"></i>
+                                                        <time datetime="@message.CreatedOn.ToString("O")"></time>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="chat-field-holder bg-translucent">
+                <div class="container">
+                    <div class="form-group mx-auto my-1">
+                        <div class="input-group">
+                            <div id="messageInput"
+                                 class="form-control p-4 bg-transparent chat-input"
+                                 onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
+                                 onblur="userStopType('@this.Model.ReceiverUsername')"
+                                 contenteditable="true"
+                                 placeholder="Type a message..."
+                                 autocomplete="off"
+                                 autofocus>
+                            </div>
+                            <div class="input-group-append">
+                                <button id="sendButton" class="btn btn-outline-primary px-4" type="button">
+                                    <i id="fromImage" class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section CustomCss {
+    <link href="~/chat/css/chat.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/chat/js/chat.js" asp-append-version="true"></script>
+    <script src="~/chat/js/chatPerformanceScript.js" asp-append-version="true"></script>
+}

@@ -59,6 +59,12 @@
 
         public DbSet<ContactFormEntry> ContactFormEntries { get; set; }
 
+        public DbSet<ChatGroup> ChatGroups { get; set; }
+
+        public DbSet<ChatUserGroup> ChatUserGroups { get; set; }
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
