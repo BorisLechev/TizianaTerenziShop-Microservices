@@ -10,7 +10,7 @@ using TizianaTerenzi.Data;
 namespace TizianaTerenzi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210515120206_AddSearchCatalogQuery")]
+    [Migration("20210515152247_AddSearchCatalogQuery")]
     partial class AddSearchCatalogQuery
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -853,7 +853,7 @@ namespace TizianaTerenzi.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SearchText")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("YearOfManufacture")
                         .HasColumnType("int");
@@ -865,6 +865,8 @@ namespace TizianaTerenzi.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("ProductTypeId");
+
+                    b.HasIndex("SearchText");
 
                     b.ToTable("Products");
                 });
