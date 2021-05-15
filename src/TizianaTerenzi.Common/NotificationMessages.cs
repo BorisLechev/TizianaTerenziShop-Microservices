@@ -56,5 +56,7 @@
         public const string CannotDeleteProductFromTheWishlist = "Something went wrong.";
 
         public const string ContactFormSendMessageSuccessfully = "Thank You! We will contact you shortly…";
+
+        public const string NotAbleToChat = "You are not able to chat.";
     }
 }

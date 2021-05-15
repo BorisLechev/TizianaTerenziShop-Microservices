@@ -1,11 +1,13 @@
 ﻿namespace TizianaTerenzi.Services.Data.Chat
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Ganss.XSS;
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
@@ -154,6 +156,19 @@
                 .SingleOrDefaultAsync();
 
             return receiverId;
+        }
+
+        public async Task<bool> IsUserAbleToChatAsync(string myUsername, string groupName)
+        {
+            var groupMembers = groupName
+                .Split(GlobalConstants.ChatGroupNameSeparator, StringSplitOptions.RemoveEmptyEntries);
+
+            if (groupMembers.Contains(myUsername) == false)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -69,6 +69,7 @@
 
             var currentUser = await this.userManager.GetUserAsync(this.User);
             var group = new List<string>() { currentUser.UserName, user.UserName };
+            var groupName = string.Join(GlobalConstants.ChatGroupNameSeparator, group.OrderBy(x => x));
 
             var profileViewModel = new ProfileViewModel
             {
@@ -79,7 +80,7 @@
                 PostalCode = user.PostalCode,
                 Town = user.Town,
                 Phone = user.PhoneNumber,
-                GroupName = string.Join("->", group.OrderBy(x => x)),
+                GroupName = groupName,
             };
 
             return this.View(profileViewModel);

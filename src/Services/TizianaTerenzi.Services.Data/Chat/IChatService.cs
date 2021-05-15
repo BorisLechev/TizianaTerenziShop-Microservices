@@ -17,5 +17,7 @@
         Task<string> UserTypeAsync(string sendersUsername, string receiversUsername);
 
         Task<string> UserStopTypeAsync(string receiversUsername);
+
+        Task<bool> IsUserAbleToChatAsync(string myUsername, string groupName);
     }
 }

@@ -17,5 +17,7 @@
         public const int ImageMaxSizeMB = 10;
 
         public const int ShippingFee = 15;
+
+        public const string ChatGroupNameSeparator = "->";
     }
 }
