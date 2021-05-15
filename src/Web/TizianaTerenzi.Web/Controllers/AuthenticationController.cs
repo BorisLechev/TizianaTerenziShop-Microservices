@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
@@ -22,6 +23,8 @@
 
         private readonly SignInManager<ApplicationUser> signInManager;
 
+        private readonly RoleManager<ApplicationRole> roleManager;
+
         private readonly ILogger<AuthenticationController> logger;
 
         private readonly ICartService cartService;
@@ -30,20 +33,29 @@
 
         private readonly ICountriesService countriesService;
 
+        private readonly ApplicationDbContext db;
+
+        private readonly Random random;
+
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<ApplicationRole> roleManager,
             ILogger<AuthenticationController> logger,
             ICartService cartService,
             ILocationService locationService,
-            ICountriesService countriesService)
+            ICountriesService countriesService,
+            ApplicationDbContext db)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
             this.logger = logger;
             this.cartService = cartService;
             this.locationService = locationService;
             this.countriesService = countriesService;
+            this.db = db;
+            this.random = new Random();
         }
 
         [Route("/login")]
@@ -171,6 +183,16 @@
 
                 if (result.Succeeded)
                 {
+                    ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+
+                    await this.db.UserRoles.AddAsync(new IdentityUserRole<string>
+                    {
+                        UserId = user.Id,
+                        RoleId = role.Id,
+                    });
+
+                    await this.db.SaveChangesAsync();
+
                     this.logger.LogInformation("User created a new account with password.");
                     this.Success(string.Format(NotificationMessages.RegistrationWelcome, inputModel.FirstName));
 
@@ -283,9 +305,14 @@
             var location = await this.locationService.GetLocationAsync();
             var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
+            // extension method
+            var randomNumber = this.random.NextIntRange(0, 10000);
+
+            var username = $"{inputModel.Email.Split("@")[0].Trim()}_{randomNumber}";
+
             var user = new ApplicationUser
             {
-                UserName = $"{inputModel.Email}_Google",
+                UserName = username,
                 Email = inputModel.Email,
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
@@ -301,6 +328,16 @@
 
                 if (resultAfterCreate.Succeeded)
                 {
+                    ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+
+                    await this.db.UserRoles.AddAsync(new IdentityUserRole<string>
+                    {
+                        UserId = user.Id,
+                        RoleId = role.Id,
+                    });
+
+                    await this.db.SaveChangesAsync();
+
                     this.Success(string.Format(NotificationMessages.RegistrationWelcome, inputModel.FirstName));
 
                     await this.signInManager.SignInAsync(user, isPersistent: true);
@@ -387,9 +424,14 @@
             var location = await this.locationService.GetLocationAsync();
             var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
+            // extension method
+            var randomNumber = this.random.NextIntRange(0, 10000);
+
+            var username = $"{inputModel.Email.Split("@")[0].Trim()}_{randomNumber}";
+
             var user = new ApplicationUser
             {
-                UserName = $"{inputModel.Email}_Facebook",
+                UserName = username,
                 Email = inputModel.Email,
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
@@ -405,6 +447,16 @@
 
                 if (resultAfterCreate.Succeeded)
                 {
+                    ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+
+                    await this.db.UserRoles.AddAsync(new IdentityUserRole<string>
+                    {
+                        UserId = user.Id,
+                        RoleId = role.Id,
+                    });
+
+                    await this.db.SaveChangesAsync();
+
                     this.Success(string.Format(NotificationMessages.RegistrationWelcome, inputModel.FirstName));
 
                     await this.signInManager.SignInAsync(user, isPersistent: true);
@@ -516,9 +568,14 @@
                 var location = await this.locationService.GetLocationAsync();
                 var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
+                // extension method
+                var randomNumber = this.random.NextIntRange(0, 10000);
+
+                var username = $"{inputModel.Email.Split("@")[0].Trim()}_{randomNumber}";
+
                 var user = new ApplicationUser()
                 {
-                    UserName = $"{inputModel.Email}_GitHub",
+                    UserName = username,
                     Email = inputModel.Email,
                     FirstName = inputModel.FirstName,
                     LastName = inputModel.LastName,
@@ -534,6 +591,16 @@
 
                     if (result.Succeeded)
                     {
+                        ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+
+                        await this.db.UserRoles.AddAsync(new IdentityUserRole<string>
+                        {
+                            UserId = user.Id,
+                            RoleId = role.Id,
+                        });
+
+                        await this.db.SaveChangesAsync();
+
                         await this.signInManager.SignInAsync(user, isPersistent: true);
                         this.Success(string.Format(NotificationMessages.RegistrationWelcome, inputModel.FirstName));
 
