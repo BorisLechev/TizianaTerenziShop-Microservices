@@ -5,7 +5,6 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Models;
 
-    [Index(nameof(SearchText))]
     public class Product : BaseDeletableModel<int>
     {
         public Product()
