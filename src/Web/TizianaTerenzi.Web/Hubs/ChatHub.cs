@@ -4,16 +4,32 @@
 
     using Ganss.XSS;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Data.Common.Repositories;
+    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Chat;
+    using TizianaTerenzi.Services.Data.Notifications;
 
     public class ChatHub : Hub
     {
         private readonly IChatService chatService;
 
+        private readonly INotificationsService notificationsService;
+
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+
+        private readonly IHubContext<NotificationHub> notificationHubContext;
+
         public ChatHub(
-            IChatService chatService)
+            IChatService chatService,
+            INotificationsService notificationsService,
+            IDeletableEntityRepository<ApplicationUser> usersRepository,
+            IHubContext<NotificationHub> notificationHubContext)
         {
             this.chatService = chatService;
+            this.notificationsService = notificationsService;
+            this.usersRepository = usersRepository;
+            this.notificationHubContext = notificationHubContext;
         }
 
         public async Task AddToGroup(string groupName, string receiverUsername, string senderUsername)
@@ -25,8 +41,16 @@
         public async Task SendMessage(string senderUsername, string receiverUsername, string message, string groupName)
         {
             string receiverId = await this.chatService.SendMessageToUserAsync(senderUsername, receiverUsername, message, groupName);
+            var notificationId = await this.notificationsService.AddMessageNotificationAsync(senderUsername, receiverUsername, message, groupName);
+
+            var notificationsCount = await this.notificationsService.GetUserNotificationsCountAsync(receiverUsername);
 
             await this.Clients.User(receiverId).SendAsync("ReceiveMessage", senderUsername, new HtmlSanitizer().Sanitize(message.Trim()));
+
+            await this.notificationHubContext.Clients.User(receiverId).SendAsync("ReceiveNotification", notificationsCount, true);
+
+            var notification = await this.notificationsService.GetNotificationByIdAsync(notificationId);
+            await this.notificationHubContext.Clients.User(receiverId).SendAsync("VisualizeNotification", notification);
         }
 
         public async Task ReceiveMessage(string senderUsername, string message, string groupName)
@@ -48,6 +72,20 @@
             var receiverId = await this.chatService.UserStopTypeAsync(receiverUsername);
 
             await this.Clients.User(receiverId).SendAsync("VisualizeUserStopType");
+        }
+
+        public async Task UpdateMessageNotifications(string senderUsername, string username)
+        {
+            var targetUser = await this.usersRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(u => u.UserName == username);
+
+            var count = await this.notificationsService.GetUserNotificationsCountAsync(targetUser.UserName);
+
+            await this.notificationHubContext
+                .Clients
+                .User(targetUser.Id)
+                .SendAsync("ReceiveNotification", count, false);
         }
     }
 }

@@ -1,0 +1,65 @@
+﻿@inject IViewLocalizer Localizer
+@model IEnumerable<NotificationViewModel>
+
+@{
+    this.ViewData["Title"] = Localizer["Notifications"];
+}
+
+<div class="container">
+    <section id="allUserNotifications">
+        @foreach (var notification in this.Model)
+        {
+            <article id="@notification.Id">
+                <section class="notification-container-content">
+                    <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt="avatar" />
+                    <header>
+                        <h4 class="text-primary">
+                            <span class="heading-span">
+                                <a class="delete-notification-button" onclick="deleteNotification('@notification.Id')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                                <span>@Html.Raw(notification.Heading)</span>
+                            </span>
+                        </h4>
+                    </header>
+                    <main>
+                        <p class="notification-text">@notification.Text</p>
+                    </main>
+                    <footer>
+                        <span class="time-span">
+                            <i class="far fa-clock"></i>
+                            <time datetime="@notification.CreatedOn.ToString("O")"></time>
+                        </span>
+                    </footer>
+                </section>
+            </article>
+        }
+    </section>
+</div>
+<form method="post" id="antiForgeryForm"></form>
+
+@section CustomCss {
+    <link href="~/notification/css/notifications.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script>
+        function deleteNotification(notificationId) {
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+
+            $.ajax({
+                type: "POST",
+                url: `/notifications/delete/${notificationId}`,
+                headers: {
+                    "X-CSRF-TOKEN": antiForgeryToken,
+                },
+                success: function (data) {
+                    if (data) {
+                        let notification = document.getElementById(notificationId);
+                        document.getElementById(`allUserNotifications`).removeChild(notification);
+                    }
+                }
+            });
+        }
+    </script>
+}

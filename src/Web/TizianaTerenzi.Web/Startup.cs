@@ -39,6 +39,7 @@
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
+    using TizianaTerenzi.Services.Data.Notifications;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Services.Data.Products;
@@ -227,6 +228,7 @@
             services.AddTransient<IProductVotesService, ProductVotesService>();
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IChatService, ChatService>();
+            services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
@@ -292,6 +294,7 @@
                             "{controller=Home}/{action=Index}/{id?}");
 
                         endpoints.MapHub<ChatHub>("/chatHub");
+                        endpoints.MapHub<NotificationHub>("/notificationHub");
 
                         endpoints.MapRazorPages();
                     });

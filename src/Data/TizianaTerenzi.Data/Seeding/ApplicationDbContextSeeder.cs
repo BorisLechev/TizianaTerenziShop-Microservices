@@ -35,6 +35,7 @@
                 new ProductSortingSeeder(),
                 new CountriesSeeder(),
                 new GeneralDiscountSeeder(),
+                new NotificationTypeSeeder(),
             };
 
             foreach (var seeder in seeders)

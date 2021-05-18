@@ -113,6 +113,10 @@ connection.start().then(function () {
     connection.invoke("AddToGroup", group, receiver, sender).catch(function (err) {
         return console.error(err.toString());
     });
+
+    connection.invoke("UpdateMessageNotifications", receiver, sender).catch(function (err) {
+        return console.error(err.toString());
+    });
 }).catch(function (err) {
     return console.error(err.toString());
 });
