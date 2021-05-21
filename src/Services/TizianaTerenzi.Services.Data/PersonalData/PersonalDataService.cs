@@ -6,10 +6,13 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Data.Notifications;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
@@ -21,6 +24,8 @@
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
+        private readonly IDeletableEntityRepository<ApplicationRole> rolesRepository;
+
         private readonly ICountriesService countriesService;
 
         private readonly IWishlistService wishlistService;
@@ -31,24 +36,34 @@
 
         private readonly ICommentVotesService commentVotesService;
 
+        private readonly IChatService chatsService;
+
+        private readonly INotificationsService notificationsService;
+
         private readonly UserManager<ApplicationUser> userManager;
 
         public PersonalDataService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
+            IDeletableEntityRepository<ApplicationRole> rolesRepository,
             ICountriesService countriesService,
             IWishlistService wishlistService,
             IOrdersService ordersService,
             ICommentsService commentsService,
             ICommentVotesService commentVotesService,
+            IChatService chatsService,
+            INotificationsService notificationsService,
             UserManager<ApplicationUser> userManager)
         {
             this.usersRepository = usersRepository;
+            this.rolesRepository = rolesRepository;
             this.countriesService = countriesService;
             this.wishlistService = wishlistService;
             this.userManager = userManager;
             this.ordersService = ordersService;
             this.commentsService = commentsService;
             this.commentVotesService = commentVotesService;
+            this.chatsService = chatsService;
+            this.notificationsService = notificationsService;
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
@@ -74,6 +89,8 @@
                 await this.commentsService.DeleteRangeByUserIdAsync(userId);
                 await this.commentVotesService.DeleteRangeByUserIdAsync(userId);
                 await this.wishlistService.DeleteAllProductsInTheWishlistAsync(userId);
+                await this.chatsService.DeleteChatGroupWithMessagesAsync(userId, user.UserName);
+                await this.notificationsService.DeleteAllNotificationsByUserIdAsync(userId, user.UserName);
 
                 this.usersRepository.Delete(user);
 
@@ -101,11 +118,20 @@
             await this.userManager.UpdateAsync(user);
         }
 
-        public async Task<AllUsersListViewModel> GetAllUsersExceptCurrentLoggedInUserAsync(int page, int take, int skip = 0)
+        public async Task<AllUsersListViewModel> GetAllUsersExceptAdminsAsync(int page, int take, int skip = 0)
         {
-            // TODO: Get All Users except admins
+            var adminRole = await this.rolesRepository
+                .AllAsNoTracking()
+                .Select(r => new
+                {
+                    r.Id,
+                    r.Name,
+                })
+                .SingleOrDefaultAsync(r => r.Name == GlobalConstants.AdministratorRoleName);
+
             var users = await this.usersRepository
                 .AllAsNoTracking()
+                .Where(u => u.Roles.Any(r => r.RoleId == adminRole.Id) == false)
                 .OrderBy(u => u.UserName)
                 .Skip(skip)
                 .Take(take)
@@ -204,6 +230,12 @@
                     fp.Id,
                     fp.CreatedOn,
                     fp.ProductName,
+                })
+                .ToArray(),
+                ChatUserGroups = user.ChatUserGroups.Select(ug => new
+                {
+                    ug.ChatGroupName,
+                    ug.ChatGroupCreatedOn,
                 })
                 .ToArray(),
             };

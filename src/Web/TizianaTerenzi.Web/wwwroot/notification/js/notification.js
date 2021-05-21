@@ -21,7 +21,7 @@ connection.start().then(function () {
 connection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) {
     document.getElementById("notificationCount").innerText = count; // span
 
-    let title = document.querySelector("head title");
+    let title = document.querySelector("head title"); // head
     let bracketIndex = title.innerText.indexOf(")");
     let newTitle = "";
 

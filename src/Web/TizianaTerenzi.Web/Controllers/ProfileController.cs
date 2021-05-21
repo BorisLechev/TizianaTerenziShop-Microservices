@@ -188,7 +188,7 @@
             page = Math.Max(1, page);
             var skip = (page - 1) * UsersPerPage;
 
-            var usersViewModel = await this.personalDataService.GetAllUsersExceptCurrentLoggedInUserAsync(page, UsersPerPage, skip);
+            var usersViewModel = await this.personalDataService.GetAllUsersExceptAdminsAsync(page, UsersPerPage, skip);
 
             return this.View(usersViewModel);
         }

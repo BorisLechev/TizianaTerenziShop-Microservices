@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.Hubs
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Ganss.XSS;
@@ -45,47 +46,70 @@
 
             var notificationsCount = await this.notificationsService.GetUserNotificationsCountAsync(receiverUsername);
 
-            await this.Clients.User(receiverId).SendAsync("ReceiveMessage", senderUsername, new HtmlSanitizer().Sanitize(message.Trim()));
+            await this.Clients
+                .User(receiverId)
+                .SendAsync("ReceiveMessage", senderUsername, new HtmlSanitizer().Sanitize(message.Trim()));
 
-            await this.notificationHubContext.Clients.User(receiverId).SendAsync("ReceiveNotification", notificationsCount, true);
+            await this.notificationHubContext
+                .Clients
+                .User(receiverId)
+                .SendAsync("ReceiveNotification", notificationsCount, true);
 
             var notification = await this.notificationsService.GetNotificationByIdAsync(notificationId);
-            await this.notificationHubContext.Clients.User(receiverId).SendAsync("VisualizeNotification", notification);
+            await this.notificationHubContext
+                .Clients
+                .User(receiverId)
+                .SendAsync("VisualizeNotification", notification);
         }
 
         public async Task ReceiveMessage(string senderUsername, string message, string groupName)
         {
             var senderId = await this.chatService.ReceiveNewMessageAsync(senderUsername, message, groupName);
 
-            await this.Clients.User(senderId).SendAsync("SendMessage", senderUsername, message.Trim());
+            await this.Clients
+                .User(senderId)
+                .SendAsync("SendMessage", senderUsername, message.Trim());
         }
 
         public async Task UserType(string senderUsername, string receiverUsername)
         {
             var receiverId = await this.chatService.UserTypeAsync(senderUsername, receiverUsername);
 
-            await this.Clients.User(receiverId).SendAsync("VisualizeUserType", senderUsername, receiverUsername);
+            await this.Clients
+                .User(receiverId)
+                .SendAsync("VisualizeUserType", senderUsername, receiverUsername);
         }
 
         public async Task UserStopType(string receiverUsername)
         {
             var receiverId = await this.chatService.UserStopTypeAsync(receiverUsername);
 
-            await this.Clients.User(receiverId).SendAsync("VisualizeUserStopType");
+            await this.Clients
+                .User(receiverId)
+                .SendAsync("VisualizeUserStopType");
         }
 
-        public async Task UpdateMessageNotifications(string senderUsername, string username)
+        public async Task GetUserNotificationsCount(string senderUsername)
         {
-            var targetUser = await this.usersRepository
+            var sender = await this.usersRepository
                 .AllAsNoTracking()
-                .SingleOrDefaultAsync(u => u.UserName == username);
+                .Where(u => u.UserName == senderUsername)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.UserName,
+                })
+                .SingleOrDefaultAsync();
 
-            var count = await this.notificationsService.GetUserNotificationsCountAsync(targetUser.UserName);
+            if (sender != null)
+            {
+                var count = await this.notificationsService.GetUserNotificationsCountAsync(sender.UserName);
 
-            await this.notificationHubContext
-                .Clients
-                .User(targetUser.Id)
-                .SendAsync("ReceiveNotification", count, false);
+                await this.notificationHubContext
+                    .Clients
+                    .User(sender.Id)
+                    .SendAsync("ReceiveNotification", count, false);
+            }
         }
     }
 }

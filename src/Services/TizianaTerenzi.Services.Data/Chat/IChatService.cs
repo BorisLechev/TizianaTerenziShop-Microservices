@@ -20,5 +20,7 @@
         Task<string> UserStopTypeAsync(string receiversUsername);
 
         Task<bool> IsUserAbleToChatAsync(string myUsername, string groupName);
+
+        Task<bool> DeleteChatGroupWithMessagesAsync(string currentUserId, string currentUsername);
     }
 }

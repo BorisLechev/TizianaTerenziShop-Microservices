@@ -104,9 +104,9 @@ connection.on("SendMessage", function (user, message) {
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 
-    let receiver = document.getElementById("receiver").textContent;
-    let sender = document.getElementById("sender").textContent;
-    let group = document.getElementById("groupName").value;
+    let receiver = document.getElementById("receiver").textContent; //<h3>
+    let sender = document.getElementById("sender").textContent; //<h3>
+    let group = document.getElementById("groupName").value; //<input>
 
     updateScroll();
 
@@ -114,7 +114,7 @@ connection.start().then(function () {
         return console.error(err.toString());
     });
 
-    connection.invoke("UpdateMessageNotifications", receiver, sender).catch(function (err) {
+    connection.invoke("GetUserNotificationsCount", sender).catch(function (err) {
         return console.error(err.toString());
     });
 }).catch(function (err) {

@@ -9,8 +9,10 @@
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
+    using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Data.Notifications;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Services.Data.Votes;
@@ -88,6 +90,18 @@
                         },
                     },
                 },
+                UserNotifications = new List<ApplicationUserNotification>
+                {
+                    new ApplicationUserNotification
+                    {
+                        ReceiverUsername = "mail2@example.com",
+                        Link = "...",
+                        Text = "zdr",
+                        SenderId = "1",
+                        TypeId = 1,
+                    },
+                }
+                .ToArray(),
             };
 
             await dbContext.Users.AddAsync(user);
@@ -98,14 +112,59 @@
             var mockOrdersService = new Mock<IOrdersService>();
             var mockCommentsService = new Mock<ICommentsService>();
             var mockCommentVotesService = new Mock<ICommentVotesService>();
+            var mockChatService = new Mock<IChatService>();
+            var mockNotificationsService = new Mock<INotificationsService>();
 
-            var personalDataService = new PersonalDataService(new EfDeletableEntityRepository<ApplicationUser>(dbContext), mockCountriesService.Object, mockWishlistsService.Object, mockOrdersService.Object, mockCommentsService.Object, mockCommentVotesService.Object, null);
+            var chatGroup = new ChatGroup
+            {
+                Name = "test->test1",
+            };
+
+            var groupReceiver = new ChatUserGroup
+            {
+                ChatGroup = chatGroup,
+                User = user,
+            };
+
+            var groupSender = new ChatUserGroup
+            {
+                ChatGroup = chatGroup,
+                User = user,
+            };
+
+            chatGroup.ChatUserGroups.Add(groupReceiver);
+            chatGroup.ChatUserGroups.Add(groupSender);
+
+            await dbContext.ChatGroups.AddAsync(chatGroup);
+            await dbContext.SaveChangesAsync();
+
+            var personalDataService = new PersonalDataService(
+                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                new EfDeletableEntityRepository<ApplicationRole>(dbContext),
+                mockCountriesService.Object,
+                mockWishlistsService.Object,
+                mockOrdersService.Object,
+                mockCommentsService.Object,
+                mockCommentVotesService.Object,
+                mockChatService.Object,
+                mockNotificationsService.Object,
+                null);
+
             var commentsService = new CommentsService(new EfDeletableEntityRepository<Comment>(dbContext));
             var wishlistService = new WishlistService(new EfDeletableEntityRepository<FavoriteProduct>(dbContext));
+            var chatsService = new ChatService(
+                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                new EfDeletableEntityRepository<ChatGroup>(dbContext),
+                new EfDeletableEntityRepository<ChatMessage>(dbContext));
+            var notificationsService = new NotificationsService(
+                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                new EfRepository<NotificationType>(dbContext),
+                new EfDeletableEntityRepository<ApplicationUserNotification>(dbContext));
 
             Assert.Equal(1, await dbContext.Users.CountAsync());
             Assert.Equal(2, await dbContext.Comments.CountAsync());
             Assert.Equal(2, await dbContext.FavoriteProducts.CountAsync());
+            Assert.Equal(1, await dbContext.UserNotifications.CountAsync());
 
             var userResult = await personalDataService.DeleteUserAsync(user.Id);
             Assert.True(userResult);
@@ -118,6 +177,14 @@
             var wishlistResult = await wishlistService.DeleteAllProductsInTheWishlistAsync(user.Id);
             Assert.True(wishlistResult);
             Assert.Equal(0, await dbContext.FavoriteProducts.CountAsync());
+
+            var notificationsResult = await notificationsService.DeleteAllNotificationsByUserIdAsync(user.Id, user.UserName);
+            Assert.True(notificationsResult);
+            Assert.Equal(0, await dbContext.UserNotifications.CountAsync());
+
+            var chatsResult = await chatsService.DeleteChatGroupWithMessagesAsync(user.Id, user.UserName);
+            Assert.True(chatsResult);
+            Assert.Equal(0, await dbContext.ChatMessages.CountAsync());
         }
 
         [Fact]
@@ -130,7 +197,17 @@
 
             var userId = Guid.NewGuid().ToString();
 
-            var personalDataService = new PersonalDataService(new EfDeletableEntityRepository<ApplicationUser>(dbContext), null, null, null, null, null, null);
+            var personalDataService = new PersonalDataService(
+                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                new EfDeletableEntityRepository<ApplicationRole>(dbContext),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
 
             // Act
             var result = await personalDataService.DeleteUserAsync(userId);
@@ -153,7 +230,17 @@
             var mockCommentsService = new Mock<ICommentsService>();
             var mockCommentVotesService = new Mock<ICommentVotesService>();
 
-            var personalDataService = new PersonalDataService(new EfDeletableEntityRepository<ApplicationUser>(dbContext), mockCountriesService.Object, mockWishlistsService.Object, mockOrdersService.Object, mockCommentsService.Object, mockCommentVotesService.Object, null);
+            var personalDataService = new PersonalDataService(
+                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                new EfDeletableEntityRepository<ApplicationRole>(dbContext),
+                mockCountriesService.Object,
+                mockWishlistsService.Object,
+                mockOrdersService.Object,
+                mockCommentsService.Object,
+                mockCommentVotesService.Object,
+                null,
+                null,
+                null);
 
             // Act
             var result = await personalDataService.DeleteUserAsync(null);

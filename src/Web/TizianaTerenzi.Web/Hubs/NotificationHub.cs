@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.Hubs
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.SignalR;
@@ -30,11 +31,19 @@
             {
                 var targetUser = await this.usersRepository
                     .AllAsNoTracking()
-                    .SingleOrDefaultAsync(u => u.UserName == username);
+                    .Where(u => u.UserName == username)
+                    .Select(u => new
+                    {
+                        u.Id,
+                        u.UserName,
+                    })
+                    .SingleOrDefaultAsync();
 
                 var count = await this.notificationsService.GetUserNotificationsCountAsync(targetUser.UserName);
 
-                await this.Clients.User(targetUser.Id).SendAsync("ReceiveNotification", count, isFirstNotificationSound);
+                await this.Clients
+                    .User(targetUser.Id)
+                    .SendAsync("ReceiveNotification", count, isFirstNotificationSound);
             }
         }
     }

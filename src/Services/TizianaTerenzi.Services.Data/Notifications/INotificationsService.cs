@@ -17,6 +17,6 @@
 
         Task<bool> DeleteNotificationAsync(string id);
 
-        Task<bool> DeleteAllNotificationsByUserIdAsync(string username);
+        Task<bool> DeleteAllNotificationsByUserIdAsync(string currentUserId, string currentUsername);
     }
 }

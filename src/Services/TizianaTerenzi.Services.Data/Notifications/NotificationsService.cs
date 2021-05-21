@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
@@ -18,7 +19,7 @@
 
         private readonly IRepository<NotificationType> notificationTypesRepository;
 
-        private readonly IRepository<ApplicationUserNotification> notificationsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository;
 
         public NotificationsService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
@@ -50,6 +51,22 @@
                 SenderId = senderId,
                 Link = $"/chat/with/{senderUsername}/group/{groupName}",
             };
+
+            // Delete notifications when more than 10
+            var notifications = await this.notificationsRepository
+                .All()
+                .Where(n => n.ReceiverUsername == receiverUsername)
+                .OrderBy(n => n.CreatedOn)
+                .ToListAsync();
+
+            if (notifications.Count + 1 > GlobalConstants.MaxChatNotificationsPerUser)
+            {
+                notifications = notifications
+                    .Take(GlobalConstants.MaxChatNotificationsPerUser - 1)
+                    .ToList();
+
+                this.notificationsRepository.DeleteRange(notifications);
+            }
 
             await this.notificationsRepository.AddAsync(notification);
             await this.notificationsRepository.SaveChangesAsync();
@@ -102,18 +119,18 @@
             return affectedRows == 1;
         }
 
-        public async Task<bool> DeleteAllNotificationsByUserIdAsync(string userId)
+        public async Task<bool> DeleteAllNotificationsByUserIdAsync(string currentUserId, string currentUsername)
         {
             var affectedRows = await this.notificationsRepository
                 .All()
-                .Where(n => n.SenderId == userId)
+                .Where(n => n.SenderId == currentUserId || n.ReceiverUsername == currentUsername)
                 .UpdateAsync(n => new ApplicationUserNotification
                 {
                     IsDeleted = true,
                     DeletedOn = DateTime.UtcNow,
                 });
 
-            return affectedRows > 0;
+            return affectedRows >= 0;
         }
     }
 }

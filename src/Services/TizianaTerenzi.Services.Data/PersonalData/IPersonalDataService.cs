@@ -18,6 +18,6 @@
 
         Task<ApplicationUser> GetUserByIdAsync(string userId);
 
-        Task<AllUsersListViewModel> GetAllUsersExceptCurrentLoggedInUserAsync(int page, int take, int skip = 0);
+        Task<AllUsersListViewModel> GetAllUsersExceptAdminsAsync(int page, int take, int skip = 0);
     }
 }

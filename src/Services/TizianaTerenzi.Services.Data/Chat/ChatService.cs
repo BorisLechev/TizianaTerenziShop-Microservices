@@ -12,6 +12,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Chat;
+    using Z.EntityFramework.Plus;
 
     public class ChatService : IChatService
     {
@@ -169,6 +170,29 @@
             }
 
             return true;
+        }
+
+        public async Task<bool> DeleteChatGroupWithMessagesAsync(string currentUserId, string currentUsername)
+        {
+            var chatGroups = await this.chatGroupsRepository
+                .All()
+                .Where(g => g.Name.Contains(currentUsername))
+                .UpdateAsync(g => new ChatGroup
+                {
+                    IsDeleted = true,
+                    DeletedOn = DateTime.UtcNow,
+                });
+
+            var chatMessages = await this.chatMessagesRepository
+                .All()
+                .Where(m => m.ReceiverUsername == currentUsername || m.AuthorId == currentUserId)
+                .UpdateAsync(m => new ChatMessage
+                {
+                    IsDeleted = true,
+                    DeletedOn = DateTime.UtcNow,
+                });
+
+            return chatGroups >= 0 && chatMessages >= 0;
         }
     }
 }

@@ -32,5 +32,7 @@
         public ICollection<PersonalDataFavoriteFroductsViewModel> FavoriteProducts { get; set; }
 
         public ICollection<PersonalDataProductVotesViewModel> ProductVotes { get; set; }
+
+        public ICollection<PersonalDataChatUserGroupViewModel> ChatUserGroups { get; set; }
     }
 }

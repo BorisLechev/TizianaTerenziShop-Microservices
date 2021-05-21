@@ -82,7 +82,8 @@
                     <div class="form-group mx-auto my-1">
                         <div class="input-group">
                             <div id="messageInput"
-                                 class="form-control p-4 bg-transparent chat-input"
+                                 class="form-control bg-transparent chat-input"
+                                 oninput="updateInputScroller()"
                                  onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
                                  onblur="userStopType('@this.Model.ReceiverUsername')"
                                  contenteditable="true"
