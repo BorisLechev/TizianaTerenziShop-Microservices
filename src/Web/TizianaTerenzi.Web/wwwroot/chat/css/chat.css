@@ -108,8 +108,6 @@
     overflow-y: scroll;
     max-height: 51px;
     overflow-x: hidden;
-    background: #f1f1f1;
-    border-radius: 6px;
 }
 
 .chat-input::-webkit-scrollbar {
@@ -124,6 +122,10 @@
     border-radius: 6px;
     background-clip: padding-box;
     background: #888;
+}
+
+#sendButton {
+    border-radius: 0;
 }
 
 .jumping-dot-1,
