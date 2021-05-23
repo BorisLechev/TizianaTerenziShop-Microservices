@@ -3,7 +3,11 @@
     <img class="card-img-top" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt="Card image cap">
     @*<i class="fas fa-user fa-3x mb-4 text-primary text-center pt-4"></i>*@
     <div class="card-body text-center">
-        <h5 class="card-title">@@@this.Model.UserName</h5>
+        <div id="@(this.Model.UserName)allUsersStatus" class="all-users-status-dots">
+            <span id="@(this.Model.UserName)userStatusDot" class="user-status-dot"></span>
+            <span id="@(this.Model.UserName)userStatus"></span>
+            <h5 class="card-title">@@@this.Model.UserName</h5>
+        </div>
 
         @if (this.User.Identity.Name == this.Model.UserName)
         {

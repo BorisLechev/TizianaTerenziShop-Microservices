@@ -12,11 +12,15 @@
     }
     <div class="pt-4 pb-5 mt-4 mb-5 w-md-75 mx-auto">
         <i class="fas fa-user fa-3x mb-4 text-primary"></i>
+        <div>
+            <span id="@(this.Model.Username)userStatusDot" class="user-status-dot"></span>
+            <span id="@(this.Model.Username)userStatus"></span>
+        </div>
         @if (this.User.Identity.Name == this.Model.Username)
         {
             <h1>@this.Model.FullName</h1>
             <h4 class="text-muted">@this.Model.Email</h4>
-            <h4 class="text-muted">@@@this.Model.Username</h4>
+            <h4 id="currentUsername" class="text-muted">@@@this.Model.Username</h4>
             @if (this.Model.Address != null)
             {
                 <h4 class="text-muted">@this.Model.Address, @this.Model.PostalCode, @this.Model.Town</h4>
@@ -29,7 +33,7 @@
         }
         else
         {
-            <h1>@this.Model.Username</h1>
+            <h1 id="currentUsername">@@@this.Model.Username</h1>
         }
         <div class="mt-4">
             @if (this.User.Identity.Name == this.Model.Username)

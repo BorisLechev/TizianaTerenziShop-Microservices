@@ -295,6 +295,7 @@
 
                         endpoints.MapHub<ChatHub>("/chatHub");
                         endpoints.MapHub<NotificationHub>("/notificationHub");
+                        endpoints.MapHub<UserStatusHub>("/userStatusHub");
 
                         endpoints.MapRazorPages();
                     });
