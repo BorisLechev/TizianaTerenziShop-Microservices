@@ -78,32 +78,24 @@
                 </div>
             </div>
             <div class="chat-field-holder bg-translucent">
-<<<<<<< HEAD
-=======
-                @*<div class="container">*@
->>>>>>> d6905bb75a381651e0a378428d472c9d8dcc96d1
-                    <div class="form-group my-0">
-                        <div class="input-group">
-                            <div id="messageInput"
-                                 class="form-control bg-transparent chat-input"
-                                 oninput="updateInputScroller()"
-                                 onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
-                                 onblur="userStopType('@this.Model.ReceiverUsername')"
-                                 contenteditable="true"
-                                 autocomplete="off"
-                                 autofocus>
-                            </div>
-                            <div class="input-group-append">
-                                <button id="sendButton" class="btn btn-outline-primary px-4" type="button">
-                                    <i id="fromImage" class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
+                <div class="form-group my-0">
+                    <div class="input-group">
+                        <div id="messageInput"
+                                class="form-control bg-transparent chat-input"
+                                oninput="updateInputScroller()"
+                                onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
+                                onblur="userStopType('@this.Model.ReceiverUsername')"
+                                contenteditable="true"
+                                autocomplete="off"
+                                autofocus>
+                        </div>
+                        <div class="input-group-append">
+                            <button id="sendButton" class="btn btn-outline-primary px-4" type="button">
+                                <i id="fromImage" class="fas fa-paper-plane"></i>
+                            </button>
                         </div>
                     </div>
-<<<<<<< HEAD
-=======
-                @*</div>*@
->>>>>>> d6905bb75a381651e0a378428d472c9d8dcc96d1
+                </div>
             </div>
         </div>
     </main>

@@ -70,7 +70,7 @@
       ]
     },
     {
-      "library": "tinymce@5.7.1",
+      "library": "tinymce@5.8.1",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "library": "highcharts@9.0.1",
+      "library": "highcharts@9.1.0",
       "destination": "wwwroot/lib/highcharts/",
       "files": [
         "highcharts.js"
@@ -128,7 +128,7 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.5",
+      "library": "@microsoft/signalr@5.0.6",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
