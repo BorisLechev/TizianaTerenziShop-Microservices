@@ -64,7 +64,7 @@
                                                 <div class="speech">
                                                     <p>@Html.Raw(message.Content)</p>
                                                     <p class="speech-time">
-                                                        <i class="fa fa-clock-o fa-fw"></i>
+                                                        <i class="far fa-clock"></i>
                                                         <time datetime="@message.CreatedOn.ToString("O")"></time>
                                                     </p>
                                                 </div>
@@ -78,8 +78,8 @@
                 </div>
             </div>
             <div class="chat-field-holder bg-translucent">
-                <div class="container">
-                    <div class="form-group mx-auto my-1">
+                @*<div class="container">*@
+                    <div class="form-group my-0">
                         <div class="input-group">
                             <div id="messageInput"
                                  class="form-control bg-transparent chat-input"
@@ -87,7 +87,6 @@
                                  onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
                                  onblur="userStopType('@this.Model.ReceiverUsername')"
                                  contenteditable="true"
-                                 placeholder="Type a message..."
                                  autocomplete="off"
                                  autofocus>
                             </div>
@@ -98,7 +97,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                @*</div>*@
             </div>
         </div>
     </main>
