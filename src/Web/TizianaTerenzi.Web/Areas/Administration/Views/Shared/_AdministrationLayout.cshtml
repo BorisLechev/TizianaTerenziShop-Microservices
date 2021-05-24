@@ -1,0 +1,112 @@
+﻿@using TizianaTerenzi.Common;
+@using System.Security.Claims;
+@inject UserManager<ApplicationUser> userManager
+@inject IViewLocalizer Localizer
+
+@{
+    this.ViewData["Title"] = "Administration";
+    string username = this.User.Identity.Name;
+    string firstName = this.userManager.FindByNameAsync(username).Result.FirstName;
+    string lastName = this.userManager.FindByNameAsync(username).Result.LastName;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="~/administration/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    @await this.RenderSectionAsync("CustomCss", false)
+</head>
+<body>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-text mx-3">TT Admin <sup>2</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item active">
+                <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" class="nav-link">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@firstName @lastName</span>
+                                <img class="img-profile rounded-circle" src="~/administration/img/undraw_profile.svg">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="userDropdown">
+                                <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value" class="dropdown-item">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                @this.RenderBody()
+            </div>
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>&copy; 2011-@DateTime.UtcNow.Year - <a href="https://tizianaterenzi.com/" target="_blank">@GlobalConstants.SystemName</a></span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/administration/vendor/jquery/jquery.min.js"></script>
+    <script src="~/administration/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/administration/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/administration/js/sb-admin-2.min.js"></script>
+
+    @await this.RenderSectionAsync("Scripts", false)
+</body>
+</html>
