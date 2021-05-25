@@ -110,6 +110,7 @@ Example:
   * HTML
   * CSS
   * Bootstrap
+  * SB Admin 2 - Bootstrap 4 based admin theme
   * FontAwesome
   * Moment.js - to parse, validate and display dates and times in JavaScript
   * TinyMCE - text editor
@@ -117,6 +118,8 @@ Example:
   * DataTables - tool that adds pagination, instant search, multi-column ordering etc. to any HTML table
   * OpenStreetMap && Leaflet
   * Highcharts - create interactive charts for web and mobile apps
+  * Chart.js - create interactive charts for web and mobile apps
+  * Chartjs-plugin-colorschemas - pick the perfect colour combination for pie/doughnut charts
   * IpInfo - API for getting access to reliable IP data
   * Stripe - online payment processing platform
   * xUnit - unit testing tool for .NET Framework
