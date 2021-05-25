@@ -35,6 +35,31 @@
                 </a>
             </li>
             <hr class="sidebar-divider">
+            <li class="nav-item active">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home Page</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a asp-area="" asp-controller="Products" asp-action="All" class="nav-link">
+                    <i class="fas fa-tags"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a asp-area="" asp-controller="Home" asp-action="AboutUs" class="nav-link">
+                    <i class="fas fa-store"></i>
+                    <span>About Us</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a asp-area="" asp-controller="Contacts" asp-action="Index" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contacts</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
@@ -46,6 +71,13 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link text-dark">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Products" asp-action="All" class="nav-link text-dark">Products</a>
+                        </li>
+                        <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -106,6 +138,9 @@
     <script src="~/administration/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/administration/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="~/administration/js/sb-admin-2.min.js"></script>
+    <script src="~/lib/chart.js/dist/Chart.min.js" asp-append-version="true"></script>
+    <script src="~/lib/chart.js/dist/chartjs-plugin-colorschemes.min.js" asp-append-version="true"></script>
+    <script src="~/administration/js/chart-area-demo.js" asp-append-version="true"></script>
 
     @await this.RenderSectionAsync("Scripts", false)
 </body>

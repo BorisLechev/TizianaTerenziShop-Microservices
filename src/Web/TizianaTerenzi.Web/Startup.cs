@@ -36,6 +36,7 @@
     using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
+    using TizianaTerenzi.Services.Data.Dashboard;
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
@@ -229,6 +230,7 @@
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<INotificationsService, NotificationsService>();
+            services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

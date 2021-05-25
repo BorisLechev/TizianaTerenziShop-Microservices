@@ -33,7 +33,7 @@
 
             var orders = await this.ordersRepository
                 .AllAsNoTracking()
-                .Where(o => o.CreatedOn > DateTime.UtcNow.Date.AddDays(-10))
+                .Where(o => o.CreatedOn >= DateTime.UtcNow.Date.AddDays(-10))
                 .GroupBy(o => o.CreatedOn.Date)
                 .Select(o => new
                 {

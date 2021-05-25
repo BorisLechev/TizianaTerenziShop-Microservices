@@ -184,4 +184,8 @@
       <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\chart.js\dist\" />
+  </ItemGroup>
 </Project>

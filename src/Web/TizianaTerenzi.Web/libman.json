@@ -134,6 +134,20 @@
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "library": "chart.js@2.9.4",
+      "destination": "wwwroot/lib/chart.js/",
+      "files": [
+        "dist/Chart.min.js"
+      ]
+    },
+    {
+      "library": "chartjs-plugin-colorschemes@0.4.0",
+      "destination": "wwwroot/lib/chart.js/",
+      "files": [
+        "dist/chartjs-plugin-colorschemes.min.js"
+      ]
     }
   ]
 }
