@@ -1,0 +1,28 @@
+﻿@if (TempData.ContainsKey(GlobalConstants.TempDataSuccessMessageKey))
+{
+    <div id="response-message" class="alert alert-primary fade show mb-0" role="alert" style="top: 3.5rem; left: 0; z-index: 9999; position: fixed; width: 100%;">
+        <div class="container d-flex flex-row">
+            <i class="fas fa-check fa-2x align-self-center"></i>
+            <p class="pl-3 pb-0 my-2" style="font-size: 1rem;">@TempData[GlobalConstants.TempDataSuccessMessageKey]</p>
+            <div class="ml-auto">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span class="fas fa-times" aria-hidden="true" style="vertical-align: middle; font-size: 15px;"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+@if (TempData.ContainsKey(GlobalConstants.TempDataErrorMessageKey))
+{
+    <div id="response-message" class="alert alert-danger fade show mb-0" role="alert" style="top: 3.5rem; left: 0; z-index: 9999; position: fixed; width: 100%;">
+        <div class="container d-flex flex-row">
+            <i class="fas fa-exclamation-circle fa-2x align-self-center"></i>
+            <p class="pl-3 pb-0 my-2" style="font-size: 1rem;">@TempData[GlobalConstants.TempDataErrorMessageKey]</p>
+            <div class="ml-auto">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span class="fas fa-times" aria-hidden="true" style="vertical-align: middle; font-size: 15px;"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+}

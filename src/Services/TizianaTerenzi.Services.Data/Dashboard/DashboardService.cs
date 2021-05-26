@@ -4,22 +4,20 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using TizianaTerenzi.Data;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Dashboard;
-    using Microsoft.AspNetCore.Identity;
     using TizianaTerenzi.Services.Data.Statistics;
+    using TizianaTerenzi.Web.ViewModels.Dashboard;
 
     public class DashboardService : IDashboardService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
         private readonly IDeletableEntityRepository<ApplicationRole> rolesRepository;
-
-        private readonly IDeletableEntityRepository<Product> productsRepository;
 
         private readonly IDeletableEntityRepository<Order> ordersRepository;
 
@@ -36,7 +34,6 @@
         public DashboardService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
-            IDeletableEntityRepository<Product> productsRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
             IStatisticsService statisticsService,
@@ -46,7 +43,6 @@
         {
             this.usersRepository = usersRepository;
             this.rolesRepository = rolesRepository;
-            this.productsRepository = productsRepository;
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
             this.statisticsService = statisticsService;
@@ -107,6 +103,72 @@
             };
 
             return viewModel;
+        }
+
+        public async Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync()
+        {
+            var usernames = await this.usersRepository
+                .All()
+                .Select(u => u.UserName)
+                .ToListAsync();
+
+            var viewModel = new UsernamesRolesIndexViewModel
+            {
+                Usernames = usernames,
+            };
+
+            return viewModel;
+        }
+
+        public async Task<bool> IsUserAlreadyAddedInRoleAsync(string inputUsername, string inputRole)
+        {
+            var user = await this.userManager.FindByNameAsync(inputUsername);
+            IdentityRole newRole = await this.roleManager.FindByNameAsync(inputRole);
+
+            if (user == null || newRole == null)
+            {
+                return false;
+            }
+
+            var isUserAlreadyAddedInRole = await this.db.UserRoles
+                  .AnyAsync(ur => ur.UserId == user.Id && ur.RoleId == newRole.Id);
+
+            if (isUserAlreadyAddedInRole)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateUserRoleAsync(string username, string inputRole)
+        {
+            var user = await this.userManager.FindByNameAsync(username);
+            IdentityRole newRole = await this.roleManager.FindByNameAsync(inputRole);
+
+            await this.DeleteUserInRoleAsync(user.Id);
+
+            await this.db.UserRoles.AddAsync(new IdentityUserRole<string>
+            {
+                UserId = user.Id,
+                RoleId = newRole.Id,
+            });
+
+            var result = await this.db.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteUserInRoleAsync(string userId)
+        {
+            var userRole = await this.db.UserRoles
+                    .SingleOrDefaultAsync(ur => ur.UserId == userId);
+
+            this.db.UserRoles.Remove(userRole);
+
+            var result = await this.db.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }

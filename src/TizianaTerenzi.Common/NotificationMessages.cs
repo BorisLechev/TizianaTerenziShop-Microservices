@@ -58,5 +58,9 @@
         public const string ContactFormSendMessageSuccessfully = "Thank You! We will contact you shortly…";
 
         public const string NotAbleToChat = "You are not able to chat.";
+
+        public const string SuccessfullyAddedUserInRole = "User is successfully added in role.";
+
+        public const string UserIsAlreadyInThisRole = "User is already in this role.";
     }
 }
