@@ -47,6 +47,13 @@
       ]
     },
     {
+      "library": "jquery.easing@1.4.1",
+      "destination": "wwwroot/lib/jquery-easing/",
+      "files": [
+        "jquery.easing.min.js"
+      ]
+    },
+    {
       "library": "@fortawesome/fontawesome-free@5.15.3",
       "destination": "wwwroot/lib/fontawesome/",
       "files": [

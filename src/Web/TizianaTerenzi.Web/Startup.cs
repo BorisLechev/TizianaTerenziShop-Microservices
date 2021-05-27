@@ -46,6 +46,7 @@
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Services.Data.Statistics;
     using TizianaTerenzi.Services.Data.Subscribe;
+    using TizianaTerenzi.Services.Data.UsersInformation;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Location;
@@ -231,6 +232,7 @@
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IDashboardService, DashboardService>();
+            services.AddTransient<IUsersInformationService, UsersInformationService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

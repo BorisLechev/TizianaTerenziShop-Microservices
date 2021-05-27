@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ApplicationUserViewModel>
+@{ 
+    this.ViewData["Title"] = "All Users";
+}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Registered On</th>
+                            <th>Country</th>
+                            <th>Town</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in this.Model)
+                        {
+                            <tr>
+                                <td>@user.UserName</td>
+                                <td>@user.FullName</td>
+                                <td>@user.CreatedOn</td>
+                                <td>@user.CountryName</td>
+                                <td>@user.Town</td>
+                                <td>@user.Address</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CustomCss {
+    <link href="~/css/datatables.min.css" rel="stylesheet" asp-append-version="true" />
+} 
+@section Scripts {
+    <script src="~/js/datatables-init.js" asp-append-version="true"></script>
+    <script src="~/js/datatables.min.js" asp-append-version="true"></script>
+} 

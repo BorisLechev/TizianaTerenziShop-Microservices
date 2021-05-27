@@ -5,18 +5,24 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Dashboard;
+    using TizianaTerenzi.Services.Data.UsersInformation;
     using TizianaTerenzi.Web.ViewModels.Dashboard;
 
     public class UsersController : AdministrationController
     {
         private readonly IDashboardService dashboardService;
 
-        public UsersController(IDashboardService dashboardService)
+        private readonly IUsersInformationService usersService;
+
+        public UsersController(
+            IDashboardService dashboardService,
+            IUsersInformationService usersService)
         {
             this.dashboardService = dashboardService;
+            this.usersService = usersService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Roles()
         {
             var viewModel = await this.dashboardService.GetUsernamesRolesAsync();
 
@@ -52,6 +58,13 @@
             }
 
             return this.RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<IActionResult> AllUsers()
+        {
+            var viewModel = await this.usersService.GetAllUsersAsync();
+
+            return this.View(viewModel);
         }
     }
 }

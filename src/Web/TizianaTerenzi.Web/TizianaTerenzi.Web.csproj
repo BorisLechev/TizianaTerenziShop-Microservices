@@ -161,9 +161,6 @@
     <None Include="wwwroot\administration\vendor\bootstrap\scss\_type.scss" />
     <None Include="wwwroot\administration\vendor\bootstrap\scss\_utilities.scss" />
     <None Include="wwwroot\administration\vendor\bootstrap\scss\_variables.scss" />
-    <None Include="wwwroot\administration\vendor\jquery-easing\jquery.easing.compatibility.js" />
-    <None Include="wwwroot\administration\vendor\jquery-easing\jquery.easing.js" />
-    <None Include="wwwroot\administration\vendor\jquery-easing\jquery.easing.min.js" />
     <None Include="wwwroot\pdf\phantomjs.exe" />
   </ItemGroup>
 

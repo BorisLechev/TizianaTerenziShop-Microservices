@@ -26,7 +26,7 @@
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-text mx-3">TT Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">@GlobalConstants.SystemName Admin <sup>2</sup></div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item active">
@@ -40,9 +40,15 @@
                 Users
             </div>
             <li class="nav-item">
-                <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="nav-link">
+                <a asp-area="Administration" asp-controller="Users" asp-action="Roles" class="nav-link">
                     <i class="fas fa-user-edit"></i>
                     <span>Roles</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-area="Administration" asp-controller="Users" asp-action="AllUsers" class="nav-link">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Users Information</span>
                 </a>
             </li>
 
@@ -132,9 +138,9 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script src="~/administration/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/administration/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/administration/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
     <script src="~/administration/js/sb-admin-2.min.js"></script>
     <script src="~/lib/chart.js/dist/Chart.min.js" asp-append-version="true"></script>
     <script src="~/lib/chart.js/dist/chartjs-plugin-colorschemes.min.js" asp-append-version="true"></script>
