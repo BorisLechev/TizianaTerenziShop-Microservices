@@ -120,11 +120,11 @@
   <data name="Cart" xml:space="preserve">
     <value>Cart</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
-  </data>
-  <data name="Pay" xml:space="preserve">
-    <value>Pay</value>
   </data>
   <data name="Return to cart" xml:space="preserve">
     <value>Return to cart</value>

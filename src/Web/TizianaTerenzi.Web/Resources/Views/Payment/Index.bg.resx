@@ -120,14 +120,14 @@
   <data name="Cart" xml:space="preserve">
     <value>Количка</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Продължи</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Начало</value>
   </data>
   <data name="Information" xml:space="preserve">
     <value>Информация</value>
-  </data>
-  <data name="Pay" xml:space="preserve">
-    <value>Плати</value>
   </data>
   <data name="Return to cart" xml:space="preserve">
     <value>Върни се в количката</value>

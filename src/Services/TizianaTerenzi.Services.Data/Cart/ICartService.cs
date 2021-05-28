@@ -8,23 +8,25 @@
 
     public interface ICartService
     {
-        Task<bool> AddProductInTheCart(Product product, string userId);
+        Task<bool> AddProductInTheCartAsync(Product product, string userId);
 
-        Task<int> DeleteProductInTheCart(string productId);
+        Task<int> DeleteProductInTheCartAsync(string productId);
 
-        Task<int> DeleteAllProductsInTheCartByUserId(string userId);
+        Task<int> DeleteAllProductsInTheCartByUserIdAsync(string userId);
 
-        Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserId(string userId);
+        Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId);
+
+        Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId);
 
         Task<string> GetProductInTheCartIdByProductIdAsync(int productId);
 
         Task<bool> CheckIfProductByUserIdExistInTheCartAsync(string userId, int productId);
 
-        Task<bool> ReduceQuantity(string productId);
+        Task<bool> ReduceQuantityAsync(string productId);
 
-        Task<bool> IncreaseQuantity(string productId);
+        Task<bool> IncreaseQuantityAsync(string productId);
 
-        Task<bool> CheckoutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart);
+        Task<bool> CheckoutAsync(string userId);
 
         Task SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel);
     }

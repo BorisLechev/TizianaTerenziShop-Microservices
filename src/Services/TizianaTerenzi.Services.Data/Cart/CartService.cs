@@ -36,7 +36,7 @@
             this.userManager = userManager;
         }
 
-        public async Task<bool> AddProductInTheCart(Product product, string userId)
+        public async Task<bool> AddProductInTheCartAsync(Product product, string userId)
         {
             var productInTheCart = new Cart
             {
@@ -63,8 +63,10 @@
             return result;
         }
 
-        public async Task<bool> CheckoutAsync(string userId, IEnumerable<ProductsInTheCartViewModel> productsInTheCart)
+        public async Task<bool> CheckoutAsync(string userId)
         {
+            var productsInTheCart = await this.GetAllProductsInTheCartByUserIdAsync(userId);
+
             var orderProducts = productsInTheCart
                 .Select(x => new OrderProduct
                 {
@@ -93,7 +95,7 @@
             return result > 0;
         }
 
-        public async Task<int> DeleteAllProductsInTheCartByUserId(string userId)
+        public async Task<int> DeleteAllProductsInTheCartByUserIdAsync(string userId)
         {
             var productsCount = await this.productsInTheCartRepository
                 .AllAsNoTracking()
@@ -103,7 +105,7 @@
             return productsCount;
         }
 
-        public async Task<int> DeleteProductInTheCart(string productId)
+        public async Task<int> DeleteProductInTheCartAsync(string productId)
         {
             var productsCount = await this.productsInTheCartRepository
                 .AllAsNoTracking()
@@ -113,7 +115,16 @@
             return productsCount;
         }
 
-        public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserId(string userId)
+        public async Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId)
+        {
+            var result = await this.productsInTheCartRepository
+                .AllAsNoTracking()
+                .AnyAsync(op => op.UserId == userId);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId)
         {
             var productsInTheCart = await this.productsInTheCartRepository
                 .All()
@@ -135,7 +146,7 @@
             return productInTheCartId;
         }
 
-        public async Task<bool> IncreaseQuantity(string productId)
+        public async Task<bool> IncreaseQuantityAsync(string productId)
         {
             var productInTheCart = await this.productsInTheCartRepository
                 .All()
@@ -148,7 +159,7 @@
             return result > 0;
         }
 
-        public async Task<bool> ReduceQuantity(string productId)
+        public async Task<bool> ReduceQuantityAsync(string productId)
         {
             var productInTheCart = await this.productsInTheCartRepository
                .All()
@@ -168,13 +179,16 @@
 
         public async Task SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel)
         {
-            user.CountryId = inputModel.CountryId;
-            user.Address = inputModel.Address;
-            user.Town = inputModel.Town;
-            user.PostalCode = inputModel.PostalCode;
-            user.PhoneNumber = inputModel.PhoneNumber;
+            if (user.Address == null || user.PostalCode == null || user.PhoneNumber == null)
+            {
+                user.CountryId = inputModel.CountryId;
+                user.Address = inputModel.Address;
+                user.Town = inputModel.Town;
+                user.PostalCode = inputModel.PostalCode;
+                user.PhoneNumber = inputModel.PhoneNumber;
 
-            await this.userManager.UpdateAsync(user);
+                await this.userManager.UpdateAsync(user);
+            }
         }
     }
 }

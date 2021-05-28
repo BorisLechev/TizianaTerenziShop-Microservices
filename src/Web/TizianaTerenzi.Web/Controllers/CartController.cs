@@ -45,7 +45,7 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserId(userId);
+            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserIdAsync(userId);
 
             return this.View(productsInTheCart);
         }
@@ -54,7 +54,7 @@
         [Route("/cart/{productId}/quantity/increase")]
         public async Task<IActionResult> IncreaseQuantity(string productId)
         {
-            bool result = await this.cartService.IncreaseQuantity(productId);
+            bool result = await this.cartService.IncreaseQuantityAsync(productId);
 
             if (result)
             {
@@ -70,7 +70,7 @@
         [Route("/cart/{productId}/quantity/reduce")]
         public async Task<IActionResult> ReduceQuantity(string productId)
         {
-            bool result = await this.cartService.ReduceQuantity(productId);
+            bool result = await this.cartService.ReduceQuantityAsync(productId);
 
             if (result)
             {
@@ -105,11 +105,11 @@
             {
                 var productInTheCartId = await this.cartService.GetProductInTheCartIdByProductIdAsync(productId);
 
-                await this.cartService.IncreaseQuantity(productInTheCartId);
+                await this.cartService.IncreaseQuantityAsync(productInTheCartId);
             }
             else
             {
-                await this.cartService.AddProductInTheCart(product, userId);
+                await this.cartService.AddProductInTheCartAsync(product, userId);
             }
 
             return this.RedirectToAction(nameof(this.Index));
@@ -197,7 +197,7 @@
                 return this.NotFound();
             }
 
-            int productsCount = await this.cartService.DeleteProductInTheCart(id);
+            int productsCount = await this.cartService.DeleteProductInTheCartAsync(id);
 
             if (productsCount == 0)
             {
@@ -216,7 +216,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
             var productsInTheCart = await this.cartService
-                 .GetAllProductsInTheCartByUserId(user.Id);
+                 .GetAllProductsInTheCartByUserIdAsync(user.Id);
             var countries = await this.countriesService.GetAllCountriesAsync();
             var bulgariaId = countries.Single(c => c.Text == "Bulgaria").Value;
 

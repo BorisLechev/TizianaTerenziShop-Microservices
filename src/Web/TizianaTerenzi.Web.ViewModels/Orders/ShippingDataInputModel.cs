@@ -27,8 +27,7 @@
         public IEnumerable<SelectListItem> Countries { get; set; }
 
         [Required]
-        [MinLength(2)]
-        [MaxLength(50)]
+        [DataType(DataType.PostalCode)]
         [Display(Name = "Postal code")]
         public string PostalCode { get; set; }
 

@@ -218,7 +218,7 @@
             await this.signInManager.SignOutAsync();
             this.logger.LogInformation("User logged out.");
 
-            await this.cartService.DeleteAllProductsInTheCartByUserId(this.userManager.GetUserId(this.User));
+            await this.cartService.DeleteAllProductsInTheCartByUserIdAsync(this.userManager.GetUserId(this.User));
 
             if (returnUrl != null)
             {

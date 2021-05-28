@@ -1,7 +1,7 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -74,27 +74,35 @@
                   },
                 },
                 Mode = "payment",
-                SuccessUrl = domain + "/payment/success",
+                SuccessUrl = domain + "/payment/finish",
                 CancelUrl = domain + "/cart/checkout",
             };
-
-            var service = new SessionService();
-            Session session = service.Create(options);
 
             var user = await this.userManager.GetUserAsync(this.User);
 
             await this.cartService.SaveShippingDataAsync(user, viewModel);
 
-            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserId(user.Id);
+            var service = new SessionService();
+            Session session = service.Create(options);
 
-            if (!productsInTheCart.Any())
+            return this.Json(new { id = session.Id });
+        }
+
+        [Route("payment/finish")]
+        public async Task<IActionResult> Finish()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var isThereAnyProductsInTheUsersCart = await this.cartService.IsThereAnyProductsInTheUsersCartAsync(userId);
+
+            if (isThereAnyProductsInTheUsersCart == false)
             {
                 this.Error(NotificationMessages.EmptyCartError);
 
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            var result = await this.cartService.CheckoutAsync(user.Id, productsInTheCart);
+            var result = await this.cartService.CheckoutAsync(userId);
 
             if (result == false)
             {
@@ -103,9 +111,9 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            await this.cartService.DeleteAllProductsInTheCartByUserId(user.Id);
+            await this.cartService.DeleteAllProductsInTheCartByUserIdAsync(userId);
 
-            return this.Json(new { id = session.Id });
+            return this.RedirectToAction(nameof(this.ThankYou));
         }
 
         [Route("payment/success")]

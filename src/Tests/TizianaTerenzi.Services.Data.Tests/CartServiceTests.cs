@@ -74,7 +74,7 @@
             var cartService = new CartService(mockCartRepo.Object, mockOrdersRepo.Object, null, null);
 
             // Act
-            var result = await cartService.AddProductInTheCart(newProduct, "1");
+            var result = await cartService.AddProductInTheCartAsync(newProduct, "1");
 
             // Assert
             Assert.True(result);
@@ -138,7 +138,7 @@
             var cartService = new CartService(mockCartRepo.Object, mockOrdersRepo.Object, null, null);
 
             // Assert
-            Assert.True(await cartService.AddProductInTheCart(newProduct, "1"));
+            Assert.True(await cartService.AddProductInTheCartAsync(newProduct, "1"));
             Assert.True(await cartService.CheckIfProductByUserIdExistInTheCartAsync("1", 1));
             Assert.False(await cartService.CheckIfProductByUserIdExistInTheCartAsync("2", 1));
             Assert.False(await cartService.CheckIfProductByUserIdExistInTheCartAsync("2", 2));
@@ -206,13 +206,13 @@
             AutoMapperConfig.RegisterMappings(typeof(ProductsInTheCartViewModel).Assembly);
 
             // Act
-            var result = await cartService.AddProductInTheCart(newProduct, "1");
+            var result = await cartService.AddProductInTheCartAsync(newProduct, "1");
             var productInTheCartId = await cartService.GetProductInTheCartIdByProductIdAsync(1);
 
             // Assert
             Assert.True(result);
             Assert.NotNull(productInTheCartId);
-            Assert.True(await cartService.IncreaseQuantity(productInTheCartId));
+            Assert.True(await cartService.IncreaseQuantityAsync(productInTheCartId));
         }
 
         [Fact]
@@ -276,14 +276,14 @@
             AutoMapperConfig.RegisterMappings(typeof(ProductsInTheCartViewModel).Assembly);
 
             // Act
-            var result = await cartService.AddProductInTheCart(newProduct, "1");
+            var result = await cartService.AddProductInTheCartAsync(newProduct, "1");
             var productInTheCartId = await cartService.GetProductInTheCartIdByProductIdAsync(1);
 
             // Assert
             Assert.True(result);
             Assert.NotNull(productInTheCartId);
-            Assert.True(await cartService.IncreaseQuantity(productInTheCartId));
-            Assert.True(await cartService.ReduceQuantity(productInTheCartId));
+            Assert.True(await cartService.IncreaseQuantityAsync(productInTheCartId));
+            Assert.True(await cartService.ReduceQuantityAsync(productInTheCartId));
         }
 
         [Fact]
@@ -347,13 +347,13 @@
             AutoMapperConfig.RegisterMappings(typeof(ProductsInTheCartViewModel).Assembly);
 
             // Act
-            var result = await cartService.AddProductInTheCart(newProduct, "1");
+            var result = await cartService.AddProductInTheCartAsync(newProduct, "1");
             var productInTheCartId = await cartService.GetProductInTheCartIdByProductIdAsync(1);
 
             // Assert
             Assert.True(result);
             Assert.NotNull(productInTheCartId);
-            Assert.False(await cartService.ReduceQuantity(productInTheCartId));
+            Assert.False(await cartService.ReduceQuantityAsync(productInTheCartId));
         }
     }
 }
