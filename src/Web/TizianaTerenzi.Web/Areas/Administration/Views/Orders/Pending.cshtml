@@ -4,7 +4,7 @@
     ViewData["Title"] = "Pending orders";
 }
 
-<div class="container" style="margin-top: 100px;">
+<div class="container">
     <div class="mx-auto my-4">
         <div class="text-center mb-3">
             <h2>@ViewData["Title"]</h2>
@@ -19,11 +19,11 @@
                     <th>Discount code name</th>
                     <th>%</th>
                     <th>Status</th>
-                    <th colspan="2">Actions</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var order in Model)
+                @foreach (var order in this.Model)
                 {
                     <tr>
                         <td>@order.UserFullName</td>
@@ -44,8 +44,6 @@
                                 <i class="fas fa-info"></i>
                                 Products
                             </a>
-                        </td>
-                        <td>
                             <a class="btn btn-outline-success" asp-area="Administration" asp-controller="Orders" asp-action="Process" asp-route-orderId="@order.Id">
                                 <i class="fas fa-check"></i>
                                 Process

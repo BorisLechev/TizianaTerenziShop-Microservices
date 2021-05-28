@@ -30,7 +30,7 @@
         <section class="form-group">
             <label asp-for="@this.Model.ExpiresOn">Expires on</label>
             <section class="field mb-4">
-                <input asp-for="@this.Model.ExpiresOn" class="form-control" placeholder="Expires on" />
+                <input asp-for="@this.Model.ExpiresOn" class="form-control" placeholder="Expires on" type="date" />
                 <span asp-validation-for="@this.Model.ExpiresOn" class="text-danger"></span>
             </section>
         </section>
@@ -40,11 +40,3 @@
         </section>
     </form>
 </div>
-
-@section CustomCss {
-    <style>
-        .create-code-wrapper {
-            padding-top: 100px;
-        }
-    </style>
-}

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Processed orders";
 }
 
-<div class="container" style="margin-top: 100px;">
+<div class="container">
     <div class="mx-auto my-4">
         <div class="text-center mb-3">
             <h2>@ViewData["Title"]</h2>
@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var order in Model)
+                @foreach (var order in this.Model)
                 {
                     <tr>
                         <td>@order.UserFullName</td>

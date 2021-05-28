@@ -46,7 +46,7 @@
             {
                 this.Error(NotificationMessages.CreateDiscountCodeError);
 
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction("Index", "Dashboard");
             }
 
             this.Success(NotificationMessages.CreateDiscountCodeSuccessfully);

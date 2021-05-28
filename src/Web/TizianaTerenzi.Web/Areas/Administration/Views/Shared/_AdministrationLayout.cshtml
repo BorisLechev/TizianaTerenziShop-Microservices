@@ -18,6 +18,7 @@
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="~/administration/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/datatables.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/administration/css/dropDown.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
     @await this.RenderSectionAsync("CustomCss", false)
@@ -50,6 +51,58 @@
                     <i class="fas fa-users-cog"></i>
                     <span>Users Information</span>
                 </a>
+            </li>
+
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Shop
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts" aria-expanded="true" aria-controls="collapseProducts">
+                    <i class="fas fa-tags"></i>
+                    <span>Products</span>
+                </a>
+                <div id="collapseProducts" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a asp-area="Administration" asp-controller="Products" asp-action="Create" class="collapse-item">Create Product</a>
+                        <a asp-area="Administration" asp-controller="Notes" asp-action="Create" class="collapse-item">Create Note</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a asp-area="Administration" asp-controller="GeneralDiscounts" asp-action="Index" class="nav-link">
+                    <i class="fas fa-percent"></i>
+                    <span>General Discount</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDiscountCodes" aria-expanded="true" aria-controls="collapseProducts">
+                    <i class="fas fa-percent"></i>
+                    <span>Discount Codes</span>
+                </a>
+                <div id="collapseDiscountCodes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a asp-area="Administration" asp-controller="DiscountCodes" asp-action="Index" class="collapse-item">All Discount Codes</a>
+                        <a asp-area="Administration" asp-controller="DiscountCodes" asp-action="Create" class="collapse-item">Create Discount code</a>
+                    </div>
+                </div>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Orders
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrders" aria-expanded="true" aria-controls="collapseProducts">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <div id="collapseOrders" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a asp-area="Administration" asp-controller="Orders" asp-action="Index" class="collapse-item">All Orders</a>
+                        <a asp-area="Administration" asp-controller="Orders" asp-action="Pending" class="collapse-item">Pending Orders</a>
+                        <a asp-area="Administration" asp-controller="Orders" asp-action="Processed" class="collapse-item">Processed Orders</a>
+                    </div>
+                </div>
             </li>
 
             <hr class="sidebar-divider">
@@ -144,8 +197,8 @@
     <script src="~/administration/js/sb-admin-2.min.js"></script>
     <script src="~/lib/chart.js/dist/Chart.min.js" asp-append-version="true"></script>
     <script src="~/lib/chart.js/dist/chartjs-plugin-colorschemes.min.js" asp-append-version="true"></script>
-    <script src="~/administration/js/chart-area-demo.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/js/datatables-init.js" asp-append-version="true"></script>
+    <script src="~/js/datatables.min.js" asp-append-version="true"></script>
 
     @await this.RenderSectionAsync("Scripts", false)
 </body>
