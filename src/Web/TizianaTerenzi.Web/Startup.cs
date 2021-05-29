@@ -44,7 +44,6 @@
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Services.Data.Products;
-    using TizianaTerenzi.Services.Data.Statistics;
     using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Services.Data.UsersInformation;
     using TizianaTerenzi.Services.Data.Votes;
@@ -228,7 +227,6 @@
             services.AddTransient<IWishlistService, WishlistService>();
             services.AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
             services.AddTransient<IProductVotesService, ProductVotesService>();
-            services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IDashboardService, DashboardService>();

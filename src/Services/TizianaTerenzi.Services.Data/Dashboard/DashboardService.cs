@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Services.Data.Dashboard
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,7 +11,6 @@
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Statistics;
     using TizianaTerenzi.Web.ViewModels.Dashboard;
 
     public class DashboardService : IDashboardService
@@ -23,8 +23,6 @@
 
         private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
 
-        private readonly IStatisticsService statisticsService;
-
         private readonly ApplicationDbContext db;
 
         private readonly UserManager<ApplicationUser> userManager;
@@ -36,7 +34,6 @@
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
-            IStatisticsService statisticsService,
             ApplicationDbContext db,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager)
@@ -45,7 +42,6 @@
             this.rolesRepository = rolesRepository;
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
-            this.statisticsService = statisticsService;
             this.db = db;
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -85,10 +81,9 @@
                                                 .Where(op => op.CreatedOn.Year == DateTime.UtcNow.Year)
                                                 .SumAsync(op => op.Price);
 
-            var ordersValue = await this.statisticsService.GetTheValueOfAllSalesForTheLast10DaysAsync();
+            var ordersValue = await this.GetTheValueOfAllSalesForTheLast10DaysAsync();
 
-            var orderedProductsCountForThisMonth = await this.statisticsService
-                .GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync();
+            var orderedProductsCountForThisMonth = await this.GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync();
 
             var viewModel = new DashboardViewModel
             {
@@ -103,6 +98,48 @@
             };
 
             return viewModel;
+        }
+
+        public async Task<IDictionary<DateTime, decimal>> GetTheValueOfAllSalesForTheLast10DaysAsync()
+        {
+            var result = this.CreateEmptyDictionaryWithDateTimeDecimalFor10Days();
+
+            var orderProducts = await this.orderProductsRepository
+                .AllAsNoTracking()
+                .Where(o => o.CreatedOn > DateTime.UtcNow.Date.AddDays(-10))
+                .GroupBy(o => o.CreatedOn.Date)
+                .Select(o => new
+                {
+                    Day = o.Key,
+                    Value = o.Sum(p => p.Price),
+                })
+                .ToDictionaryAsync(o => o.Day, o => o.Value);
+
+            foreach (var product in orderProducts)
+            {
+                if (result.ContainsKey(product.Key))
+                {
+                    result[product.Key.Date] = product.Value;
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<IDictionary<string, int>> GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync()
+        {
+            var orderProducts = await this.orderProductsRepository
+                .AllAsNoTracking()
+                .Where(op => op.CreatedOn.Month == DateTime.UtcNow.Month)
+                .GroupBy(op => op.Product.Name)
+                .Select(p => new
+                {
+                    Product = p.Key,
+                    Value = p.Sum(x => x.Quantity),
+                })
+                .ToDictionaryAsync(op => op.Product, op => op.Value);
+
+            return orderProducts;
         }
 
         public async Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync()
@@ -169,6 +206,20 @@
             var result = await this.db.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        private IDictionary<DateTime, decimal> CreateEmptyDictionaryWithDateTimeDecimalFor10Days()
+        {
+            var result = new Dictionary<DateTime, decimal>();
+
+            var startDate = DateTime.UtcNow.Date.AddDays(-9);
+
+            for (DateTime i = startDate; i <= DateTime.UtcNow.Date; i = i.AddDays(1))
+            {
+                result.Add(i.Date, 0);
+            }
+
+            return result;
         }
     }
 }

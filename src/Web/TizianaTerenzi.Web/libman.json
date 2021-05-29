@@ -113,13 +113,6 @@
       ]
     },
     {
-      "library": "highcharts@9.1.0",
-      "destination": "wwwroot/lib/highcharts/",
-      "files": [
-        "highcharts.js"
-      ]
-    },
-    {
       "library": "animate.css@4.1.1",
       "destination": "wwwroot/lib/animate.css/",
       "files": [

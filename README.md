@@ -117,7 +117,6 @@ Example:
   * HtmlSanitizer - library for cleaning HTML fragments and documents from constructs that can lead to XSS attacks.
   * DataTables - tool that adds pagination, instant search, multi-column ordering etc. to any HTML table
   * OpenStreetMap && Leaflet
-  * Highcharts - create interactive charts for web and mobile apps
   * Chart.js - create interactive charts for web and mobile apps
   * Chartjs-plugin-colorschemas - pick the perfect colour combination for pie/doughnut charts
   * IpInfo - API for getting access to reliable IP data
