@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Comments
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Web.ViewModels.Comments;
+    using Z.EntityFramework.Plus;
 
     public class CommentsService : ICommentsService
     {
@@ -38,31 +40,25 @@
             var comments = await this.commentsRepository
                 .All()
                 .Where(c => c.ProductId == productId)
-                .ToListAsync();
-
-            if (comments.Any())
-            {
-                this.commentsRepository.DeleteRange(comments);
-                await this.commentsRepository.SaveChangesAsync();
-            }
+                .UpdateAsync(c => new Comment
+                {
+                    IsDeleted = true,
+                    DeletedOn = DateTime.UtcNow,
+                });
         }
 
         public async Task<bool> DeleteRangeByUserIdAsync(string userId)
         {
-            var comments = await this.commentsRepository
+            var affectedRows = await this.commentsRepository
                     .All()
                     .Where(c => c.UserId == userId)
-                    .ToArrayAsync();
+                    .UpdateAsync(c => new Comment
+                    {
+                        IsDeleted = true,
+                        DeletedOn = DateTime.UtcNow,
+                    });
 
-            if (comments.Any())
-            {
-                this.commentsRepository.DeleteRange(comments);
-                var result = await this.commentsRepository.SaveChangesAsync();
-
-                return result > 0;
-            }
-
-            return true;
+            return affectedRows >= 0;
         }
 
         public async Task<bool> IsInProductIdAsync(int commentId, int productId)

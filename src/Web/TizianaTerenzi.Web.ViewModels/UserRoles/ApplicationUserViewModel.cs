@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.UsersInformation
+﻿namespace TizianaTerenzi.Web.ViewModels.UserRoles
 {
     using System;
 

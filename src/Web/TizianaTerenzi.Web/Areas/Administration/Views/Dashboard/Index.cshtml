@@ -271,9 +271,9 @@
         var myPieChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: [@Html.Raw(string.Join(", ", this.Model.NumberOfPurchasesForEachProductForThisMonth.Select(p => "'" + p.Key + "'")))],
+                labels: [@Html.Raw(string.Join(", ", this.Model.NumberOfPurchasesForEachProductForThisMonth.Select(p => "'" + p.Group + "'")))],
                 datasets: [{
-                    data: [@string.Join(", ", this.Model.NumberOfPurchasesForEachProductForThisMonth.Select(p => p.Value))],
+                    data: [@string.Join(", ", this.Model.NumberOfPurchasesForEachProductForThisMonth.Select(p => p.Count))],
                     fill: false,
                 }],
             },

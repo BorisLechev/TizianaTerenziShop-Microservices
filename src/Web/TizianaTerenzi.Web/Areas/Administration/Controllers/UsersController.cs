@@ -4,27 +4,21 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Dashboard;
-    using TizianaTerenzi.Services.Data.UsersInformation;
-    using TizianaTerenzi.Web.ViewModels.Dashboard;
+    using TizianaTerenzi.Services.Data.UserRoles;
+    using TizianaTerenzi.Web.ViewModels.UserRoles;
 
     public class UsersController : AdministrationController
     {
-        private readonly IDashboardService dashboardService;
+        private readonly IUserRolesService userRolesService;
 
-        private readonly IUsersInformationService usersService;
-
-        public UsersController(
-            IDashboardService dashboardService,
-            IUsersInformationService usersService)
+        public UsersController(IUserRolesService userRolesService)
         {
-            this.dashboardService = dashboardService;
-            this.usersService = usersService;
+            this.userRolesService = userRolesService;
         }
 
         public async Task<IActionResult> Roles()
         {
-            var viewModel = await this.dashboardService.GetUsernamesRolesAsync();
+            var viewModel = await this.userRolesService.GetUsernamesRolesAsync();
 
             return this.View(viewModel);
         }
@@ -36,7 +30,7 @@
 
             if (this.ModelState.IsValid)
             {
-                var isUserAlreadyAddedInThisRole = await this.dashboardService.IsUserAlreadyAddedInRoleAsync(inputUsername, inputRole);
+                var isUserAlreadyAddedInThisRole = await this.userRolesService.IsUserAlreadyAddedInRoleAsync(inputUsername, inputRole);
 
                 if (isUserAlreadyAddedInThisRole)
                 {
@@ -44,7 +38,7 @@
                 }
                 else
                 {
-                    var result = await this.dashboardService.UpdateUserRoleAsync(inputUsername, inputRole);
+                    var result = await this.userRolesService.UpdateUserRoleAsync(inputUsername, inputRole);
 
                     if (result)
                     {
@@ -57,12 +51,12 @@
                 return this.View(viewModel);
             }
 
-            return this.RedirectToAction("Index", "Dashboard");
+            return this.RedirectToAction(nameof(this.Roles));
         }
 
         public async Task<IActionResult> AllUsers()
         {
-            var viewModel = await this.usersService.GetAllUsersAsync();
+            var viewModel = await this.userRolesService.GetAllUsersAsync();
 
             return this.View(viewModel);
         }

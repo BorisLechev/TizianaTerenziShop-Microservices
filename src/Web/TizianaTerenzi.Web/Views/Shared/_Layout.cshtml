@@ -83,11 +83,11 @@
                                 <a class="dropdown-item" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value">@Localizer["My profile"]</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">@Localizer["Change password"]</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit">@Localizer["Edit profile"]</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">@Localizer["Orders"]</h6>
-                                @if (!User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                @if (User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
                                 {
-                                    <a class="dropdown-item" href="/profile/orders/my">@Localizer["My orders"]</a>
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">@Localizer["Orders"]</h6>
+                                    <a asp-area="" asp-controller="Orders" asp-action="Index" class="dropdown-item">@Localizer["My orders"]</a>
                                 }
                                 <div class="dropdown-divider"></div>
                                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">

@@ -19,6 +19,6 @@
 
         public IDictionary<DateTime, decimal> SalesValueFromTheLast10Days { get; set; }
 
-        public IDictionary<string, int> NumberOfPurchasesForEachProductForThisMonth { get; set; }
+        public IEnumerable<GroupByViewModel<string, int>> NumberOfPurchasesForEachProductForThisMonth { get; set; }
     }
 }

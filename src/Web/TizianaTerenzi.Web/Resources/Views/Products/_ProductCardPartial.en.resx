@@ -120,13 +120,22 @@
   <data name="Add to Cart" xml:space="preserve">
     <value>Add to Cart</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Delete Product" xml:space="preserve">
     <value>Delete Product</value>
   </data>
   <data name="Edit Product" xml:space="preserve">
     <value>Edit Product</value>
   </data>
+  <data name="immediate and irreversible" xml:space="preserve">
+    <value>immediate and irreversible</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="Product deletion is" xml:space="preserve">
+    <value>Product deletion is</value>
   </data>
 </root>

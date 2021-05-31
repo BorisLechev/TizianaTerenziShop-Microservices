@@ -31,6 +31,7 @@
             var parentId = inputModel.ParentId == 0 ? (int?)null : inputModel.ParentId;
             inputModel.ParentId = parentId;
 
+            // security
             if (parentId.HasValue)
             {
                 var isInProductId = await this.commentsService.IsInProductIdAsync(parentId.Value, inputModel.ProductId);

@@ -139,10 +139,10 @@
 
             // Assert
             Assert.True(await cartService.AddProductInTheCartAsync(newProduct, "1"));
-            Assert.True(await cartService.CheckIfProductByUserIdExistInTheCartAsync("1", 1));
-            Assert.False(await cartService.CheckIfProductByUserIdExistInTheCartAsync("2", 1));
-            Assert.False(await cartService.CheckIfProductByUserIdExistInTheCartAsync("2", 2));
-            Assert.False(await cartService.CheckIfProductByUserIdExistInTheCartAsync("1", 2));
+            Assert.True(await cartService.CheckIfProductExistsInTheUsersCartAsync("1", 1));
+            Assert.False(await cartService.CheckIfProductExistsInTheUsersCartAsync("2", 1));
+            Assert.False(await cartService.CheckIfProductExistsInTheUsersCartAsync("2", 2));
+            Assert.False(await cartService.CheckIfProductExistsInTheUsersCartAsync("1", 2));
         }
 
         [Fact]

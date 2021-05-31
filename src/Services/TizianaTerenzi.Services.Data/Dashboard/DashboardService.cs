@@ -5,10 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Web.ViewModels.Dashboard;
@@ -23,28 +21,19 @@
 
         private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
 
-        private readonly ApplicationDbContext db;
-
-        private readonly UserManager<ApplicationUser> userManager;
-
-        private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IDictionary<DateTime, decimal> dictionary;
 
         public DashboardService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
             IDeletableEntityRepository<Order> ordersRepository,
-            IDeletableEntityRepository<OrderProduct> orderProductsRepository,
-            ApplicationDbContext db,
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager)
+            IDeletableEntityRepository<OrderProduct> orderProductsRepository)
         {
             this.usersRepository = usersRepository;
             this.rolesRepository = rolesRepository;
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
-            this.db = db;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            this.dictionary = new Dictionary<DateTime, decimal>();
         }
 
         public async Task<DashboardViewModel> GetDashboardInformationAsync()
@@ -100,9 +89,9 @@
             return viewModel;
         }
 
-        public async Task<IDictionary<DateTime, decimal>> GetTheValueOfAllSalesForTheLast10DaysAsync()
+        private async Task<IDictionary<DateTime, decimal>> GetTheValueOfAllSalesForTheLast10DaysAsync()
         {
-            var result = this.CreateEmptyDictionaryWithDateTimeDecimalFor10Days();
+            var dic = this.CreateEmptyDictionaryWithDateTimeDecimalFor10Days();
 
             var orderProducts = await this.orderProductsRepository
                 .AllAsNoTracking()
@@ -117,109 +106,41 @@
 
             foreach (var product in orderProducts)
             {
-                if (result.ContainsKey(product.Key))
+                if (dic.ContainsKey(product.Key))
                 {
-                    result[product.Key.Date] = product.Value;
+                    dic[product.Key.Date] = product.Value;
                 }
             }
 
-            return result;
+            return dic;
         }
 
-        public async Task<IDictionary<string, int>> GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync()
+        private async Task<IEnumerable<GroupByViewModel<string, int>>> GetNumberOfPurchasesForEachProductForTheCurrentMonthAsync()
         {
             var orderProducts = await this.orderProductsRepository
                 .AllAsNoTracking()
                 .Where(op => op.CreatedOn.Month == DateTime.UtcNow.Month)
                 .GroupBy(op => op.Product.Name)
-                .Select(p => new
+                .Select(p => new GroupByViewModel<string, int>
                 {
-                    Product = p.Key,
-                    Value = p.Sum(x => x.Quantity),
+                    Group = p.Key,
+                    Count = p.Sum(x => x.Quantity),
                 })
-                .ToDictionaryAsync(op => op.Product, op => op.Value);
+                .ToListAsync();
 
             return orderProducts;
         }
 
-        public async Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync()
-        {
-            var usernames = await this.usersRepository
-                .All()
-                .Select(u => u.UserName)
-                .ToListAsync();
-
-            var viewModel = new UsernamesRolesIndexViewModel
-            {
-                Usernames = usernames,
-            };
-
-            return viewModel;
-        }
-
-        public async Task<bool> IsUserAlreadyAddedInRoleAsync(string inputUsername, string inputRole)
-        {
-            var user = await this.userManager.FindByNameAsync(inputUsername);
-            IdentityRole newRole = await this.roleManager.FindByNameAsync(inputRole);
-
-            if (user == null || newRole == null)
-            {
-                return false;
-            }
-
-            var isUserAlreadyAddedInRole = await this.db.UserRoles
-                  .AnyAsync(ur => ur.UserId == user.Id && ur.RoleId == newRole.Id);
-
-            if (isUserAlreadyAddedInRole)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> UpdateUserRoleAsync(string username, string inputRole)
-        {
-            var user = await this.userManager.FindByNameAsync(username);
-            IdentityRole newRole = await this.roleManager.FindByNameAsync(inputRole);
-
-            await this.DeleteUserInRoleAsync(user.Id);
-
-            await this.db.UserRoles.AddAsync(new IdentityUserRole<string>
-            {
-                UserId = user.Id,
-                RoleId = newRole.Id,
-            });
-
-            var result = await this.db.SaveChangesAsync();
-
-            return result > 0;
-        }
-
-        public async Task<bool> DeleteUserInRoleAsync(string userId)
-        {
-            var userRole = await this.db.UserRoles
-                    .SingleOrDefaultAsync(ur => ur.UserId == userId);
-
-            this.db.UserRoles.Remove(userRole);
-
-            var result = await this.db.SaveChangesAsync();
-
-            return result > 0;
-        }
-
         private IDictionary<DateTime, decimal> CreateEmptyDictionaryWithDateTimeDecimalFor10Days()
         {
-            var result = new Dictionary<DateTime, decimal>();
-
             var startDate = DateTime.UtcNow.Date.AddDays(-9);
 
             for (DateTime i = startDate; i <= DateTime.UtcNow.Date; i = i.AddDays(1))
             {
-                result.Add(i.Date, 0);
+                this.dictionary.Add(i.Date, 0);
             }
 
-            return result;
+            return this.dictionary;
         }
     }
 }

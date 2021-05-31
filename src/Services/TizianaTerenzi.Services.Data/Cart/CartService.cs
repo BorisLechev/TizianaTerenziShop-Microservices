@@ -53,7 +53,7 @@
             return result > 0;
         }
 
-        public async Task<bool> CheckIfProductByUserIdExistInTheCartAsync(string userId, int productId)
+        public async Task<bool> CheckIfProductExistsInTheUsersCartAsync(string userId, int productId)
         {
             var result = await this.productsInTheCartRepository
                 .AllAsNoTracking()

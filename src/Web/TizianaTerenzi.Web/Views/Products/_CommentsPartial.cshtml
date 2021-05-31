@@ -7,7 +7,7 @@
     {
         var comments = this.Model.Comments.Where(c => c.ParentId == parentId);
 
-        if (!comments.Any())
+        if (comments.Any() == false)
         {
             return;
         }
@@ -19,7 +19,9 @@
                     <li>
                         <div class="comment-main-level">
                             <a href="/profile/@comment.UserId">
-                            <div class="comment-avatar"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt=""></div>
+                                <div class="comment-avatar">
+                                    <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt="">
+                                </div>
                             </a>
 
                             <div class="comment-box">

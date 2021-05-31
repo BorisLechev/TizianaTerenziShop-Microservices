@@ -91,15 +91,15 @@
         <div class="modal-content">
             <form asp-area="" asp-controller="Profile" asp-action="DeleteAccount" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">Delete account</h5>
+                    <h5 class="modal-title">@Localizer["Delete account"]</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <p>Account deletion is <b class="text-danger">immediate and irreversible</b>.</p>
-                        <p>Type your password to confirm deletion</p>
+                        <p>@Localizer["Account deletion is"] <b class="text-danger">@Localizer["immediate and irreversible"]</b>.</p>
+                        <p>@Localizer["Type your password to confirm deletion"]</p>
                         <input type="password" name="password" class="form-control">
                     </div>
                 </div>

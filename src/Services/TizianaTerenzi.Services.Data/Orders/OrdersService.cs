@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Orders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -9,6 +10,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.Orders;
+    using Z.EntityFramework.Plus;
 
     public class OrdersService : IOrdersService
     {
@@ -105,13 +107,11 @@
             var orders = await this.ordersRepository
                     .All()
                     .Where(o => o.UserId == userId)
-                    .ToArrayAsync();
-
-            if (orders.Any())
-            {
-                this.ordersRepository.DeleteRange(orders);
-                await this.ordersRepository.SaveChangesAsync();
-            }
+                    .UpdateAsync(o => new Order
+                    {
+                        IsDeleted = true,
+                        DeletedOn = DateTime.UtcNow,
+                    });
         }
 
         public async Task DeleteAllOrderProductsByUserIdAsync(string userId)
@@ -119,13 +119,11 @@
             var orderProducts = await this.orderProductsRepository
                     .All()
                     .Where(op => op.Order.UserId == userId)
-                    .ToArrayAsync();
-
-            if (orderProducts.Any())
-            {
-                this.orderProductsRepository.DeleteRange(orderProducts);
-                await this.orderProductsRepository.SaveChangesAsync();
-            }
+                    .UpdateAsync(o => new Order
+                    {
+                        IsDeleted = true,
+                        DeletedOn = DateTime.UtcNow,
+                    });
         }
     }
 }

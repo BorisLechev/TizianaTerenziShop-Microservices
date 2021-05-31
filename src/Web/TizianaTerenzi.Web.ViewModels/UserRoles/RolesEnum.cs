@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.Dashboard
+﻿namespace TizianaTerenzi.Web.ViewModels.UserRoles
 {
     public enum RolesEnum
     {

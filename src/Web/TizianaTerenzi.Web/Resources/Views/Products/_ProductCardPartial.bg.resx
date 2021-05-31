@@ -120,13 +120,22 @@
   <data name="Add to Cart" xml:space="preserve">
     <value>добави в количката</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отказ</value>
+  </data>
   <data name="Delete Product" xml:space="preserve">
     <value>Изтрий</value>
   </data>
   <data name="Edit Product" xml:space="preserve">
     <value>Редактирай</value>
   </data>
+  <data name="immediate and irreversible" xml:space="preserve">
+    <value>незабавно и необратимо</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>Ново</value>
+  </data>
+  <data name="Product deletion is" xml:space="preserve">
+    <value>Изтриването на продукта е</value>
   </data>
 </root>

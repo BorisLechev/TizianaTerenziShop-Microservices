@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account deletion is" xml:space="preserve">
+    <value>Account deletion is</value>
+  </data>
   <data name="All Users" xml:space="preserve">
     <value>All Users</value>
   </data>
@@ -135,10 +138,16 @@
   <data name="Edit profile" xml:space="preserve">
     <value>Edit profile</value>
   </data>
+  <data name="immediate and irreversible" xml:space="preserve">
+    <value>immediate and irreversible</value>
+  </data>
   <data name="Message" xml:space="preserve">
     <value>Message</value>
   </data>
   <data name="My profile" xml:space="preserve">
     <value>My profile</value>
+  </data>
+  <data name="Type your password to confirm deletion" xml:space="preserve">
+    <value>Type your password to confirm deletion</value>
   </data>
 </root>

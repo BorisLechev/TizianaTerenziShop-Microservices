@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account deletion is" xml:space="preserve">
+    <value>Изтриването на профила е</value>
+  </data>
   <data name="All Users" xml:space="preserve">
     <value>Всички потребители</value>
   </data>
@@ -135,10 +138,16 @@
   <data name="Edit profile" xml:space="preserve">
     <value>Редактиране на профила</value>
   </data>
+  <data name="immediate and irreversible" xml:space="preserve">
+    <value>незабавно и необратимо</value>
+  </data>
   <data name="Message" xml:space="preserve">
     <value>Пиши му</value>
   </data>
   <data name="My profile" xml:space="preserve">
     <value>Моят профил</value>
+  </data>
+  <data name="Type your password to confirm deletion" xml:space="preserve">
+    <value>Въведете Вашата парола, за да потвърдите изтриването</value>
   </data>
 </root>

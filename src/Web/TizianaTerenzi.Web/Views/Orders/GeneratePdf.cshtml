@@ -16,11 +16,19 @@
     </header>
     <hr />
     <main>
-
         <div>
-            <div><strong>Full name:</strong> <span style="padding: 15px">@this.Model.FullName</span></div>
-            <div><strong>Email:</strong> <span style="padding: 15px">@this.Model.Email</span></div>
-            <div><strong>Email:</strong> <span style="padding: 15px">@DateTime.Now.ToString("g", CultureInfo.InvariantCulture)</span></div>
+            <div>
+                <strong>Full name: </strong>
+                <span style="padding: 15px">@this.Model.FullName</span>
+            </div>
+            <div>
+                <strong>Email: </strong>
+                <span style="padding: 15px">@this.Model.Email</span>
+            </div>
+            <div>
+                <strong>Email: </strong>
+                <span style="padding: 15px">@DateTime.Now.ToString("g", CultureInfo.InvariantCulture)</span>
+            </div>
         </div>
 
         <div align="center">

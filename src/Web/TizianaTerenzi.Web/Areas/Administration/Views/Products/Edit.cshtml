@@ -23,8 +23,7 @@
         <section class="form-group">
             <label asp-for="@this.Model.ProductTypeId" class="control-label">Product Type</label>
             <section class="field mb-4">
-                <select class="form-control selectpicker" data-live-search="true" title="Select Product Type..."
-                        id="productType" asp-for="@this.Model.ProductTypeId" asp-items="@this.Model.ProductTypes">
+                <select id="productType" class="form-control" title="Select Product Type..." asp-for="@this.Model.ProductTypeId" asp-items="@this.Model.ProductTypes">
                 </select>
                 <span asp-validation-for="@this.Model.ProductTypeId" class="text-danger"></span>
             </section>
@@ -32,8 +31,7 @@
         <section class="form-group">
             <label asp-for="@this.Model.FragranceGroupId" class="control-label">Fragrance Group</label>
             <section class="field mb-4">
-                <select class="form-control selectpicker" data-live-search="true" title="Select Fragrance Group..."
-                        id="fragranceGroup" asp-for="@this.Model.FragranceGroupId" asp-items="@this.Model.FragranceGroups">
+                <select id="fragranceGroup" class="form-control selectpicker" data-live-search="true" title="Select Fragrance Group..." asp-for="@this.Model.FragranceGroupId" asp-items="@this.Model.FragranceGroups">
                 </select>
                 <span asp-validation-for="@this.Model.FragranceGroupId" class="text-danger"></span>
             </section>
@@ -41,8 +39,7 @@
         <section class="form-group">
             <label asp-for="@this.Model.NoteIds" class="control-label">Notes</label>
             <section class="field mb-4">
-                <select class="form-control selectpicker" data-live-search="true" multiple title="Select Notes..."
-                        id="note" asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes">
+                <select id="note" class="form-control selectpicker" data-live-search="true" multiple title="Select Notes..." asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes">
                 </select>
                 <span asp-validation-for="@this.Model.NoteIds" class="text-danger"></span>
             </section>
@@ -105,19 +102,13 @@
 
 @section CustomCss {
     <style>
-        .create-product-wrapper {
-            padding-top: 100px;
-        }
-
         .custom-file-label {
-            padding-left: 1rem;
-            padding-right: 1rem;
             text-align: left;
-            border-radius: 50px;
         }
 
-        .custom-file-label:after {
-            border-radius: 0 20px 20px 0;
+        .dropdown > button {
+            background-color: rgb(255, 255, 255);
+            border: 1px solid #d1d3e2;
         }
     </style>
 }

@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,7 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserIdAsync(userId);
 
@@ -91,7 +92,7 @@
                 return this.NotFound();
             }
 
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var product = await this.productsService.GetProductByIdAsync(productId);
 
             if (product == null)
@@ -99,7 +100,7 @@
                 return this.NotFound();
             }
 
-            var ifProductInTheCartExists = await this.cartService.CheckIfProductByUserIdExistInTheCartAsync(userId, product.Id);
+            var ifProductInTheCartExists = await this.cartService.CheckIfProductExistsInTheUsersCartAsync(userId, product.Id);
 
             if (ifProductInTheCartExists == true)
             {
@@ -136,7 +137,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountName, userId);
 
@@ -173,7 +174,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(userId);
 

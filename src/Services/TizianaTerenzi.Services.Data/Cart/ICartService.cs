@@ -20,7 +20,7 @@
 
         Task<string> GetProductInTheCartIdByProductIdAsync(int productId);
 
-        Task<bool> CheckIfProductByUserIdExistInTheCartAsync(string userId, int productId);
+        Task<bool> CheckIfProductExistsInTheUsersCartAsync(string userId, int productId);
 
         Task<bool> ReduceQuantityAsync(string productId);
 
