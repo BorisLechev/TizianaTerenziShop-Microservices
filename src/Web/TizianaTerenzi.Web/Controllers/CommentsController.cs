@@ -1,34 +1,28 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Web.ViewModels.Comments;
 
     [Authorize]
     public class CommentsController : BaseController
     {
-        private readonly UserManager<ApplicationUser> userManager;
-
         private readonly ICommentsService commentsService;
 
-        public CommentsController(
-            UserManager<ApplicationUser> userManager,
-            ICommentsService commentsService)
+        public CommentsController(ICommentsService commentsService)
         {
-            this.userManager = userManager;
             this.commentsService = commentsService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
         {
-            var parentId = inputModel.ParentId == 0 ? (int?)null : inputModel.ParentId;
+            var parentId = inputModel.ParentId == 0 ? null : inputModel.ParentId;
             inputModel.ParentId = parentId;
 
             // security
@@ -42,7 +36,7 @@
                 }
             }
 
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = await this.commentsService.CreateAsync(inputModel, userId);
 

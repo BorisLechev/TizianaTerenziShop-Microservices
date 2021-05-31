@@ -1,10 +1,10 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Votes;
@@ -18,16 +18,12 @@
 
         private readonly IProductVotesService productVotesService;
 
-        private readonly UserManager<ApplicationUser> userManager;
-
         public VotesController(
             ICommentVotesService commentVotesService,
-            IProductVotesService productVotesService,
-            UserManager<ApplicationUser> userManager)
+            IProductVotesService productVotesService)
         {
             this.commentVotesService = commentVotesService;
             this.productVotesService = productVotesService;
-            this.userManager = userManager;
         }
 
         /// POST /votes/comment/post
@@ -37,7 +33,7 @@
         [Route("votes/comment/post")]
         public async Task<ActionResult<CommentVoteResponseModel>> Vote(PostCommentVoteInputModel inputModel)
         {
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = await this.commentVotesService.VoteAsync(inputModel.CommentId, userId);
 
@@ -57,7 +53,7 @@
         [Route("votes/product/post")]
         public async Task<ActionResult<ProductVoteResponseModel>> Vote(PostProductVoteInputModel inputModel)
         {
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = await this.productVotesService.VoteAsync(inputModel.ProductId, userId, inputModel.Value);
 
@@ -81,11 +77,11 @@
                 AverageVote = averageVotes,
                 NumberOfVoters = numberOfVoters,
                 ProductId = inputModel.ProductId,
-                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / (double)numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / (double)numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / (double)numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / (double)numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / (double)numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / numberOfVoters * 100 : 0,
             };
         }
     }

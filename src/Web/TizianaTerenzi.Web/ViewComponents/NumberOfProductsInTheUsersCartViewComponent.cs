@@ -1,9 +1,9 @@
 ﻿namespace TizianaTerenzi.Web.ViewComponents
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
@@ -14,21 +14,17 @@
     {
         private readonly IDeletableEntityRepository<Cart> productsInTheCartRepository;
 
-        private readonly UserManager<ApplicationUser> userManager;
-
         public NumberOfProductsInTheUsersCartViewComponent(
-            IDeletableEntityRepository<Cart> productsInTheCartRepository,
-            UserManager<ApplicationUser> userManager)
+            IDeletableEntityRepository<Cart> productsInTheCartRepository)
         {
             this.productsInTheCartRepository = productsInTheCartRepository;
-            this.userManager = userManager;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var userId = this.userManager.GetUserId(this.HttpContext.User);
+                var userId = this.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var count = await this.productsInTheCartRepository
                                         .AllAsNoTracking()
