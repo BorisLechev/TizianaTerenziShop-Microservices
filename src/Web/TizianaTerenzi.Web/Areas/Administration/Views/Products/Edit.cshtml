@@ -31,7 +31,8 @@
         <section class="form-group">
             <label asp-for="@this.Model.FragranceGroupId" class="control-label">Fragrance Group</label>
             <section class="field mb-4">
-                <select id="fragranceGroup" class="form-control selectpicker" data-live-search="true" title="Select Fragrance Group..." asp-for="@this.Model.FragranceGroupId" asp-items="@this.Model.FragranceGroups">
+                <select id="fragranceGroup" class="ui fluid search selection dropdown" asp-for="@this.Model.FragranceGroupId" asp-items="@this.Model.FragranceGroups">
+                    <option value="">Select Fragrance Group...</option>
                 </select>
                 <span asp-validation-for="@this.Model.FragranceGroupId" class="text-danger"></span>
             </section>
@@ -39,7 +40,8 @@
         <section class="form-group">
             <label asp-for="@this.Model.NoteIds" class="control-label">Notes</label>
             <section class="field mb-4">
-                <select id="note" class="form-control selectpicker" data-live-search="true" multiple title="Select Notes..." asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes">
+                <select id="note" class="ui fluid search dropdown" multiple="" asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes">
+                    <option value="">Select Notes...</option>
                 </select>
                 <span asp-validation-for="@this.Model.NoteIds" class="text-danger"></span>
             </section>
@@ -97,6 +99,8 @@
             var fileName = $(this).val().split("\\").pop();
             $(this).next('.custom-file-label').html(fileName);
         });
+
+        $('.ui.fluid').dropdown();
     </script>
 }
 
@@ -106,9 +110,8 @@
             text-align: left;
         }
 
-        .dropdown > button {
-            background-color: rgb(255, 255, 255);
-            border: 1px solid #d1d3e2;
+        .ui.fluid > div.default.text {
+            color: #6e707e !important;
         }
     </style>
 }

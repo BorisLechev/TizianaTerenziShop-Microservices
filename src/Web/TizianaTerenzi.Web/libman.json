@@ -31,6 +31,20 @@
       ]
     },
     {
+      "library": "semantic-ui@2.4.2",
+      "destination": "wwwroot/lib/semantic-ui/",
+      "files": [
+        "dist/components/dropdown.min.css",
+        "dist/components/dropdown.min.js",
+        "dist/components/transition.min.css",
+        "dist/components/transition.min.js",
+        "dist/components/label.min.css",
+        "dist/components/icon.min.css",
+        "dist/themes/default/assets/fonts/icons.woff2",
+        "dist/themes/default/assets/fonts/icons.woff"
+      ]
+    },
+    {
       "library": "jquery-validation@1.19.3",
       "destination": "wwwroot/lib/jquery-validation/",
       "files": [
