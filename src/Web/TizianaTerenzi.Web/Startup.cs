@@ -118,7 +118,7 @@
             {
                 options.AccessDeniedPath = "/Error403";
                 options.Cookie.HttpOnly = true;
-                options.LoginPath = "/login";
+                options.LoginPath = "/identity/account/login";
                 options.LogoutPath = "/logout";
             });
 

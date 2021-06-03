@@ -208,13 +208,9 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> Checkout()
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.RedirectToAction("Login", "Authentication");
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
             var productsInTheCart = await this.cartService
                  .GetAllProductsInTheCartByUserIdAsync(user.Id);

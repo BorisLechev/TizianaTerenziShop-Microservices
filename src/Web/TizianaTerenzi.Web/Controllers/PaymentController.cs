@@ -33,11 +33,6 @@
         [Route("payment/pay")]
         public async Task<IActionResult> Pay(ShippingDataInputModel viewModel)
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.RedirectToAction("Login", "Authentication");
-            }
-
             if (!this.ModelState.IsValid)
             {
                 return this.RedirectToAction("Checkout", "Cart");

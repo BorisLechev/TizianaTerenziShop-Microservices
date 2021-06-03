@@ -117,19 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="and" xml:space="preserve">
+    <value>и</value>
+  </data>
   <data name="By clicking the above button, you agree to our" xml:space="preserve">
-    <value>By clicking the above button, you agree to our</value>
+    <value>Натискайки бутона по-горе, Вие се съгласявате с</value>
   </data>
   <data name="Login as an existing user" xml:space="preserve">
-    <value>Login as an existing user</value>
+    <value>Ако имаш профил - вход</value>
   </data>
   <data name="Privacy policy" xml:space="preserve">
-    <value>Privacy policy</value>
+    <value>Политика за поверителност</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Register</value>
+    <value>Регистрация</value>
   </data>
   <data name="Terms and conditions" xml:space="preserve">
-    <value>Terms and conditions</value>
+    <value>Общи условия</value>
   </data>
 </root>
