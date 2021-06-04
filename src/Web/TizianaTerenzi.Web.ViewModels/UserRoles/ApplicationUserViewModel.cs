@@ -15,6 +15,8 @@
 
         public string FullName => $"{this.FirstName} {this.LastName}";
 
+        public string Role { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public string Town { get; set; }

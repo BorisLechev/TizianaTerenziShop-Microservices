@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Services.Data.UserRoles
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,7 +7,6 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Web.ViewModels.UserRoles;
 
     public class UserRolesService : IUserRolesService
@@ -29,14 +27,33 @@
             this.roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<ApplicationUserViewModel>> GetAllUsersAsync()
+        public async Task<AllUsersViewModel> GetAllUsersAsync()
         {
             var allUsers = await this.usersRepository
                 .AllAsNoTracking()
-                .To<ApplicationUserViewModel>()
                 .ToListAsync();
 
-            return allUsers;
+            var allUsersViewModel = new AllUsersViewModel();
+
+            foreach (var user in allUsers)
+            {
+                var userRoles = await this.userManager.GetRolesAsync(user);
+
+                var viewModel = new ApplicationUserViewModel
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Role = userRoles[0],
+                    CreatedOn = user.CreatedOn,
+                    Town = user.Town,
+                    Address = user.Address,
+                };
+
+                allUsersViewModel.ApplicationUsers.Add(viewModel);
+            }
+
+            return allUsersViewModel;
         }
 
         public async Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync()

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ApplicationUserViewModel>
+﻿@model AllUsersViewModel
 @{ 
     this.ViewData["Title"] = "All Users";
 }
@@ -12,20 +12,31 @@
                         <tr>
                             <th>Username</th>
                             <th>Name</th>
+                            <th>Role</th>
                             <th>Registered On</th>
-                            <th>Country</th>
+                            @*<th>Country</th>*@
                             <th>Town</th>
                             <th>Address</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in this.Model)
+                        @foreach (var user in this.Model.ApplicationUsers)
                         {
                             <tr>
                                 <td>@user.UserName</td>
                                 <td>@user.FullName</td>
+                                <td>
+                                    @if (user.Role == GlobalConstants.AdministratorRoleName)
+                                    {
+                                        <span class="badge badge-success">@user.Role</span>
+                                    }
+                                    else if (user.Role == GlobalConstants.UserRoleName)
+                                    {
+                                        <span class="badge badge-secondary">@user.Role</span>
+                                    }
+                                </td>
                                 <td>@user.CreatedOn</td>
-                                <td>@user.CountryName</td>
+                                @*<td>@user.CountryName</td>*@
                                 <td>@user.Town</td>
                                 <td>@user.Address</td>
                             </tr>
