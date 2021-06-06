@@ -8,6 +8,8 @@
     {
         Task<AllUsersViewModel> GetAllUsersAsync();
 
+        Task<AllUsersViewModel> GetAllBannedUsersAsync();
+
         Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync();
 
         Task<bool> IsUserAlreadyAddedInRoleAsync(string inputUsername, string inputRole);

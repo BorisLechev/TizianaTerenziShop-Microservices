@@ -60,5 +60,12 @@
 
             return this.View(viewModel);
         }
+
+        public async Task<IActionResult> AllBannedUsers()
+        {
+            var viewModel = await this.userRolesService.GetAllBannedUsersAsync();
+
+            return this.View(viewModel);
+        }
     }
 }

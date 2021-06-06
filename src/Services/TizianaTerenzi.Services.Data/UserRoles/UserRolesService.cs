@@ -56,6 +56,36 @@
             return allUsersViewModel;
         }
 
+        public async Task<AllUsersViewModel> GetAllBannedUsersAsync()
+        {
+            var allUsers = await this.usersRepository
+               .AllAsNoTrackingWithDeleted()
+               .Where(u => u.IsBlocked == true)
+               .ToListAsync();
+
+            var allUsersViewModel = new AllUsersViewModel();
+
+            foreach (var user in allUsers)
+            {
+                var userRoles = await this.userManager.GetRolesAsync(user);
+
+                var viewModel = new ApplicationUserViewModel
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Role = userRoles[0],
+                    CreatedOn = user.CreatedOn,
+                    Town = user.Town,
+                    Address = user.Address,
+                };
+
+                allUsersViewModel.ApplicationUsers.Add(viewModel);
+            }
+
+            return allUsersViewModel;
+        }
+
         public async Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync()
         {
             var usernames = await this.usersRepository

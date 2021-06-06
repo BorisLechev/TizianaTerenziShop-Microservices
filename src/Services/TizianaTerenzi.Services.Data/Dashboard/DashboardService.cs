@@ -52,6 +52,10 @@
                 .AllAsNoTracking()
                 .CountAsync(u => u.Roles.Any(r => r.RoleId == adminRoleId));
 
+            var totalBannedUsersCount = await this.usersRepository
+                .AllAsNoTrackingWithDeleted()
+                .CountAsync(u => u.IsBlocked == true);
+
             var orderedProductsCountForTheCurrentMonth = await this.orderProductsRepository
                 .AllAsNoTracking()
                 .CountAsync(op => op.CreatedOn.Month == DateTime.UtcNow.Month);
@@ -78,6 +82,7 @@
             {
                 TotalUsersCount = usersCount,
                 TotalUsersInAdminRoleCount = adminsCount,
+                TotalBannedUsersCount = totalBannedUsersCount,
                 TotalOrderedProductsCountForTheCurrentMonth = orderedProductsCountForTheCurrentMonth,
                 TotalOrdersCountForTheCurrentMonth = numberOfPurchasesForTheCurrentMonth,
                 TotalRevenueForTheCurrentMonth = totalRevenueForTheCurrentMonth,

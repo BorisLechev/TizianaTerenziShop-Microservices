@@ -60,7 +60,14 @@
         public const string NotAbleToChat = "You are not able to chat.";
 
         public const string SuccessfullyAddedUserInRole = "User is successfully added in role.";
-
         public const string UserIsAlreadyInThisRole = "User is already in this role.";
+
+        public const string SuccessfullyBlockedUser = "You have successfully blocked this user.";
+        public const string UserIsAlreadyBlocked = "User is already blocked.";
+        public const string SuccessfullyUnblockedUser = "You have successfully unblocked this user.";
+        public const string UserIsAlreadyUnblocked = "User is already unblocked.";
+        public const string BlockUserError = "Invalid input.";
+        public const string UnblockUserError = "Invalid input.";
+        public const string BannedUserDefaultMessage = "This profile was banned for some reason.";
     }
 }

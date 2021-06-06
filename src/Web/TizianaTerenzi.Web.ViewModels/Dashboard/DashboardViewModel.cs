@@ -9,6 +9,10 @@
 
         public int TotalUsersInAdminRoleCount { get; set; }
 
+        public int TotalBannedUsersCount { get; set; }
+
+        public double BannedUsersPercentage => (double)this.TotalBannedUsersCount / this.TotalUsersCount * 100;
+
         public int TotalOrderedProductsCountForTheCurrentMonth { get; set; }
 
         public int TotalOrdersCountForTheCurrentMonth { get; set; }

@@ -43,6 +43,11 @@ namespace TizianaTerenzi.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
+        public bool IsBlocked { get; set; }
+
+        [MaxLength(200)]
+        public string ReasonToBeBlocked { get; set; }
+
         public string Town { get; set; }
 
         public string PostalCode { get; set; }
