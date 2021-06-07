@@ -6,14 +6,24 @@
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
       //"wwwroot/css/!(*.min).css",
-      "wwwroot/css/site.css"
+      "wwwroot/css/site.css",
+      "wwwroot/css/buttons.css",
+      "wwwroot/css/testimonials.css",
+      "wwwroot/css/navbar.css",
+      "wwwroot/css/footer.css",
+      "wwwroot/notification/css/notificationButton.css",
+      "wwwroot/userStatus/css/userStatus.css",
+      "wwwroot/css/datatables.min.css"
     ]
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       //"wwwroot/js/!(*.min).js",
-      "wwwroot/js/site.js"
+      "wwwroot/js/site.js",
+      "wwwroot/js/datatables-init.js",
+      "wwwroot/js/datatables.min.js",
+      "wwwroot/js/dropdown-animation.js"
     ],
     // Optionally specify minification options
     "minify": {

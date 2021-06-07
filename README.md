@@ -106,6 +106,7 @@ Example:
   * Cloudinary
   * SendGrid - for mailing
   * jQuery
+  * jQuery Unobtrusive Validation library
   * AJAX
   * HTML
   * CSS
@@ -113,6 +114,7 @@ Example:
   * Bootstrap-Select - for select dropdowns
   * Semantic-UI - for the multiple select dropdowns in Admin Dashboard
   * SB Admin 2 - Bootstrap 4 based admin theme for Admin dashboard
+  * AOS && Animate.css - Animate On Scroll library
   * FontAwesome
   * Moment.js - to parse, validate and display dates and times in JavaScript
   * TinyMCE - text editor
