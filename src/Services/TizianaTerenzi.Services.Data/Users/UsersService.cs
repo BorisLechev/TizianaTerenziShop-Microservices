@@ -1,28 +1,35 @@
-﻿namespace TizianaTerenzi.Services.Data.UserRoles
+﻿namespace TizianaTerenzi.Services.Data.Users
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.UserRoles;
+    using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Web.ViewModels.Users;
 
-    public class UserRolesService : IUserRolesService
+    public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+
+        private readonly IDeletableEntityRepository<ApplicationRole> rolesRepository;
 
         private readonly UserManager<ApplicationUser> userManager;
 
         private readonly RoleManager<ApplicationRole> roleManager;
 
-        public UserRolesService(
+        public UsersService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
+            IDeletableEntityRepository<ApplicationRole> rolesRepository,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager)
         {
             this.usersRepository = usersRepository;
+            this.rolesRepository = rolesRepository;
             this.userManager = userManager;
             this.roleManager = roleManager;
         }
@@ -56,55 +63,50 @@
             return allUsersViewModel;
         }
 
-        public async Task<AllUsersViewModel> GetAllBannedUsersAsync()
+        public async Task<IEnumerable<BannedApplicationUserViewModel>> GetAllBannedUsersAsync()
         {
-            var allUsers = await this.usersRepository
+            var allBannedUsers = await this.usersRepository
                .AllAsNoTrackingWithDeleted()
                .Where(u => u.IsBlocked == true)
+               .To<BannedApplicationUserViewModel>()
                .ToListAsync();
 
-            var allUsersViewModel = new AllUsersViewModel();
-
-            foreach (var user in allUsers)
-            {
-                var userRoles = await this.userManager.GetRolesAsync(user);
-
-                var viewModel = new ApplicationUserViewModel
-                {
-                    UserName = user.UserName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Role = userRoles[0],
-                    CreatedOn = user.CreatedOn,
-                    Town = user.Town,
-                    Address = user.Address,
-                };
-
-                allUsersViewModel.ApplicationUsers.Add(viewModel);
-            }
-
-            return allUsersViewModel;
+            return allBannedUsers;
         }
 
         public async Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync()
         {
-            var usernames = await this.usersRepository
+            var users = await this.usersRepository
                 .All()
-                .Select(u => u.UserName)
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = u.UserName,
+                })
+                .ToListAsync();
+
+            var roles = await this.rolesRepository
+                .All()
+                .Select(r => new SelectListItem
+                {
+                    Value = r.Id,
+                    Text = r.Name,
+                })
                 .ToListAsync();
 
             var viewModel = new UsernamesRolesIndexViewModel
             {
-                Usernames = usernames,
+                Users = users,
+                Roles = roles,
             };
 
             return viewModel;
         }
 
-        public async Task<bool> IsUserAlreadyAddedInRoleAsync(string inputUsername, string inputRole)
+        public async Task<bool> IsUserAlreadyAddedInRoleAsync(string inputUserId, string inputRoleId)
         {
-            var user = await this.userManager.FindByNameAsync(inputUsername);
-            IdentityRole newRole = await this.roleManager.FindByNameAsync(inputRole);
+            var user = await this.userManager.FindByIdAsync(inputUserId);
+            IdentityRole newRole = await this.roleManager.FindByIdAsync(inputRoleId);
 
             if (user == null || newRole == null)
             {
@@ -121,12 +123,12 @@
             return false;
         }
 
-        public async Task<bool> UpdateUserRoleAsync(string username, string inputRole)
+        public async Task<bool> UpdateUserRoleAsync(string userId, string inputRoleId)
         {
-            var user = await this.userManager.FindByNameAsync(username);
+            var user = await this.userManager.FindByIdAsync(userId);
             var currentUserRoles = await this.userManager.GetRolesAsync(user);
             var currentUserRoleName = currentUserRoles[0];
-            IdentityRole newRole = await this.roleManager.FindByNameAsync(inputRole);
+            IdentityRole newRole = await this.roleManager.FindByIdAsync(inputRoleId);
 
             var removeResult = await this.userManager.RemoveFromRoleAsync(user, currentUserRoleName);
 

@@ -1,9 +1,11 @@
-﻿@model AllUsersViewModel
+﻿@model IEnumerable<BannedApplicationUserViewModel>
 @{
     this.ViewData["Title"] = "All Banned Users";
 }
 
 <div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">@this.ViewData["Title"]</h1>
+
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
@@ -13,14 +15,15 @@
                             <th>Username</th>
                             <th>Name</th>
                             <th>Role</th>
-                            <th>Registered On</th>
+                            <th>Banned On</th>
                             @*<th>Country</th>*@
                             <th>Town</th>
                             <th>Address</th>
+                            <th>Reason to be blocked</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in this.Model.ApplicationUsers)
+                        @foreach (var user in this.Model)
                         {
                             <tr>
                                 <td>@user.UserName</td>
@@ -35,10 +38,11 @@
                                         <span class="badge badge-secondary">@user.Role</span>
                                     }
                                 </td>
-                                <td>@user.CreatedOn</td>
+                                <td><time datetime="@user.BannedOn.ToString("O")"></time></td>
                                 @*<td>@user.CountryName</td>*@
                                 <td>@user.Town</td>
                                 <td>@user.Address</td>
+                                <td>@user.ReasonToBeBlocked</td>
                             </tr>
                         }
                     </tbody>

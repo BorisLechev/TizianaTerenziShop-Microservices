@@ -2,12 +2,12 @@
 @model UserEditInputModel
 
 @{
-    ViewData["Title"] = "Edit profile";
+    this.ViewData["Title"] = "Edit profile";
     Layout = "_BubblesLayout";
 }
 
 <div class="text-center w-75 w-md-50 mx-auto">
-    <h2>@ViewData["Title"]</h2>
+    <h2>@this.ViewData["Title"]</h2>
     <hr />
 
     <form method="post">
@@ -67,7 +67,7 @@
         </div>
         <div class="form-group">
             <p>
-                <a asp-controller="Account" asp-action="ChangePassword">@Localizer["Change password"]</a>
+                <a asp-area="" asp-controller="Profile" asp-action="ChangePassword">@Localizer["Change password"]</a>
             </p>
         </div>
     </form>

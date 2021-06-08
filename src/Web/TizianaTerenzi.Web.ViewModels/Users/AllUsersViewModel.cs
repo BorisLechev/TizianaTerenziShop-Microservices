@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.UserRoles
+﻿namespace TizianaTerenzi.Web.ViewModels.Users
 {
     using System.Collections.Generic;
 

@@ -14,12 +14,12 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Notifications;
     using TizianaTerenzi.Services.Data.Orders;
-    using TizianaTerenzi.Services.Data.PersonalData;
+    using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using Xunit;
 
-    public class PersonalDataServiceTests
+    public class ProfileServiceTests
     {
         [Fact]
         public async Task DeleteUserWithCorrectIdWorksCorrectly()
@@ -138,7 +138,7 @@
             await dbContext.ChatGroups.AddAsync(chatGroup);
             await dbContext.SaveChangesAsync();
 
-            var personalDataService = new PersonalDataService(
+            var personalDataService = new ProfileService(
                 new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                 new EfDeletableEntityRepository<ApplicationRole>(dbContext),
                 mockCountriesService.Object,
@@ -197,7 +197,7 @@
 
             var userId = Guid.NewGuid().ToString();
 
-            var personalDataService = new PersonalDataService(
+            var personalDataService = new ProfileService(
                 new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                 new EfDeletableEntityRepository<ApplicationRole>(dbContext),
                 null,
@@ -230,7 +230,7 @@
             var mockCommentsService = new Mock<ICommentsService>();
             var mockCommentVotesService = new Mock<ICommentVotesService>();
 
-            var personalDataService = new PersonalDataService(
+            var personalDataService = new ProfileService(
                 new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                 new EfDeletableEntityRepository<ApplicationRole>(dbContext),
                 mockCountriesService.Object,

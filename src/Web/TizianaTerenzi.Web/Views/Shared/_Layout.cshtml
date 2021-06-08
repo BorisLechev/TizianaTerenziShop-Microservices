@@ -73,9 +73,9 @@
                                         }
                                     }
                                 </a>
-                                <a class="dropdown-item" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value">@Localizer["My profile"]</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">@Localizer["Change password"]</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Edit">@Localizer["Edit profile"]</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value">@Localizer["My profile"]</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="ChangePassword">@Localizer["Change password"]</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Edit">@Localizer["Edit profile"]</a>
                                 @if (User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
                                 {
                                     <div class="dropdown-divider"></div>
@@ -83,7 +83,7 @@
                                     <a asp-area="" asp-controller="Orders" asp-action="Index" class="dropdown-item">@Localizer["My orders"]</a>
                                 }
                                 <div class="dropdown-divider"></div>
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">
+                                <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">
                                     <button type="submit" class="dropdown-item text-danger">@Localizer["Logout"]</button>
                                 </form>
                             </div>

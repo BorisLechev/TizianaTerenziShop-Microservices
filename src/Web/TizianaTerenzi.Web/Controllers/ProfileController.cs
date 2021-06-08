@@ -12,7 +12,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Orders;
-    using TizianaTerenzi.Services.Data.PersonalData;
+    using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.Web.ViewModels.Profile;
 
     [Authorize]
@@ -26,26 +26,26 @@
 
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        private readonly IPersonalDataService personalDataService;
+        private readonly IProfileService profileService;
 
         private readonly IOrdersService ordersService;
 
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IPersonalDataService personalDataService,
+            IProfileService profileService,
             IOrdersService ordersService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.personalDataService = personalDataService;
+            this.profileService = profileService;
             this.ordersService = ordersService;
         }
 
         [Route("/profile/{userId}")]
         public async Task<IActionResult> Index(string userId)
         {
-            var user = await this.personalDataService.GetUserByIdAsync(userId);
+            var user = await this.profileService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -88,7 +88,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var json = await this.personalDataService.GetPersonalDataForUserJsonAsync(user.Id);
+            var json = await this.profileService.GetPersonalDataForUserJsonAsync(user.Id);
 
             this.Response.Headers.Add("Content-Disposition", "attachment; filename=" + string.Format(PersonalDataFileName, GlobalConstants.SystemName, user.FirstName, user.LastName));
 
@@ -112,7 +112,7 @@
                 return this.LocalRedirect($"/profile/{user.Id}");
             }
 
-            var result = await this.personalDataService.DeleteUserAsync(user.Id);
+            var result = await this.profileService.DeleteUserAsync(user.Id);
 
             if (result == false)
             {
@@ -128,13 +128,183 @@
             return this.LocalRedirect("/");
         }
 
+        [HttpGet]
+        [Route("/profile/changepassword")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            }
+
+            var hasPassword = await this.userManager.HasPasswordAsync(user);
+
+            if (!hasPassword)
+            {
+                return this.RedirectToAction(nameof(this.SetPassword));
+            }
+
+            var inputModel = new UserChangePasswordInputModel
+            {
+                Email = user.Email,
+            };
+
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        [Route("/profile/changepassword")]
+        public async Task<IActionResult> ChangePassword(UserChangePasswordInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction(nameof(this.ChangePassword));
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            }
+
+            var changePasswordResult = await this.userManager.ChangePasswordAsync(user, inputModel.OldPassword, inputModel.NewPassword);
+
+            if (!changePasswordResult.Succeeded)
+            {
+                foreach (var error in changePasswordResult.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                inputModel.Email = user.Email;
+
+                return this.View(inputModel);
+            }
+
+            await this.signInManager.RefreshSignInAsync(user);
+
+            this.Success(NotificationMessages.PasswordChanged);
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SetPassword()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound(NotificationMessages.UserNotFound);
+            }
+
+            var hasPassword = await this.userManager.HasPasswordAsync(user);
+
+            if (hasPassword)
+            {
+                return this.RedirectToAction(nameof(this.ChangePassword));
+            }
+
+            var inputModel = new UserSetPasswordInputModel
+            {
+                Email = user.Email,
+            };
+
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetPassword(UserSetPasswordInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction(nameof(this.SetPassword));
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            }
+
+            if (await this.userManager.HasPasswordAsync(user))
+            {
+                return this.RedirectToAction(nameof(this.ChangePassword));
+            }
+
+            var addPasswordResult = await this.userManager.AddPasswordAsync(user, inputModel.NewPassword);
+
+            if (!addPasswordResult.Succeeded)
+            {
+                foreach (var error in addPasswordResult.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                inputModel.Email = user.Email;
+
+                return this.View(inputModel);
+            }
+
+            await this.signInManager.RefreshSignInAsync(user);
+
+            this.Success(NotificationMessages.PasswordSet);
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [Route("/profile/edit")]
+        public async Task<IActionResult> Edit()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound(NotificationMessages.UserNotFound);
+            }
+
+            var inputModel = await this.profileService.GetDetailsForUserEditAsync(user.Id);
+
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        [Route("/profile/edit")]
+        public async Task<IActionResult> Edit(UserEditInputModel inputModel)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                inputModel.Email = user.Email;
+
+                return this.View(inputModel);
+            }
+
+            await this.profileService.EditUserDetailsAsync(user, inputModel);
+
+            this.Success(NotificationMessages.ProfileDetailsUpdated);
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
         [Route("/profile/all")]
         public async Task<IActionResult> All(int page = 0)
         {
             page = Math.Max(1, page);
             var skip = (page - 1) * UsersPerPage;
 
-            var usersViewModel = await this.personalDataService.GetAllUsersExceptAdminsAsync(page, UsersPerPage, skip);
+            var usersViewModel = await this.profileService.GetAllUsersExceptAdminsAsync(page, UsersPerPage, skip);
 
             return this.View(usersViewModel);
         }

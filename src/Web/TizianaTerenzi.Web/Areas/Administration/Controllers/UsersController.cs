@@ -4,33 +4,33 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.UserRoles;
-    using TizianaTerenzi.Web.ViewModels.UserRoles;
+    using TizianaTerenzi.Services.Data.Users;
+    using TizianaTerenzi.Web.ViewModels.Users;
 
     public class UsersController : AdministrationController
     {
-        private readonly IUserRolesService userRolesService;
+        private readonly IUsersService usersService;
 
-        public UsersController(IUserRolesService userRolesService)
+        public UsersController(IUsersService usersService)
         {
-            this.userRolesService = userRolesService;
+            this.usersService = usersService;
         }
 
         public async Task<IActionResult> Roles()
         {
-            var viewModel = await this.userRolesService.GetUsernamesRolesAsync();
+            var viewModel = await this.usersService.GetUsernamesRolesAsync();
 
             return this.View(viewModel);
         }
 
         public async Task<IActionResult> AddUserInRole(UsernamesRolesIndexViewModel viewModel)
         {
-            string inputUsername = viewModel.AddUserInRole.Username;
-            string inputRole = viewModel.AddUserInRole.Role;
+            string inputUserId = viewModel.UserId;
+            string inputRoleId = viewModel.RoleId;
 
             if (this.ModelState.IsValid)
             {
-                var isUserAlreadyAddedInThisRole = await this.userRolesService.IsUserAlreadyAddedInRoleAsync(inputUsername, inputRole);
+                var isUserAlreadyAddedInThisRole = await this.usersService.IsUserAlreadyAddedInRoleAsync(inputUserId, inputRoleId);
 
                 if (isUserAlreadyAddedInThisRole)
                 {
@@ -38,7 +38,7 @@
                 }
                 else
                 {
-                    var result = await this.userRolesService.UpdateUserRoleAsync(inputUsername, inputRole);
+                    var result = await this.usersService.UpdateUserRoleAsync(inputUserId, inputRoleId);
 
                     if (result)
                     {
@@ -56,14 +56,14 @@
 
         public async Task<IActionResult> AllUsers()
         {
-            var viewModel = await this.userRolesService.GetAllUsersAsync();
+            var viewModel = await this.usersService.GetAllUsersAsync();
 
             return this.View(viewModel);
         }
 
         public async Task<IActionResult> AllBannedUsers()
         {
-            var viewModel = await this.userRolesService.GetAllBannedUsersAsync();
+            var viewModel = await this.usersService.GetAllBannedUsersAsync();
 
             return this.View(viewModel);
         }

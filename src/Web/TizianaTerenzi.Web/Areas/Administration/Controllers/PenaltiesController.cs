@@ -47,7 +47,7 @@
                 this.Error(NotificationMessages.UserIsAlreadyBlocked);
             }
 
-            return this.RedirectToAction("AllUsers", "Users");
+            return this.RedirectToAction("AllBannedUsers", "Users");
         }
 
         public async Task<IActionResult> UnblockUser(UserPenaltiesInputModel input)

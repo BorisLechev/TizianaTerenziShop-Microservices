@@ -42,11 +42,11 @@
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Data.Notifications;
     using TizianaTerenzi.Services.Data.Orders;
-    using TizianaTerenzi.Services.Data.PersonalData;
     using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.Services.Data.Subscribe;
     using TizianaTerenzi.Services.Data.UserPenalties;
-    using TizianaTerenzi.Services.Data.UserRoles;
+    using TizianaTerenzi.Services.Data.Users;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Location;
@@ -221,7 +221,7 @@
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<ICommentVotesService, CommentVotesService>();
-            services.AddTransient<IPersonalDataService, PersonalDataService>();
+            services.AddTransient<IProfileService, ProfileService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<ILocationService, LocationService>();
@@ -231,7 +231,7 @@
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IDashboardService, DashboardService>();
-            services.AddTransient<IUserRolesService, UserRolesService>();
+            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserPenaltiesService, UserPenaltiesService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();

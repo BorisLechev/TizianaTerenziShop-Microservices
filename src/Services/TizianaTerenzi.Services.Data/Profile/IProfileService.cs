@@ -1,12 +1,11 @@
-﻿namespace TizianaTerenzi.Services.Data.PersonalData
+﻿namespace TizianaTerenzi.Services.Data.Profile
 {
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Account;
     using TizianaTerenzi.Web.ViewModels.Profile;
 
-    public interface IPersonalDataService
+    public interface IProfileService
     {
         Task<string> GetPersonalDataForUserJsonAsync(string userId);
 

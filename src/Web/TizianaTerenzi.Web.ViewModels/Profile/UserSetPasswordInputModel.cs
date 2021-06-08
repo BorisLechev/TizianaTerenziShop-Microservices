@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Web.ViewModels.Account
+﻿namespace TizianaTerenzi.Web.ViewModels.Profile
 {
     using System.ComponentModel.DataAnnotations;
 

@@ -1,44 +1,47 @@
 ﻿@model UsernamesRolesIndexViewModel
 @{
-    this.ViewData["Title"] = "Roles";
+    this.ViewData["Title"] = "Add user in role";
 }
 
 <div class="container-fluid">
     <div class="row">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h5 mb-0 text-gray-800">Add user in role</h1>
+            <h1 class="h3 mb-0 text-gray-800">@this.ViewData["Title"]</h1>
         </div>
         <form method="post">
             <div class="row">
                 <div class="col-xl-6 col-md-9 mb-4">
-                    <div class="card border-left-info shadow h-100 py-4">
-                        <input asp-for="@this.Model.AddUserInRole.Username" class="chosen-value addUserValueForUserInRole" type="text" value="" placeholder="Type to filter" autocomplete="off" required />
-                        <ul class="value-list usersListForUserInRole">
-                            @foreach (var username in this.Model.Usernames)
-                            {
-                                <li id="userForUserInRole">@username</li>
-                            }
-                        </ul>
-                    </div>
+                    <section class="form-group">
+                        <label asp-for="@this.Model.UserId" class="control-label"></label>
+                        <section class="field mb-4">
+                            <select class="ui fluid search selection dropdown" asp-for="@this.Model.UserId" asp-items="@this.Model.Users">
+                                <option value="">Select Username...</option>
+                            </select>
+                            <span asp-validation-for="@this.Model.UserId" class="text-danger"></span>
+                        </section>
+                    </section>
                 </div>
                 <div class="col-xl-3 col-md-9 mb-4">
-                    <div class="card border-left-info shadow h-100 py-4">
-                        <input asp-for="@Model.AddUserInRole.Role" class="chosen-value addRoleValueForUserInRole" type="text" value="" placeholder="Type to filter" autocomplete="off" required />
-                        <ul class="value-list rolesListForUserInRole">
-                            @foreach (var role in @Html.GetEnumSelectList<RolesEnum>())
-                            {
-                                <li id="roleForUserInRole">@role.Text</li>
-                            }
-                        </ul>
-                    </div>
+                    <section class="form-group">
+                        <label asp-for="@this.Model.RoleId" class="control-label"></label>
+                        <section class="field mb-4">
+                            <select class="ui fluid search selection dropdown" asp-for="@this.Model.RoleId" asp-items="@this.Model.Roles">
+                                <option value="">Select Role...</option>
+                            </select>
+                            <span asp-validation-for="@this.Model.RoleId" class="text-danger"></span>
+                        </section>
+                    </section>
                 </div>
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <button asp-area="Administration" asp-controller="Users" asp-action="AddUserInRole" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-check"></i>
-                        </span>
-                        <span class="text">Add user in role</span>
-                    </button>
+                <div class="col-xl-3 col-md-6 mt-2">
+                    <label class="control-label"></label>
+                    <section class="field mb-4">
+                        <button asp-area="Administration" asp-controller="Users" asp-action="AddUserInRole" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Add user in role</span>
+                        </button>
+                    </section>
                 </div>
             </div>
         </form>
@@ -46,6 +49,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/administration/js/addUserInRoleUsersDropDown.js" asp-append-version="true"></script>
-    <script src="~/administration/js/addUserInRoleRolesDropDown.js" asp-append-version="true"></script>
+    <script>
+        $('.ui.fluid').dropdown();
+    </script>
 }

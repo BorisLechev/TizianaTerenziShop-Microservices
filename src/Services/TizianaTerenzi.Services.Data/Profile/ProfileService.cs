@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Services.Data.PersonalData
+﻿namespace TizianaTerenzi.Services.Data.Profile
 {
     using System.Linq;
     using System.Text.Json;
@@ -17,10 +17,9 @@
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Account;
     using TizianaTerenzi.Web.ViewModels.Profile;
 
-    public class PersonalDataService : IPersonalDataService
+    public class ProfileService : IProfileService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
@@ -42,7 +41,7 @@
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        public PersonalDataService(
+        public ProfileService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
             ICountriesService countriesService,
