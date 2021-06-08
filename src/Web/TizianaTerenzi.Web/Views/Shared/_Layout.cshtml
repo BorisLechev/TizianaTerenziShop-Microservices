@@ -8,6 +8,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
+    <meta name="title" content="@GlobalConstants.SystemName" />
+    <meta name="description" content="@this.ViewData["Meta-Description"]" />
+    <meta property="og:description" content="@this.ViewData["Meta-Description"]" />
+    <meta property="og:title" content="@this.ViewData["Title"]" />
+    <meta property="og:site_name" content="@GlobalConstants.SystemName" />
+    <meta name="keywords" content="@this.ViewData["Meta-Keywords"]" />
     <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/bootstrap/dist/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />

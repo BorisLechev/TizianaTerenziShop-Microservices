@@ -3,6 +3,8 @@
 
 @{
     this.ViewData["Title"] = this.Model.Name;
+    this.ViewData["Meta-Description"] = this.Model.Description + " " + string.Join(", ", Model.Notes);
+    this.ViewData["Meta-Keywords"] = GlobalConstants.SystemName + ", " + this.Model.Name + "," + this.Model.FragranceGroupName + "," + string.Join(", ", Model.Notes);
 }
 
 <main id="main">
