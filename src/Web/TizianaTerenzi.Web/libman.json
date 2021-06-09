@@ -142,7 +142,7 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.6",
+      "library": "@microsoft/signalr@5.0.7",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
