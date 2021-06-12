@@ -28,6 +28,6 @@
 
         Task<bool> CheckoutAsync(string userId);
 
-        Task SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel);
+        Task<bool> SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel);
     }
 }

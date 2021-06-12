@@ -16,7 +16,7 @@
 
     public class CartService : ICartService
     {
-        private readonly IDeletableEntityRepository<Cart> productsInTheCartRepository;
+        private readonly IDeletableEntityRepository<Cart> cartsRepository;
 
         private readonly IDeletableEntityRepository<Order> ordersRepository;
 
@@ -25,12 +25,12 @@
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartService(
-            IDeletableEntityRepository<Cart> productsInTheCartRepository,
+            IDeletableEntityRepository<Cart> cartsRepository,
             IDeletableEntityRepository<Order> ordersRepository,
             IOrderStatusesService orderStatusesService,
             UserManager<ApplicationUser> userManager)
         {
-            this.productsInTheCartRepository = productsInTheCartRepository;
+            this.cartsRepository = cartsRepository;
             this.ordersRepository = ordersRepository;
             this.orderStatusesService = orderStatusesService;
             this.userManager = userManager;
@@ -46,16 +46,16 @@
                 ProductPriceWithDiscountCode = product.PriceWithGeneralDiscount,
             };
 
-            await this.productsInTheCartRepository.AddAsync(productInTheCart);
+            await this.cartsRepository.AddAsync(productInTheCart);
 
-            int result = await this.productsInTheCartRepository.SaveChangesAsync();
+            int result = await this.cartsRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
         public async Task<bool> CheckIfProductExistsInTheUsersCartAsync(string userId, int productId)
         {
-            var result = await this.productsInTheCartRepository
+            var result = await this.cartsRepository
                 .AllAsNoTracking()
                 .Where(p => p.UserId == userId)
                 .AnyAsync(p => p.ProductId == productId);
@@ -97,7 +97,7 @@
 
         public async Task<int> DeleteAllProductsInTheCartByUserIdAsync(string userId)
         {
-            var productsCount = await this.productsInTheCartRepository
+            var productsCount = await this.cartsRepository
                 .AllAsNoTracking()
                 .Where(p => p.UserId == userId)
                 .DeleteAsync();
@@ -107,7 +107,7 @@
 
         public async Task<int> DeleteProductInTheCartAsync(string productId)
         {
-            var productsCount = await this.productsInTheCartRepository
+            var productsCount = await this.cartsRepository
                 .AllAsNoTracking()
                 .Where(p => p.Id == productId)
                 .DeleteAsync();
@@ -117,7 +117,7 @@
 
         public async Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId)
         {
-            var result = await this.productsInTheCartRepository
+            var result = await this.cartsRepository
                 .AllAsNoTracking()
                 .AnyAsync(op => op.UserId == userId);
 
@@ -126,7 +126,7 @@
 
         public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId)
         {
-            var productsInTheCart = await this.productsInTheCartRepository
+            var productsInTheCart = await this.cartsRepository
                 .All()
                 .Where(p => p.UserId == userId)
                 .To<ProductsInTheCartViewModel>()
@@ -137,7 +137,7 @@
 
         public async Task<string> GetProductInTheCartIdByProductIdAsync(int productId)
         {
-            var productInTheCartId = await this.productsInTheCartRepository
+            var productInTheCartId = await this.cartsRepository
                 .AllAsNoTracking()
                 .Where(p => p.ProductId == productId)
                 .Select(p => p.Id)
@@ -148,20 +148,20 @@
 
         public async Task<bool> IncreaseQuantityAsync(string productId)
         {
-            var productInTheCart = await this.productsInTheCartRepository
+            var productInTheCart = await this.cartsRepository
                 .All()
                 .SingleOrDefaultAsync(p => p.Id == productId);
 
             productInTheCart.Quantity++;
 
-            int result = await this.productsInTheCartRepository.SaveChangesAsync();
+            int result = await this.cartsRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
         public async Task<bool> ReduceQuantityAsync(string productId)
         {
-            var productInTheCart = await this.productsInTheCartRepository
+            var productInTheCart = await this.cartsRepository
                .All()
                .SingleOrDefaultAsync(p => p.Id == productId);
 
@@ -172,23 +172,22 @@
 
             productInTheCart.Quantity--;
 
-            int result = await this.productsInTheCartRepository.SaveChangesAsync();
+            int result = await this.cartsRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public async Task SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel)
+        public async Task<bool> SaveShippingDataAsync(ApplicationUser user, ShippingDataInputModel inputModel)
         {
-            if (user.Address == null || user.PostalCode == null || user.PhoneNumber == null)
-            {
-                user.CountryId = inputModel.CountryId;
-                user.Address = inputModel.Address;
-                user.Town = inputModel.Town;
-                user.PostalCode = inputModel.PostalCode;
-                user.PhoneNumber = inputModel.PhoneNumber;
+            user.CountryId = inputModel.CountryId;
+            user.Address = inputModel.Address;
+            user.Town = inputModel.Town;
+            user.PostalCode = inputModel.PostalCode;
+            user.PhoneNumber = inputModel.PhoneNumber;
 
-                await this.userManager.UpdateAsync(user);
-            }
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
     }
 }

@@ -7,18 +7,18 @@
 
     public class ShippingDataInputModel
     {
-        [Required]
-        [StringLength(30, MinimumLength = 2)]
         [Display(Name = "First name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "First name is required.")]
+        [StringLength(30, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string FirstName { get; set; }
 
-        [Required]
-        [StringLength(30, MinimumLength = 2)]
         [Display(Name = "Last name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Last name is required.")]
+        [StringLength(30, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string LastName { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Town is required.")]
+        [StringLength(50, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Town { get; set; }
 
         [Display(Name = "Country")]
@@ -26,20 +26,20 @@
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
-        [Required]
-        [DataType(DataType.PostalCode)]
         [Display(Name = "Postal code")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Postal code is required.")]
+        [DataType(DataType.PostalCode)]
         public string PostalCode { get; set; }
 
-        [Required]
-        [Phone]
         [Display(Name = "Phone number")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Phone number is required.")]
+        [Phone]
+        [RegularExpression(@"^(?=(?:\D*\d){10,15}\D*$)\+?[0-9]{1,3}[\s-]?(?:\(0?[0-9]{1,5}\)|[0-9]{1,5})[-\s]?[0-9][\d\s-]{5,7}\s?(?:x[\d-]{0,4})?$", ErrorMessage = "Please enter a valid phone number.")]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [MinLength(2)]
-        [MaxLength(100)]
         [Display(Name = "Address")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Address is required.")]
+        [StringLength(100, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Address { get; set; }
     }
 }
