@@ -46,6 +46,7 @@
 
             var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
             var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
+
             var list = new List<DiscountCode>();
             var mockList = list.AsQueryable().BuildMock();
 
@@ -85,6 +86,8 @@
 
             mockDiscountCodesRepo.Setup(dc => dc.All())
                     .Returns(discountCodesRepository.All());
+            mockDiscountCodesRepo.Setup(dc => dc.AllAsNoTracking())
+                    .Returns(discountCodesRepository.AllAsNoTracking());
             mockDiscountCodesRepo.Setup(dc => dc.SaveChangesAsync())
                    .Returns(discountCodesRepository.SaveChangesAsync());
             mockDiscountCodesRepo.Setup(dc => dc.Delete(It.IsAny<DiscountCode>()))
@@ -93,6 +96,7 @@
             var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, null);
 
             // Assert
+            Assert.True(await discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountCode.Name));
             Assert.True(await discountCodesService.DeleteDiscountCodeAsync(1));
             Assert.False(await discountCodesService.DeleteDiscountCodeAsync(2));
         }
@@ -230,5 +234,42 @@
             Assert.Equal(320, productInTheCart.ProductPriceWithDiscountCode);
             Assert.Equal("Kiki", productInTheCart.Product.Name);
         }
+
+        [Fact]
+        public async Task GetDiscountCodeByNameShouldWorkCorrectly()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var discountCode = new DiscountCode
+            {
+                Name = "Test",
+                Discount = 10,
+                ExpiresOn = DateTime.UtcNow.AddMonths(1),
+            };
+
+            await dbContext.DiscountCodes.AddAsync(discountCode);
+            await dbContext.SaveChangesAsync();
+
+            var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
+            var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
+
+            mockDiscountCodesRepo.Setup(dc => dc.All())
+                    .Returns(discountCodesRepository.All());
+
+            var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, null);
+
+            // Act
+            var result = await discountCodesService.GetDiscountCodeByNameAsync(discountCode.Name);
+
+            // Assert
+            Assert.Equal(discountCode.Name, result.Name);
+            Assert.Equal(discountCode.Discount, result.Discount);
+            Assert.Equal(discountCode.ExpiresOn, result.ExpiresOn);
+        }
+
+        // TODO: GetAllDiscountCodesAsync() test
     }
 }
