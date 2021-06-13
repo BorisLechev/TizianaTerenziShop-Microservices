@@ -3,10 +3,12 @@
     using System;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Moq;
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common.Repositories;
@@ -19,8 +21,10 @@
     using TizianaTerenzi.Web.ViewModels.Products;
     using Xunit;
 
-    public class ProductsServiceTests
+    public class ProductsServiceTests : BaseServiceTests
     {
+        private IProductsService Service => this.ServiceProvider.GetRequiredService<IProductsService>();
+
         [Fact]
         public async Task GetProductsByPageCorrectly()
         {
@@ -117,22 +121,6 @@
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-
-            var productType = new ProductType
-            {
-                Name = "Fragrance",
-            };
-
-            await dbContext.ProductTypes.AddAsync(productType);
-            await dbContext.SaveChangesAsync();
-
-            var fragranceGroup = new FragranceGroup
-            {
-                Name = "Chypre",
-            };
-
-            await dbContext.FragranceGroups.AddAsync(fragranceGroup);
-            await dbContext.SaveChangesAsync();
 
             var newProduct = new Product
             {
@@ -256,22 +244,6 @@
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-
-            var productType = new ProductType
-            {
-                Name = "Fragrance",
-            };
-
-            await dbContext.ProductTypes.AddAsync(productType);
-            await dbContext.SaveChangesAsync();
-
-            var fragranceGroup = new FragranceGroup
-            {
-                Name = "Chypre",
-            };
-
-            await dbContext.FragranceGroups.AddAsync(fragranceGroup);
-            await dbContext.SaveChangesAsync();
 
             var newProduct = new Product
             {
@@ -461,20 +433,6 @@
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
-            var productType = new ProductType
-            {
-                Name = "Fragrance",
-            };
-
-            await dbContext.ProductTypes.AddAsync(productType);
-
-            var fragranceGroup = new FragranceGroup
-            {
-                Name = "Chypre",
-            };
-
-            await dbContext.FragranceGroups.AddAsync(fragranceGroup);
-
             var newProduct = new Product
             {
                 Name = "Kiki",
@@ -488,18 +446,13 @@
             };
 
             await dbContext.Products.AddAsync(newProduct);
+            await dbContext.SaveChangesAsync();
 
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockRepo = new Mock<IDeletableEntityRepository<Product>>();
 
-            mockRepo.Setup(pv => pv.All())
-                    .Returns(productsRepository.All());
             mockRepo.Setup(pv => pv.AllAsNoTracking())
                     .Returns(productsRepository.AllAsNoTracking());
-            mockRepo.Setup(pv => pv.SaveChangesAsync())
-                    .Returns(productsRepository.SaveChangesAsync());
-            mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Product>()))
-                    .Callback((Product product) => productsRepository.AddAsync(product));
 
             var service = new ProductsService(mockRepo.Object, null);
 
@@ -517,26 +470,23 @@
         }
 
         [Fact]
+        public async Task GetRelatedProductsTheResultShouldBe3()
+        {
+            // Act
+            var relatedproducts = await this.Service.GetRandomRelatedProductsAsync(1);
+
+            // Assert
+            Assert.NotEmpty(relatedproducts);
+            Assert.Equal(3, relatedproducts.Count());
+        }
+
+        [Fact]
         public async Task GetProductDetailsWithInValidProductIdTheResultShouldBeNull()
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-
-            var productType = new ProductType
-            {
-                Name = "Fragrance",
-            };
-
-            await dbContext.ProductTypes.AddAsync(productType);
-
-            var fragranceGroup = new FragranceGroup
-            {
-                Name = "Chypre",
-            };
-
-            await dbContext.FragranceGroups.AddAsync(fragranceGroup);
 
             var newProduct = new Product
             {
@@ -555,14 +505,8 @@
             var productsRepository = new EfDeletableEntityRepository<Product>(dbContext);
             var mockRepo = new Mock<IDeletableEntityRepository<Product>>();
 
-            mockRepo.Setup(pv => pv.All())
-                    .Returns(productsRepository.All());
             mockRepo.Setup(pv => pv.AllAsNoTracking())
                     .Returns(productsRepository.AllAsNoTracking());
-            mockRepo.Setup(pv => pv.SaveChangesAsync())
-                    .Returns(productsRepository.SaveChangesAsync());
-            mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Product>()))
-                    .Callback((Product product) => productsRepository.AddAsync(product));
 
             var service = new ProductsService(mockRepo.Object, null);
 
@@ -572,5 +516,9 @@
             // Assert
             Assert.Null(product);
         }
+
+        // TODO: UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync Z.EntityFramework.Plus
+        // TODO: UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync
+        // TODO: GetProductByIdAsync
     }
 }
