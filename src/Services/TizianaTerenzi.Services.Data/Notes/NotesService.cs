@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Notes
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -87,20 +88,16 @@
 
         public async Task<bool> SoftDeleteAllProductNotesAsync(int productId)
         {
-            var productNotes = await this.productNotesRepository
+            var affectedRows = await this.productNotesRepository
                 .All()
                 .Where(pn => pn.ProductId == productId)
-                .ToListAsync();
+                .UpdateAsync(pn => new ProductNote
+                {
+                    IsDeleted = true,
+                    DeletedOn = DateTime.UtcNow,
+                });
 
-            if (productNotes.Any())
-            {
-                this.productNotesRepository.DeleteRange(productNotes);
-                var result = await this.productNotesRepository.SaveChangesAsync();
-
-                return result > 0;
-            }
-
-            return false;
+            return affectedRows > 0;
         }
 
         public async Task<int> HardDeleteAllProductNotesAsync(int productId)

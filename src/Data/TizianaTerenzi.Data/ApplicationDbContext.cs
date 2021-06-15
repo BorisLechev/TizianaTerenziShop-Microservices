@@ -31,6 +31,8 @@
 
         public DbSet<Note> Notes { get; set; }
 
+        public DbSet<ProductNote> ProductNotes { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderProduct> OrderProducts { get; set; }

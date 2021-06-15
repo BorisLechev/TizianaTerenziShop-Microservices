@@ -2,7 +2,7 @@
 @model ProductsListViewModel
 
 @{
-    this.ViewData["Products"] = Localizer["Products"];
+    this.ViewData["Title"] = Localizer["Products"];
     this.ViewData["Meta-Description"] = "Tiziana Terenzi draws its inspiration from the endless research and desire of enclosing emotions through the evocative power of fire and life lived at its fullness. Anniversary, with the stylistic idea of absolute purity, without any artificial adjustment. Luna, along with dreams and tears, love and reason, days of idleness and unfinished deeds, nestled in precious glass ampoules, just like the chivalric epic teaches. Luna Star Attar, with its handmade crystal bottle, to contain a perfume nectar with a pleasant and velvety consistency like honey. Luna Star Extrait de Parfum, with the creative flair aiming at new wonderful peaks and designed to preserve refined extracts. Assoluto, with the dreamlike experience of knowledge and magic in the shape of exclusive drops limited to a selected few. Comets, with its floating in the sky and a design enclosing transparencies and color, along with precious golds and the most refined art of Italian jewelry. Each Tiziana Terenzi collection paints a scenario of light, splendor and tales.";
     this.ViewData["Meta-Keywords"] = GlobalConstants.SystemName + "Perfume,Products,Candles,Wax,Italy,Talian,Cereria Terenzi Evelino " + string.Join(",", this.Model.Products.Select(p => p.Name));
 
@@ -28,7 +28,7 @@
                             <a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
                         </li>
                         <li class="dashboard">
-                            <span>@this.ViewData["Products"]</span>
+                            <span>@this.ViewData["Title"]</span>
                         </li>
                     </ul>
                 </nav>
