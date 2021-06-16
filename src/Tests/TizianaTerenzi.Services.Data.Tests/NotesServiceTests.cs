@@ -163,8 +163,6 @@
                     .Returns(notesRepository.AllAsNoTracking());
             mockNotesRepo.Setup(n => n.SaveChangesAsync())
                     .Returns(notesRepository.SaveChangesAsync());
-            mockNotesRepo.Setup(n => n.AddAsync(It.IsAny<Note>()))
-                    .Callback((Note product) => notesRepository.AddAsync(product));
             mockProductNotesRepo.Setup(pn => pn.AllAsNoTracking())
                     .Returns(productNotesRepository.AllAsNoTracking());
 
