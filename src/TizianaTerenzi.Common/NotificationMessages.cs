@@ -8,6 +8,7 @@
         public const string PasswordSet = "Password set successfully";
         public const string InvalidPassword = "Invalid password";
         public const string ProfileDetailsUpdated = "Details updated successfully";
+        public const string CannotUpdateProfileDetail = "Something went wrong.";
         public const string UserNotFound = "User not found.";
 
         public const string AccountDeleted = "We're sorry to see you go. Your account was deleted.";

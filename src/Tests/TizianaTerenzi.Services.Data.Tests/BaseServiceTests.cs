@@ -38,6 +38,7 @@
     using TizianaTerenzi.Services.SlugGenerator;
     using TizianaTerenzi.Web.ViewModels;
     using TizianaTerenzi.Web.ViewModels.Products;
+    using Z.EntityFramework.Extensions;
 
     public abstract class BaseServiceTests
     {
@@ -115,6 +116,13 @@
             services.AddTransient<IUserPenaltiesService, UserPenaltiesService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+
+            EntityFrameworkManager.ContextFactory = context =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+                optionsBuilder.UseSqlServer("Server=.;Database=TizianaTerenzi_MVC_DB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                return new ApplicationDbContext(optionsBuilder.Options);
+            };
 
             var context = new DefaultHttpContext();
             services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor { HttpContext = context });

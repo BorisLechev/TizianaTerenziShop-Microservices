@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Moq;
     using TizianaTerenzi.Data;
@@ -17,6 +17,7 @@
     using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
+    using TizianaTerenzi.Web.ViewModels.Profile;
     using Xunit;
 
     public class ProfileServiceTests
@@ -138,7 +139,7 @@
             await dbContext.ChatGroups.AddAsync(chatGroup);
             await dbContext.SaveChangesAsync();
 
-            var personalDataService = new ProfileService(
+            var profileService = new ProfileService(
                 new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                 new EfDeletableEntityRepository<ApplicationRole>(dbContext),
                 mockCountriesService.Object,
@@ -166,7 +167,7 @@
             Assert.Equal(2, await dbContext.FavoriteProducts.CountAsync());
             Assert.Equal(1, await dbContext.UserNotifications.CountAsync());
 
-            var userResult = await personalDataService.DeleteUserAsync(user.Id);
+            var userResult = await profileService.DeleteUserAsync(user.Id);
             Assert.True(userResult);
             Assert.Equal(0, await dbContext.Users.CountAsync());
 
@@ -197,7 +198,7 @@
 
             var userId = Guid.NewGuid().ToString();
 
-            var personalDataService = new ProfileService(
+            var profileService = new ProfileService(
                 new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                 new EfDeletableEntityRepository<ApplicationRole>(dbContext),
                 null,
@@ -210,7 +211,7 @@
                 null);
 
             // Act
-            var result = await personalDataService.DeleteUserAsync(userId);
+            var result = await profileService.DeleteUserAsync(userId);
 
             // Assert
             Assert.False(result);
@@ -249,106 +250,272 @@
             Assert.False(result);
         }
 
-        //[Fact]
-        //public async Task GetPersonalDataForUserJsonWithCorrectUserIdWorksCorrectly()
-        //{
-        //    const string expectedJson =
-        //       "{\"FirstName\": \"FirstName\",\"LastName\": \"LastName\",\"Email\": \"aa@example.com\"," +
-        //       "\"Comments\": [{\"Content\": \"first comment\"}],\"FavoriteProduct\": " +
-        //       "[{\"ProductName\": \"Kira\"}]";
+        [Fact]
+        public async Task GetPersonalDataForUserJsonWithCorrectUserIdWorksCorrectly()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
-        //    var dateTime = new DateTime(2015, 1, 1, 10, 25, 30);
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName",
+                LastName = "LastName",
+                UserName = "aa@example.com",
+                Email = "aa@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+                Comments = new List<Comment>
+                {
+                    new Comment
+                    {
+                        Product = new Product
+                        {
+                            Name = "Telea",
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 320,
+                            PriceWithGeneralDiscount = 320,
+                            YearOfManufacture = 2015,
+                        },
+                        Content = "first comment",
+                    },
+                    new Comment
+                    {
+                        Product = new Product
+                        {
+                            Name = "Telea",
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 320,
+                            PriceWithGeneralDiscount = 320,
+                            YearOfManufacture = 2015,
+                        },
+                        Content = "first comment",
+                    },
+                },
+                FavoriteProducts = new List<FavoriteProduct>
+                {
+                    new FavoriteProduct
+                    {
+                        Product = new Product
+                        {
+                            Name = "Kira",
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 420,
+                            PriceWithGeneralDiscount = 420,
+                            YearOfManufacture = 2016,
+                        },
+                    },
+                    new FavoriteProduct
+                    {
+                        Product = new Product
+                        {
+                            Name = "Kira",
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 420,
+                            PriceWithGeneralDiscount = 420,
+                            YearOfManufacture = 2016,
+                        },
+                    },
+                },
+            };
 
-        //    var user = new ApplicationUser
-        //    {
-        //        FirstName = "FirstName",
-        //        LastName = "LastName",
-        //        UserName = "aa@example.com",
-        //        Email = "aa@example.com",
-        //        Town = "Test",
-        //        PostalCode = "1000",
-        //        Address = "Test",
-        //        Comments = new List<Comment>
-        //        {
-        //            new Comment
-        //            {
-        //                Product = new Product
-        //                {
-        //                    Name = "Telea",
-        //                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        //                    Price = 320,
-        //                    PriceWithDiscount = 320,
-        //                    YearOfManufacture = 2015,
-        //                },
-        //                Content = "first comment",
-        //            },
-        //            new Comment
-        //            {
-        //                Product = new Product
-        //                {
-        //                    Name = "Telea",
-        //                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        //                    Price = 320,
-        //                    PriceWithDiscount = 320,
-        //                    YearOfManufacture = 2015,
-        //                },
-        //                Content = "first comment",
-        //            },
-        //        },
-        //        FavoriteProducts = new List<FavoriteProduct>
-        //        {
-        //            new FavoriteProduct
-        //            {
-        //                Product = new Product
-        //                {
-        //                    Name = "Kira",
-        //                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        //                    Price = 420,
-        //                    PriceWithDiscount = 420,
-        //                    YearOfManufacture = 2016,
-        //                },
-        //            },
-        //            new FavoriteProduct
-        //            {
-        //                Product = new Product
-        //                {
-        //                    Name = "Kira",
-        //                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        //                    Price = 420,
-        //                    PriceWithDiscount = 420,
-        //                    YearOfManufacture = 2016,
-        //                },
-        //            },
-        //        },
-        //    };
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
 
-        //    // Arrange
-        //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //        .UseInMemoryDatabase(Guid.NewGuid().ToString());
-        //    var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-        //    var service = new PersonalDataService(new EfDeletableEntityRepository<ApplicationUser>(dbContext), null, null, null, null, null, null);
+            var mockCountriesService = new Mock<ICountriesService>();
+            var mockWishlistsService = new Mock<IWishlistService>();
+            var mockOrdersService = new Mock<IOrdersService>();
+            var mockCommentsService = new Mock<ICommentsService>();
+            var mockCommentVotesService = new Mock<ICommentVotesService>();
+            var mockChatService = new Mock<IChatService>();
+            var mockNotificationsService = new Mock<INotificationsService>();
 
-        //    await dbContext.Users.AddAsync(user);
-        //    await dbContext.SaveChangesAsync();
+            var profileService = new ProfileService(
+                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                new EfDeletableEntityRepository<ApplicationRole>(dbContext),
+                mockCountriesService.Object,
+                mockWishlistsService.Object,
+                mockOrdersService.Object,
+                mockCommentsService.Object,
+                mockCommentVotesService.Object,
+                mockChatService.Object,
+                mockNotificationsService.Object,
+                null);
 
-        //    var mockCountriesService = new Mock<ICountriesService>();
-        //    var mockWishlistsService = new Mock<IWishlistService>();
-        //    var mockOrdersService = new Mock<IOrdersService>();
-        //    var mockCommentsService = new Mock<ICommentsService>();
-        //    var mockCommentVotesService = new Mock<ICommentVotesService>();
+            // Act
+            var actualJson = await profileService.GetPersonalDataForUserJsonAsync(user.Id);
 
-        //    var personalDataService = new PersonalDataService(new EfDeletableEntityRepository<ApplicationUser>(dbContext), mockCountriesService.Object, mockWishlistsService.Object, mockOrdersService.Object, mockCommentsService.Object, mockCommentVotesService.Object, null);
+            // Assert
+            Assert.NotNull(actualJson);
+        }
 
-        //    // Act
-        //    var actualJson = await personalDataService.GetPersonalDataForUserJsonAsync(user.Id);
+        [Fact]
+        public async Task GetUserByIdTheResultShouldBeUser()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
-        //    // Assert
-        //    var expectedResult = JToken.Parse(expectedJson);
-        //    var actualResult = JToken.Parse(actualJson);
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName",
+                LastName = "LastName",
+                UserName = "aa@example.com",
+                Email = "aa@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+            };
 
-        //    var equal = JToken.DeepEquals(expectedResult, actualResult);
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
 
-        //    Assert.True(equal);
-        //}
+            var profileService = new ProfileService(
+                    new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            // Act
+            var resultUser = await profileService.GetUserByIdAsync(user.Id);
+
+            // Assert
+            Assert.NotNull(resultUser);
+            Assert.Equal(user.FirstName, resultUser.FirstName);
+            Assert.Equal(user.LastName, resultUser.LastName);
+            Assert.Equal(user.UserName, resultUser.UserName);
+            Assert.Equal(user.Email, resultUser.Email);
+            Assert.Equal(user.Town, resultUser.Town);
+            Assert.Equal(user.PostalCode, resultUser.PostalCode);
+            Assert.Equal(user.Address, resultUser.Address);
+        }
+
+        [Fact]
+        public async Task GetDetailsForUserEditTheResultShouldBeInputModel()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName",
+                LastName = "LastName",
+                UserName = "aa@example.com",
+                Email = "aa@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+            };
+
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
+
+            var mockCountriesService = new Mock<ICountriesService>();
+
+            var profileService = new ProfileService(
+                    new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                    null,
+                    mockCountriesService.Object,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            // Act
+            var resultUser = await profileService.GetDetailsForUserEditAsync(user.Id);
+
+            // Assert
+            Assert.NotNull(resultUser);
+            Assert.Equal(user.FirstName, resultUser.FirstName);
+            Assert.Equal(user.LastName, resultUser.LastName);
+            Assert.Equal(user.UserName, resultUser.UserName);
+            Assert.Equal(user.Email, resultUser.Email);
+            Assert.Equal(user.Town, resultUser.Town);
+            Assert.Equal(user.PostalCode, resultUser.PostalCode);
+            Assert.Equal(user.Address, resultUser.Address);
+        }
+
+        [Fact]
+        public async Task EditUserDetailsTheResultShouldBeTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName",
+                LastName = "LastName",
+                UserName = "aa@example.com",
+                Email = "aa@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+            };
+
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
+
+            var inputModel = new UserEditInputModel
+            {
+                FirstName = "Toshko",
+                LastName = "Galabov",
+                UserName = "tg@example.com",
+                Email = "tg@example.com",
+                Town = "Sofia",
+                PostalCode = "1000",
+                Address = "ul. Kap. P. Voivoda",
+            };
+
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var userManager = new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+            userManager
+                .Setup(x => x.UpdateAsync(It.IsAny<ApplicationUser>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            var profileService = new ProfileService(
+                    new EfDeletableEntityRepository<ApplicationUser>(dbContext),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    userManager.Object);
+
+            // Act
+            var result = await profileService.EditUserDetailsAsync(user, inputModel);
+            var resultUser = await dbContext.Users.SingleOrDefaultAsync(u => u.Id == user.Id);
+
+            // Assert
+            Assert.True(result);
+            Assert.Equal(user.FirstName, resultUser.FirstName);
+            Assert.Equal(user.LastName, resultUser.LastName);
+            Assert.Equal(user.UserName, resultUser.UserName);
+            Assert.Equal(user.Email, resultUser.Email);
+            Assert.Equal(user.Town, resultUser.Town);
+            Assert.Equal(user.PostalCode, resultUser.PostalCode);
+            Assert.Equal(user.Address, resultUser.Address);
+        }
+
+        // TODO: GetAllUsersExceptAdminsAsync
     }
 }

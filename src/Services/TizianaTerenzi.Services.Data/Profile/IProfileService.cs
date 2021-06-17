@@ -13,7 +13,7 @@
 
         Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId);
 
-        Task EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel);
+        Task<bool> EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel);
 
         Task<ApplicationUser> GetUserByIdAsync(string userId);
 

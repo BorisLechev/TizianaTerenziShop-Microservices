@@ -103,7 +103,7 @@
             return true;
         }
 
-        public async Task EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel)
+        public async Task<bool> EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel)
         {
             user.FirstName = inputModel.FirstName;
             user.LastName = inputModel.LastName;
@@ -114,7 +114,9 @@
             user.PostalCode = inputModel.PostalCode;
             user.PhoneNumber = inputModel.PhoneNumber;
 
-            await this.userManager.UpdateAsync(user);
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
 
         public async Task<AllUsersListViewModel> GetAllUsersExceptAdminsAsync(int page, int take, int skip = 0)
@@ -251,7 +253,9 @@
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
-            return await this.usersRepository.AllAsNoTracking().SingleOrDefaultAsync(u => u.Id == userId);
+            return await this.usersRepository
+                    .AllAsNoTracking()
+                    .SingleOrDefaultAsync(u => u.Id == userId);
         }
     }
 }

@@ -291,9 +291,16 @@
                 return this.View(inputModel);
             }
 
-            await this.profileService.EditUserDetailsAsync(user, inputModel);
+            var result = await this.profileService.EditUserDetailsAsync(user, inputModel);
 
-            this.Success(NotificationMessages.ProfileDetailsUpdated);
+            if (result)
+            {
+                this.Success(NotificationMessages.ProfileDetailsUpdated);
+            }
+            else
+            {
+
+            }
 
             return this.RedirectToAction("Index", "Home");
         }
