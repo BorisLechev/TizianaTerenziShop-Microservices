@@ -131,7 +131,10 @@
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-            var service = new CommentVotesService(new EfDeletableEntityRepository<CommentVote>(dbContext), new EfDeletableEntityRepository<Comment>(dbContext));
+
+            var service = new CommentVotesService(
+                new EfDeletableEntityRepository<CommentVote>(dbContext),
+                new EfDeletableEntityRepository<Comment>(dbContext));
 
             await dbContext.Comments.AddRangeAsync(
                 new Comment
@@ -174,6 +177,52 @@
             Assert.Equal(0, await service.GetVotesAsync(1));
             Assert.Equal(2, await service.GetVotesAsync(2));
             Assert.Equal(0, await service.GetVotesAsync(3));
+        }
+
+        [Fact]
+        public async Task GetVoteTheResultShouldBeCommentVote()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var service = new CommentVotesService(
+                new EfDeletableEntityRepository<CommentVote>(dbContext),
+                new EfDeletableEntityRepository<Comment>(dbContext));
+
+            await dbContext.Comments.AddRangeAsync(
+                new Comment
+                {
+                    Id = 1,
+                    ProductId = 1,
+                    ParentId = 0,
+                    UserId = "1",
+                    Content = "aaa",
+                },
+                new Comment
+                {
+                    Id = 2,
+                    ProductId = 2,
+                    ParentId = 0,
+                    UserId = "2",
+                    Content = "bbb",
+                },
+                new Comment
+                {
+                    Id = 3,
+                    ProductId = 3,
+                    ParentId = 0,
+                    UserId = "3",
+                    Content = "ccc",
+                });
+            await dbContext.SaveChangesAsync();
+
+            await service.VoteAsync(1, "1");
+            var vote = await service.GetVoteAsync(1, "1");
+
+            Assert.Equal("1", vote.UserId);
+            Assert.Equal(1, vote.CommentId);
         }
     }
 }

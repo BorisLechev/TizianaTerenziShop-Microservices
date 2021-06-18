@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Services.Data.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -82,7 +83,7 @@
         {
             // Arrange
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("test");
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             var service = new ProductVotesService(new EfDeletableEntityRepository<ProductVote>(dbContext));
 
@@ -96,6 +97,28 @@
             Assert.Equal(0, await service.GetNumberOfVotersAsync(1));
             Assert.Equal(1, await service.GetNumberOfVotersAsync(2));
             Assert.Equal(0, await service.GetNumberOfVotersAsync(3));
+        }
+
+        [Fact]
+        public async Task GetAllValuesByProductIdShouldReturnAllValues()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+            var service = new ProductVotesService(new EfDeletableEntityRepository<ProductVote>(dbContext));
+
+            // Act
+            await service.VoteAsync(1, "1", 5);
+            await service.VoteAsync(1, "2", 2);
+            await service.VoteAsync(1, "2", 4);
+
+            var allValues = await service.GetAllValuesByProductIdAsync(1);
+            var averageVote = await service.GetAverageVotesAsync(1);
+
+            // Assert
+            Assert.Equal(2, allValues.Count());
+            Assert.Equal(4.5, averageVote);
         }
     }
 }
