@@ -21,9 +21,9 @@
 
         Task<bool> DeleteProductAsync(int productId);
 
-        Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
+        Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
 
-        Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
+        Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
 
         Task<IEnumerable<RelatedProductsViewModel>> GetRandomRelatedProductsAsync(int productId);
     }

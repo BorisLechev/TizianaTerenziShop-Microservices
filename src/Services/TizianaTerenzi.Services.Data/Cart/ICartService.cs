@@ -10,9 +10,9 @@
     {
         Task<bool> AddProductInTheCartAsync(Product product, string userId);
 
-        Task<int> DeleteProductInTheCartAsync(string productId);
+        Task<bool> DeleteProductInTheCartAsync(string productId);
 
-        Task<int> DeleteAllProductsInTheCartByUserIdAsync(string userId);
+        Task<bool> DeleteAllProductsInTheCartByUserIdAsync(string userId);
 
         Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId);
 

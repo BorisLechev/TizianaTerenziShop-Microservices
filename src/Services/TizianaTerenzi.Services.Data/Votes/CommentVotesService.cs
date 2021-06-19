@@ -1,11 +1,13 @@
 ﻿namespace TizianaTerenzi.Services.Data.Votes
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using Z.EntityFramework.Plus;
 
     public class CommentVotesService : ICommentVotesService
     {
@@ -37,22 +39,23 @@
             if (votes.Any())
             {
                 this.commentVotesRepository.DeleteRange(votes);
+
                 await this.commentVotesRepository.SaveChangesAsync();
             }
         }
 
-        public async Task DeleteRangeByUserIdAsync(string userId)
+        public async Task<bool> DeleteRangeByUserIdAsync(string userId)
         {
-            var votes = await this.commentVotesRepository
+            var affectedVotes = await this.commentVotesRepository
                     .All()
                     .Where(v => v.UserId == userId)
-                    .ToArrayAsync();
+                    .UpdateAsync(v => new CommentVote
+                    {
+                        IsDeleted = true,
+                        DeletedOn = DateTime.UtcNow,
+                    });
 
-            if (votes.Any())
-            {
-                this.commentVotesRepository.DeleteRange(votes);
-                await this.commentVotesRepository.SaveChangesAsync();
-            }
+            return affectedVotes >= 0;
         }
 
         public async Task<CommentVote> GetVoteAsync(int commentId, string loggedInUserId)

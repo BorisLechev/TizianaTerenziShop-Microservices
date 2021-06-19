@@ -1,18 +1,13 @@
 ﻿namespace TizianaTerenzi.Services.Data.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-    using MockQueryable.Moq;
-    using Moq;
     using TizianaTerenzi.Data;
-    using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
-    using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Web.ViewModels.DiscountCodes;
     using Xunit;
@@ -44,20 +39,9 @@
             await dbContext.DiscountCodes.AddAsync(discountCode);
             await dbContext.SaveChangesAsync();
 
-            var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
-            var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-
-            var list = new List<DiscountCode>();
-            var mockList = list.AsQueryable().BuildMock();
-
-            mockDiscountCodesRepo.Setup(dc => dc.AllAsNoTracking())
-                    .Returns(mockList.Object);
-            mockDiscountCodesRepo.Setup(dc => dc.SaveChangesAsync())
-                   .Returns(discountCodesRepository.SaveChangesAsync());
-            mockDiscountCodesRepo.Setup(dc => dc.AddAsync(It.IsAny<DiscountCode>()))
-                    .Callback((DiscountCode discountCode) => list.Add(discountCode));
-
-            var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, null);
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                null);
 
             // Assert
             Assert.False(await discountCodesService.CreateDiscountCodeAsync(inputModel));
@@ -80,20 +64,11 @@
             };
 
             await dbContext.DiscountCodes.AddAsync(discountCode);
+            await dbContext.SaveChangesAsync();
 
-            var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
-            var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-
-            mockDiscountCodesRepo.Setup(dc => dc.All())
-                    .Returns(discountCodesRepository.All());
-            mockDiscountCodesRepo.Setup(dc => dc.AllAsNoTracking())
-                    .Returns(discountCodesRepository.AllAsNoTracking());
-            mockDiscountCodesRepo.Setup(dc => dc.SaveChangesAsync())
-                   .Returns(discountCodesRepository.SaveChangesAsync());
-            mockDiscountCodesRepo.Setup(dc => dc.Delete(It.IsAny<DiscountCode>()))
-                    .Callback((DiscountCode discountCode) => discountCodesRepository.Delete(discountCode));
-
-            var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, null);
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                null);
 
             // Assert
             Assert.True(await discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountCode.Name));
@@ -117,6 +92,7 @@
             };
 
             await dbContext.DiscountCodes.AddAsync(discountCode);
+            await dbContext.SaveChangesAsync();
 
             var newProduct = new Product
             {
@@ -131,6 +107,7 @@
             };
 
             await dbContext.Products.AddAsync(newProduct);
+            await dbContext.SaveChangesAsync();
 
             var productInTheCart = new Cart
             {
@@ -141,26 +118,17 @@
             };
 
             await dbContext.Carts.AddAsync(productInTheCart);
+            await dbContext.SaveChangesAsync();
 
-            var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
-            var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-            var productsInTheCartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
-            var mockProductsInTheCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
-            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                new EfDeletableEntityRepository<Cart>(dbContext));
 
-            mockDiscountCodesRepo.Setup(dc => dc.All())
-                    .Returns(discountCodesRepository.All());
-            mockProductsInTheCartRepo.Setup(dc => dc.All())
-                    .Returns(productsInTheCartRepository.All());
-            mockProductsInTheCartRepo.Setup(dc => dc.SaveChangesAsync())
-                   .Returns(productsInTheCartRepository.SaveChangesAsync());
-
-            var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, mockProductsInTheCartRepo.Object);
-            var cartService = new CartService(mockCartRepo.Object, null, null, null);
+            // Act
+            var modifyPrices = await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountCode.Name, "1");
 
             // Assert
-            Assert.True(await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync("Test", "1"));
+            Assert.True(modifyPrices);
             Assert.Equal(288, productInTheCart.ProductPriceWithDiscountCode);
         }
 
@@ -180,6 +148,7 @@
             };
 
             await dbContext.DiscountCodes.AddAsync(discountCode);
+            await dbContext.SaveChangesAsync();
 
             var newProduct = new Product
             {
@@ -194,6 +163,7 @@
             };
 
             await dbContext.Products.AddAsync(newProduct);
+            await dbContext.SaveChangesAsync();
 
             var productInTheCart = new Cart
             {
@@ -204,26 +174,17 @@
             };
 
             await dbContext.Carts.AddAsync(productInTheCart);
+            await dbContext.SaveChangesAsync();
 
-            var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
-            var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-            var productsInTheCartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
-            var mockProductsInTheCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
-            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                new EfDeletableEntityRepository<Cart>(dbContext));
 
-            mockDiscountCodesRepo.Setup(dc => dc.All())
-                    .Returns(discountCodesRepository.All());
-            mockProductsInTheCartRepo.Setup(dc => dc.All())
-                    .Returns(productsInTheCartRepository.All());
-            mockProductsInTheCartRepo.Setup(dc => dc.SaveChangesAsync())
-                   .Returns(productsInTheCartRepository.SaveChangesAsync());
-
-            var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, mockProductsInTheCartRepo.Object);
-            var cartService = new CartService(mockCartRepo.Object, null, null, null);
+            // Act
+            var modifyThePricesResult = await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountCode.Name, "1");
 
             // Assert
-            Assert.True(await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync("Test", "1"));
+            Assert.True(modifyThePricesResult);
             Assert.Equal(288, productInTheCart.ProductPriceWithDiscountCode);
             Assert.Equal("Kiki", productInTheCart.Product.Name);
 
@@ -253,13 +214,9 @@
             await dbContext.DiscountCodes.AddAsync(discountCode);
             await dbContext.SaveChangesAsync();
 
-            var discountCodesRepository = new EfDeletableEntityRepository<DiscountCode>(dbContext);
-            var mockDiscountCodesRepo = new Mock<IDeletableEntityRepository<DiscountCode>>();
-
-            mockDiscountCodesRepo.Setup(dc => dc.All())
-                    .Returns(discountCodesRepository.All());
-
-            var discountCodesService = new DiscountCodesService(mockDiscountCodesRepo.Object, null);
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                null);
 
             // Act
             var result = await discountCodesService.GetDiscountCodeByNameAsync(discountCode.Name);
@@ -270,6 +227,37 @@
             Assert.Equal(discountCode.ExpiresOn, result.ExpiresOn);
         }
 
-        // TODO: GetAllDiscountCodesAsync() test
+        [Fact]
+        public async Task GetAllDiscountCodesTheResultShouldBeArrayOfDiscountCodes()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var discountCode = new DiscountCode
+            {
+                Name = "Test",
+                Discount = 10,
+                ExpiresOn = DateTime.UtcNow.AddMonths(1),
+            };
+
+            await dbContext.DiscountCodes.AddAsync(discountCode);
+            await dbContext.SaveChangesAsync();
+
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                null);
+
+            // Act
+            var discountCodes = await discountCodesService.GetAllDiscountCodesAsync<DiscountCodesListingViewModel>();
+            var firstDiscountCode = discountCodes.First();
+
+            // Assert
+            Assert.Single(discountCodes);
+            Assert.Equal(discountCode.Name, firstDiscountCode.Name);
+            Assert.Equal(discountCode.Discount, firstDiscountCode.Discount);
+            Assert.Equal(discountCode.ExpiresOn, firstDiscountCode.ExpiresOn);
+        }
     }
 }

@@ -4,7 +4,6 @@
     using System.IO;
     using System.Reflection;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -58,28 +57,11 @@
 
         protected IConfigurationRoot Configuration { get; set; }
 
-        public void Dispose()
-        {
-            this.DbContext.Database.EnsureCreated();
-            this.SetServices();
-        }
-
         private ServiceCollection SetServices()
         {
             var services = new ServiceCollection();
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-
-            services
-                 .AddIdentity<ApplicationUser, ApplicationRole>(options =>
-                 {
-                     options.Password.RequireDigit = false;
-                     options.Password.RequireLowercase = false;
-                     options.Password.RequireUppercase = false;
-                     options.Password.RequireNonAlphanumeric = false;
-                     options.Password.RequiredLength = 6;
-                 })
-                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -88,7 +70,6 @@
             services.AddSingleton<IConfiguration>(this.Configuration);
 
             // Application services
-            //services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.Configuration["SendGrid:ApiKey"]));
@@ -120,12 +101,9 @@
             EntityFrameworkManager.ContextFactory = context =>
             {
                 var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-                optionsBuilder.UseSqlServer("Server=.;Database=TizianaTerenzi_MVC_DB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
                 return new ApplicationDbContext(optionsBuilder.Options);
             };
-
-            var context = new DefaultHttpContext();
-            services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor { HttpContext = context });
 
             return services;
         }

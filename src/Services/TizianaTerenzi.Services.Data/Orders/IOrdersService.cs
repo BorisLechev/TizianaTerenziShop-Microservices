@@ -19,8 +19,8 @@
 
         Task<bool> ProcessOrderAsync(int orderId);
 
-        Task DeleteAllOrdersByUserIdAsync(string userId);
+        Task<bool> DeleteAllOrdersByUserIdAsync(string userId);
 
-        Task DeleteAllOrderProductsByUserIdAsync(string userId);
+        Task<bool> DeleteAllOrderProductsByUserIdAsync(string userId);
     }
 }

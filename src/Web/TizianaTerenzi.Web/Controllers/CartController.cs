@@ -198,9 +198,9 @@
                 return this.NotFound();
             }
 
-            int productsCount = await this.cartService.DeleteProductInTheCartAsync(id);
+            bool result = await this.cartService.DeleteProductInTheCartAsync(id);
 
-            if (productsCount == 0)
+            if (result == false)
             {
                 this.Error(NotificationMessages.CannotDeleteThisProductInTheCartError);
             }

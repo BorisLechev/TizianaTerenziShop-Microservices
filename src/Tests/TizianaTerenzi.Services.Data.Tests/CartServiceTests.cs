@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
@@ -15,7 +14,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Services.Data.Cart;
-    using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Web.ViewModels.Orders;
     using Xunit;
 
@@ -449,41 +448,189 @@
             };
 
             await dbContext.Users.AddAsync(user);
-            //await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
 
-            var cartRepository = new EfDeletableEntityRepository<Cart>(dbContext);
-            var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
-
-            var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
-
-            mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
-            mockCartRepo.Setup(c => c.All())
-                    .Returns(mockList.Object);
-            mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
-                    .Callback((Cart product) => list.Add(product));
-            mockCartRepo.Setup(c => c.SaveChangesAsync())
-                   .Returns(cartRepository.SaveChangesAsync());
-
-            var cartService = new CartService(mockCartRepo.Object, null, null, null);
-            AutoMapperConfig.RegisterMappings(typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly);
+            var cartService = new CartService(
+                new EfDeletableEntityRepository<Cart>(dbContext),
+                null,
+                null,
+                null);
 
             // Act
             var addProductResult = await cartService.AddProductInTheCartAsync(newProduct, user.Id);
             var isThereAnyProductsInTheCart = await cartService.IsThereAnyProductsInTheUsersCartAsync(user.Id);
 
-            // TODO: GetAllProductsInTheCart Test is throwing NullReferenceException
-            //var allProductsInTheCart = await cartService.GetAllProductsInTheCartByUserIdAsync(user.Id);
+            var allProductsInTheCart = await cartService.GetAllProductsInTheCartByUserIdAsync(user.Id);
 
             // Assert
-            mockCartRepo.Verify(x => x.AddAsync(It.IsAny<Cart>()), Times.Exactly(1));
             Assert.True(addProductResult);
             Assert.True(isThereAnyProductsInTheCart);
-            //Assert.Single(allProductsInTheCart);
+            Assert.Single(allProductsInTheCart);
         }
 
-        // TODO: Cannot test CheckoutAsync because of GetAllProductsInTheCart
-        // TODO: Z.EntityFramework.Plus test
+        [Fact]
+        public async Task CheckoutAllProductsInTheCartTheResultShouldBeTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var newProduct = new Product
+            {
+                Name = "Kiki",
+                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
+                Price = 320,
+                PriceWithGeneralDiscount = 320,
+                FragranceGroupId = 1,
+                ProductTypeId = 1,
+                YearOfManufacture = 2015,
+            };
+
+            await dbContext.Products.AddAsync(newProduct);
+            await dbContext.SaveChangesAsync();
+
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName2",
+                LastName = "LastName2",
+                UserName = "mail2@example.com",
+                Email = "mail1@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+            };
+
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
+
+            var mockOrderStatusesService = new Mock<IOrderStatusesService>();
+
+            var cartService = new CartService(
+                new EfDeletableEntityRepository<Cart>(dbContext),
+                new EfDeletableEntityRepository<Order>(dbContext),
+                mockOrderStatusesService.Object,
+                null);
+
+            // Act
+            var addProductResult = await cartService.AddProductInTheCartAsync(newProduct, user.Id);
+            var isThereAnyProductsInTheCart = await cartService.IsThereAnyProductsInTheUsersCartAsync(user.Id);
+
+            var allProductsInTheCart = await cartService.GetAllProductsInTheCartByUserIdAsync(user.Id);
+            var checkoutResult = await cartService.CheckoutAsync(user.Id);
+
+            // Assert
+            Assert.True(addProductResult);
+            Assert.True(isThereAnyProductsInTheCart);
+            Assert.Single(allProductsInTheCart);
+            Assert.True(checkoutResult);
+        }
+
+        [Fact]
+        public async Task DeleteProductByProductInTheCartIdTheResultShouldBeTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var newProduct = new Product
+            {
+                Name = "Kiki",
+                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
+                Price = 320,
+                PriceWithGeneralDiscount = 320,
+                FragranceGroupId = 1,
+                ProductTypeId = 1,
+                YearOfManufacture = 2015,
+            };
+
+            await dbContext.Products.AddAsync(newProduct);
+            await dbContext.SaveChangesAsync();
+
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName2",
+                LastName = "LastName2",
+                UserName = "mail2@example.com",
+                Email = "mail1@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+            };
+
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
+
+            var cartService = new CartService(
+                new EfDeletableEntityRepository<Cart>(dbContext),
+                null,
+                null,
+                null);
+
+            // Act
+            var addProductResult = await cartService.AddProductInTheCartAsync(newProduct, user.Id);
+            var productInTheCartId = await cartService.GetProductInTheCartIdByProductIdAsync(newProduct.Id);
+            var deleteProductResult = await cartService.DeleteProductInTheCartAsync(productInTheCartId);
+
+            // Assert
+            Assert.True(addProductResult);
+            Assert.NotNull(productInTheCartId);
+            Assert.True(deleteProductResult);
+        }
+
+        [Fact]
+        public async Task DeleteAllProductsInTheCartTheResultShouldBeTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var newProduct = new Product
+            {
+                Name = "Kiki",
+                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                Picture = "https://res.cloudinary.com/pictures-storage/image/upload/v1612213773/product_images/y6mh1xtdt7lkmgvrt3gy.jpg",
+                Price = 320,
+                PriceWithGeneralDiscount = 320,
+                FragranceGroupId = 1,
+                ProductTypeId = 1,
+                YearOfManufacture = 2015,
+            };
+
+            await dbContext.Products.AddAsync(newProduct);
+            await dbContext.SaveChangesAsync();
+
+            var user = new ApplicationUser
+            {
+                FirstName = "FirstName2",
+                LastName = "LastName2",
+                UserName = "mail2@example.com",
+                Email = "mail1@example.com",
+                Town = "Test",
+                PostalCode = "1000",
+                Address = "Test",
+            };
+
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
+
+            var cartService = new CartService(
+                new EfDeletableEntityRepository<Cart>(dbContext),
+                null,
+                null,
+                null);
+
+            // Act
+            var addProductResult = await cartService.AddProductInTheCartAsync(newProduct, user.Id);
+            var deleteProductsResult = await cartService.DeleteAllProductsInTheCartByUserIdAsync(user.Id);
+
+            // Assert
+            Assert.True(addProductResult);
+            Assert.True(deleteProductsResult);
+        }
     }
 }

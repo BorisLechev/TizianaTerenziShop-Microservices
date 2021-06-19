@@ -161,9 +161,9 @@
             return result > 0;
         }
 
-        public async Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
+        public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
         {
-            var productsCount = await this.productsRepository
+            var affectedRows = await this.productsRepository
                 .AllAsNoTracking()
                 .UpdateAsync(p => new Product
                 {
@@ -171,12 +171,12 @@
                     ModifiedOn = DateTime.UtcNow,
                 });
 
-            return productsCount;
+            return affectedRows > 0;
         }
 
-        public async Task<int> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync()
+        public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync()
         {
-            var productsCount = await this.productsRepository
+            var affectedRows = await this.productsRepository
                 .AllAsNoTracking()
                 .UpdateAsync(p => new Product
                 {
@@ -184,7 +184,7 @@
                     ModifiedOn = DateTime.UtcNow,
                 });
 
-            return productsCount;
+            return affectedRows > 0;
         }
 
         public async Task<IEnumerable<RelatedProductsViewModel>> GetRandomRelatedProductsAsync(int productId)

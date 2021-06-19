@@ -102,9 +102,9 @@
             return result > 0;
         }
 
-        public async Task DeleteAllOrdersByUserIdAsync(string userId)
+        public async Task<bool> DeleteAllOrdersByUserIdAsync(string userId)
         {
-            var orders = await this.ordersRepository
+            var ordersCount = await this.ordersRepository
                     .All()
                     .Where(o => o.UserId == userId)
                     .UpdateAsync(o => new Order
@@ -112,11 +112,13 @@
                         IsDeleted = true,
                         DeletedOn = DateTime.UtcNow,
                     });
+
+            return ordersCount > 0;
         }
 
-        public async Task DeleteAllOrderProductsByUserIdAsync(string userId)
+        public async Task<bool> DeleteAllOrderProductsByUserIdAsync(string userId)
         {
-            var orderProducts = await this.orderProductsRepository
+            var deletedProductsCount = await this.orderProductsRepository
                     .All()
                     .Where(op => op.Order.UserId == userId)
                     .UpdateAsync(o => new Order
@@ -124,6 +126,8 @@
                         IsDeleted = true,
                         DeletedOn = DateTime.UtcNow,
                     });
+
+            return deletedProductsCount > 0;
         }
     }
 }

@@ -100,14 +100,14 @@
             return affectedRows > 0;
         }
 
-        public async Task<int> HardDeleteAllProductNotesAsync(int productId)
+        public async Task<bool> HardDeleteAllProductNotesAsync(int productId)
         {
             var productNotesCount = await this.productNotesRepository
                 .AllAsNoTracking()
                 .Where(pn => pn.ProductId == productId)
                 .DeleteAsync();
 
-            return productNotesCount;
+            return productNotesCount > 0;
         }
 
         private async Task<IEnumerable<int>> GetAllProductNoteIdsAsync(int productId)

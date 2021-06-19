@@ -14,6 +14,6 @@
 
         Task DeleteRangeByProductIdAsync(int productId);
 
-        Task DeleteRangeByUserIdAsync(string userId);
+        Task<bool> DeleteRangeByUserIdAsync(string userId);
     }
 }

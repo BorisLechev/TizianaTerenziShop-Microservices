@@ -95,24 +95,24 @@
             return result > 0;
         }
 
-        public async Task<int> DeleteAllProductsInTheCartByUserIdAsync(string userId)
+        public async Task<bool> DeleteAllProductsInTheCartByUserIdAsync(string userId)
         {
             var productsCount = await this.cartsRepository
                 .AllAsNoTracking()
                 .Where(p => p.UserId == userId)
                 .DeleteAsync();
 
-            return productsCount;
+            return productsCount > 0;
         }
 
-        public async Task<int> DeleteProductInTheCartAsync(string productId)
+        public async Task<bool> DeleteProductInTheCartAsync(string productId)
         {
             var productsCount = await this.cartsRepository
                 .AllAsNoTracking()
                 .Where(p => p.Id == productId)
                 .DeleteAsync();
 
-            return productsCount;
+            return productsCount == 1;
         }
 
         public async Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId)

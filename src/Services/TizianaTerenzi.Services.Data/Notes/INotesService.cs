@@ -17,6 +17,6 @@
 
         Task<bool> SoftDeleteAllProductNotesAsync(int productId);
 
-        Task<int> HardDeleteAllProductNotesAsync(int productId);
+        Task<bool> HardDeleteAllProductNotesAsync(int productId);
     }
 }

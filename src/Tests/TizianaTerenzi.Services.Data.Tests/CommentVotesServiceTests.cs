@@ -108,20 +108,23 @@
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
             var service = new CommentVotesService(new EfDeletableEntityRepository<CommentVote>(dbContext), null);
 
             // Act
             await service.VoteAsync(1, "1");
             await service.VoteAsync(2, "3");
             await service.VoteAsync(3, "2");
-            await service.DeleteRangeByUserIdAsync("1");
-            await service.DeleteRangeByUserIdAsync("2");
+            var firstDeletion = await service.DeleteRangeByUserIdAsync("1");
+            var secondDeletion = await service.DeleteRangeByUserIdAsync("2");
             await service.VoteAsync(3, "2");
 
             // Assert
             Assert.Equal(0, await service.GetVotesAsync(1));
             Assert.Equal(1, await service.GetVotesAsync(2));
             Assert.Equal(1, await service.GetVotesAsync(3));
+            Assert.True(firstDeletion);
+            Assert.True(secondDeletion);
         }
 
         [Fact]

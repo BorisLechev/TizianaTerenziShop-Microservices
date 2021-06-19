@@ -7,9 +7,7 @@
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Moq;
     using TizianaTerenzi.Data;
-    using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Services.Data.Notes;
@@ -35,14 +33,11 @@
             await dbContext.Notes.AddAsync(note);
             await dbContext.SaveChangesAsync();
 
-            var notesRepository = new EfRepository<Note>(dbContext);
-            var mockRepo = new Mock<IRepository<Note>>();
+            var service = new NotesService(
+                new EfRepository<Note>(dbContext),
+                null);
 
-            mockRepo.Setup(n => n.AllAsNoTracking())
-                    .Returns(notesRepository.AllAsNoTracking());
-
-            var service = new NotesService(mockRepo.Object, null);
-
+            // Act
             var result = await service.FindNoteByNameAsync(note.Name);
 
             Assert.True(result);
@@ -71,14 +66,11 @@
                 });
             await dbContext.SaveChangesAsync();
 
-            var notesRepository = new EfRepository<Note>(dbContext);
-            var mockRepo = new Mock<IRepository<Note>>();
+            var service = new NotesService(
+                new EfRepository<Note>(dbContext),
+                null);
 
-            mockRepo.Setup(n => n.AllAsNoTracking())
-                    .Returns(notesRepository.AllAsNoTracking());
-
-            var service = new NotesService(mockRepo.Object, null);
-
+            // Act
             var notes = await service.GetAllNotesAsync();
             var isExistingNote1 = await service.FindNoteByNameAsync("Test1");
             var isExistingNote2 = await service.FindNoteByNameAsync("Test2");
@@ -154,19 +146,9 @@
             });
             await dbContext.SaveChangesAsync();
 
-            var notesRepository = new EfRepository<Note>(dbContext);
-            var mockNotesRepo = new Mock<IRepository<Note>>();
-            var productNotesRepository = new EfDeletableEntityRepository<ProductNote>(dbContext);
-            var mockProductNotesRepo = new Mock<IDeletableEntityRepository<ProductNote>>();
-
-            mockNotesRepo.Setup(n => n.AllAsNoTracking())
-                    .Returns(notesRepository.AllAsNoTracking());
-            mockNotesRepo.Setup(n => n.SaveChangesAsync())
-                    .Returns(notesRepository.SaveChangesAsync());
-            mockProductNotesRepo.Setup(pn => pn.AllAsNoTracking())
-                    .Returns(productNotesRepository.AllAsNoTracking());
-
-            var service = new NotesService(mockNotesRepo.Object, mockProductNotesRepo.Object);
+            var service = new NotesService(
+                new EfRepository<Note>(dbContext),
+                new EfDeletableEntityRepository<ProductNote>(dbContext));
 
             // Act
             var productNotes = await service.GetAllNotesWithSelectedByProductIdAsync(product.Id);
@@ -183,7 +165,122 @@
             Assert.Equal("Test2", note2.Text);
         }
 
-        // TODO: SoftDeleteAllProductNotesAsync
-        // TODO: HardDeleteAllProductNotesAsync
+        [Fact]
+        public async Task SoftDeleteAllProductNotesShouldReturnTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            await dbContext.Notes.AddRangeAsync(new List<Note>
+            {
+                new Note
+                {
+                    Name = "Test1",
+                },
+                new Note
+                {
+                    Name = "Test2",
+                },
+            });
+            await dbContext.SaveChangesAsync();
+
+            var product = new Product
+            {
+                Name = "Bibi",
+                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                Price = 320,
+                FragranceGroupId = 1,
+                ProductTypeId = 1,
+                YearOfManufacture = 2015,
+            };
+            await dbContext.Products.AddAsync(product);
+            await dbContext.SaveChangesAsync();
+
+            await dbContext.ProductNotes.AddRangeAsync(new List<ProductNote>
+            {
+                new ProductNote
+                {
+                    NoteId = 1,
+                    ProductId = 1,
+                },
+                new ProductNote
+                {
+                    NoteId = 2,
+                    ProductId = 1,
+                },
+            });
+            await dbContext.SaveChangesAsync();
+
+            var service = new NotesService(
+                new EfRepository<Note>(dbContext),
+                new EfDeletableEntityRepository<ProductNote>(dbContext));
+
+            // Act
+            var softDelete = await service.SoftDeleteAllProductNotesAsync(product.Id);
+
+            // Assert
+            Assert.True(softDelete);
+        }
+
+        [Fact]
+        public async Task HardDeleteAllProductNotesShouldReturnTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            await dbContext.Notes.AddRangeAsync(new List<Note>
+            {
+                new Note
+                {
+                    Name = "Test1",
+                },
+                new Note
+                {
+                    Name = "Test2",
+                },
+            });
+            await dbContext.SaveChangesAsync();
+
+            var product = new Product
+            {
+                Name = "Bibi",
+                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                Price = 320,
+                FragranceGroupId = 1,
+                ProductTypeId = 1,
+                YearOfManufacture = 2015,
+            };
+            await dbContext.Products.AddAsync(product);
+            await dbContext.SaveChangesAsync();
+
+            await dbContext.ProductNotes.AddRangeAsync(new List<ProductNote>
+            {
+                new ProductNote
+                {
+                    NoteId = 1,
+                    ProductId = 1,
+                },
+                new ProductNote
+                {
+                    NoteId = 2,
+                    ProductId = 1,
+                },
+            });
+            await dbContext.SaveChangesAsync();
+
+            var service = new NotesService(
+                new EfRepository<Note>(dbContext),
+                new EfDeletableEntityRepository<ProductNote>(dbContext));
+
+            // Act
+            var hardDelete = await service.HardDeleteAllProductNotesAsync(product.Id);
+
+            // Assert
+            Assert.True(hardDelete);
+        }
     }
 }
