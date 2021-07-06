@@ -32,32 +32,25 @@
                     <article class="image-wrapper">
                         <section class="inner-image-wrapper">
                             <section class="image-container">
-                                @*<input class="slider-input" checked type=radio name="slider" id="slide1" />
-                                    <input class="slider-input" type=radio name="slider" id="slide2" />
-                                    <input class="slider-input" type=radio name="slider" id="slide3" />*@
-                                <div class="slider-wrapper">
-                                    <div class=inner>
-                                        <article>
-                                            <img class="product-image" src="@this.Model.Picture" />
-                                        </article>
-                                        @*<article>
-                                                <img class="product-image" src="@Model.Picture" />
-                                            </article>
-                                            <article>
-                                                <img class="product-image" src="@Model.Picture" />
-                                            </article>*@
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="product-image" src="@this.Model.Picture" />
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="product-image" src="@this.Model.Picture" />
+                                            </div>
+                                        </div>
                                     </div>
+                                    <!-- Add Pagination -->
+                                    <div class="swiper-pagination"></div>
+                                    <!-- Add Arrows -->
+                                    <div class="swiper-button-next"></div>
+                                    <div class="swiper-button-prev"></div>
                                 </div>
-                                @*<div class="slider-prev-next-control">
-                                        <label for=slide1></label>
-                                        <label for=slide2></label>
-                                        <label for=slide3></label>
-                                    </div>
-                                    <div class="slider-dot-control">
-                                        <label for=slide1></label>
-                                        <label for=slide2></label>
-                                        <label for=slide3></label>
-                                    </div>*@
                             </section>
                         </section>
                     </article>
@@ -237,7 +230,26 @@
 </script>
 
 @section Scripts {
+    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
     <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            zoom: true,
+            keyboard: {
+                enabled: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
         function showAddCommentForm(parentId) {
             $("#AddCommentForm input[name='ParentId']").val(parentId);
             $("#AddCommentForm").show();
@@ -306,4 +318,5 @@
     <link href="~/css/product-card.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/comments.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/swiper/swiper-bundle.min.css" rel="stylesheet" asp-append-version="true" />
 }

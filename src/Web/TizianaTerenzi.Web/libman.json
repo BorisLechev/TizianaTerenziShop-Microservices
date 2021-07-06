@@ -162,6 +162,14 @@
       "files": [
         "dist/chartjs-plugin-colorschemes.min.js"
       ]
+    },
+    {
+      "library": "swiper@6.7.5",
+      "destination": "wwwroot/lib/swiper/",
+      "files": [
+        "swiper-bundle.min.css",
+        "swiper-bundle.min.js"
+      ]
     }
   ]
 }

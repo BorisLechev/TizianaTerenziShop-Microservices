@@ -113,6 +113,7 @@ Example:
   * Bootstrap
   * Bootstrap-Select - for select dropdowns
   * Semantic-UI - for the multiple select dropdowns in Admin Dashboard
+  * Swiper - Modern mobile touch slider
   * SB Admin 2 - Bootstrap 4 based admin theme for Admin dashboard
   * AOS && Animate.css - Animate On Scroll library
   * FontAwesome
