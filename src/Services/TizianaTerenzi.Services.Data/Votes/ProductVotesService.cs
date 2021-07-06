@@ -1,12 +1,12 @@
 ﻿namespace TizianaTerenzi.Services.Data.Votes
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Web.ViewModels.Votes;
 
     public class ProductVotesService : IProductVotesService
     {
@@ -32,33 +32,26 @@
             }
         }
 
-        public async Task<IEnumerable<byte>> GetAllValuesByProductIdAsync(int productId)
+        public async Task<GroupProductVoteValuesViewModel<int, int, int, int, int, int, int, double>> GetNumberOfVotesForEachValueAsync(int productId)
         {
-            var voteValues = await this.productVotesRepository
-                .AllAsNoTracking()
-                .Where(pv => pv.ProductId == productId)
-                .Select(pv => pv.Value)
-                .ToListAsync();
+            var votes = await this.productVotesRepository
+                        .AllAsNoTracking()
+                        .Where(pv => pv.ProductId == productId)
+                        .GroupBy(pv => pv.ProductId)
+                        .Select(pv => new GroupProductVoteValuesViewModel<int, int, int, int, int, int, int, double>
+                        {
+                            Group = pv.Key,
+                            GroupVotesWithValue5 = pv.Where(v => v.Value == 5).Count(),
+                            GroupVotesWithValue4 = pv.Where(v => v.Value == 4).Count(),
+                            GroupVotesWithValue3 = pv.Where(v => v.Value == 3).Count(),
+                            GroupVotesWithValue2 = pv.Where(v => v.Value == 2).Count(),
+                            GroupVotesWithValue1 = pv.Where(v => v.Value == 1).Count(),
+                            CountOfVotes = pv.Count(),
+                            AverageVotes = pv.Average(v => v.Value),
+                        })
+                        .SingleOrDefaultAsync();
 
-            return voteValues;
-        }
-
-        public async Task<double> GetAverageVotesAsync(int productId)
-        {
-            return await this.productVotesRepository
-                .AllAsNoTracking()
-                .Where(pv => pv.ProductId == productId)
-                .AverageAsync(pv => pv.Value);
-        }
-
-        public async Task<int> GetNumberOfVotersAsync(int productId)
-        {
-            var numberOfVoters = await this.productVotesRepository
-                .AllAsNoTracking()
-                .Where(pv => pv.ProductId == productId)
-                .CountAsync();
-
-            return numberOfVoters;
+            return votes;
         }
 
         public async Task<bool> VoteAsync(int productId, string userId, byte value)

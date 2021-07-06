@@ -65,31 +65,17 @@
             this.notificationsService = notificationsService;
         }
 
-        public async Task<bool> DeleteUserAsync(string userId)
+        public async Task<bool> DeleteUserAsync(ApplicationUser user)
         {
-            if (userId == null)
-            {
-                return false;
-            }
-
-            var user = await this.usersRepository
-                .All()
-                .SingleOrDefaultAsync(u => u.Id == userId);
-
-            if (user == null)
-            {
-                return false;
-            }
-
             try
             {
-                await this.ordersService.DeleteAllOrdersByUserIdAsync(userId);
-                await this.ordersService.DeleteAllOrderProductsByUserIdAsync(userId);
-                await this.commentsService.DeleteRangeByUserIdAsync(userId);
-                await this.commentVotesService.DeleteRangeByUserIdAsync(userId);
-                await this.wishlistService.DeleteAllProductsInTheWishlistAsync(userId);
-                await this.chatsService.DeleteChatGroupWithMessagesAsync(userId, user.UserName);
-                await this.notificationsService.DeleteAllNotificationsByUserIdAsync(userId, user.UserName);
+                await this.ordersService.DeleteAllOrdersByUserIdAsync(user.Id);
+                await this.ordersService.DeleteAllOrderProductsByUserIdAsync(user.Id);
+                await this.commentsService.DeleteRangeByUserIdAsync(user.Id);
+                await this.commentVotesService.DeleteRangeByUserIdAsync(user.Id);
+                await this.wishlistService.DeleteAllProductsInTheWishlistAsync(user.Id);
+                await this.chatsService.DeleteChatGroupWithMessagesAsync(user.Id, user.UserName);
+                await this.notificationsService.DeleteAllNotificationsByUserIdAsync(user.Id, user.UserName);
 
                 this.usersRepository.Delete(user);
 
@@ -107,7 +93,7 @@
         {
             user.FirstName = inputModel.FirstName;
             user.LastName = inputModel.LastName;
-            user.UserName = inputModel.UserName;
+            //user.UserName = inputModel.UserName;
             user.CountryId = inputModel.CountryId;
             user.Address = inputModel.Address;
             user.Town = inputModel.Town;

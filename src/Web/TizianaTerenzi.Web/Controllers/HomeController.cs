@@ -15,19 +15,16 @@
             return this.View();
         }
 
-        [Route("/about-us")]
         public IActionResult AboutUs()
         {
             return this.View("~/Views/AboutUs/AboutUs.cshtml");
         }
 
-        [Route("/privacy")]
         public IActionResult Privacy()
         {
             return this.View();
         }
 
-        [Route("/terms")]
         public IActionResult Terms()
         {
             return this.View();

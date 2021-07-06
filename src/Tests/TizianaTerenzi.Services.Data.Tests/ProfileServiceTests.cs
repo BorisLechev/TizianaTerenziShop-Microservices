@@ -168,7 +168,7 @@
             Assert.Equal(2, await dbContext.FavoriteProducts.CountAsync());
             Assert.Equal(1, await dbContext.UserNotifications.CountAsync());
 
-            var userResult = await profileService.DeleteUserAsync(user.Id);
+            var userResult = await profileService.DeleteUserAsync(user);
             Assert.True(userResult);
             Assert.Equal(0, await dbContext.Users.CountAsync());
 
@@ -187,35 +187,6 @@
             var chatsResult = await chatsService.DeleteChatGroupWithMessagesAsync(user.Id, user.UserName);
             Assert.True(chatsResult);
             Assert.Equal(0, await dbContext.ChatMessages.CountAsync());
-        }
-
-        [Fact]
-        public async Task DeleteUserWithNonExistentUserReturnsFalse()
-        {
-            // Arrange
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
-            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
-
-            var userId = Guid.NewGuid().ToString();
-
-            var profileService = new ProfileService(
-                new EfDeletableEntityRepository<ApplicationUser>(dbContext),
-                new EfDeletableEntityRepository<ApplicationRole>(dbContext),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
-
-            // Act
-            var result = await profileService.DeleteUserAsync(userId);
-
-            // Assert
-            Assert.False(result);
         }
 
         [Fact]

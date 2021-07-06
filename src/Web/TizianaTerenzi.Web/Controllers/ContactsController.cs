@@ -37,12 +37,12 @@
         [HttpPost]
         public async Task<IActionResult> Index(ContactMessageInputModel inputModel)
         {
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid == false)
             {
                 return this.View(inputModel);
             }
 
-            var ip = await this.locationService.GetIpAddress();
+            var ip = await this.locationService.GetIpAddressAsync();
 
             var contactFormEntry = new ContactFormEntry
             {

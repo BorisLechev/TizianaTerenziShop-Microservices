@@ -3,12 +3,13 @@
     public static class NotificationMessages
     {
         public const string RegistrationWelcome = "Welcome to TizianaTerenzi, {0}!";
+        public const string UsernameIsTaken = "That username is taken. Try another.";
         public const string LoggedOut = "Logged out successfully";
         public const string PasswordChanged = "Password changed successfully";
         public const string PasswordSet = "Password set successfully";
         public const string InvalidPassword = "Invalid password";
         public const string ProfileDetailsUpdated = "Details updated successfully";
-        public const string CannotUpdateProfileDetail = "Something went wrong.";
+        public const string CannotUpdateProfileDetails = "Something went wrong.";
         public const string UserNotFound = "User not found.";
 
         public const string AccountDeleted = "We're sorry to see you go. Your account was deleted.";

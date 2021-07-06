@@ -41,6 +41,9 @@
                 <button class="btn btn-outline-primary m-2 px-4" data-toggle="modal" data-target="#downloadDataModal">
                     <i class="fas fa-download"></i> @Localizer["Download personal data"]
                 </button>
+                <a asp-area="" asp-controller="Profile" asp-action="ChangePassword" class="btn btn-outline-info m-2 px-4">
+                    <i class="far fa-edit"></i> @Localizer["Change password"]
+                </a>
                 <a asp-area="" asp-controller="Profile" asp-action="Edit" class="btn btn-outline-warning m-2 px-4">
                     <i class="far fa-edit"></i> @Localizer["Edit profile"]
                 </a>
@@ -49,6 +52,9 @@
                 </button>
                 <a asp-area="" asp-controller="Profile" asp-action="All" class="btn btn-outline-success m-2 px-4">
                     <i class="fas fa-users"></i> @Localizer["All Users"]
+                </a>
+                <a asp-area="" asp-controller="Orders" asp-action="Index" class="btn btn-outline-secondary m-2 px-4">
+                    <i class="fas fa-tags"></i> @Localizer["My orders"]
                 </a>
             }
             else
@@ -62,7 +68,7 @@
 <div class="modal fade" id="downloadDataModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="margin-top: 6rem;">
         <div class="modal-content">
-            <form asp-area="" asp-controller="Profile" asp-action="DownloadPersonalData" method="post" onsubmit="closeDownloadDataModal()">
+            <form asp-area="" asp-controller="Profile" asp-action="Download" method="post" onsubmit="closeDownloadDataModal()">
                 <div class="modal-header">
                     <h5 class="modal-title">Download personal data</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

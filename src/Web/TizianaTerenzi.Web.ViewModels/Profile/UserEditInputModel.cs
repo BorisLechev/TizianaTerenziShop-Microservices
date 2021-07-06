@@ -12,8 +12,8 @@
 
     public class UserEditInputModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>, IHaveCustomMappings
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Username is required.")]
-        [StringLength(15, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Username is required.")]
+        //[StringLength(15, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 

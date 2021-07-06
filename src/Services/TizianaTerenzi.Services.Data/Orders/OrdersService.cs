@@ -116,18 +116,18 @@
             return ordersCount > 0;
         }
 
-        public async Task<bool> DeleteAllOrderProductsByUserIdAsync(string userId)
+        public async Task DeleteAllOrderProductsByUserIdAsync(string userId)
         {
-            var deletedProductsCount = await this.orderProductsRepository
+            var orderProducts = await this.orderProductsRepository
                     .All()
                     .Where(op => op.Order.UserId == userId)
-                    .UpdateAsync(o => new Order
-                    {
-                        IsDeleted = true,
-                        DeletedOn = DateTime.UtcNow,
-                    });
+                    .ToArrayAsync();
 
-            return deletedProductsCount > 0;
+            if (orderProducts.Any())
+            {
+                this.orderProductsRepository.DeleteRange(orderProducts);
+                await this.orderProductsRepository.SaveChangesAsync();
+            }
         }
     }
 }

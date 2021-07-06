@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -62,27 +61,39 @@
                 return this.BadRequest();
             }
 
-            var averageVotes = await this.productVotesService.GetAverageVotesAsync(inputModel.ProductId);
-            var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(inputModel.ProductId);
-            var numberOfVoters = allValues.Count();
+            var groupedProductVotes = await this.productVotesService.GetNumberOfVotesForEachValueAsync(inputModel.ProductId);
+            var numberOfVoters = groupedProductVotes.CountOfVotes;
+            var averageVotes = groupedProductVotes.AverageVotes;
 
-            var countOfVotesWithValueFive = allValues.Where(pv => pv == 5).Count();
-            var countOfVotesWithValueFour = allValues.Where(pv => pv == 4).Count();
-            var countOfVotesWithValueThree = allValues.Where(pv => pv == 3).Count();
-            var countOfVotesWithValueTwo = allValues.Where(pv => pv == 2).Count();
-            var countOfVotesWithValueOne = allValues.Where(pv => pv == 1).Count();
+            var countOfVotesWithValueFive = groupedProductVotes.GroupVotesWithValue5;
+            var countOfVotesWithValueFour = groupedProductVotes.GroupVotesWithValue4;
+            var countOfVotesWithValueThree = groupedProductVotes.GroupVotesWithValue3;
+            var countOfVotesWithValueTwo = groupedProductVotes.GroupVotesWithValue2;
+            var countOfVotesWithValueOne = groupedProductVotes.GroupVotesWithValue1;
 
-            return new ProductVoteResponseModel
+            var responseModel = new ProductVoteResponseModel
             {
                 AverageVote = averageVotes,
                 NumberOfVoters = numberOfVoters,
                 ProductId = inputModel.ProductId,
-                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / numberOfVoters * 100 : 0,
-                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / numberOfVoters * 100 : 0,
+                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0
+                                                ? (double)countOfVotesWithValueFive / numberOfVoters * 100
+                                                : 0,
+                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0
+                                                ? (double)countOfVotesWithValueFour / numberOfVoters * 100
+                                                : 0,
+                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0
+                                                ? (double)countOfVotesWithValueThree / numberOfVoters * 100
+                                                : 0,
+                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0
+                                                ? (double)countOfVotesWithValueTwo / numberOfVoters * 100
+                                                : 0,
+                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0
+                                                ? (double)countOfVotesWithValueOne / numberOfVoters * 100
+                                                : 0,
             };
+
+            return responseModel;
         }
     }
 }

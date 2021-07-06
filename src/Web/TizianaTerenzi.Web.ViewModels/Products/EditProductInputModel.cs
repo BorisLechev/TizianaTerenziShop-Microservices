@@ -24,7 +24,6 @@
         [Range(10, double.MaxValue, ErrorMessage = "Price should be at least €{1}.")]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Picture is required.")]
         [DataType(DataType.Upload)]
         [AllowedExtensions]
         [MaxFileSize]

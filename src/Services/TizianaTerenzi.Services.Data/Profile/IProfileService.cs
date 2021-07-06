@@ -9,7 +9,7 @@
     {
         Task<string> GetPersonalDataForUserJsonAsync(string userId);
 
-        Task<bool> DeleteUserAsync(string userId);
+        Task<bool> DeleteUserAsync(ApplicationUser user);
 
         Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId);
 

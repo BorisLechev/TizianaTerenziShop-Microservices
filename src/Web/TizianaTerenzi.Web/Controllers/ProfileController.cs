@@ -42,7 +42,6 @@
             this.ordersService = ordersService;
         }
 
-        [Route("/profile/{userId}")]
         public async Task<IActionResult> Index(string userId)
         {
             var user = await this.profileService.GetUserByIdAsync(userId);
@@ -72,7 +71,7 @@
         }
 
         [HttpPost]
-        [Route("/profile/download")]
+        [ActionName("Download")]
         public async Task<IActionResult> DownloadPersonalData(string password)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -85,7 +84,7 @@
             {
                 this.Error(NotificationMessages.InvalidPassword);
 
-                return this.RedirectToAction(nameof(this.Index));
+                return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
             }
 
             var json = await this.profileService.GetPersonalDataForUserJsonAsync(user.Id);
@@ -96,7 +95,6 @@
         }
 
         [HttpPost]
-        [Route("/profile/delete")]
         public async Task<IActionResult> DeleteAccount(string password)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -109,27 +107,26 @@
             {
                 this.Error(NotificationMessages.InvalidPassword);
 
-                return this.LocalRedirect($"/profile/{user.Id}");
+                return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
             }
 
-            var result = await this.profileService.DeleteUserAsync(user.Id);
+            var result = await this.profileService.DeleteUserAsync(user);
 
             if (result == false)
             {
                 this.Error(NotificationMessages.AccountDeleteError);
 
-                return this.LocalRedirect($"/profile/{user.Id}");
+                return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
             }
 
             await this.signInManager.SignOutAsync();
 
             this.Success(NotificationMessages.AccountDeleted);
 
-            return this.LocalRedirect("/");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        [Route("/profile/changepassword")]
         public async Task<IActionResult> ChangePassword()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -141,7 +138,7 @@
 
             var hasPassword = await this.userManager.HasPasswordAsync(user);
 
-            if (!hasPassword)
+            if (hasPassword == false)
             {
                 return this.RedirectToAction(nameof(this.SetPassword));
             }
@@ -155,10 +152,9 @@
         }
 
         [HttpPost]
-        [Route("/profile/changepassword")]
         public async Task<IActionResult> ChangePassword(UserChangePasswordInputModel inputModel)
         {
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid == false)
             {
                 return this.RedirectToAction(nameof(this.ChangePassword));
             }
@@ -172,7 +168,7 @@
 
             var changePasswordResult = await this.userManager.ChangePasswordAsync(user, inputModel.OldPassword, inputModel.NewPassword);
 
-            if (!changePasswordResult.Succeeded)
+            if (changePasswordResult.Succeeded == false)
             {
                 foreach (var error in changePasswordResult.Errors)
                 {
@@ -188,7 +184,7 @@
 
             this.Success(NotificationMessages.PasswordChanged);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
         }
 
         [HttpGet]
@@ -219,7 +215,7 @@
         [HttpPost]
         public async Task<IActionResult> SetPassword(UserSetPasswordInputModel inputModel)
         {
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid == false)
             {
                 return this.RedirectToAction(nameof(this.SetPassword));
             }
@@ -238,7 +234,7 @@
 
             var addPasswordResult = await this.userManager.AddPasswordAsync(user, inputModel.NewPassword);
 
-            if (!addPasswordResult.Succeeded)
+            if (addPasswordResult.Succeeded == false)
             {
                 foreach (var error in addPasswordResult.Errors)
                 {
@@ -254,11 +250,10 @@
 
             this.Success(NotificationMessages.PasswordSet);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
         }
 
         [HttpGet]
-        [Route("/profile/edit")]
         public async Task<IActionResult> Edit()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -274,7 +269,6 @@
         }
 
         [HttpPost]
-        [Route("/profile/edit")]
         public async Task<IActionResult> Edit(UserEditInputModel inputModel)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -284,9 +278,10 @@
                 return this.NotFound();
             }
 
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid == false)
             {
                 inputModel.Email = user.Email;
+                inputModel.UserName = user.UserName;
 
                 return this.View(inputModel);
             }
@@ -299,13 +294,12 @@
             }
             else
             {
-
+                this.Error(NotificationMessages.CannotUpdateProfileDetails);
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
         }
 
-        [Route("/profile/all")]
         public async Task<IActionResult> All(int page = 0)
         {
             page = Math.Max(1, page);

@@ -10,8 +10,10 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Location;
@@ -22,6 +24,7 @@
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
         private readonly ILocationService locationService;
         private readonly ICountriesService countriesService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -33,6 +36,7 @@
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
+            IDeletableEntityRepository<ApplicationUser> usersRepository,
             ILogger<RegisterModel> logger)
         {
             this.locationService = locationService;
@@ -40,6 +44,7 @@
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            this.usersRepository = usersRepository;
             this.logger = logger;
         }
 
@@ -102,34 +107,45 @@
                 var location = await this.locationService.GetLocationAsync();
                 var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
-                var user = new ApplicationUser
+                var isUserNameExisting = await this.usersRepository
+                    .AllAsNoTrackingWithDeleted()
+                    .AnyAsync(u => u.UserName == this.Input.UserName);
+
+                if (isUserNameExisting == false)
                 {
-                    UserName = this.Input.UserName,
-                    Email = this.Input.Email,
-                    FirstName = this.Input.FirstName,
-                    LastName = this.Input.LastName,
-                    CountryId = countryId,
-                    Town = location.Town,
-                };
+                    var user = new ApplicationUser
+                    {
+                        UserName = this.Input.UserName,
+                        Email = this.Input.Email,
+                        FirstName = this.Input.FirstName,
+                        LastName = this.Input.LastName,
+                        CountryId = countryId,
+                        Town = location.Town,
+                    };
 
-                var result = await this.userManager.CreateAsync(user, this.Input.Password);
+                    var result = await this.userManager.CreateAsync(user, this.Input.Password);
 
-                if (result.Succeeded)
-                {
-                    ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+                    if (result.Succeeded)
+                    {
+                        ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
 
-                    await this.userManager.AddToRoleAsync(user, role.Name);
+                        await this.userManager.AddToRoleAsync(user, role.Name);
 
-                    this.logger.LogInformation("User created a new account with password.");
+                        this.logger.LogInformation("User created a new account with password.");
 
-                    await this.signInManager.SignInAsync(user, isPersistent: false);
+                        await this.signInManager.SignInAsync(user, isPersistent: false);
 
-                    return this.LocalRedirect(returnUrl);
+                        return this.LocalRedirect(returnUrl);
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        this.ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
-
-                foreach (var error in result.Errors)
+                else
                 {
-                    this.ModelState.AddModelError(string.Empty, error.Description);
+                    this.ModelState.AddModelError(string.Empty, NotificationMessages.UsernameIsTaken);
                 }
             }
 

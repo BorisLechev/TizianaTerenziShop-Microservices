@@ -8,6 +8,6 @@
     {
         public Task<CountryTownIpServiceModel> GetLocationAsync();
 
-        public Task<string> GetIpAddress();
+        public Task<string> GetIpAddressAsync();
     }
 }

@@ -91,7 +91,7 @@
                                     <h6 class="section-title">@Localizer["Notes"]</h6>
                                 </dt>
                                 <dd>
-                                    <p class="notes">@string.Join(", ", Model.Notes)</p>
+                                    <p class="notes">@string.Join(", ", this.Model.Notes)</p>
                                 </dd>
                             </dl>
                             <section class="product-price-container">€ @this.Model.PriceWithGeneralDiscount EUR</section>
@@ -102,8 +102,8 @@
                             <section class="product-quantity-container">
                                 <span class="product-quantity-inner-container">
                                     <span class="quantity">1</span>
-                                    <span id="@(Model.Id)-increase" class="increase-btn"></span>
-                                    <span id="@(Model.Id)-decrease" class="decrease-btn"></span>
+                                    <span id="@(this.Model.Id)-increase" class="increase-btn"></span>
+                                    <span id="@(this.Model.Id)-decrease" class="decrease-btn"></span>
                                 </span>
                             </section>
                             <section class="btn-container">
@@ -121,7 +121,7 @@
                 <h3 class="description-title">@Localizer["Description"]</h3>
             </header>
             <main>
-                <p>@Html.Raw(Model.SanitizedDescription)</p>
+                <p>@Html.Raw(this.Model.SanitizedDescription)</p>
             </main>
         </section>
         <section class="col-xs-12">

@@ -10,7 +10,7 @@
                     <section class="image-overlay"></section>
                 </a>
             </section>
-            @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
             {
                 <section>
                     <form asp-area="" asp-controller="Wishlist" asp-action="Add" asp-route-productId="@this.Model.Id" method="post">
@@ -52,7 +52,7 @@
                     <a asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@this.Model.Id" class="btn-edit">
                         <span>@Localizer["Edit Product"]</span>
                     </a>
-                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@this.Model.Id" method="post">
+                    <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-productId="@this.Model.Id" method="post">
                         <button class="button-delete" type="submit">
                             <span>@Localizer["Delete Product"]</span>
                         </button>

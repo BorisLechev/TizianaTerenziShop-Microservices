@@ -28,10 +28,6 @@
             this.notesService = notesService;
         }
 
-        public ProductsService()
-        {
-        }
-
         public async Task<bool> CreateProductAsync(CreateProductInputModel inputModel, string pictureUrl)
         {
             var notesIds = inputModel.NoteIds.Select(int.Parse);
@@ -75,7 +71,7 @@
             product.YearOfManufacture = inputModel.YearOfManufacture;
             product.FragranceGroupId = inputModel.FragranceGroupId;
             product.ProductTypeId = inputModel.ProductTypeId;
-            product.Picture = pictureUrl;
+            product.Picture = string.IsNullOrEmpty(pictureUrl) ? product.Picture : pictureUrl;
             product.Notes = notesIds.Select(id => new ProductNote
             {
                 NoteId = id,

@@ -76,10 +76,10 @@
                                             </form>
                                             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                             {
-                                                <a class="btn-edit" href="/administration/product/edit/@product.ProductId">
+                                                <a class="btn-edit" asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@product.ProductId">
                                                     <span>@Localizer["Edit Product"]</span>
                                                 </a>
-                                                <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-id="@product.ProductId" method="post">
+                                                <form asp-area="Administration" asp-controller="Products" asp-action="Delete" asp-route-productId="@product.ProductId" method="post">
                                                     <button class="button-delete" type="submit">
                                                         <span>@Localizer["Delete Product"]</span>
                                                     </button>

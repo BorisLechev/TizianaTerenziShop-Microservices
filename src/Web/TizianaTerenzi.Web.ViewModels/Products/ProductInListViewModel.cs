@@ -44,7 +44,9 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductInListViewModel>()
-                .ForMember(dest => dest.AverageVote, opt => opt.MapFrom(src => src.Votes.Count() == 0 ? 0 : src.Votes.Average(v => v.Value)));
+                .ForMember(dest => dest.AverageVote, opt => opt.MapFrom(src => src.Votes.Count() == 0
+                ? 0
+                : src.Votes.Average(v => v.Value)));
         }
     }
 }

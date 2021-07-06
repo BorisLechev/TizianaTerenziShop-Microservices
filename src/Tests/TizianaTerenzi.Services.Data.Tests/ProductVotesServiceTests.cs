@@ -71,11 +71,12 @@
 
             // how many times the method AddAsync is used
             mockRepo.Verify(x => x.AddAsync(It.IsAny<ProductVote>()), Times.Exactly(2));
+            var productOneResult = await service.GetNumberOfVotesForEachValueAsync(1);
 
             // Assert
             Assert.Equal(2, list.Count);
-            Assert.Equal(2, await service.GetNumberOfVotersAsync(1));
-            Assert.Equal(2.5, await service.GetAverageVotesAsync(1));
+            Assert.Equal(2, productOneResult.CountOfVotes);
+            Assert.Equal(2.5, productOneResult.AverageVotes);
         }
 
         [Fact]
@@ -93,10 +94,14 @@
 
             await service.DeleteProductVotesAsync(1);
 
+            var productOneResult = await service.GetNumberOfVotesForEachValueAsync(1);
+            var productTwoResult = await service.GetNumberOfVotesForEachValueAsync(2);
+            var productThreeResult = await service.GetNumberOfVotesForEachValueAsync(3);
+
             // Assert
-            Assert.Equal(0, await service.GetNumberOfVotersAsync(1));
-            Assert.Equal(1, await service.GetNumberOfVotersAsync(2));
-            Assert.Equal(0, await service.GetNumberOfVotersAsync(3));
+            Assert.Null(productOneResult);
+            Assert.Equal(1, productTwoResult.CountOfVotes);
+            Assert.Null(productThreeResult);
         }
 
         [Fact]
@@ -113,12 +118,13 @@
             await service.VoteAsync(1, "2", 2);
             await service.VoteAsync(1, "2", 4);
 
-            var allValues = await service.GetAllValuesByProductIdAsync(1);
-            var averageVote = await service.GetAverageVotesAsync(1);
+            //var allValues = await service.GetAllValuesByProductIdAsync(1);
+            //var averageVote = await service.GetAverageVotesAsync(1);
+            var allValues = await service.GetNumberOfVotesForEachValueAsync(1);
 
             // Assert
-            Assert.Equal(2, allValues.Count());
-            Assert.Equal(4.5, averageVote);
+            Assert.Equal(2, allValues.CountOfVotes);
+            Assert.Equal(4.5, allValues.AverageVotes);
         }
     }
 }

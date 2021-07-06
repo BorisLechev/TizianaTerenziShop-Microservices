@@ -126,6 +126,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Change password</value>
+  </data>
   <data name="Delete account" xml:space="preserve">
     <value>Delete account</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Message" xml:space="preserve">
     <value>Message</value>
+  </data>
+  <data name="My orders" xml:space="preserve">
+    <value>My orders</value>
   </data>
   <data name="My profile" xml:space="preserve">
     <value>My profile</value>

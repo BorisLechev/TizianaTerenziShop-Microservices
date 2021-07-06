@@ -17,7 +17,7 @@
             this.configuration = configuration;
         }
 
-        public async Task<string> GetIpAddress()
+        public async Task<string> GetIpAddressAsync()
         {
             using var client = new HttpClient();
             var key = this.configuration["IpInfo:ApiKey"];

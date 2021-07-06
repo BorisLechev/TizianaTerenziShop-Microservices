@@ -11,7 +11,7 @@
     using TizianaTerenzi.Web.ViewModels.GeneralDiscounts;
 
     [ApiController]
-    [Route("administration/[controller]/[action]")]
+    [Route("[area]/[controller]/[action]")]
     public class GeneralDiscountsController : AdministrationController
     {
         private readonly IGeneralDiscountsService generalDiscountsService;

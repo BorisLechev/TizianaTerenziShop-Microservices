@@ -11,7 +11,6 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
-    using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Web.ViewModels.Orders;
 
@@ -21,8 +20,6 @@
 
         private readonly IProductsService productsService;
 
-        private readonly IDiscountCodesService discountCodesService;
-
         private readonly ICountriesService countriesService;
 
         private readonly UserManager<ApplicationUser> userManager;
@@ -30,13 +27,11 @@
         public CartController(
             ICartService cartService,
             IProductsService productsService,
-            IDiscountCodesService discountCodesService,
             ICountriesService countriesService,
             UserManager<ApplicationUser> userManager)
         {
             this.cartService = cartService;
             this.productsService = productsService;
-            this.discountCodesService = discountCodesService;
             this.countriesService = countriesService;
             this.userManager = userManager;
         }
@@ -117,80 +112,6 @@
         }
 
         [HttpPost]
-        [Authorize]
-        [Route("/cart/discount/{discountName}/apply")]
-        public async Task<IActionResult> ApplyDiscountCode(string discountName)
-        {
-            if (discountName == null || discountName.Length > 30)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
-
-                return this.RedirectToAction(nameof(this.Index));
-            }
-
-            var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
-
-            if (isExisting == false)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
-
-                return this.RedirectToAction(nameof(this.Index));
-            }
-
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountName, userId);
-
-            if (result == false)
-            {
-                this.Error(NotificationMessages.AlreadyAppliedDiscountCode);
-
-                return this.RedirectToAction(nameof(this.Index));
-            }
-
-            this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
-
-            return this.RedirectToAction(nameof(this.Index));
-        }
-
-        [HttpPost]
-        [Authorize]
-        [Route("/cart/discount/{discountName}/delete")]
-        public async Task<IActionResult> DeleteDiscountCode(string discountName)
-        {
-            if (discountName == null || discountName.Length > 30)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
-
-                return this.RedirectToAction(nameof(this.Index));
-            }
-
-            var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
-
-            if (isExisting == false)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
-
-                return this.RedirectToAction(nameof(this.Index));
-            }
-
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(userId);
-
-            if (result == false)
-            {
-                this.Error(NotificationMessages.CannotDeleteDiscountCodeError);
-
-                return this.RedirectToAction(nameof(this.Index));
-            }
-
-            this.Success(NotificationMessages.SuccessfullyDeletedDiscountCode);
-
-            return this.RedirectToAction(nameof(this.Index));
-        }
-
-        [HttpPost]
         public async Task<IActionResult> DeleteProduct(string id)
         {
             if (id == null)
@@ -231,7 +152,7 @@
                 BulgariaId = int.Parse(bulgariaId),
             };
 
-            if (!productsInTheCart.Any())
+            if (productsInTheCart.Any() == false)
             {
                 this.Error(NotificationMessages.EmptyCartError);
 

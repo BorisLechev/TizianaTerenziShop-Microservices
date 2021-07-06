@@ -101,7 +101,6 @@
         }
 
         [HttpGet]
-        [Route("/administration/product/edit/{productId}")]
         public async Task<IActionResult> Edit(int productId)
         {
             if (productId <= 0)
@@ -122,7 +121,6 @@
         }
 
         [HttpPost]
-        [Route("/administration/product/edit/{productId}")]
         public async Task<IActionResult> Edit(EditProductInputModel inputModel, int productId)
         {
             if (productId <= 0)
@@ -135,7 +133,12 @@
                 return this.View(inputModel);
             }
 
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+            string pictureUrl = string.Empty;
+
+            if (inputModel.Picture != null)
+            {
+                pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+            }
 
             var result = await this.productsService.EditProductAsync(inputModel, productId, pictureUrl);
 
@@ -152,20 +155,20 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int productId)
         {
-            if (id <= 0)
+            if (productId <= 0)
             {
                 return this.NotFound();
             }
 
             try
             {
-                await this.notesService.SoftDeleteAllProductNotesAsync(id);
-                await this.commentVotesService.DeleteRangeByProductIdAsync(id);
-                await this.commentsService.DeleteRangeByProductIdAsync(id);
-                await this.productVotesService.DeleteProductVotesAsync(id);
-                await this.productsService.DeleteProductAsync(id);
+                await this.notesService.SoftDeleteAllProductNotesAsync(productId);
+                await this.commentVotesService.DeleteRangeByProductIdAsync(productId);
+                await this.commentsService.DeleteRangeByProductIdAsync(productId);
+                await this.productVotesService.DeleteProductVotesAsync(productId);
+                await this.productsService.DeleteProductAsync(productId);
 
                 this.Success(NotificationMessages.DeleteProductSuccessfully);
 

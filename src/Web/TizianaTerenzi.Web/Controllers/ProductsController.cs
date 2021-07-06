@@ -73,22 +73,37 @@
                 return this.NotFound();
             }
 
-            var allValues = await this.productVotesService.GetAllValuesByProductIdAsync(id);
-            var numberOfVoters = allValues.Count();
+            var groupedProductVotes = await this.productVotesService.GetNumberOfVotesForEachValueAsync(id);
+            var numberOfVoters = groupedProductVotes.CountOfVotes;
 
+            var countOfVotesWithValueFive = groupedProductVotes.GroupVotesWithValue5;
+            var countOfVotesWithValueFour = groupedProductVotes.GroupVotesWithValue4;
+            var countOfVotesWithValueThree = groupedProductVotes.GroupVotesWithValue3;
+            var countOfVotesWithValueTwo = groupedProductVotes.GroupVotesWithValue2;
+            var countOfVotesWithValueOne = groupedProductVotes.GroupVotesWithValue1;
+
+            productDetailsViewModel.ShareOfVotesWithValueOfFive =
+                countOfVotesWithValueFive > 0
+                ? (double)countOfVotesWithValueFive / numberOfVoters * 100
+                : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfFour =
+                countOfVotesWithValueFour > 0
+                ? (double)countOfVotesWithValueFour / numberOfVoters * 100
+                : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfThree =
+                countOfVotesWithValueThree > 0
+                ? (double)countOfVotesWithValueThree / numberOfVoters * 100
+                : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfTwo =
+                countOfVotesWithValueTwo > 0
+                ? (double)countOfVotesWithValueTwo / numberOfVoters * 100
+                : 0;
+            productDetailsViewModel.ShareOfVotesWithValueOfOne =
+                countOfVotesWithValueOne > 0
+                ? (double)countOfVotesWithValueOne / numberOfVoters * 100
+                : 0;
+            productDetailsViewModel.AverageVote = groupedProductVotes.AverageVotes;
             productDetailsViewModel.NumberOfVoters = numberOfVoters;
-
-            var countOfVotesWithValueFive = allValues.Where(pv => pv == 5).Count();
-            var countOfVotesWithValueFour = allValues.Where(pv => pv == 4).Count();
-            var countOfVotesWithValueThree = allValues.Where(pv => pv == 3).Count();
-            var countOfVotesWithValueTwo = allValues.Where(pv => pv == 2).Count();
-            var countOfVotesWithValueOne = allValues.Where(pv => pv == 1).Count();
-
-            productDetailsViewModel.ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0 ? (double)countOfVotesWithValueFive / numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0 ? (double)countOfVotesWithValueFour / numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0 ? (double)countOfVotesWithValueThree / numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0 ? (double)countOfVotesWithValueTwo / numberOfVoters * 100 : 0;
-            productDetailsViewModel.ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0 ? (double)countOfVotesWithValueOne / numberOfVoters * 100 : 0;
 
             var relatedProducts = await this.productsService.GetRandomRelatedProductsAsync(id);
             productDetailsViewModel.RelatedProducts = relatedProducts;
