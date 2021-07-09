@@ -8,6 +8,10 @@
 
     public class OrderCheckoutViewModel
     {
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required.")]
+        [EmailAddress]
+        public string Email { get; set; }
+
         [Required]
         [StringLength(30, MinimumLength = 2)]
         [Display(Name = "First name")]

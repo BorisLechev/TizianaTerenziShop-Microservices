@@ -7,6 +7,8 @@
 
     public class ShippingDataInputModel
     {
+        public string Email { get; set; }
+
         [Display(Name = "First name")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "First name is required.")]
         [StringLength(30, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
@@ -34,7 +36,6 @@
         [Display(Name = "Phone number")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Phone number is required.")]
         [Phone]
-        [RegularExpression(@"^(?=(?:\D*\d){10,15}\D*$)\+?[0-9]{1,3}[\s-]?(?:\(0?[0-9]{1,5}\)|[0-9]{1,5})[-\s]?[0-9][\d\s-]{5,7}\s?(?:x[\d-]{0,4})?$", ErrorMessage = "Please enter a valid phone number.")]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Address")]

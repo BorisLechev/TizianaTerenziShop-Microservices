@@ -36,6 +36,7 @@
                     <section>
                         <div asp-validation-summary="All" id="form-errors" class="text-danger"></div>
 
+                        <input value="@this.Model.Email" id="email" type="hidden">
                         <section class="sections">
                             <article class="shipping-address-container">
                                 <header class="shipping-address-header">
@@ -197,6 +198,7 @@
             let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
             // Create an instance of the Stripe object with your publishable API key
             let stripe = Stripe("@this.Configuration["Stripe:PublishableKey"]");
+            let email = $("#email").val();
             let firstName = $("#first-name").val();
             let lastName = $("#last-name").val();
             let address = $("#address").val();
@@ -205,7 +207,7 @@
             let postalCode = $("#postal-code").val();
             let phoneNumber = $("#phone-number").val();
 
-            let json = { firstName: firstName, lastName: lastName, address: address, town: town, countryId: country, postalCode: postalCode, phoneNumber: phoneNumber }; // shippingDataInputModel
+            let json = { email: email, firstName: firstName, lastName: lastName, address: address, town: town, countryId: country, postalCode: postalCode, phoneNumber: phoneNumber }; // shippingDataInputModel
 
             fetch("/payment/pay", {
                 method: "POST",

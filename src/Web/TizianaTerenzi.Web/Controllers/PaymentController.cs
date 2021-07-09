@@ -31,7 +31,7 @@
 
         [HttpPost]
         [Route("payment/pay")]
-        public async Task<IActionResult> Pay(ShippingDataInputModel viewModel)
+        public async Task<IActionResult> Pay(ShippingDataInputModel inputModel)
         {
             if (this.ModelState.IsValid == false)
             {
@@ -41,7 +41,7 @@
             var domain = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
             var options = new SessionCreateOptions
             {
-                CustomerEmail = "customer@example.com",
+                CustomerEmail = inputModel.Email,
                 SubmitType = "pay",
                 BillingAddressCollection = "auto",
                 PaymentIntentData = new SessionPaymentIntentDataOptions
@@ -75,7 +75,7 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.cartService.SaveShippingDataAsync(user, viewModel);
+            await this.cartService.SaveShippingDataAsync(user, inputModel);
 
             var service = new SessionService();
             Session session = service.Create(options);

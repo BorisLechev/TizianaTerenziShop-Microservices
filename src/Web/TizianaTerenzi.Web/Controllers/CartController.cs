@@ -140,6 +140,7 @@
 
             var viewModel = new OrderCheckoutViewModel
             {
+                Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 CountryId = user.CountryId,
