@@ -62,33 +62,37 @@
             }
 
             var groupedProductVotes = await this.productVotesService.GetNumberOfVotesForEachValueAsync(inputModel.ProductId);
-            var numberOfVoters = groupedProductVotes.CountOfVotes;
-            var averageVotes = groupedProductVotes.AverageVotes;
+            var numberOfVoters = groupedProductVotes != null
+                                    ? groupedProductVotes.CountOfVotes
+                                    : 0;
+            var averageVotes = groupedProductVotes != null
+                                ? groupedProductVotes.AverageVotes
+                                : 0;
 
-            var countOfVotesWithValueFive = groupedProductVotes.GroupVotesWithValue5;
-            var countOfVotesWithValueFour = groupedProductVotes.GroupVotesWithValue4;
-            var countOfVotesWithValueThree = groupedProductVotes.GroupVotesWithValue3;
-            var countOfVotesWithValueTwo = groupedProductVotes.GroupVotesWithValue2;
-            var countOfVotesWithValueOne = groupedProductVotes.GroupVotesWithValue1;
+            var countOfVotesWithValueFive = groupedProductVotes?.GroupVotesWithValue5;
+            var countOfVotesWithValueFour = groupedProductVotes?.GroupVotesWithValue4;
+            var countOfVotesWithValueThree = groupedProductVotes?.GroupVotesWithValue3;
+            var countOfVotesWithValueTwo = groupedProductVotes?.GroupVotesWithValue2;
+            var countOfVotesWithValueOne = groupedProductVotes?.GroupVotesWithValue1;
 
             var responseModel = new ProductVoteResponseModel
             {
                 AverageVote = averageVotes,
                 NumberOfVoters = numberOfVoters,
                 ProductId = inputModel.ProductId,
-                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive > 0
+                ShareOfVotesWithValueOfFive = countOfVotesWithValueFive.HasValue && numberOfVoters > 0
                                                 ? (double)countOfVotesWithValueFive / numberOfVoters * 100
                                                 : 0,
-                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour > 0
+                ShareOfVotesWithValueOfFour = countOfVotesWithValueFour.HasValue && numberOfVoters > 0
                                                 ? (double)countOfVotesWithValueFour / numberOfVoters * 100
                                                 : 0,
-                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree > 0
+                ShareOfVotesWithValueOfThree = countOfVotesWithValueThree.HasValue && numberOfVoters > 0
                                                 ? (double)countOfVotesWithValueThree / numberOfVoters * 100
                                                 : 0,
-                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo > 0
+                ShareOfVotesWithValueOfTwo = countOfVotesWithValueTwo.HasValue && numberOfVoters > 0
                                                 ? (double)countOfVotesWithValueTwo / numberOfVoters * 100
                                                 : 0,
-                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne > 0
+                ShareOfVotesWithValueOfOne = countOfVotesWithValueOne.HasValue && numberOfVoters > 0
                                                 ? (double)countOfVotesWithValueOne / numberOfVoters * 100
                                                 : 0,
             };
