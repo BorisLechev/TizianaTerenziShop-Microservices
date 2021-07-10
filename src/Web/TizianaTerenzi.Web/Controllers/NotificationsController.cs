@@ -12,7 +12,6 @@
     [Authorize]
     public class NotificationsController : BaseController
     {
-
         private readonly INotificationsService notificationsService;
 
         private readonly IHubContext<NotificationHub> hubContext;

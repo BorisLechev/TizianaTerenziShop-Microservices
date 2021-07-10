@@ -52,7 +52,7 @@
                 Link = $"/chat/with/{senderUsername}/group/{groupName}",
             };
 
-            // Delete notifications when more than 10
+            // Delete notifications when more than 50
             var notifications = await this.notificationsRepository
                 .All()
                 .Where(n => n.ReceiverUsername == receiverUsername)

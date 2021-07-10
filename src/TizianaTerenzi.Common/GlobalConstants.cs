@@ -20,6 +20,6 @@
 
         public const string ChatGroupNameSeparator = "->";
 
-        public const int MaxChatNotificationsPerUser = 10;
+        public const int MaxChatNotificationsPerUser = 50;
     }
 }

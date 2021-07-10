@@ -19,7 +19,7 @@ connection.start().then(function () {
 });
 
 connection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) {
-    document.getElementById("notificationCount").innerText = count; // span
+    document.getElementById("notificationCount").innerText = count; // span _NotificationBadgePartial
 
     let title = document.querySelector("head title"); // head
     let bracketIndex = title.innerText.indexOf(")");
@@ -42,7 +42,7 @@ connection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) 
 });
 
 connection.on("VisualizeNotification", function (notification) {
-    let section = document.getElementById("allUserNotifications");
+    let section = document.getElementById("allUserNotifications"); // section Notifications/Index.cshtml
 
     if (section) {
         let newNotification = createNotification(notification);

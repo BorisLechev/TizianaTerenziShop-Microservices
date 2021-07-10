@@ -2,13 +2,14 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Notifications;
 
+    [Authorize]
     public class NotificationHub : Hub
     {
         private readonly INotificationsService notificationsService;
