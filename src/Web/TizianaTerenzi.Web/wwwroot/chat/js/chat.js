@@ -1,25 +1,28 @@
 ﻿"use strict";
+var receiver = document.getElementById("receiver").textContent;
+var sender = document.getElementById("sender").textContent;
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-function updateScroll() {
-    //if (document.getElementById("scrollBottomButton").style.visibility != "visible") {
-        let element = document.getElementById("demo-chat-body");
-        element.scrollTop = element.scrollHeight;
-    //}
-}
+connection.start().then(function () {
+    document.getElementById("sendButton").disabled = false;
 
-function userType(receiverUsername, senderUsername) {
-    connection.invoke("UserType", senderUsername, receiverUsername).catch(function (err) {
+    let receiver = document.getElementById("receiver").textContent; //<h3>
+    let sender = document.getElementById("sender").textContent; //<h3>
+    let groupId = document.getElementById("groupId").value; //<input>
+
+    updateScroll();
+
+    connection.invoke("AddToGroup", groupId, receiver, sender).catch(function (err) {
         return console.error(err.toString());
     });
-}
 
-function userStopType(receiverUsername) {
-    connection.invoke("UserStopType", receiverUsername).catch(function (err) {
+    connection.invoke("GetUserNotificationsCount", sender).catch(function (err) {
         return console.error(err.toString());
     });
-}
+}).catch(function (err) {
+    return console.error(err.toString());
+});
 
 connection.on("VisualizeUserType", function () {
     let typeMessageElement = document.getElementById("typeMessage");
@@ -53,32 +56,7 @@ connection.on("VisualizeUserStopType", function () {
 //Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message) {
-    var msg = message; //.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    let dateTime = new Date();
-    let formattedDate =
-        `${dateTime.getDate()}-${(dateTime.getMonth() + 1)}-${dateTime.getFullYear()} ${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}`;
-
-    let li = document.createElement("li");
-
-    li.classList.add("message-list-item");
-
-    li.innerHTML = `<div class="media-body">
-                        <div class="speech">
-                            <p>${msg}</p>
-                            <p class="speech-time">
-                                <i class="far fa-clock"></i> ${formattedDate}
-                            </p>
-                        </div>
-                     </div>`;
-
-    document.getElementById("messagesList").appendChild(li);
-
-    updateScroll();
-});
-
-connection.on("SendMessage", function (user, message) {
-    var msg = message; //.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+connection.on("SendMessage", function (message) {
     let dateTime = new Date();
     let formattedDate =
         `${dateTime.getDate()}-${(dateTime.getMonth() + 1)}-${dateTime.getFullYear()} ${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}`;
@@ -87,9 +65,9 @@ connection.on("SendMessage", function (user, message) {
 
     li.classList.add("message-list-item");
 
-    li.innerHTML = `<div class="media-body speech-right">
+    li.innerHTML = `<div class="media-body ${(message.authorUserName === sender) ? "speech-right" : ""}">
                         <div class="speech">
-                            <p>${msg}</p>
+                            <p>${message.content}</p>
                             <p class="speech-time">
                                 <i class="far fa-clock"></i> ${formattedDate}
                             </p>
@@ -101,40 +79,14 @@ connection.on("SendMessage", function (user, message) {
     updateScroll();
 });
 
-connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
-
-    let receiver = document.getElementById("receiver").textContent; //<h3>
-    let sender = document.getElementById("sender").textContent; //<h3>
-    let group = document.getElementById("groupName").value; //<input>
-
-    updateScroll();
-
-    connection.invoke("AddToGroup", group, receiver, sender).catch(function (err) {
-        return console.error(err.toString());
-    });
-
-    connection.invoke("GetUserNotificationsCount", sender).catch(function (err) {
-        return console.error(err.toString());
-    });
-}).catch(function (err) {
-    return console.error(err.toString());
-});
-
 document.getElementById("sendButton").addEventListener("click", function (event) {
-    let receiver = document.getElementById("receiver").textContent;
-    let sender = document.getElementById("sender").textContent;
-    let group = document.getElementById("groupName").value;
+    let group = document.getElementById("groupId").value;
     let message = document.getElementById("messageInput").innerHTML;
 
     let data = new FormData();
 
     if (message) {
         connection.invoke("SendMessage", sender, receiver, message, group).catch(function (err) {
-            return console.error(err.toString());
-        });
-
-        connection.invoke("ReceiveMessage", sender, message, group).catch(function (err) {
             return console.error(err.toString());
         });
     } else {
@@ -152,4 +104,21 @@ document.getElementById("sendButton").addEventListener("click", function (event)
 function updateInputScroller() {
     let scroller = document.getElementById("messageInput");
     scroller.scrollTop = scroller.scrollHeight;
+}
+
+function updateScroll() {
+    let element = document.getElementById("demo-chat-body");
+    element.scrollTop = element.scrollHeight;
+}
+
+function userType(receiverUsername) {
+    connection.invoke("UserType", receiverUsername).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function userStopType(receiverUsername) {
+    connection.invoke("UserStopType", receiverUsername).catch(function (err) {
+        return console.error(err.toString());
+    });
 }

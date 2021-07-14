@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.EntityFrameworkCore;
@@ -28,24 +29,21 @@
         {
             var username = this.Context.User.Identity.Name;
 
-            if (username != null)
-            {
-                var targetUser = await this.usersRepository
-                    .AllAsNoTracking()
-                    .Where(u => u.UserName == username)
-                    .Select(u => new
-                    {
-                        u.Id,
-                        u.UserName,
-                    })
-                    .SingleOrDefaultAsync();
+            var receiver = await this.usersRepository
+                .AllAsNoTracking()
+                .Where(u => u.UserName == username)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.UserName,
+                })
+                .SingleOrDefaultAsync();
 
-                var count = await this.notificationsService.GetUserNotificationsCountAsync(targetUser.UserName);
+            var count = await this.notificationsService.GetUserNotificationsCountAsync(receiver.UserName);
 
-                await this.Clients
-                    .User(targetUser.Id)
-                    .SendAsync("ReceiveNotification", count, isFirstNotificationSound);
-            }
+            await this.Clients
+                .User(receiver.Id)
+                .SendAsync("ReceiveNotification", count, isFirstNotificationSound);
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+var notificationConnection  = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
 
-connection.start().then(function () {
+var sound = new Audio('/notification/notificationSoundMessage.mp3');
+
+notificationConnection.start().then(function () {
     if (!sessionStorage.getItem("isFirstNotificationSound")) {
         sessionStorage.setItem("isFirstNotificationSound", true);
     } else {
@@ -11,14 +13,14 @@ connection.start().then(function () {
 
     let isFirstNotificationSound = sessionStorage.getItem("isFirstNotificationSound") == "true" ? true : false;
 
-    connection.invoke("GetUserNotificationsCount", isFirstNotificationSound).catch(function (err) {
+    notificationConnection.invoke("GetUserNotificationsCount", isFirstNotificationSound).catch(function (err) {
         return console.error(err.toString());
     });
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-connection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) {
+notificationConnection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) {
     document.getElementById("notificationCount").innerText = count; // span _NotificationBadgePartial
 
     let title = document.querySelector("head title"); // head
@@ -27,8 +29,7 @@ connection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) 
 
     if (count > 0) {
         if (isFirstNotificaitonSound) {
-            document.querySelector("audio").load();
-            document.querySelector("audio").play();
+            sound.play();
         }
 
         document.getElementById("notificationCount").classList.add("notificationCircle", "notificationPulse");
@@ -41,7 +42,7 @@ connection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) 
     title.innerText = newTitle;
 });
 
-connection.on("VisualizeNotification", function (notification) {
+notificationConnection.on("VisualizeNotification", function (notification) {
     let section = document.getElementById("allUserNotifications"); // section Notifications/Index.cshtml
 
     if (section) {

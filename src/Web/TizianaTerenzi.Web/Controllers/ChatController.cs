@@ -4,7 +4,6 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Web.ViewModels.Chat;
@@ -23,32 +22,21 @@
             this.userManager = userManager;
         }
 
-        [Route("chat/with/{username?}/group/{group?}")]
-        public async Task<IActionResult> Index(string username, string group)
+        public async Task<IActionResult> Index(string username, string groupId)
         {
             var sender = await this.userManager.GetUserAsync(this.User);
             var receiver = await this.userManager.FindByNameAsync(username);
 
-            var isUserAbleToChat = await this.chatService.IsUserAbleToChatAsync(sender.UserName, group);
+            var allMessages = await this.chatService.GetAllMessagesByGroupIdAsync(groupId);
 
-            if (isUserAbleToChat == false)
-            {
-                this.Error(NotificationMessages.NotAbleToChat);
-
-                return this.LocalRedirect($"/profile/{sender.Id}");
-            }
-
-            var allMessages = await this.chatService.GetAllMessagesByGroupNameAsync(group);
-
-            // TODO: IsUserAbleToChat
             var viewModel = new ChatViewModel
             {
                 SenderId = sender.Id,
                 SenderUsername = sender.UserName,
                 ReceiverId = receiver.Id,
                 ReceiverUsername = receiver.UserName,
-                GroupName = group,
                 ChatMessages = allMessages,
+                GroupId = groupId,
             };
 
             return this.View(viewModel);

@@ -7,7 +7,7 @@
 <div class="container chat">
     <header>
         <h3 style="text-align: center; text-transform: uppercase;">@this.ViewData["Title"]</h3>
-        <input id="groupName" name="@this.Model.GroupName" value="@this.Model.GroupName" type="hidden" />
+        <input id="groupId" name="@this.Model.GroupId" value="@this.Model.GroupId" type="hidden" />
     </header>
     <main class="col-md-12">
         <div id="chatPanel" class="panel">
@@ -57,7 +57,7 @@
                                 }
                                 else
                                 {
-                                    @if (message.ReceiverUsername != Model.ReceiverUsername && message.AuthorUserName != Model.SenderUsername)
+                                    @if (message.ReceiverUsername != this.Model.ReceiverUsername && message.AuthorUserName != this.Model.SenderUsername)
                                     {
                                         <li id="@message.Id" class="message-list-item">
                                             <div class="media-body">
@@ -81,13 +81,13 @@
                 <div class="form-group my-0">
                     <div class="input-group">
                         <div id="messageInput"
-                                class="form-control bg-transparent chat-input"
-                                oninput="updateInputScroller()"
-                                onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
-                                onblur="userStopType('@this.Model.ReceiverUsername')"
-                                contenteditable="true"
-                                autocomplete="off"
-                                autofocus>
+                             class="form-control bg-transparent chat-input"
+                             oninput="updateInputScroller()"
+                             onclick="userType('@this.Model.ReceiverUsername', '@this.Model.SenderUsername')"
+                             onblur="userStopType('@this.Model.ReceiverUsername')"
+                             contenteditable="true"
+                             autocomplete="off"
+                             autofocus>
                         </div>
                         <div class="input-group-append">
                             <button id="sendButton" class="btn btn-outline-primary px-4" type="button">

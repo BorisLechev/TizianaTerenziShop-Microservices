@@ -13,8 +13,6 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string ChatGroupName { get; set; }
-
         public string AuthorUserName { get; set; }
 
         public string ReceiverUsername { get; set; }

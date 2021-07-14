@@ -24,9 +24,6 @@
     @await this.RenderSectionAsync("CustomCss", false)
 </head>
 <body class="website-body">
-    <audio id="notificationAudio">
-        <source id="targetAudio" src="~/notification/notificationSoundMessage.mp3" type="audio/mpeg">
-    </audio>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light box-shadow layout-navbar">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
@@ -212,7 +209,7 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
-    <script src="~/notification/js/notification.js" asp-append-version="true"></script>
+    <script src="~/notification/js/notification.js"></script>
     <script src="~/userStatus/js/userStatus.js" asp-append-version="true"></script>
     <script src="~/lib/aos/dist/aos.min.js" asp-append-version="true"></script>
     <script>

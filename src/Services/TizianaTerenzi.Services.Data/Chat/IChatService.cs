@@ -7,20 +7,14 @@
 
     public interface IChatService
     {
-        Task AddUserToGroupAsync(string groupName, string receiversUsername, string sendersUsername);
+        Task<ChatUserGroupsViewModel> GetChatGroupByUserIdsAsync(string userId, string currentUserId);
 
-        Task<string> SendMessageToUserAsync(string sendersUsername, string receiversUsername, string message, string groupName);
+        Task<string> AddUserToGroupAsync(string groupId, string receiversUsername, string sendersUsername);
 
-        Task<string> ReceiveNewMessageAsync(string sendersUsername, string message, string groupName);
+        Task<string> SendMessageToUserAsync(string sendersUsername, string receiversUsername, string sanitizedMessage, string groupId);
 
-        Task<ICollection<ChatMessageViewModel>> GetAllMessagesByGroupNameAsync(string groupName);
+        Task<ICollection<ChatMessageViewModel>> GetAllMessagesByGroupIdAsync(string groupId);
 
-        Task<string> UserTypeAsync(string sendersUsername, string receiversUsername);
-
-        Task<string> UserStopTypeAsync(string receiversUsername);
-
-        Task<bool> IsUserAbleToChatAsync(string myUsername, string groupName);
-
-        Task<bool> DeleteChatGroupWithMessagesAsync(string currentUserId, string currentUsername);
+        Task<string> GetReceiverIdAsync(string receiversUsername);
     }
 }

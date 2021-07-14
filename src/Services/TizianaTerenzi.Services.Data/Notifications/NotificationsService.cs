@@ -31,7 +31,7 @@
             this.notificationsRepository = notificationsRepository;
         }
 
-        public async Task<string> AddMessageNotificationAsync(string senderUsername, string receiverUsername, string message, string groupName)
+        public async Task<string> AddMessageNotificationAsync(string senderUsername, string receiverUsername, string message, string groupId)
         {
             var messageTypeNotification = await this.notificationTypesRepository
                 .All()
@@ -49,7 +49,7 @@
                 Type = messageTypeNotification,
                 Text = message,
                 SenderId = senderId,
-                Link = $"/chat/with/{senderUsername}/group/{groupName}",
+                Link = $"/chat/with/{senderUsername}/group/{groupId}",
             };
 
             // Delete notifications when more than 50
@@ -96,11 +96,11 @@
             return notification;
         }
 
-        public async Task<int> GetUserNotificationsCountAsync(string username)
+        public async Task<int> GetUserNotificationsCountAsync(string receiverUsername)
         {
             var count = await this.notificationsRepository
                 .AllAsNoTracking()
-                .CountAsync(n => n.ReceiverUsername == username);
+                .CountAsync(n => n.ReceiverUsername == receiverUsername);
 
             return count;
         }

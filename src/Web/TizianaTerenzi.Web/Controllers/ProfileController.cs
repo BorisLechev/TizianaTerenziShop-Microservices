@@ -1,8 +1,7 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -11,6 +10,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.Web.ViewModels.Profile;
@@ -30,16 +30,20 @@
 
         private readonly IOrdersService ordersService;
 
+        private readonly IChatService chatsService;
+
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IProfileService profileService,
-            IOrdersService ordersService)
+            IOrdersService ordersService,
+            IChatService chatsService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.profileService = profileService;
             this.ordersService = ordersService;
+            this.chatsService = chatsService;
         }
 
         public async Task<IActionResult> Index(string userId)
@@ -51,9 +55,7 @@
                 return this.NotFound();
             }
 
-            var currentUser = await this.userManager.GetUserAsync(this.User);
-            var group = new List<string>() { currentUser.UserName, user.UserName };
-            var groupName = string.Join(GlobalConstants.ChatGroupNameSeparator, group.OrderBy(x => x));
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var profileViewModel = new ProfileViewModel
             {
@@ -64,8 +66,17 @@
                 PostalCode = user.PostalCode,
                 Town = user.Town,
                 Phone = user.PhoneNumber,
-                GroupName = groupName,
             };
+
+            if (user.Id != currentUserId)
+            {
+                var chatGroup = await this.chatsService.GetChatGroupByUserIdsAsync(user.Id, currentUserId);
+
+                if (chatGroup != null)
+                {
+                    profileViewModel.GroupId = chatGroup.ChatGroupId;
+                }
+            }
 
             return this.View(profileViewModel);
         }

@@ -1,14 +1,14 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/userStatusHub").build();
+var userStatusConnection = new signalR.HubConnectionBuilder().withUrl("/userStatusHub").build();
 
-connection.start().then(function () {
+userStatusConnection.start().then(function () {
     let element = document.getElementById("currentUsername");
 
     if (element) {
         let currentUsername = element.textContent.substr(1, element.textContent.length);
 
-        connection.invoke("IsUserOnline", currentUsername).catch(function (err) {
+        userStatusConnection.invoke("IsUserOnline", currentUsername).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -20,7 +20,7 @@ connection.start().then(function () {
             let usernameElement = user.children[2].textContent; //<h5>
             let username = usernameElement.substr(1, usernameElement.length);
 
-            connection.invoke("IsUserOnline", username).catch(function (err) {
+            userStatusConnection.invoke("IsUserOnline", username).catch(function (err) {
                 return console.error(err.toString());
             });
         }
@@ -29,7 +29,7 @@ connection.start().then(function () {
     return console.error(err.toString());
 });
 
-connection.on("UserIsOnline", function (username) {
+userStatusConnection.on("UserIsOnline", function (username) {
     let profileStatus = document.getElementById(`${username}userStatus`);
 
     if (profileStatus) {
@@ -39,7 +39,7 @@ connection.on("UserIsOnline", function (username) {
     }
 });
 
-connection.on("UserIsOffline", function (username) {
+userStatusConnection.on("UserIsOffline", function (username) {
     let profileStatus = document.getElementById(`${username}userStatus`);
 
     if (profileStatus) {

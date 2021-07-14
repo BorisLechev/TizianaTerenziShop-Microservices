@@ -74,7 +74,6 @@
                 await this.commentsService.DeleteRangeByUserIdAsync(user.Id);
                 await this.commentVotesService.DeleteRangeByUserIdAsync(user.Id);
                 await this.wishlistService.DeleteAllProductsInTheWishlistAsync(user.Id);
-                await this.chatsService.DeleteChatGroupWithMessagesAsync(user.Id, user.UserName);
                 await this.notificationsService.DeleteAllNotificationsByUserIdAsync(user.Id, user.UserName);
 
                 this.usersRepository.Delete(user);

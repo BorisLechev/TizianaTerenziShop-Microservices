@@ -183,10 +183,6 @@
             var notificationsResult = await notificationsService.DeleteAllNotificationsByUserIdAsync(user.Id, user.UserName);
             Assert.True(notificationsResult);
             Assert.Equal(0, await dbContext.UserNotifications.CountAsync());
-
-            var chatsResult = await chatsService.DeleteChatGroupWithMessagesAsync(user.Id, user.UserName);
-            Assert.True(chatsResult);
-            Assert.Equal(0, await dbContext.ChatMessages.CountAsync());
         }
 
         [Fact]

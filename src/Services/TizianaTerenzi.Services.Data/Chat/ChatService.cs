@@ -5,9 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Ganss.XSS;
     using Microsoft.EntityFrameworkCore;
-    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
@@ -32,11 +30,27 @@
             this.chatMessagesRepository = chatMessagesRepository;
         }
 
-        public async Task AddUserToGroupAsync(string groupName, string receiversUsername, string sendersUsername)
+        public async Task<ChatUserGroupsViewModel> GetChatGroupByUserIdsAsync(string userId, string currentUserId)
         {
             var chatGroup = await this.chatGroupsRepository
-                .All()
-                .SingleOrDefaultAsync(cg => cg.Name == groupName);
+                    .AllAsNoTracking()
+                    .Select(x => new ChatUserGroupsViewModel
+                    {
+                        ChatGroupId = x.Id,
+                        ChatUserGroups = x.ChatUserGroups,
+                    })
+                    .SingleOrDefaultAsync(x =>
+                        x.ChatUserGroups.Select(x => x.UserId).Contains(userId) &&
+                        x.ChatUserGroups.Select(x => x.UserId).Contains(currentUserId));
+
+            return chatGroup;
+        }
+
+        public async Task<string> AddUserToGroupAsync(string groupId, string receiversUsername, string sendersUsername)
+        {
+            var chatGroup = await this.chatGroupsRepository
+            .All()
+            .SingleOrDefaultAsync(cg => cg.Id == groupId);
 
             if (chatGroup == null)
             {
@@ -48,10 +62,7 @@
                     .All()
                     .SingleOrDefaultAsync(u => u.UserName == sendersUsername);
 
-                chatGroup = new ChatGroup
-                {
-                    Name = groupName,
-                };
+                chatGroup = new ChatGroup();
 
                 var groupReceiver = new ChatUserGroup
                 {
@@ -71,17 +82,17 @@
                 await this.chatGroupsRepository.AddAsync(chatGroup);
                 await this.chatGroupsRepository.SaveChangesAsync();
             }
+
+            return chatGroup.Id;
         }
 
-        public async Task<ICollection<ChatMessageViewModel>> GetAllMessagesByGroupNameAsync(string groupName)
+        public async Task<ICollection<ChatMessageViewModel>> GetAllMessagesByGroupIdAsync(string groupId)
         {
-            var groupId = await this.chatGroupsRepository
+            var isExisting = await this.chatGroupsRepository
                 .AllAsNoTracking()
-                .Where(g => g.Name.ToLower() == groupName.ToLower())
-                .Select(g => g.Id)
-                .SingleOrDefaultAsync();
+                .AnyAsync(g => g.Id == groupId);
 
-            if (groupId != null)
+            if (isExisting)
             {
                 var messages = await this.chatMessagesRepository
                     .AllAsNoTracking()
@@ -96,18 +107,7 @@
             return null;
         }
 
-        public async Task<string> ReceiveNewMessageAsync(string sendersUsername, string message, string groupName)
-        {
-            var sendersId = await this.usersRepository
-                .AllAsNoTracking()
-                .Where(u => u.UserName == sendersUsername)
-                .Select(u => u.Id)
-                .SingleOrDefaultAsync();
-
-            return sendersId;
-        }
-
-        public async Task<string> SendMessageToUserAsync(string sendersUsername, string receiversUsername, string message, string groupName)
+        public async Task<string> SendMessageToUserAsync(string sendersUsername, string receiversUsername, string sanitizedMessage, string groupId)
         {
             var receiversId = await this.usersRepository
                 .All()
@@ -121,14 +121,14 @@
 
             var group = await this.chatGroupsRepository
                 .All()
-                .SingleOrDefaultAsync(g => g.Name.ToLower() == groupName.ToLower());
+                .SingleOrDefaultAsync(g => g.Id == groupId);
 
             var newMessage = new ChatMessage
             {
                 Author = sender,
                 ChatGroup = group,
+                Content = sanitizedMessage,
                 ReceiverUsername = receiversUsername,
-                Content = new HtmlSanitizer().Sanitize(message.Trim()),
             };
 
             await this.chatMessagesRepository.AddAsync(newMessage);
@@ -137,10 +137,10 @@
             return receiversId;
         }
 
-        public async Task<string> UserTypeAsync(string sendersUsername, string receiversUsername)
+        public async Task<string> GetReceiverIdAsync(string receiversUsername)
         {
             var receiverId = await this.usersRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(u => u.UserName.ToUpper() == receiversUsername.ToUpper())
                 .Select(u => u.Id)
                 .SingleOrDefaultAsync();
@@ -148,51 +148,6 @@
             return receiverId;
         }
 
-        public async Task<string> UserStopTypeAsync(string receiversUsername)
-        {
-            var receiverId = await this.usersRepository
-                .All()
-                .Where(u => u.UserName.ToUpper() == receiversUsername.ToUpper())
-                .Select(u => u.Id)
-                .SingleOrDefaultAsync();
-
-            return receiverId;
-        }
-
-        public async Task<bool> IsUserAbleToChatAsync(string myUsername, string groupName)
-        {
-            var groupMembers = groupName
-                .Split(GlobalConstants.ChatGroupNameSeparator, StringSplitOptions.RemoveEmptyEntries);
-
-            if (groupMembers.Contains(myUsername) == false)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public async Task<bool> DeleteChatGroupWithMessagesAsync(string currentUserId, string currentUsername)
-        {
-            var chatGroups = await this.chatGroupsRepository
-                .All()
-                .Where(g => g.Name.Contains(currentUsername))
-                .UpdateAsync(g => new ChatGroup
-                {
-                    IsDeleted = true,
-                    DeletedOn = DateTime.UtcNow,
-                });
-
-            var chatMessages = await this.chatMessagesRepository
-                .All()
-                .Where(m => m.ReceiverUsername == currentUsername || m.AuthorId == currentUserId)
-                .UpdateAsync(m => new ChatMessage
-                {
-                    IsDeleted = true,
-                    DeletedOn = DateTime.UtcNow,
-                });
-
-            return chatGroups >= 0 && chatMessages >= 0;
-        }
+        // TODO: DeleteChatGroupWithMessagesAsync
     }
 }
