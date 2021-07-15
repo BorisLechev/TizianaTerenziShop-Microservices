@@ -11,8 +11,6 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string Heading => $"<a href=\"/Profile/{this.SenderId}\" class=\"links-in-heading\">{this.SenderUsername}</a> send you a new <a href=\"{this.Link}\" class=\"links-in-heading\">message</a>.";
-
         public string SenderId { get; set; }
 
         public string SenderUsername { get; set; }

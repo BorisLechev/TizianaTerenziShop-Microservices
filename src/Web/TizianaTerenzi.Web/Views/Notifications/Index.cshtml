@@ -18,7 +18,9 @@
                                 <a class="delete-notification-button" onclick="deleteNotification('@notification.Id')">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
-                                <span>@Html.Raw(notification.Heading)</span>
+                                <span>
+                                    <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@notification.SenderId" class="links-in-heading">@notification.SenderUsername</a> send you a new <a href="@notification.Link" class="links-in-heading">message</a>
+                                </span>
                             </span>
                         </h4>
                     </header>
