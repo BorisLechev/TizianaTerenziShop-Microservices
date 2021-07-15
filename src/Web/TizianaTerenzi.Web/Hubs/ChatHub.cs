@@ -38,11 +38,6 @@
 
         public async Task AddToGroup(string groupId, string receiverUsername, string senderUsername)
         {
-            if (string.IsNullOrEmpty(groupId))
-            {
-                groupId = await this.chatService.AddUserToGroupAsync(groupId, receiverUsername, senderUsername);
-            }
-
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, groupId);
         }
 

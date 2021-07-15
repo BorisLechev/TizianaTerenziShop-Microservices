@@ -295,7 +295,7 @@
                             new { controller = "Products", action = "Details" });
                         endpoints.MapControllerRoute(
                             "chatGroup",
-                            "chat/with/{username?}/group/{groupId?}",
+                            "chat/with/{username?}/group/{groupId}",
                             new { controller = "Chat", action = "Index" });
                         endpoints.MapControllerRoute(
                             "default",

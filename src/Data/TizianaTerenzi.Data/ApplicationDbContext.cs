@@ -67,8 +67,6 @@
 
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
-        public DbSet<NotificationType> NotificationTypes { get; set; }
-
         public DbSet<ApplicationUserNotification> UserNotifications { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);

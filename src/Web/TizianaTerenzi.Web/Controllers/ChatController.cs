@@ -10,15 +10,15 @@
 
     public class ChatController : BaseController
     {
-        private readonly IChatService chatService;
+        private readonly IChatService chatsService;
 
         private readonly UserManager<ApplicationUser> userManager;
 
         public ChatController(
-            IChatService chatService,
+            IChatService chatsService,
             UserManager<ApplicationUser> userManager)
         {
-            this.chatService = chatService;
+            this.chatsService = chatsService;
             this.userManager = userManager;
         }
 
@@ -27,7 +27,7 @@
             var sender = await this.userManager.GetUserAsync(this.User);
             var receiver = await this.userManager.FindByNameAsync(username);
 
-            var allMessages = await this.chatService.GetAllMessagesByGroupIdAsync(groupId);
+            var allMessages = await this.chatsService.GetAllMessagesByGroupIdAsync(groupId);
 
             var viewModel = new ChatViewModel
             {

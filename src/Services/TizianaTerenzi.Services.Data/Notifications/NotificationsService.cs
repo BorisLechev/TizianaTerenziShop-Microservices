@@ -17,26 +17,18 @@
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
-        private readonly IRepository<NotificationType> notificationTypesRepository;
-
         private readonly IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository;
 
         public NotificationsService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
-            IRepository<NotificationType> notificationTypesRepository,
             IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository)
         {
             this.usersRepository = usersRepository;
-            this.notificationTypesRepository = notificationTypesRepository;
             this.notificationsRepository = notificationsRepository;
         }
 
         public async Task<string> AddMessageNotificationAsync(string senderUsername, string receiverUsername, string message, string groupId)
         {
-            var messageTypeNotification = await this.notificationTypesRepository
-                .All()
-                .SingleOrDefaultAsync(n => n.Name == "Message");
-
             var senderId = await this.usersRepository
                 .AllAsNoTracking()
                 .Where(u => u.UserName == senderUsername)
@@ -46,7 +38,6 @@
             var notification = new ApplicationUserNotification
             {
                 ReceiverUsername = receiverUsername,
-                Type = messageTypeNotification,
                 Text = message,
                 SenderId = senderId,
                 Link = $"/chat/with/{senderUsername}/group/{groupId}",
@@ -80,6 +71,7 @@
                 .AllAsNoTracking()
                 .Where(n => n.ReceiverUsername == currentUsername)
                 .To<NotificationViewModel>()
+                .OrderByDescending(n => n.CreatedOn)
                 .ToListAsync();
 
             return userNotifications;

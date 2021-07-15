@@ -100,7 +100,6 @@
                         Link = "...",
                         Text = "zdr",
                         SenderId = "1",
-                        TypeId = 1,
                     },
                 }
                 .ToArray(),
@@ -117,10 +116,7 @@
             var mockChatService = new Mock<IChatService>();
             var mockNotificationsService = new Mock<INotificationsService>();
 
-            var chatGroup = new ChatGroup
-            {
-                Name = "test->test1",
-            };
+            var chatGroup = new ChatGroup();
 
             var groupReceiver = new ChatUserGroup
             {
@@ -160,7 +156,6 @@
                 new EfDeletableEntityRepository<ChatMessage>(dbContext));
             var notificationsService = new NotificationsService(
                 new EfDeletableEntityRepository<ApplicationUser>(dbContext),
-                new EfRepository<NotificationType>(dbContext),
                 new EfDeletableEntityRepository<ApplicationUserNotification>(dbContext));
 
             Assert.Equal(1, await dbContext.Users.CountAsync());

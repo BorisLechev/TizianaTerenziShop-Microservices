@@ -21,10 +21,6 @@
         [Required]
         public string Text { get; set; }
 
-        public int TypeId { get; set; }
-
-        public virtual NotificationType Type { get; set; }
-
         [Required]
         public string SenderId { get; set; }
 

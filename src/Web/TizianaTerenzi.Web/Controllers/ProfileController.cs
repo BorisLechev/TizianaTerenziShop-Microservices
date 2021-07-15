@@ -56,6 +56,7 @@
             }
 
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUserName = this.User.FindFirstValue(ClaimTypes.Name);
 
             var profileViewModel = new ProfileViewModel
             {
@@ -70,12 +71,14 @@
 
             if (user.Id != currentUserId)
             {
-                var chatGroup = await this.chatsService.GetChatGroupByUserIdsAsync(user.Id, currentUserId);
+                var chatGroupId = await this.chatsService.GetChatGroupByUserIdsAsync(user.Id, currentUserId);
 
-                if (chatGroup != null)
+                if (chatGroupId == null)
                 {
-                    profileViewModel.GroupId = chatGroup.ChatGroupId;
+                    chatGroupId = await this.chatsService.AddUserToGroupAsync(chatGroupId, user.UserName, currentUserName);
                 }
+
+                profileViewModel.GroupId = chatGroupId;
             }
 
             return this.View(profileViewModel);

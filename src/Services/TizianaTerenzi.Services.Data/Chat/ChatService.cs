@@ -30,11 +30,11 @@
             this.chatMessagesRepository = chatMessagesRepository;
         }
 
-        public async Task<ChatUserGroupsViewModel> GetChatGroupByUserIdsAsync(string userId, string currentUserId)
+        public async Task<string> GetChatGroupByUserIdsAsync(string userId, string currentUserId)
         {
             var chatGroup = await this.chatGroupsRepository
                     .AllAsNoTracking()
-                    .Select(x => new ChatUserGroupsViewModel
+                    .Select(x => new
                     {
                         ChatGroupId = x.Id,
                         ChatUserGroups = x.ChatUserGroups,
@@ -43,7 +43,7 @@
                         x.ChatUserGroups.Select(x => x.UserId).Contains(userId) &&
                         x.ChatUserGroups.Select(x => x.UserId).Contains(currentUserId));
 
-            return chatGroup;
+            return chatGroup?.ChatGroupId;
         }
 
         public async Task<string> AddUserToGroupAsync(string groupId, string receiversUsername, string sendersUsername)

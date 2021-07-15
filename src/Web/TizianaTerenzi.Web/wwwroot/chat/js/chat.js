@@ -86,17 +86,34 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     let data = new FormData();
 
     if (message) {
-        connection.invoke("SendMessage", sender, receiver, message, group).catch(function (err) {
-            return console.error(err.toString());
-        });
-    } else {
-        data.append('toUsername', receiver);
-        data.append('fromUsername', sender);
-        data.append('group', group);
-        data.append('message', message);
+        if (message.length <= 500) {
+            connection.invoke("SendMessage", sender, receiver, message, group).catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            document.getElementById("messageInput").innerHTML = "";
+        } else {
+            data.append('toUsername', receiver);
+            data.append('fromUsername', sender);
+            data.append('group', group);
+            data.append('message', message);
+
+            var li = document.createElement("li");
+
+            li.classList.add("message-list-item");
+
+            li.innerHTML = `<div class="media-body ${(message.authorUserName === sender) ? "speech-right" : ""}">
+                        <div class="speech bg-danger text-white">
+                            <p>Message should be no more than 500 characters long.</p>
+                        </div>
+                    </div>`;
+
+            document.getElementById("messagesList").appendChild(li);
+
+            updateScroll();
+        }
     }
 
-    document.getElementById("messageInput").innerHTML = "";
     $('#messageInput').css('padding-left', '10px');
     event.preventDefault();
 });
