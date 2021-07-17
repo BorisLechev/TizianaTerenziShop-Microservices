@@ -34,9 +34,11 @@
                        class="form-control p-4 bg-transparent chat-input"
                        onkeydown="userType('@this.Model.ReceiverUsername')"
                        onblur="userStopType('@this.Model.ReceiverUsername')"
+                       onkeyup="changeRemainingLength()"
                        placeholder="@Localizer["Type a message..."]"
                        autocomplete="off"
                        autofocus>
+                <span id="remainingLength" class="tt-value-input">@GlobalConstants.ChatMessageMaxLength</span>
                 <div class="input-group-append">
                     <button type="button" class="btn btn-outline-primary px-4" id="sendButton">
                         <i id="fromImage" class="fas fa-paper-plane"></i>
@@ -54,4 +56,18 @@
 @section Scripts {
     <script src="~/chat/js/chat.js" asp-append-version="true"></script>
     <script src="~/chat/js/chatPerformanceScript.js" asp-append-version="true"></script>
+    <script>
+        function changeRemainingLength() {
+            let value = $("#messageInput").val();
+            let count = (@GlobalConstants.ChatMessageMaxLength - value.length);
+
+            $('#remainingLength').html(count);
+
+            if (count < 0) {
+                $("#messageInput").addClass("error");
+            } else {
+                $("#messageInput").removeClass("error");
+            }
+        }
+    </script>
 }

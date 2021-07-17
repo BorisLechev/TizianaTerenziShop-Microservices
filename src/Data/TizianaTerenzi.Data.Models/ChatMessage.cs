@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Models;
 
     public class ChatMessage : BaseDeletableModel<string>
@@ -13,7 +14,7 @@
         }
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(GlobalConstants.ChatMessageMaxLength)]
         public string Content { get; set; }
 
         [Required]

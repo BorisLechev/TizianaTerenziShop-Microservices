@@ -5,9 +5,26 @@
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.tt-value-input {
+    position: absolute;
+    top: 1rem;
+    right: 5rem;
+    color: rgb(102, 111, 116);
+    font-size: 14px;
+    line-height: 1rem;
+    pointer-events: none;
+}
+
 .chat-input {
     outline: none;
     box-shadow: none !important;
+    padding-right: 50px !important;
+}
+
+#messageInput.error {
+    background: rgba(255, 0, 0, 0.1) !important;
+    border-color: rgba(255, 0, 0);
+    color: rgb(255, 0, 0);
 }
 
 .chat-holder {
