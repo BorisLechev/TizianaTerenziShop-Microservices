@@ -1,6 +1,7 @@
-﻿@model AllUsersListViewModel
+﻿@inject IViewLocalizer Localizer
+@model AllUsersListViewModel
 @{
-    this.ViewData["Title"] = "All Users";
+    this.ViewData["Title"] = Localizer["All Users"];
 }
 
 <div class="container" style="padding-top: 100px;">

@@ -1,0 +1,78 @@
+﻿@using TizianaTerenzi.Common;
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
+    <meta name="title" content="@GlobalConstants.SystemName" />
+    <meta name="description" content="@this.ViewData["Meta-Description"]" />
+    <meta property="og:description" content="@this.ViewData["Meta-Description"]" />
+    <meta property="og:title" content="@this.ViewData["Title"]" />
+    <meta property="og:site_name" content="@GlobalConstants.SystemName" />
+    <meta name="keywords" content="@this.ViewData["Meta-Keywords"]" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/reset.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
+    @await this.RenderSectionAsync("CustomCss", false)
+</head>
+<body class="website-body">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light box-shadow layout-navbar">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <picture>
+                    <img src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" id="logo" alt="Tiziana-Terenzi-logo" style="filter: invert(1);" />
+                </picture>
+            </a>
+            <button id="navbar-toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-lg-inline-flex">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">@Localizer["Products"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">@Localizer["About Us"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index">@Localizer["Contacts"]</a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+    </header>
+
+    <partial name="_CookieConsentPartial" />
+
+    <main>
+        <div>
+            @this.RenderBody()
+        </div>
+    </main>
+
+    <partial name="_NotificationBadgePartial" />
+    <partial name="_BackToTheTopPartial" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="~/js/popper.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
+    <script src="~/notification/js/notification.js"></script>
+    <script src="~/userStatus/js/userStatus.js" asp-append-version="true"></script>
+
+    @await this.RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

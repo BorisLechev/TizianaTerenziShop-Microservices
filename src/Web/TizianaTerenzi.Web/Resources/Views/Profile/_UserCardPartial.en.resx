@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Chat" xml:space="preserve">
-    <value>Чат</value>
+  <data name="It's You" xml:space="preserve">
+    <value>It's You</value>
   </data>
-  <data name="Type a message..." xml:space="preserve">
-    <value>Напиши съобщение...</value>
+  <data name="View Profile" xml:space="preserve">
+    <value>View Profile</value>
   </data>
 </root>

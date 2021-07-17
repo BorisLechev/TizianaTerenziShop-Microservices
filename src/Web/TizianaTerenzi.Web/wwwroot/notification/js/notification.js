@@ -5,22 +5,16 @@ var notificationConnection  = new signalR.HubConnectionBuilder().withUrl("/notif
 var sound = new Audio('/notification/notificationSoundMessage.mp3');
 
 notificationConnection.start().then(function () {
-    if (!sessionStorage.getItem("isFirstNotificationSound")) {
-        sessionStorage.setItem("isFirstNotificationSound", true);
-    } else {
-        sessionStorage.setItem("isFirstNotificationSound", false);
-    }
+    let playNotificationSound = false;
 
-    let isFirstNotificationSound = sessionStorage.getItem("isFirstNotificationSound") == "true" ? true : false;
-
-    notificationConnection.invoke("GetUserNotificationsCount", isFirstNotificationSound).catch(function (err) {
+    notificationConnection.invoke("GetUserNotificationsCount", playNotificationSound).catch(function (err) {
         return console.error(err.toString());
     });
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-notificationConnection.on("ReceiveNotification", function (count, isFirstNotificaitonSound) {
+notificationConnection.on("ReceiveNotification", function (count, playNotificationSound) {
     document.getElementById("notificationCount").innerText = count; // span _NotificationBadgePartial
 
     let title = document.querySelector("head title"); // head
@@ -28,7 +22,7 @@ notificationConnection.on("ReceiveNotification", function (count, isFirstNotific
     let newTitle = "";
 
     if (count > 0) {
-        if (isFirstNotificaitonSound) {
+        if (playNotificationSound) {
             sound.play();
         }
 

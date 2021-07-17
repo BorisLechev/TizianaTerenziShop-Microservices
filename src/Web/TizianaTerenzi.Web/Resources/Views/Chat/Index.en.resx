@@ -120,4 +120,7 @@
   <data name="Chat" xml:space="preserve">
     <value>Chat</value>
   </data>
+  <data name="Type a message..." xml:space="preserve">
+    <value>Type a message...</value>
+  </data>
 </root>

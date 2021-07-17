@@ -25,7 +25,7 @@
             this.usersRepository = usersRepository;
         }
 
-        public async Task GetUserNotificationsCount(bool isFirstNotificationSound)
+        public async Task GetUserNotificationsCount(bool playNotificationSound)
         {
             var username = this.Context.User.Identity.Name;
 
@@ -43,7 +43,7 @@
 
             await this.Clients
                 .User(receiver.Id)
-                .SendAsync("ReceiveNotification", count, isFirstNotificationSound);
+                .SendAsync("ReceiveNotification", count, playNotificationSound);
         }
     }
 }
