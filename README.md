@@ -94,41 +94,45 @@ Example:
   },
 ```
 
-## Built with:
+## 🛠 Built with:
   * C#
   * Repository pattern
-  * ASP.NET Core MVC
-  * SignalR - deliver up-to-date information without hitting a refresh button
-  * Entity Framework Core
-  * Entity Framework Plus
-  * Automapper
-  * Google ReCaptcha v3
-  * Cloudinary
-  * SendGrid - for mailing
+  * [ASP.NET Core 5.0 MVC](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0)
+  * [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) - deliver up-to-date information without hitting a refresh button
+  * [Entity Framework Core 5.0](https://docs.microsoft.com/en-us/ef/)
+  * [Entity Framework Plus](https://entityframework-plus.net/)
+  * [Automapper](https://automapper.org/)
+  * [Google ReCaptcha v3](https://www.google.com/recaptcha/about/)
+  * [Cloudinary](https://cloudinary.com/)
+  * [SendGrid](https://sendgrid.com/) - for mailing
   * jQuery
   * jQuery Unobtrusive Validation library
   * AJAX
   * HTML
   * CSS
-  * Bootstrap
-  * Bootstrap-Select - for select dropdowns
-  * Semantic-UI - for the multiple select dropdowns in Admin Dashboard
-  * Swiper - Modern mobile touch slider
-  * SB Admin 2 - Bootstrap 4 based admin theme for Admin dashboard
-  * AOS && Animate.css - Animate On Scroll library
-  * FontAwesome
-  * Moment.js - to parse, validate and display dates and times in JavaScript
-  * TinyMCE - text editor
-  * HtmlSanitizer - library for cleaning HTML fragments and documents from constructs that can lead to XSS attacks.
-  * DataTables - tool that adds pagination, instant search, multi-column ordering etc. to any HTML table
-  * OpenStreetMap && Leaflet
-  * Chart.js - create interactive charts for web and mobile apps
-  * Chartjs-plugin-colorschemas - pick the perfect colour combination for pie/doughnut charts
-  * IpInfo - API for getting access to reliable IP data
-  * Stripe - online payment processing platform
-  * xUnit - unit testing tool for .NET Framework
-  * Moq && MockQueryable.Moq
-  * PhantomJS v2.1.1 - to generate PDF reports
+  * [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+  * [Bootstrap-Select](https://developer.snapappointments.com/bootstrap-select/) - for select dropdowns
+  * [Semantic-UI](https://semantic-ui.com/) - for the multiple select dropdowns in Admin Dashboard
+  * [Swiper](https://swiperjs.com/) - Modern mobile touch slider
+  * [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) - Bootstrap 4 based admin theme for Admin dashboard
+  * [AOS](https://michalsnik.github.io/aos/) && [Animate.css](https://animate.style/) - Animate On Scroll library
+  * [FontAwesome](https://fontawesome.com/)
+  * [Moment.js](https://momentjs.com/) - to parse, validate and display dates and times in JavaScript
+  * [TinyMCE](https://www.tiny.cloud/) - text editor
+  * [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer) - library for cleaning HTML fragments and documents from constructs that can lead to XSS attacks.
+  * [DataTables](https://datatables.net/) - tool that adds pagination, instant search, multi-column ordering etc. to any HTML table
+  * [OpenStreetMap](https://www.openstreetmap.org/) && [Leaflet](https://leafletjs.com/)
+  * [Chart.js](https://www.chartjs.org/) - create interactive charts for web and mobile apps
+  * [Chartjs-plugin-colorschemas](https://nagix.github.io/chartjs-plugin-colorschemes/) - pick the perfect colour combination for pie/doughnut charts
+  * [IpInfo](https://ipinfo.io/) - API for getting access to reliable IP data
+  * [Stripe](https://stripe.com/) - online payment processing platform
+  * [xUnit](https://xunit.net/) - unit testing tool for .NET Framework
+  * [Moq](https://github.com/Moq/moq4/wiki/Quickstart) && [MockQueryable.Moq](https://github.com/romantitov/MockQueryable)
+  * [PhantomJS v2.1.1](https://phantomjs.org/) - to generate PDF reports
   * English language
   * Bulgarian language
   * ASP .NET Core Template by: Nikolay Kostov
+  
+## Author
+
+- [Boris Lechev](https://github.com/BorisLechev)
