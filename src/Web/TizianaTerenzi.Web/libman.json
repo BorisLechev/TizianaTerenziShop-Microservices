@@ -91,7 +91,7 @@
       ]
     },
     {
-      "library": "tinymce@5.8.1",
+      "library": "tinymce@5.8.2",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.7",
+      "library": "@microsoft/signalr@5.0.8",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
