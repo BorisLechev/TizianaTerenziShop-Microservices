@@ -1,13 +1,17 @@
-﻿namespace TizianaTerenzi.Web.Controllers
+﻿namespace TizianaTerenzi.Web.Areas.Chat.Controllers
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Chat;
+    using TizianaTerenzi.Web.Controllers;
     using TizianaTerenzi.Web.ViewModels.Chat;
 
+    [Authorize]
+    [Area("Chat")]
     public class ChatController : BaseController
     {
         private readonly IChatService chatsService;
