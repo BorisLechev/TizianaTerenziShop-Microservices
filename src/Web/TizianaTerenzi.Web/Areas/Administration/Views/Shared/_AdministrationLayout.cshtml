@@ -23,7 +23,6 @@
     <link href="~/lib/semantic-ui/dist/components/dropdown.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/administration/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/administration/css/dropDown.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
     @await this.RenderSectionAsync("CustomCss", false)
 </head>
@@ -119,6 +118,16 @@
                         <a asp-area="Administration" asp-controller="Orders" asp-action="Processed" class="collapse-item">Processed Orders</a>
                     </div>
                 </div>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Contact Emails
+            </div>
+            <li class="nav-item">
+                <a asp-area="Administration" asp-controller="Contacts" asp-action="Index" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact Emails</span>
+                </a>
             </li>
 
             <hr class="sidebar-divider">

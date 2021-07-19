@@ -2,7 +2,7 @@
 {
     using TizianaTerenzi.Data.Common.Models;
 
-    public class ContactFormEntry : BaseModel<int>
+    public class ContactFormEntry : BaseDeletableModel<int>
     {
         public string Name { get; set; }
 

@@ -35,6 +35,7 @@
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Comments;
+    using TizianaTerenzi.Services.Data.Contacts;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Dashboard;
     using TizianaTerenzi.Services.Data.Discounts;
@@ -233,6 +234,7 @@
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserPenaltiesService, UserPenaltiesService>();
+            services.AddTransient<IContactsService, ContactsService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }

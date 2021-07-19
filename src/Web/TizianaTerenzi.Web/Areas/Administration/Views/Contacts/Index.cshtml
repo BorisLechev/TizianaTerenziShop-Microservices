@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ContactMessagesViewModel>
+
+@{
+    this.ViewData["Title"] = "Contact Messages";
+}
+
+<div class="container">
+    <div class="mx-auto my-4">
+        <div class="text-center mb-3">
+            <h2>@this.ViewData["Title"]</h2>
+        </div>
+
+        <table id="dataTable" class="table table-hover dt-responsive nowrap" style="width: 100%;">
+            <thead>
+                <tr class="font-weight-bold">
+                    <th>Fullname</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Content</th>
+                    <th>Ip</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var email in this.Model)
+                {
+                    <tr>
+                        <td>@email.Name</td>
+                        <td>@email.Email</td>
+                        <td>@email.Subject</td>
+                        <td>@email.Content</td>
+                        <td>@email.Ip</td>
+                        <td><time datetime="@email.CreatedOn.ToString("O")"></time></td>
+                        <td>
+                            <form asp-area="Administration" asp-controller="Contacts" asp-action="Delete" asp-route-id="@email.Id" method="post">
+                                <input type="hidden" name="@email.Id">
+
+                                <a class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteContactEmailModal" data-id="@email.Id" data-subject="@email.Subject">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Delete
+                                </a>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteContactEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true"  >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                <form asp-area="Administration" asp-controller="Contacts" asp-action="Delete" method="post" style="width: none;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <input type="hidden" name="id">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //triggered when modal is about to be shown
+        $('#deleteContactEmailModal').on('show.bs.modal', function (e) {
+
+            //get data-id attribute of the clicked element
+            var button = $(e.relatedTarget);
+            var id = button.data('id');
+            var subject = button.data('subject');
+            var modal = $(this);
+
+            modal.find('.modal-body').text('Are you sure you would like to delete the email with subject \'' +
+                subject +
+                '\'?');
+
+            //populate the textbox
+            modal.find('.modal-footer input[name="id"]').val(id);
+        });
+    </script>
+}

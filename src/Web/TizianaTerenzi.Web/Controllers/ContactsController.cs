@@ -67,7 +67,12 @@
 
             this.Success(NotificationMessages.ContactFormSendMessageSuccessfully);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.ThankYou));
+        }
+
+        public IActionResult ThankYou()
+        {
+            return this.View();
         }
     }
 }

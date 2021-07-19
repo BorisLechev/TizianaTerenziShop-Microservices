@@ -71,5 +71,8 @@
         public const string BlockUserError = "Invalid input.";
         public const string UnblockUserError = "Invalid input.";
         public const string BannedUserDefaultMessage = "This profile was banned for some reason.";
+
+        public const string SuccessfullyDeletedContactFormEntry = "You have successfully deleted the contact email.";
+        public const string DeleteContactFormEntryError = "Something went wrong.";
     }
 }
