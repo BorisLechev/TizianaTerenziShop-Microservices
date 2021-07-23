@@ -7,8 +7,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
@@ -22,6 +24,8 @@
         private readonly SignInManager<ApplicationUser> signInManager;
 
         private readonly RoleManager<ApplicationRole> roleManager;
+
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
         private readonly ILogger<AuthenticationController> logger;
 
@@ -37,6 +41,7 @@
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
+            IDeletableEntityRepository<ApplicationUser> usersRepository,
             ILogger<AuthenticationController> logger,
             ICartService cartService,
             ILocationService locationService,
@@ -45,6 +50,7 @@
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            this.usersRepository = usersRepository;
             this.logger = logger;
             this.cartService = cartService;
             this.locationService = locationService;
@@ -101,14 +107,14 @@
 
             if (remoteError != null)
             {
-                return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
             var info = await this.signInManager.GetExternalLoginInfoAsync();
 
             if (info == null)
             {
-                return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
             var result = await this.signInManager.ExternalLoginSignInAsync("Google", info.ProviderKey, isPersistent: true, bypassTwoFactor: true);
@@ -119,6 +125,17 @@
             }
 
             this.ViewData["ReturnUrl"] = returnUrl;
+
+            var isEmailExisting = await this.usersRepository
+                    .AllAsNoTrackingWithDeleted()
+                    .AnyAsync(u => u.Email == info.Principal.FindFirstValue(ClaimTypes.Email));
+
+            if (isEmailExisting)
+            {
+                this.Error(NotificationMessages.DuplicateEmail);
+
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
 
             var inputModel = new GoogleLoginInputModel();
 
@@ -181,6 +198,12 @@
                     return this.LocalRedirect(returnUrl);
                 }
             }
+            else
+            {
+                this.ModelState.AddModelError(string.Empty, NotificationMessages.DuplicateEmail);
+
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
 
             this.ViewData["ReturnUrl"] = returnUrl;
             return this.View();
@@ -212,16 +235,11 @@
                 return this.LocalRedirect(returnUrl);
             }
 
-            //if (remoteError != null)
-            //{
-            //    return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
-            //}
-
             var info = await this.signInManager.GetExternalLoginInfoAsync();
 
             if (info == null)
             {
-                return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
             var result = await this.signInManager.ExternalLoginSignInAsync("Facebook", info.ProviderKey,
@@ -233,6 +251,17 @@
             }
 
             this.ViewData["ReturnUrl"] = returnUrl;
+
+            var isEmailExisting = await this.usersRepository
+                   .AllAsNoTrackingWithDeleted()
+                   .AnyAsync(u => u.Email == info.Principal.FindFirstValue(ClaimTypes.Email));
+
+            if (isEmailExisting)
+            {
+                this.Error(NotificationMessages.DuplicateEmail);
+
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
 
             var inputModel = new FacebookLoginInputModel();
 
@@ -314,14 +343,14 @@
             if (remoteError != null)
             {
                 // return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
-                return this.RedirectToPage("Login");
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
             var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 // return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
-                return this.RedirectToPage("Login");
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
             var result = await this.signInManager.ExternalLoginSignInAsync("GitHub", info.ProviderKey, isPersistent: true, bypassTwoFactor: true);
@@ -392,7 +421,18 @@
             if (info == null)
             {
                 // return this.RedirectToAction("Login", new { ReturnUrl = returnUrl });
-                return this.RedirectToPage("Login");
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            var isEmailExisting = await this.usersRepository
+                   .AllAsNoTrackingWithDeleted()
+                   .AnyAsync(u => u.Email == inputModel.Email);
+
+            if (isEmailExisting)
+            {
+                this.Error(NotificationMessages.DuplicateEmail);
+
+                return this.RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
             if (this.ModelState.IsValid)

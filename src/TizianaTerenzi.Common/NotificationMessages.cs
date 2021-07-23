@@ -4,6 +4,7 @@
     {
         public const string RegistrationWelcome = "Welcome to TizianaTerenzi, {0}!";
         public const string UsernameIsTaken = "That username is taken. Try another.";
+        public const string DuplicateEmail = "That email is taken. Try another.";
         public const string LoggedOut = "Logged out successfully";
         public const string PasswordChanged = "Password changed successfully";
         public const string PasswordSet = "Password set successfully";

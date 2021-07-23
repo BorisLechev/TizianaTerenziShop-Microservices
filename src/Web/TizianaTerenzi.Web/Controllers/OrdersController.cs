@@ -44,9 +44,9 @@
             return this.View(allOrdersByUser);
         }
 
-        public async Task<IActionResult> Products(int orderId)
+        public async Task<IActionResult> Products(int id)
         {
-            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
+            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(id);
 
             return this.View(allOrderProductsByUser);
         }

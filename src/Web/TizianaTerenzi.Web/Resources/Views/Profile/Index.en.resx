@@ -129,6 +129,9 @@
   <data name="Change password" xml:space="preserve">
     <value>Change password</value>
   </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
   <data name="Delete account" xml:space="preserve">
     <value>Delete account</value>
   </data>
@@ -143,9 +146,6 @@
   </data>
   <data name="immediate and irreversible" xml:space="preserve">
     <value>immediate and irreversible</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Message</value>
   </data>
   <data name="My orders" xml:space="preserve">
     <value>My orders</value>

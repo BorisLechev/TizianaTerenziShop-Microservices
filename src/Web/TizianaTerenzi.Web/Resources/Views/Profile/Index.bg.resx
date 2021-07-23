@@ -129,6 +129,9 @@
   <data name="Change password" xml:space="preserve">
     <value>Смени парола</value>
   </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Чат</value>
+  </data>
   <data name="Delete account" xml:space="preserve">
     <value>Изтриване на акаунта</value>
   </data>
@@ -143,9 +146,6 @@
   </data>
   <data name="immediate and irreversible" xml:space="preserve">
     <value>незабавно и необратимо</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Пиши му</value>
   </data>
   <data name="My orders" xml:space="preserve">
     <value>Моите поръчки</value>

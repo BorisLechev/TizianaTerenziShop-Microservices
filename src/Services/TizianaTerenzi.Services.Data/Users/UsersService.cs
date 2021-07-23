@@ -113,21 +113,16 @@
                 return false;
             }
 
-            var isUserAlreadyAddedInRole = await this.userManager.IsInRoleAsync(user, newRole.Name);
+            bool isUserAlreadyAddedInRole = await this.userManager.IsInRoleAsync(user, newRole.Name);
 
-            if (isUserAlreadyAddedInRole)
-            {
-                return true;
-            }
-
-            return false;
+            return isUserAlreadyAddedInRole;
         }
 
         public async Task<bool> UpdateUserRoleAsync(string userId, string inputRoleId)
         {
             var user = await this.userManager.FindByIdAsync(userId);
             var currentUserRoles = await this.userManager.GetRolesAsync(user);
-            var currentUserRoleName = currentUserRoles[0];
+            string currentUserRoleName = currentUserRoles[0];
             IdentityRole newRole = await this.roleManager.FindByIdAsync(inputRoleId);
 
             var removeResult = await this.userManager.RemoveFromRoleAsync(user, currentUserRoleName);

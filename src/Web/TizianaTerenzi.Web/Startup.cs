@@ -288,11 +288,11 @@
                             "areaRoute",
                             "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute(
-                            "details",
+                            "productDetails",
                             "product/{id:int:min(1)}/{slug:required}",
                             new { controller = "Products", action = "Details" });
                         endpoints.MapControllerRoute(
-                            "details",
+                            "productDetails",
                             "product/{id:int:min(1)}",
                             new { controller = "Products", action = "Details" });
                         endpoints.MapControllerRoute(

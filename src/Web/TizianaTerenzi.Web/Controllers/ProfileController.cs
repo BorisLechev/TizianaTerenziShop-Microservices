@@ -46,9 +46,9 @@
             this.chatsService = chatsService;
         }
 
-        public async Task<IActionResult> Index(string userId)
+        public async Task<IActionResult> Index(string id)
         {
-            var user = await this.profileService.GetUserByIdAsync(userId);
+            var user = await this.profileService.GetUserByIdAsync(id);
 
             if (user == null)
             {
@@ -147,7 +147,7 @@
 
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
             }
 
             var hasPassword = await this.userManager.HasPasswordAsync(user);
@@ -177,7 +177,7 @@
 
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
             }
 
             var changePasswordResult = await this.userManager.ChangePasswordAsync(user, inputModel.OldPassword, inputModel.NewPassword);
@@ -198,7 +198,7 @@
 
             this.Success(NotificationMessages.PasswordChanged);
 
-            return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
+            return this.RedirectToAction(nameof(this.Index), new { id = user.Id });
         }
 
         [HttpGet]
@@ -238,7 +238,7 @@
 
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
             }
 
             if (await this.userManager.HasPasswordAsync(user))
@@ -264,7 +264,7 @@
 
             this.Success(NotificationMessages.PasswordSet);
 
-            return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
+            return this.RedirectToAction(nameof(this.Index), new { id = user.Id });
         }
 
         [HttpGet]
@@ -311,7 +311,7 @@
                 this.Error(NotificationMessages.CannotUpdateProfileDetails);
             }
 
-            return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
+            return this.RedirectToAction(nameof(this.Index), new { id = user.Id });
         }
 
         public async Task<IActionResult> All(int page = 0)

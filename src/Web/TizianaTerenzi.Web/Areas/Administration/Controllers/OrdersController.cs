@@ -36,9 +36,9 @@
             return this.View(orders);
         }
 
-        public async Task<IActionResult> Products(int orderId)
+        public async Task<IActionResult> Products(int id)
         {
-            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
+            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(id);
 
             return this.View(orderProducts);
         }

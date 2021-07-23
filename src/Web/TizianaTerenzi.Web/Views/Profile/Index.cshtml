@@ -59,7 +59,7 @@
             }
             else
             {
-                <a asp-area="Chat" asp-controller="Chat" asp-action="Index" asp-route-username="@this.Model.Username" asp-route-groupId="@this.Model.GroupId" class="btn btn-outline-primary m-2 px-4">@Localizer["Message"]</a>
+                <a href="/chat/with/@this.Model.Username/group/@this.Model.GroupId" class="btn btn-outline-primary m-2 px-4">@Localizer["Chat"]</a>
             }
         </div>
     </div>

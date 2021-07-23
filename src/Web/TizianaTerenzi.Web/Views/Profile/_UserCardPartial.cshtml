@@ -12,13 +12,13 @@
 
         @if (this.User.Identity.Name == this.Model.UserName)
         {
-            <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.Model.Id" class="btn btn-warning">
+            <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@this.Model.Id" class="btn btn-warning">
                 <span><i class="fas fa-check-circle"></i> @Localizer["It's You"]</span>
             </a>
         }
         else
         {
-            <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.Model.Id" class="btn btn-primary">
+            <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@this.Model.Id" class="btn btn-primary">
                 <span><i class="fas fa-user"></i> @Localizer["View Profile"]</span>
             </a>
         }

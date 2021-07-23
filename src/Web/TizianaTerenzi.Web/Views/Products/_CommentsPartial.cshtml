@@ -3,9 +3,9 @@
 @model ProductDetailsViewModel
 
 @{
-    void DisplayComments(int? parentId)
+    async Task DisplayComments(int? parentId)
     {
-        var comments = this.Model.Comments.Where(c => c.ParentId == parentId);
+        var comments = this.Model.Comments.Where(c => c.ParentId == parentId).OrderByDescending(o => o.CreatedOn);
 
         if (comments.Any() == false)
         {
@@ -18,7 +18,7 @@
                 {
                     <li>
                         <div class="comment-main-level">
-                            <a href="/profile/@comment.UserId">
+                            <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@comment.UserId">
                                 <div class="comment-avatar">
                                     <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt="">
                                 </div>
@@ -27,7 +27,9 @@
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name by-name">
-                                        <span class="author">@comment.UserUserName</span>
+                                        <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@comment.UserId" style="color: inherit;">
+                                            <span>@comment.UserUserName</span>
+                                        </a>
                                         @if (comment.UserUserName == this.User.Identity.Name)
                                         {
                                             <span class="tag-author">author</span>
@@ -57,7 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        @{ DisplayComments(comment.Id); }
+                        @{ await DisplayComments(comment.Id); }
                     </li>
                 }
             </ul>
@@ -66,7 +68,7 @@
     <form id="votesForm" method="post"></form>
 }
 
-@{ DisplayComments(null); }
+@{ await DisplayComments(null); }
 <section style="margin-left: 1rem; margin-right: 1rem;">
     <form asp-controller="Comments" asp-action="Create" method="post" id="AddCommentForm" style="display: none">
         <input type="hidden" name="ProductId" value="@this.Model.Id" />
