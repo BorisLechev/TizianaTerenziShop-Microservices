@@ -105,6 +105,8 @@
                     if (user == null)
                     {
                         this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
+                        return this.Page();
                     }
                     else
                     {

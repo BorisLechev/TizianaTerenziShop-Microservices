@@ -14,7 +14,5 @@
         public DateTime CreatedOn { get; set; }
 
         public string AuthorUserName { get; set; }
-
-        public string ReceiverUsername { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿"use strict";
 
-var receiver = document.getElementById("receiver").textContent;
-var sender = document.getElementById("sender").textContent;
+var receiver = document.getElementById("receiver").textContent; //<h3>
+var sender = document.getElementById("sender").textContent; //<h3>
+var groupId = document.getElementById("groupId").value; //<input>
 
 window.scrollTo(0, document.body.scrollHeight);
 
@@ -9,10 +10,6 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
-
-    let receiver = document.getElementById("receiver").textContent; //<h3>
-    let sender = document.getElementById("sender").textContent; //<h3>
-    let groupId = document.getElementById("groupId").value; //<input>
 
     connection.invoke("AddToGroup", groupId, receiver, sender).catch(function (err) {
         return console.error(err.toString());
@@ -78,12 +75,11 @@ connection.on("SendMessage", function (message) {
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
-    let group = document.getElementById("groupId").value;
     let message = document.getElementById("messageInput").value;
 
     if (message) {
         if (message.length <= 500) {
-            connection.invoke("SendMessage", sender, receiver, message, group).catch(function (err) {
+            connection.invoke("SendMessage", sender, receiver, message, groupId).catch(function (err) {
                 return console.error(err.toString());
             });
 
@@ -107,14 +103,14 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
-function userType(receiverUsername) {
-    connection.invoke("UserType", receiverUsername).catch(function (err) {
+function userType(groupId) {
+    connection.invoke("UserType", groupId).catch(function (err) {
         return console.error(err.toString());
     });
 }
 
-function userStopType(receiverUsername) {
-    connection.invoke("UserStopType", receiverUsername).catch(function (err) {
+function userStopType(groupId) {
+    connection.invoke("UserStopType", groupId).catch(function (err) {
         return console.error(err.toString());
     });
 }

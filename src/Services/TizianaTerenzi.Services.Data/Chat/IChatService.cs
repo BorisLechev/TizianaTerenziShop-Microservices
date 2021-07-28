@@ -14,7 +14,5 @@
         Task<string> SendMessageToUserAsync(string sendersUsername, string receiversUsername, string sanitizedMessage, string groupId);
 
         Task<ICollection<ChatMessageViewModel>> GetAllMessagesByGroupIdAsync(string groupId);
-
-        Task<string> GetReceiverIdAsync(string receiversUsername);
     }
 }

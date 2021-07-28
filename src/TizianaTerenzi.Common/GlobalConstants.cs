@@ -18,8 +18,6 @@
 
         public const int ShippingFee = 15;
 
-        public const string ChatGroupNameSeparator = "->";
-
         public const int MaxChatNotificationsPerUser = 50;
 
         public const int ChatMessageMaxLength = 500;

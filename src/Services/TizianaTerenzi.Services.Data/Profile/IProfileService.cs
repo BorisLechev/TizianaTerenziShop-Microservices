@@ -15,8 +15,6 @@
 
         Task<bool> EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel);
 
-        Task<ApplicationUser> GetUserByIdAsync(string userId);
-
         Task<AllUsersListViewModel> GetAllUsersExceptAdminsAsync(int page, int take, int skip = 0);
     }
 }

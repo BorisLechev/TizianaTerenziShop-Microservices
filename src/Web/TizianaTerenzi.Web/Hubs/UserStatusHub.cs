@@ -29,6 +29,7 @@
                 OnlineUsers.Add(username);
 
                 await this.Clients.All.SendAsync("IsUserOnline", username);
+                await base.OnConnectedAsync();
             }
         }
 
@@ -41,6 +42,7 @@
                 OnlineUsers.Remove(username);
 
                 await this.Clients.All.SendAsync("UserIsOffline", username);
+                await base.OnDisconnectedAsync(exception);
             }
         }
 

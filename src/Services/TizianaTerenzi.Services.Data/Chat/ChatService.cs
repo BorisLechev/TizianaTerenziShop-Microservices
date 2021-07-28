@@ -110,7 +110,7 @@
         public async Task<string> SendMessageToUserAsync(string sendersUsername, string receiversUsername, string sanitizedMessage, string groupId)
         {
             var receiversId = await this.usersRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(u => u.UserName == receiversUsername)
                 .Select(u => u.Id)
                 .SingleOrDefaultAsync();
@@ -128,24 +128,12 @@
                 Author = sender,
                 ChatGroup = group,
                 Content = sanitizedMessage,
-                ReceiverUsername = receiversUsername,
             };
 
             await this.chatMessagesRepository.AddAsync(newMessage);
             await this.chatMessagesRepository.SaveChangesAsync();
 
             return receiversId;
-        }
-
-        public async Task<string> GetReceiverIdAsync(string receiversUsername)
-        {
-            var receiverId = await this.usersRepository
-                .AllAsNoTracking()
-                .Where(u => u.UserName.ToUpper() == receiversUsername.ToUpper())
-                .Select(u => u.Id)
-                .SingleOrDefaultAsync();
-
-            return receiverId;
         }
 
         // TODO: DeleteChatGroupWithMessagesAsync

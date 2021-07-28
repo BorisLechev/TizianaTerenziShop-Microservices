@@ -48,7 +48,7 @@
 
         public async Task<IActionResult> Index(string id)
         {
-            var user = await this.profileService.GetUserByIdAsync(id);
+            var user = await this.userManager.FindByIdAsync(id);
 
             if (user == null)
             {

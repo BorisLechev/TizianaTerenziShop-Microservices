@@ -165,7 +165,7 @@
             var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
             // extension method
-            var randomNumber = this.random.NextIntRange(0, 10000);
+            var randomNumber = RandomExtensions.NextIntRange(this.random, 0, 10000);
 
             var username = $"{inputModel.Email.Split("@")[0].Trim()}_{randomNumber}";
 
@@ -291,7 +291,7 @@
             var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
             // extension method
-            var randomNumber = this.random.NextIntRange(0, 10000);
+            var randomNumber = RandomExtensions.NextIntRange(this.random, 0, 10000);
 
             var username = $"{inputModel.Email.Split("@")[0].Trim()}_{randomNumber}";
 
@@ -441,7 +441,7 @@
                 var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
 
                 // extension method
-                var randomNumber = this.random.NextIntRange(0, 10000);
+                var randomNumber = RandomExtensions.NextIntRange(this.random, 0, 10000);
 
                 var username = $"{inputModel.Email.Split("@")[0].Trim()}_{randomNumber}";
 

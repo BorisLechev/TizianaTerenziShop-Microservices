@@ -9,7 +9,6 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Notifications;
@@ -35,8 +34,6 @@
 
         private readonly ICommentVotesService commentVotesService;
 
-        private readonly IChatService chatsService;
-
         private readonly INotificationsService notificationsService;
 
         private readonly UserManager<ApplicationUser> userManager;
@@ -49,7 +46,6 @@
             IOrdersService ordersService,
             ICommentsService commentsService,
             ICommentVotesService commentVotesService,
-            IChatService chatsService,
             INotificationsService notificationsService,
             UserManager<ApplicationUser> userManager)
         {
@@ -61,7 +57,6 @@
             this.ordersService = ordersService;
             this.commentsService = commentsService;
             this.commentVotesService = commentVotesService;
-            this.chatsService = chatsService;
             this.notificationsService = notificationsService;
         }
 
@@ -234,13 +229,6 @@
             var json = JsonSerializer.Serialize(personalData, options);
 
             return json;
-        }
-
-        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
-        {
-            return await this.usersRepository
-                    .AllAsNoTracking()
-                    .SingleOrDefaultAsync(u => u.Id == userId);
         }
     }
 }

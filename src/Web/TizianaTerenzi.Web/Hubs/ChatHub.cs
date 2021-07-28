@@ -49,7 +49,6 @@
             {
                 Id = groupId,
                 AuthorUserName = senderUsername,
-                ReceiverUsername = receiverUsername,
                 Content = sanitizedMessage,
             };
 
@@ -74,21 +73,17 @@
                 .SendAsync("VisualizeNotification", notification);
         }
 
-        public async Task UserType(string receiverUsername)
+        public async Task UserType(string groupId)
         {
-            var receiverId = await this.chatService.GetReceiverIdAsync(receiverUsername);
-
             await this.Clients
-                .User(receiverId)
-                .SendAsync("VisualizeUserType", receiverUsername);
+                .OthersInGroup(groupId)
+                .SendAsync("VisualizeUserType");
         }
 
-        public async Task UserStopType(string receiverUsername)
+        public async Task UserStopType(string groupId)
         {
-            var receiverId = await this.chatService.GetReceiverIdAsync(receiverUsername);
-
             await this.Clients
-                .User(receiverId)
+                .OthersInGroup(groupId)
                 .SendAsync("VisualizeUserStopType");
         }
 

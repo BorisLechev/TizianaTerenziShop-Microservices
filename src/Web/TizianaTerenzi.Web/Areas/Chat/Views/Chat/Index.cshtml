@@ -31,8 +31,8 @@
             <div class="input-group">
                 <input id="messageInput"
                        class="form-control p-4 bg-transparent chat-input"
-                       onkeydown="userType('@this.Model.ReceiverUsername')"
-                       onblur="userStopType('@this.Model.ReceiverUsername')"
+                       onkeydown="userType('@this.Model.GroupId')"
+                       onblur="userStopType('@this.Model.GroupId')"
                        onkeyup="changeRemainingLength()"
                        placeholder="@Localizer["Type a message..."]"
                        autocomplete="off"

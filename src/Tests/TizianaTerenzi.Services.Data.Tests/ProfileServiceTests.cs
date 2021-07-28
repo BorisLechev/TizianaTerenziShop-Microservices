@@ -113,7 +113,6 @@
             var mockOrdersService = new Mock<IOrdersService>();
             var mockCommentsService = new Mock<ICommentsService>();
             var mockCommentVotesService = new Mock<ICommentVotesService>();
-            var mockChatService = new Mock<IChatService>();
             var mockNotificationsService = new Mock<INotificationsService>();
 
             var chatGroup = new ChatGroup();
@@ -144,7 +143,6 @@
                 mockOrdersService.Object,
                 mockCommentsService.Object,
                 mockCommentVotesService.Object,
-                mockChatService.Object,
                 mockNotificationsService.Object,
                 null);
 
@@ -202,7 +200,6 @@
                 mockOrdersService.Object,
                 mockCommentsService.Object,
                 mockCommentVotesService.Object,
-                null,
                 null,
                 null);
 
@@ -292,7 +289,6 @@
             var mockOrdersService = new Mock<IOrdersService>();
             var mockCommentsService = new Mock<ICommentsService>();
             var mockCommentVotesService = new Mock<ICommentVotesService>();
-            var mockChatService = new Mock<IChatService>();
             var mockNotificationsService = new Mock<INotificationsService>();
 
             var profileService = new ProfileService(
@@ -303,7 +299,6 @@
                 mockOrdersService.Object,
                 mockCommentsService.Object,
                 mockCommentVotesService.Object,
-                mockChatService.Object,
                 mockNotificationsService.Object,
                 null);
 
@@ -336,6 +331,22 @@
             await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync();
 
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var userManager = new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+            userManager
+                .Setup(x => x.FindByIdAsync(It.IsAny<string>()))
+                .ReturnsAsync(new ApplicationUser
+                {
+                    FirstName = "FirstName",
+                    LastName = "LastName",
+                    UserName = "aa@example.com",
+                    Email = "aa@example.com",
+                    Town = "Test",
+                    PostalCode = "1000",
+                    Address = "Test",
+                });
+
             var profileService = new ProfileService(
                     new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                     null,
@@ -345,11 +356,10 @@
                     null,
                     null,
                     null,
-                    null,
-                    null);
+                    userManager.Object);
 
             // Act
-            var resultUser = await profileService.GetUserByIdAsync(user.Id);
+            var resultUser = await userManager.Object.FindByIdAsync(user.Id);
 
             // Assert
             Assert.NotNull(resultUser);
@@ -390,7 +400,6 @@
                     new EfDeletableEntityRepository<ApplicationUser>(dbContext),
                     null,
                     mockCountriesService.Object,
-                    null,
                     null,
                     null,
                     null,
@@ -454,7 +463,6 @@
 
             var profileService = new ProfileService(
                     new EfDeletableEntityRepository<ApplicationUser>(dbContext),
-                    null,
                     null,
                     null,
                     null,
