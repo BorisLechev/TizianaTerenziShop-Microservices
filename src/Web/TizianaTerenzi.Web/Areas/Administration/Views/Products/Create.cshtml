@@ -23,7 +23,7 @@
         <section class="form-group">
             <label asp-for="@this.Model.ProductTypeId" class="control-label">Product Type</label>
             <section class="field mb-4">
-                <select id="productType" class="form-control" title="Select Product Type..." asp-for="@this.Model.ProductTypeId" asp-items="@Model.ProductTypes">
+                <select id="productType" class="form-control" title="Select Product Type..." asp-for="@this.Model.ProductTypeId" asp-items="@this.Model.ProductTypes">
                     <option value="">Select Product Type...</option>
                 </select>
                 <span asp-validation-for="@this.Model.ProductTypeId" class="text-danger"></span>
@@ -83,10 +83,10 @@
             <a href="javascript:window.history.back();" class="btn btn-warning btn-block">Cancel</a>
         </section>
     </form>
-</div> 
+</div>
 
 @section Scripts {
-    <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+    <script src="~/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 
     <script>
         tinymce.init({

@@ -32,7 +32,6 @@
                 new ProductsSeeder(),
                 new OrderStatusesSeeder(),
                 new DiscountCodesSeeder(),
-                new ProductSortingSeeder(),
                 new CountriesSeeder(),
                 new GeneralDiscountSeeder(),
             };

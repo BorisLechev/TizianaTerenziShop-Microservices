@@ -106,7 +106,7 @@
             var query = productsRepository.AllAsNoTracking();
             var page = 1;
             var itemsPerPage = 6;
-            var allProducts = await service.GetAllProductsAsync(query, string.Empty, "all-products", page, itemsPerPage, (page - 1) * itemsPerPage);
+            var allProducts = await service.GetAllProductsAsync(query, string.Empty, ProductSorting.Default, page, itemsPerPage, (page - 1) * itemsPerPage);
 
             Assert.Equal(6, await dbContext.Products.CountAsync());
             Assert.Equal(6, allProducts.ItemsCount);

@@ -32,7 +32,7 @@
             this.productsRepository = productsRepository;
         }
 
-        public async Task<IActionResult> All(string search, string criteria, int page = 1)
+        public async Task<IActionResult> All(string search, ProductSorting sorting, int page = 1)
         {
             page = Math.Max(1, page);
             var skip = (page - 1) * ItemsPerPage;
@@ -52,9 +52,7 @@
                 }
             }
 
-            var productsViewModel = await this.productsService.GetAllProductsAsync(query, search, criteria, page, ItemsPerPage, skip);
-
-            this.ViewData["criteria"] = criteria;
+            var productsViewModel = await this.productsService.GetAllProductsAsync(query, search, sorting, page, ItemsPerPage, skip);
 
             return this.View(productsViewModel);
         }

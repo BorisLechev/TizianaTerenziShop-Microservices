@@ -1,9 +1,12 @@
 ﻿namespace TizianaTerenzi.Data.Models
 {
-    using TizianaTerenzi.Data.Common.Models;
-
-    public class ProductSorting : BaseModel<int>
+    public enum ProductSorting
     {
-        public string Name { get; set; }
+        Default = 0,
+        Product_A_Z = 1,
+        PriceAscending = 2,
+        PriceDescending = 3,
+        YearOfReleaseAscending = 4,
+        YearOfReleaseDescending = 5,
     }
 }

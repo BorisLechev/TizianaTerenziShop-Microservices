@@ -51,8 +51,6 @@
 
         public DbSet<CommentVote> CommentVotes { get; set; }
 
-        public DbSet<ProductSorting> ProductSortings { get; set; }
-
         public DbSet<Country> Countries { get; set; }
 
         public DbSet<FavoriteProduct> FavoriteProducts { get; set; }

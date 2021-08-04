@@ -35,7 +35,7 @@
         {
             if (this.ModelState.IsValid == false)
             {
-                return this.RedirectToAction("Checkout", "Cart");
+                return this.RedirectToAction(nameof(CartController.Checkout), "Cart");
             }
 
             var domain = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
@@ -94,7 +94,7 @@
             {
                 this.Error(NotificationMessages.EmptyCartError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
             var result = await this.cartService.CheckoutAsync(userId);
@@ -103,7 +103,7 @@
             {
                 this.Error(NotificationMessages.ProcessOrderError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
             await this.cartService.DeleteAllProductsInTheCartByUserIdAsync(userId);

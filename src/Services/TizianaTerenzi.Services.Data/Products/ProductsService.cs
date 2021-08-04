@@ -86,16 +86,16 @@
             return result > 0;
         }
 
-        public async Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, string criteria, int page, int take, int skip = 0)
+        public async Task<ProductsListViewModel> GetAllProductsAsync(IQueryable<Product> query, string search, ProductSorting sorting, int page, int take, int skip = 0)
         {
-            query = criteria switch
+            query = sorting switch
             {
-                "all-products" => this.GetAllProductsQueryable(query),
-                "product-a-z" => this.GetAllProductsOrderedByLetterAscendingQueryable(query),
-                "price-ascending" => this.GetAllProductsByPriceAscendingQueryable(query),
-                "price-descending" => this.GetAllProductsByPriceDescendingQueryable(query),
-                "year-of-release-ascending" => this.GetAllProductsByManufacturedOnAscendingQueryable(query),
-                "year-of-release-descending" => this.GetAllProductsByManufacturedOnDescendingQueryable(query),
+                ProductSorting.Default => this.GetAllProductsQueryable(query),
+                ProductSorting.Product_A_Z => this.GetAllProductsOrderedByLetterAscendingQueryable(query),
+                ProductSorting.PriceAscending => this.GetAllProductsByPriceAscendingQueryable(query),
+                ProductSorting.PriceDescending => this.GetAllProductsByPriceDescendingQueryable(query),
+                ProductSorting.YearOfReleaseAscending => this.GetAllProductsByManufacturedOnAscendingQueryable(query),
+                ProductSorting.YearOfReleaseDescending => this.GetAllProductsByManufacturedOnDescendingQueryable(query),
                 _ => this.GetAllProductsQueryable(query),
             };
 
@@ -114,6 +114,7 @@
                 ItemsCount = productsCount,
                 ItemsPerPage = take,
                 Search = search,
+                Sorting = sorting,
             };
 
             return viewModel;

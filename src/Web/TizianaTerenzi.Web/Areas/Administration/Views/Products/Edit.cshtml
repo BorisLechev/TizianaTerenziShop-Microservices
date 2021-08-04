@@ -7,7 +7,7 @@
 <div class="w-75 w-md-50 text-center mx-auto create-product-wrapper">
     <div class="row space-top">
         <div class="col-md-12">
-            <h2 class="title">@ViewData["Title"]</h2>
+            <h2 class="title">@this.ViewData["Title"]</h2>
         </div>
     </div>
     <hr />
@@ -40,7 +40,7 @@
         <section class="form-group">
             <label asp-for="@this.Model.NoteIds" class="control-label">Notes</label>
             <section class="field mb-4">
-                <select id="note" class="ui fluid search dropdown" multiple="" asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes">
+                <select asp-for="@this.Model.NoteIds" asp-items="@this.Model.Notes" id="note" class="ui fluid search dropdown" multiple="">
                     <option value="">Select Notes...</option>
                 </select>
                 <span asp-validation-for="@this.Model.NoteIds" class="text-danger"></span>

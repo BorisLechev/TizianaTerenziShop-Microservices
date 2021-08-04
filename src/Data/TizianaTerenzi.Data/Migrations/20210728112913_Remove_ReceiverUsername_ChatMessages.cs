@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace TizianaTerenzi.Data.Migrations
+﻿namespace TizianaTerenzi.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Remove_ReceiverUsername_ChatMessages : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -90,30 +90,15 @@
                                     </section>
                                 </section>
                                 <section class="col-sm-6 offset-sm-3 col-lg-3 offset-lg-0">
-                                    @if (hasDiscountCode == true)
-                                    {
-                                        <section id="discount-tag-container" class="discount-tag-container" style="display: block;">
-                                            <section class="discount-tag">
-                                                <form id="delete-discount" method="post">
-                                                    <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                                    <p class="discount-code">@this.Model[0].DiscountCodeName</p>
-                                                    <button id="delete-discount" class="btn-delete"></button>
-                                                </form>
-                                            </section>
+                                    <section id="discount-tag-container" class="discount-tag-container" style="display: @(hasDiscountCode == true ? "block" : "none");">
+                                        <section class="discount-tag">
+                                            <form id="delete-discount" method="post">
+                                                <span class="tag-icon fas fa-tags" alt="tags"></span>
+                                                <p class="discount-code">@this.Model[0].DiscountCodeName</p>
+                                                <button id="delete-discount" class="btn-delete"></button>
+                                            </form>
                                         </section>
-                                    }
-                                    else
-                                    {
-                                        <section id="discount-tag-container" class="discount-tag-container" style="display: none;">
-                                            <section class="discount-tag">
-                                                <form id="delete-discount" method="post">
-                                                    <span class="tag-icon fas fa-tags" alt="tags"></span>
-                                                    <p class="discount-code">@this.Model[0].DiscountCodeName</p>
-                                                    <button id="delete-discount" class="btn-delete"></button>
-                                                </form>
-                                            </section>
-                                        </section>
-                                    }
+                                    </section>
                                     <section class="discount-box">
                                         <form id="apply-discount" method="post">
                                             <input id="discount-input" class="discount-input" type="text" placeholder="@Localizer["Discount"]">

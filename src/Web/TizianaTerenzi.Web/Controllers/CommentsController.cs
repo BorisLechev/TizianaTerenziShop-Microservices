@@ -44,12 +44,12 @@
             {
                 this.Error(NotificationMessages.CreateCommentError);
 
-                return this.RedirectToAction("Details", "Products", new { id = inputModel.ProductId });
+                return this.RedirectToAction(nameof(ProductsController.Details), "Products", new { id = inputModel.ProductId });
             }
 
             this.Success(NotificationMessages.CreateCommentSuccessfully);
 
-            return this.RedirectToAction("Details", "Products", new { id = inputModel.ProductId });
+            return this.RedirectToAction(nameof(ProductsController.Details), "Products", new { id = inputModel.ProductId });
         }
     }
 }

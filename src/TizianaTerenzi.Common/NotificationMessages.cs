@@ -28,7 +28,7 @@
         public const string CreateNoteSuccessfully = "You have successfully created a note.";
         public const string CreateNoteError = "Something went wrong.";
         public const string CreateDiscountCodeSuccessfully = "You have successfully created a note.";
-        public const string CreateDiscountCodeError = "Something went wrong.";
+        public const string CreateDiscountCodeError = "There is already a discound code with the same name.";
         public const string NoteNotFound = "Note not found.";
         public const string DiscountCodeError = "Enter a valid discount code.";
 

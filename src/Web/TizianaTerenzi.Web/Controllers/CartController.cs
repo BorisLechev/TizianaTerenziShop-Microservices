@@ -14,6 +14,7 @@
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Web.ViewModels.Orders;
 
+    [Authorize]
     public class CartController : BaseController
     {
         private readonly ICartService cartService;
@@ -79,7 +80,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddProductInTheCart(int productId)
         {
             if (productId <= 0)
@@ -129,7 +129,6 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        [Authorize]
         public async Task<IActionResult> Checkout()
         {
             var user = await this.userManager.GetUserAsync(this.User);

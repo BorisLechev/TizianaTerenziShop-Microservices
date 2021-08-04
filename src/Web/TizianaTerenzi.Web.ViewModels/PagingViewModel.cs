@@ -2,6 +2,8 @@
 {
     using System;
 
+    using TizianaTerenzi.Data.Models;
+
     public class PagingViewModel
     {
         public int CurrentPage { get; set; }
@@ -16,6 +18,10 @@
 
         public int NextPage => this.CurrentPage == this.PagesCount ? this.PagesCount : this.CurrentPage + 1;
 
+        // /products/all
         public string Search { get; set; }
+
+        // /products/all
+        public ProductSorting Sorting { get; set; }
     }
 }

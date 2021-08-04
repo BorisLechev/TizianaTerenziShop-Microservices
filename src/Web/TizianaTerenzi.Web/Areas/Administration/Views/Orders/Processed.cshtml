@@ -29,14 +29,7 @@
                         <td>@order.UserFullName</td>
                         <td><time datetime="@order.CreatedOn.ToString("O")"></time></td>
                         <td>@order.TotalPrice</td>
-                        @if (order.DiscountCodeName != null)
-                        {
-                            <td>@order.DiscountCodeName</td>
-                        }
-                        else
-                        {
-                            <td></td>
-                        }
+                        <td>@(order.DiscountCodeName != null ? order.DiscountCodeName : string.Empty)</td>
                         <td>@order.DiscountCodeDiscount</td>
                         <td>@order.StatusName</td>
                         <td>

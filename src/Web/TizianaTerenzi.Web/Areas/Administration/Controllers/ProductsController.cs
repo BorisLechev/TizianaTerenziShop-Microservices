@@ -72,7 +72,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductInputModel inputModel)
         {
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid == false)
             {
                 var notes = await this.notesService.GetAllNotesAsync();
                 var productTypes = await this.productTypesService.GetAllProductTypesAsync();
@@ -128,8 +128,16 @@
                 this.NotFound();
             }
 
-            if (!this.ModelState.IsValid)
+            if (this.ModelState.IsValid == false)
             {
+                var productTypes = await this.productTypesService.GetAllProductTypesAsync();
+                var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
+                var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+
+                inputModel.ProductTypes = productTypes;
+                inputModel.FragranceGroups = fragranceGroups;
+                inputModel.Notes = notes;
+
                 return this.View(inputModel);
             }
 

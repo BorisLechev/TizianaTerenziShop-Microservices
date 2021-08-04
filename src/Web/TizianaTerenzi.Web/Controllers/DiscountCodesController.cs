@@ -26,7 +26,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
             var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
@@ -35,7 +35,7 @@
             {
                 this.Error(NotificationMessages.DiscountCodeError);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,12 +46,12 @@
             {
                 this.Error(NotificationMessages.AlreadyAppliedDiscountCode);
 
-                return this.RedirectToAction("Index", "Cart");
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
             this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
 
-            return this.RedirectToAction("Index", "Cart");
+            return this.RedirectToAction(nameof(CartController.Index), "Cart");
         }
 
         [HttpPost("{discountName}")]
