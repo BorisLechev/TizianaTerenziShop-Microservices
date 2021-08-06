@@ -29,16 +29,31 @@
     <div class="container">
         <div class="form-group mx-auto my-1">
             <div class="input-group">
-                <input id="messageInput"
-                       class="form-control p-4 bg-transparent chat-input"
-                       onkeydown="userType('@this.Model.GroupId')"
-                       onblur="userStopType('@this.Model.GroupId')"
-                       onkeyup="changeRemainingLength()"
-                       placeholder="@Localizer["Type a message..."]"
-                       autocomplete="off"
-                       autofocus>
+                <div id="emojiButton" class="chat-emoji-icon pop-up-emoji">
+                    <i class="far fa-smile"></i>
+                    <div id="popupEmoji" class="popupEmojiBox">
+                        <div class="emoji-tab-section">
+                            @foreach (var emoji in this.Model.Emojis)
+                            {
+                                <div class="emojiButton">
+                                    <span data="@emoji.Image">@emoji.Image</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div id="message-input-text" style="flex-grow: 1; position: relative;">
+                    <input id="messageInput"
+                           class="form-control p-4 bg-transparent chat-input"
+                           onkeydown="userType('@this.Model.GroupId')"
+                           onblur="userStopType('@this.Model.GroupId')"
+                           onkeyup="changeRemainingLength()"
+                           placeholder="@Localizer["Type a message..."]"
+                           autocomplete="off"
+                           autofocus>
+                </div>
                 <span id="remainingLength" class="tt-value-input">@GlobalConstants.ChatMessageMaxLength</span>
-                <div class="input-group-append">
+                <div class="input-button-wrapper">
                     <button type="button" class="btn btn-outline-primary px-4" id="sendButton">
                         <i id="fromImage" class="fas fa-paper-plane"></i>
                     </button>
@@ -68,5 +83,22 @@
                 $("#messageInput").removeClass("error");
             }
         }
+
+        $('#emojiButton').click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('#popupEmoji').toggleClass("show");
+        });
+
+        $('body').click(function () {
+            $('#popupEmoji').removeClass("show");
+        });
+
+        $("span[data]").each(function (el) {
+            $(this).click(function () {
+                var value = $(this).attr("data");
+                $("#messageInput").val($("#messageInput").val() + value);
+            });
+        });
     </script>
 }

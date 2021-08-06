@@ -67,6 +67,8 @@
 
         public DbSet<ApplicationUserNotification> UserNotifications { get; set; }
 
+        public DbSet<Emoji> Emojis { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

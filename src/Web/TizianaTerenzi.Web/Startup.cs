@@ -54,6 +54,7 @@
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Services.Messaging;
     using TizianaTerenzi.Services.PDF;
+    using TizianaTerenzi.Services.Scrapers;
     using TizianaTerenzi.Services.SlugGenerator;
     using TizianaTerenzi.Web.Hubs;
     using TizianaTerenzi.Web.ViewModels;
@@ -235,8 +236,10 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserPenaltiesService, UserPenaltiesService>();
             services.AddTransient<IContactsService, ContactsService>();
+            services.AddTransient<IEmojisService, EmojisService>();
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IUnicodeEmojiScraperService, UnicodeEmojiScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

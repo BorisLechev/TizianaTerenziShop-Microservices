@@ -34,6 +34,7 @@
                 new DiscountCodesSeeder(),
                 new CountriesSeeder(),
                 new GeneralDiscountSeeder(),
+                new EmojisSeeder(),
             };
 
             foreach (var seeder in seeders)

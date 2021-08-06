@@ -16,13 +16,17 @@
     {
         private readonly IChatService chatsService;
 
+        private readonly IEmojisService emojisService;
+
         private readonly UserManager<ApplicationUser> userManager;
 
         public ChatController(
             IChatService chatsService,
+            IEmojisService emojisService,
             UserManager<ApplicationUser> userManager)
         {
             this.chatsService = chatsService;
+            this.emojisService = emojisService;
             this.userManager = userManager;
         }
 
@@ -32,6 +36,7 @@
             var receiver = await this.userManager.FindByNameAsync(username);
 
             var allMessages = await this.chatsService.GetAllMessagesByGroupIdAsync(groupId);
+            var allEmojis = await this.emojisService.GetAllEmojisAsync();
 
             var viewModel = new ChatViewModel
             {
@@ -41,6 +46,7 @@
                 ReceiverUsername = receiver.UserName,
                 ChatMessages = allMessages,
                 GroupId = groupId,
+                Emojis = allEmojis,
             };
 
             return this.View(viewModel);
