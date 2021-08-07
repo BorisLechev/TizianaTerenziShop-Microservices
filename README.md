@@ -101,7 +101,7 @@ Example:
   * [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) - deliver up-to-date information without hitting a refresh button
   * [Entity Framework Core 5.0](https://docs.microsoft.com/en-us/ef/)
   * [Entity Framework Plus](https://entityframework-plus.net/)
-  * MS SQL Server
+  * [MS SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
   * [Automapper](https://automapper.org/)
   * [Google ReCaptcha v3](https://www.google.com/recaptcha/about/)
   * [Cloudinary](https://cloudinary.com/)
@@ -121,7 +121,7 @@ Example:
   * [Moment.js](https://momentjs.com/) - to parse, validate and display dates and times in JavaScript
   * [TinyMCE](https://www.tiny.cloud/) - text editor
   * [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer) - library for cleaning HTML fragments and documents from constructs that can lead to XSS attacks.
-  * [AngleSharp] (https://anglesharp.github.io/) - scraping emojis for the chat from unicode.org/emojis.
+  * [AngleSharp](https://anglesharp.github.io/) - scraping emojis for the chat from unicode.org/emojis.
   * [DataTables](https://datatables.net/) - tool that adds pagination, instant search, multi-column ordering etc. to any HTML table
   * [OpenStreetMap](https://www.openstreetmap.org/) && [Leaflet](https://leafletjs.com/)
   * [Chart.js](https://www.chartjs.org/) - create interactive charts for web and mobile apps

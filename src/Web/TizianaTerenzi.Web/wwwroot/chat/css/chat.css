@@ -20,7 +20,8 @@
     border-bottom-right-radius: 0;
     outline: none;
     box-shadow: none !important;
-    padding-right: 50px !important;
+    padding-right: 3.2rem !important;
+    padding-left: 2.2rem !important;
 }
 
 #messageInput.error {
@@ -168,24 +169,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
     width: 3rem;
     height: 3rem;
-    margin: auto;
-    line-height: 1.2;
-    position: relative;
-    cursor: pointer;
+    z-index: 999;
 }
 
 .pop-up-emoji .popupEmojiBox {
     visibility: hidden;
     display: block;
-    width: 26.25rem;
-    min-width: 13.5rem;
     position: absolute;
     left: 0;
     bottom: calc(100% + 0.5rem);
-    transform-origin: left bottom;
-    transform: scale(1);
+    width: 26.25rem;
+    min-width: 13.5rem;
     overflow: hidden;
     border-radius: 0.75rem;
     background-color: rgb(85, 85, 85);
@@ -228,7 +225,7 @@
 }
 
 .emoji-tab-section::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 .emoji-tab-section::-webkit-scrollbar-track {

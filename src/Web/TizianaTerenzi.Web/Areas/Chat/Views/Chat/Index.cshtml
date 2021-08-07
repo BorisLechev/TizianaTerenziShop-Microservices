@@ -33,12 +33,14 @@
                     <i class="far fa-smile"></i>
                     <div id="popupEmoji" class="popupEmojiBox">
                         <div class="emoji-tab-section">
-                            @foreach (var emoji in this.Model.Emojis)
-                            {
-                                <div class="emojiButton">
-                                    <span data="@emoji.Image">@emoji.Image</span>
-                                </div>
-                            }
+                            <ul>
+                                @foreach (var emoji in this.Model.Emojis)
+                                {
+                                    <li class="emojiButton">
+                                        <span data="@emoji.Image">@emoji.Image</span>
+                                    </li>
+                                }
+                            </ul>
                         </div>
                     </div>
                 </div>
