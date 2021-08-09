@@ -69,5 +69,35 @@
             // Assert
             Assert.Equal(2, list.Count);
         }
+
+        [Fact]
+        public async Task GetAllEmailsSuccessfully()
+        {
+            // Arrange
+            var list = new List<Subscriber>();
+            var mockList = list.AsQueryable().BuildMock();
+
+            var mockRepo = new Mock<IDeletableEntityRepository<Subscriber>>();
+            mockRepo.Setup(pv => pv.AllAsNoTracking())
+                    .Returns(mockList.Object);
+            mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Subscriber>()))
+                    .Callback((Subscriber subscriber) => list.Add(subscriber));
+
+            var service = new SubscribeService(mockRepo.Object);
+
+            // Act
+            await service.SubscribeForNewsletterAsync("a@abv.bg");
+            await service.SubscribeForNewsletterAsync("b@abv.bg");
+            var allEmails = await service.GetAllEmailsAsync();
+
+            // how many times the method AddAsync is used
+            mockRepo.Verify(x => x.AddAsync(It.IsAny<Subscriber>()), Times.Exactly(2));
+
+            // Assert
+            Assert.Equal(2, list.Count);
+            Assert.Equal(2, allEmails.Count());
+            Assert.Equal("a@abv.bg", allEmails.First().Email);
+            Assert.Equal("b@abv.bg", allEmails.Last().Email);
+        }
     }
 }

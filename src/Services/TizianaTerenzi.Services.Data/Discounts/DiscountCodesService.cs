@@ -124,7 +124,7 @@
                .Include(p => p.Product) // TODO: Do not use Include
                .ToListAsync();
 
-            if (productsInTheCart == null)
+            if (productsInTheCart.Count() == 0)
             {
                 return false;
             }

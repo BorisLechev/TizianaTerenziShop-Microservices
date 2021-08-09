@@ -8,7 +8,7 @@
     {
         Task<bool> CreateAsync(CreateCommentInputModel inputModel, string userId);
 
-        Task DeleteRangeByProductIdAsync(int productId);
+        Task<bool> DeleteRangeByProductIdAsync(int productId);
 
         Task<bool> DeleteRangeByUserIdAsync(string userId);
 

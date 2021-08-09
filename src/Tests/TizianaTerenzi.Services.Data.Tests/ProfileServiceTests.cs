@@ -166,8 +166,10 @@
             Assert.Equal(0, await dbContext.Users.CountAsync());
 
             var commentsResult = await commentsService.DeleteRangeByUserIdAsync(user.Id);
+            var commentsResultWithNotExistingUserId = await commentsService.DeleteRangeByUserIdAsync("zzz");
             Assert.True(commentsResult);
             Assert.Equal(0, await dbContext.Comments.CountAsync());
+            Assert.True(commentsResultWithNotExistingUserId);
 
             var wishlistResult = await wishlistService.DeleteAllProductsInTheWishlistAsync(user.Id);
             Assert.True(wishlistResult);

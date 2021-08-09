@@ -35,7 +35,7 @@
             return result > 0;
         }
 
-        public async Task DeleteRangeByProductIdAsync(int productId)
+        public async Task<bool> DeleteRangeByProductIdAsync(int productId)
         {
             var comments = await this.commentsRepository
                 .All()
@@ -45,6 +45,8 @@
                     IsDeleted = true,
                     DeletedOn = DateTime.UtcNow,
                 });
+
+            return comments >= 0;
         }
 
         public async Task<bool> DeleteRangeByUserIdAsync(string userId)

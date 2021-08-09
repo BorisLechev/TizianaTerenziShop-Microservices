@@ -49,6 +49,29 @@
         }
 
         [Fact]
+        public async Task WhenAdminCreateDiscountCodeTheResultShouldBeTrue()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var inputModel = new CreateDiscountCodeInputModel
+            {
+                Name = "Test",
+                Discount = 10,
+                ExpiresOn = DateTime.UtcNow.AddMonths(1),
+            };
+
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                null);
+
+            // Assert
+            Assert.True(await discountCodesService.CreateDiscountCodeAsync(inputModel));
+        }
+
+        [Fact]
         public async Task WhenAdminTriesToDeleteTheDiscountCodesWithValidDiscountCodeIdShouldWorkCorrectly()
         {
             // Arrange
@@ -133,6 +156,35 @@
         }
 
         [Fact]
+        public async Task WhenUserTriesToModifyThePricesAfterAppliedDiscountCodeButInTheCartThereIsNotProductsTheResultShouldBeFalse()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var discountCode = new DiscountCode
+            {
+                Name = "Test",
+                Discount = 10,
+                ExpiresOn = DateTime.UtcNow.AddMonths(1),
+            };
+
+            await dbContext.DiscountCodes.AddAsync(discountCode);
+            await dbContext.SaveChangesAsync();
+
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                new EfDeletableEntityRepository<Cart>(dbContext));
+
+            // Act
+            var modifyPrices = await discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountCode.Name, "1");
+
+            // Assert
+            Assert.False(modifyPrices);
+        }
+
+        [Fact]
         public async Task ModifyThePricesAfterDeletedDiscountCodeShouldWorkCorrectly()
         {
             // Arrange
@@ -194,6 +246,26 @@
             Assert.True(await discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync("1"));
             Assert.Equal(320, productInTheCart.ProductPriceWithDiscountCode);
             Assert.Equal("Kiki", productInTheCart.Product.Name);
+            Assert.False(await discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync("2"));
+        }
+
+        [Fact]
+        public async Task WhenUserTriesToModifyThePricesAfterDeletedDiscountCodeButInTheCartThereIsNotProductsTheResultShouldBeFalse()
+        {
+            // Arrange
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            var discountCodesService = new DiscountCodesService(
+                new EfDeletableEntityRepository<DiscountCode>(dbContext),
+                new EfDeletableEntityRepository<Cart>(dbContext));
+
+            // Act
+            var modifyPrices = await discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync("1");
+
+            // Assert
+            Assert.False(modifyPrices);
         }
 
         [Fact]

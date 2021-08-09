@@ -99,6 +99,18 @@
         }
 
         [Fact]
+        public async Task CreateNoteShouldReturnFalseWhenTryToCreateTwoNotesWithSameName()
+        {
+            // Act
+            var result = await this.Service.CreateNoteAsync("Test");
+            var secondResult = await this.Service.CreateNoteAsync("Test");
+
+            // Assert
+            Assert.True(result);
+            Assert.False(secondResult);
+        }
+
+        [Fact]
         public async Task GetAllSelectedFragranceGroupsShouldReturnSelectListItemArray()
         {
             // Arrange
