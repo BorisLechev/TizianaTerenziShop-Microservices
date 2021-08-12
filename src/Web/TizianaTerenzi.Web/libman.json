@@ -68,7 +68,7 @@
       ]
     },
     {
-      "library": "@fortawesome/fontawesome-free@5.15.3",
+      "library": "@fortawesome/fontawesome-free@5.15.4",
       "destination": "wwwroot/lib/fontawesome/",
       "files": [
         "webfonts/fa-brands-400.eot",
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.8",
+      "library": "@microsoft/signalr@5.0.9",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "library": "swiper@6.7.5",
+      "library": "swiper@6.8.1",
       "destination": "wwwroot/lib/swiper/",
       "files": [
         "swiper-bundle.min.css",
