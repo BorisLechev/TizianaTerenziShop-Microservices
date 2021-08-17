@@ -51,6 +51,7 @@
                 PaymentMethodTypes = new List<string>
                 {
                   "card",
+                  "sepa_debit",
                 },
                 LineItems = new List<SessionLineItemOptions>
                 {

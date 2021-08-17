@@ -69,8 +69,6 @@
 
 <partial name="_PagingPartial" model="@this.Model" />
 
-<form method="post" id="antiForgeryForm"></form>
-
 @section CustomCss {
     <link href="~/css/products.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/product-card.css" rel="stylesheet" asp-append-version="true" />
@@ -85,7 +83,7 @@
 
         function sendProductVote(productId, voteValue) {
             let data = { productId: productId, value: voteValue }; // postCommentVoteInputModel
-            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
 
             $.ajax({
                 url: "/votes/product/post",

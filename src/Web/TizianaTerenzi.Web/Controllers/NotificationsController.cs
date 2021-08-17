@@ -34,13 +34,12 @@
         }
 
         [HttpPost]
-        [Route("/notifications/delete/{notificationId}")]
-        public async Task<bool> Delete(string notificationId)
+        public async Task<bool> Delete(string id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var username = this.User.FindFirstValue(ClaimTypes.Name);
 
-            var isDeleted = await this.notificationsService.DeleteNotificationAsync(notificationId);
+            var isDeleted = await this.notificationsService.DeleteNotificationAsync(id);
             await this.ChangeNotificationCounterAsync(isDeleted, username, userId);
 
             return isDeleted;

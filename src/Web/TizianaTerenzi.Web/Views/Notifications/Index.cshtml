@@ -38,7 +38,6 @@
         }
     </section>
 </div>
-<form method="post" id="antiForgeryForm"></form>
 
 @section CustomCss {
     <link href="~/notification/css/notifications.css" rel="stylesheet" asp-append-version="true" />
@@ -47,13 +46,16 @@
 @section Scripts {
     <script>
         function deleteNotification(notificationId) {
-            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
 
             $.ajax({
                 type: "POST",
-                url: `/notifications/delete/${notificationId}`,
+                url: `/Notifications/Delete`,
                 headers: {
                     "X-CSRF-TOKEN": antiForgeryToken,
+                },
+                data: {
+                    "id": notificationId,
                 },
                 success: function (data) {
                     if (data) {

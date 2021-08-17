@@ -141,7 +141,6 @@
     </section>
 </section>
 
-<form method="post" id="antiForgeryForm"></form>
 @section Scripts {
     <script>
         function updateTotalPrice() {
@@ -172,13 +171,16 @@
             let productId = $(this).attr('id').toString().replace('-decrease', '');
 
             let element = $($($(this).parent()).children()[0]);
-            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
 
             $.ajax({
                 type: "POST",
-                url: `/cart/${productId}/quantity/reduce`,
+                url: `/Cart/ReduceQuantity`,
                 headers: {
                     "X-CSRF-TOKEN": antiForgeryToken,
+                },
+                data: {
+                    "productId": productId,
                 },
                 success: function () {
                     let currentQuantity = +element.text();
@@ -203,13 +205,16 @@
             let productId = $(this).attr('id').toString().replace('-increase', '');
 
             let element = $($($(this).parent()).children()[0]);
-            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
 
             $.ajax({
                 type: "POST",
-                url: `/cart/${productId}/quantity/increase`,
+                url: `/Cart/IncreaseQuantity`,
                 headers: {
                     "X-CSRF-TOKEN": antiForgeryToken,
+                },
+                data: {
+                    "productId": productId,
                 },
                 success: function () {
                     let currentQuantity = +element.text();
@@ -237,10 +242,13 @@
             let antiForgeryToken = $("#apply-discount input[name=__RequestVerificationToken]").val();
 
             $.ajax({
-                url: `/discountCodes/apply/${discountName}`,
+                url: `/DiscountCodes/Apply`,
                 type: "POST",
                 headers: {
                     "X-CSRF-TOKEN": antiForgeryToken,
+                },
+                data: {
+                    "discountName": discountName,
                 },
                 success: function () {
                     $("#discount-tag-container").show();
@@ -258,9 +266,12 @@
 
             $.ajax({
                 type: "POST",
-                url: `/discountCodes/delete/${discountName}`,
+                url: `/DiscountCodes/Delete`,
                 headers: {
                     "X-CSRF-TOKEN": antiForgeryToken,
+                },
+                data: {
+                    "discountName": discountName,
                 },
                 success: function () {
                     $('#discount-tag-container').hide();

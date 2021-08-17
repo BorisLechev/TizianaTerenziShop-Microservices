@@ -19,7 +19,7 @@
             this.discountCodesService = discountCodesService;
         }
 
-        [HttpPost("{discountName}")]
+        [HttpPost]
         public async Task<IActionResult> Apply(string discountName)
         {
             if (discountName == null || discountName.Length > 30)
@@ -54,7 +54,7 @@
             return this.RedirectToAction(nameof(CartController.Index), "Cart");
         }
 
-        [HttpPost("{discountName}")]
+        [HttpPost]
         public async Task<IActionResult> Delete(string discountName)
         {
             if (discountName == null || discountName.Length > 30)

@@ -219,8 +219,6 @@
     </section>
 </main>
 
-<form method="post" id="antiForgeryForm"></form>
-
 <script src="~/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     tinymce.init({
@@ -259,7 +257,7 @@
         }
 
         function sendVote(commentId) {
-            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
             let json = { commentId: commentId }; // postCommentVoteInputModel
 
             $.ajax({
@@ -282,7 +280,7 @@
 
         function sendProductVote(productId, voteValue) {
             let data = { productId: productId, value: voteValue, }; // postProductVoteInputModel
-            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
 
             $.ajax({
                 url: "/votes/product/post",

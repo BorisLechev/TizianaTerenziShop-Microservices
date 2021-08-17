@@ -48,7 +48,6 @@
         }
 
         [HttpPost]
-        [Route("/cart/{productId}/quantity/increase")]
         public async Task<IActionResult> IncreaseQuantity(string productId)
         {
             bool result = await this.cartService.IncreaseQuantityAsync(productId);
@@ -64,7 +63,6 @@
         }
 
         [HttpPost]
-        [Route("/cart/{productId}/quantity/reduce")]
         public async Task<IActionResult> ReduceQuantity(string productId)
         {
             bool result = await this.cartService.ReduceQuantityAsync(productId);

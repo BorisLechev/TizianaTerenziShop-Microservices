@@ -295,10 +295,6 @@
                             "product/{id:int:min(1)}/{slug:required}",
                             new { controller = "Products", action = "Details" });
                         endpoints.MapControllerRoute(
-                            "productDetails",
-                            "product/{id:int:min(1)}",
-                            new { controller = "Products", action = "Details" });
-                        endpoints.MapControllerRoute(
                             "chatGroup",
                             "chat/with/{username?}/group/{groupId}",
                             new { area = "Chat", controller = "Chat", action = "Index" });
