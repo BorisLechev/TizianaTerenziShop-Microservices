@@ -41,7 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Web.ViewMode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Services.Tests", "Tests\TizianaTerenzi.Services.Tests\TizianaTerenzi.Services.Tests.csproj", "{952FA8A6-7BEB-419B-B8E6-20A1F590A7F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Services.Models", "Services\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models.csproj", "{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Services.Models", "Services\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models.csproj", "{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Controllers.Tests", "Tests\TizianaTerenzi.Controllers.Tests\TizianaTerenzi.Controllers.Tests.csproj", "{A696B4D5-111E-4151-8180-65984B2DAD9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,10 @@ Global
 		{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A696B4D5-111E-4151-8180-65984B2DAD9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A696B4D5-111E-4151-8180-65984B2DAD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A696B4D5-111E-4151-8180-65984B2DAD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A696B4D5-111E-4151-8180-65984B2DAD9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 		{952FA8A6-7BEB-419B-B8E6-20A1F590A7F3} = {7A731632-6714-44E2-A9E4-069EBA9E666C}
 		{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D} = {516E002B-9E6E-4456-B7F6-EAA353966DE6}
+		{A696B4D5-111E-4151-8180-65984B2DAD9C} = {7A731632-6714-44E2-A9E4-069EBA9E666C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

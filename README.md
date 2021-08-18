@@ -130,6 +130,7 @@ Example:
   * [Stripe](https://stripe.com/) - online payment processing platform
   * [xUnit](https://xunit.net/) - unit testing tool for .NET Framework
   * [Moq](https://github.com/Moq/moq4/wiki/Quickstart) && [MockQueryable.Moq](https://github.com/romantitov/MockQueryable)
+  * [MyTested.AspNetCore.Mvc](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc/tree/development) - strongly-typed unit testing library providing an easy fluent interface to test the ASP.NET Core framework, perfectly suitable for both MVC and API scenarios.
   * [PhantomJS v2.1.1](https://phantomjs.org/) - to generate PDF reports
   * English language
   * Bulgarian language
