@@ -102,6 +102,7 @@ Example:
   * [Entity Framework Core 5.0](https://docs.microsoft.com/en-us/ef/)
   * [Entity Framework Plus](https://entityframework-plus.net/)
   * [MS SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+  * [Azure](https://azure.microsoft.com/en-us/)
   * [Automapper](https://automapper.org/)
   * [Google ReCaptcha v3](https://www.google.com/recaptcha/about/)
   * [Cloudinary](https://cloudinary.com/)
