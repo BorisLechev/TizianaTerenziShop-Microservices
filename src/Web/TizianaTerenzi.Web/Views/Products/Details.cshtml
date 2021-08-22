@@ -92,17 +92,17 @@
                             {
                                 <section class="product-old-price-container">€ @this.Model.Price EUR</section>
                             }
-                            <section class="product-quantity-container">
-                                <span class="product-quantity-inner-container">
-                                    <span class="quantity">1</span>
-                                    <span id="@(this.Model.Id)-increase" class="increase-btn"></span>
-                                    <span id="@(this.Model.Id)-decrease" class="decrease-btn"></span>
-                                </span>
-                            </section>
                             <section class="btn-container">
-                                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
-                                    <button class="button" type="submit">@Localizer["Add to Cart"]</button>
-                                </form>
+                                @if (this.User.Identity.IsAuthenticated)
+                                {
+                                    <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
+                                        <button class="button" type="submit">@Localizer["Add to Cart"]</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                     <a class="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@(this.Url.Action("Details", "Products", new { id = this.Model.Id }))">@Localizer["Add to Cart"]</a>
+                                }
                             </section>
                         </main>
                     </article>
@@ -193,6 +193,13 @@
                         {
                             <div>
                                 <button type="button" class="btn btn-primary btn-comment float-left" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        }
+                        else
+                        {
+                            <div>
+                                <a type="button" class="btn btn-primary btn-comment float-left" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@(this.Url.Action("Details", "Products", new { id = this.Model.Id }))"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</a>
                             </div>
                             <div class="clearfix"></div>
                         }

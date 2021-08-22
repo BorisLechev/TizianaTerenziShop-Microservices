@@ -44,9 +44,16 @@
             </section>
             <section class="actions">
                 <div class="link-actions"></div>
-                <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
-                    <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
-                </form>
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
+                        <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
+                    </form>
+                }
+                else
+                {
+                    <a class="btn-cart" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@(this.Url.Action("All", "Products"))">@Localizer["Add to Cart"]</a>
+                }
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <a asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@this.Model.Id" class="btn-edit">
