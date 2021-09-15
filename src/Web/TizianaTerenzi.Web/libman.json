@@ -91,7 +91,7 @@
       ]
     },
     {
-      "library": "tinymce@5.8.2",
+      "library": "tinymce@5.9.2",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.9",
+      "library": "@microsoft/signalr@5.0.10",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "library": "swiper@6.8.1",
+      "library": "swiper@7.0.5",
       "destination": "wwwroot/lib/swiper/",
       "files": [
         "swiper-bundle.min.css",
