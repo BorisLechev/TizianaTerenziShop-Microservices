@@ -11,7 +11,7 @@
       ]
     },
     {
-      "library": "bootstrap@4.6.0",
+      "library": "bootstrap@4.6.1",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "dist/css/bootstrap.css",
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "library": "tinymce@5.9.2",
+      "library": "tinymce@5.10.3",
       "destination": "wwwroot/lib/tinymce/",
       "files": [
         "tinymce.min.js",
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.10",
+      "library": "@microsoft/signalr@6.0.3",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "library": "swiper@7.0.5",
+      "library": "swiper@8.0.7",
       "destination": "wwwroot/lib/swiper/",
       "files": [
         "swiper-bundle.min.css",
