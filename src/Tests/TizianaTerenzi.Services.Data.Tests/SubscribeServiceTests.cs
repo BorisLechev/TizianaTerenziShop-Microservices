@@ -18,11 +18,11 @@
         {
             // Arrange
             var list = new List<Subscriber>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<Subscriber>>();
             mockRepo.Setup(pv => pv.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Subscriber>()))
                     .Callback((Subscriber subscriber) => list.Add(subscriber));
 
@@ -44,11 +44,11 @@
         {
             // Arrange
             var list = new List<Subscriber>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<Subscriber>>();
             mockRepo.Setup(pv => pv.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Subscriber>()))
                     .Callback((Subscriber subscriber) => list.Add(subscriber));
 
@@ -75,11 +75,11 @@
         {
             // Arrange
             var list = new List<Subscriber>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<Subscriber>>();
             mockRepo.Setup(pv => pv.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(pv => pv.AddAsync(It.IsAny<Subscriber>()))
                     .Callback((Subscriber subscriber) => list.Add(subscriber));
 

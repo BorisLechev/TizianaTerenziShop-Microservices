@@ -22,11 +22,11 @@
         {
             // Arrange
             var list = new List<CommentVote>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
             mockRepo.Setup(cv => cv.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
                     .Callback((CommentVote vote) => list.Add(vote));
 
@@ -48,11 +48,11 @@
         {
             // Arrange
             var list = new List<CommentVote>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
             mockRepo.Setup(cv => cv.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
                     .Callback((CommentVote vote) => list.Add(vote));
 
@@ -75,11 +75,11 @@
         {
             // Arrange
             var list = new List<CommentVote>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<CommentVote>>();
             mockRepo.Setup(cv => cv.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(cv => cv.AddAsync(It.IsAny<CommentVote>()))
                     .Callback((CommentVote vote) => list.Add(vote));
 

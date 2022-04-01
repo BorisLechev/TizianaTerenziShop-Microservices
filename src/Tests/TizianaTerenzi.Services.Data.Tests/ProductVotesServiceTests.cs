@@ -22,11 +22,11 @@
         {
             // Arrange
             var list = new List<ProductVote>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<ProductVote>>();
             mockRepo.Setup(pv => pv.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(pv => pv.AddAsync(It.IsAny<ProductVote>()))
                     .Callback((ProductVote vote) => list.Add(vote));
 
@@ -52,13 +52,13 @@
         {
             // Arrange
             var list = new List<ProductVote>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             var mockRepo = new Mock<IDeletableEntityRepository<ProductVote>>();
             mockRepo.Setup(pv => pv.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(pv => pv.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockRepo.Setup(pv => pv.AddAsync(It.IsAny<ProductVote>()))
                     .Callback((ProductVote vote) => list.Add(vote));
 

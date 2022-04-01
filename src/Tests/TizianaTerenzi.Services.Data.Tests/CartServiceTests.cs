@@ -86,10 +86,10 @@
             var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
                     .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(c => c.SaveChangesAsync())
@@ -132,12 +132,12 @@
             var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             mockCartRepo.Setup(c => c.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
                     .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(c => c.SaveChangesAsync())
@@ -182,12 +182,12 @@
             var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             mockCartRepo.Setup(c => c.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
                     .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(c => c.SaveChangesAsync())
@@ -232,12 +232,12 @@
             var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             mockCartRepo.Setup(c => c.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
                     .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(c => c.SaveChangesAsync())
@@ -283,12 +283,12 @@
             var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             mockCartRepo.Setup(c => c.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
                     .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(c => c.SaveChangesAsync())
@@ -334,12 +334,12 @@
             var mockCartRepo = new Mock<IDeletableEntityRepository<Cart>>();
 
             var list = new List<Cart>();
-            var mockList = list.AsQueryable().BuildMock();
+            var mockList = list.BuildMock();
 
             mockCartRepo.Setup(c => c.All())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AllAsNoTracking())
-                    .Returns(mockList.Object);
+                    .Returns(mockList);
             mockCartRepo.Setup(c => c.AddAsync(It.IsAny<Cart>()))
                     .Callback((Cart product) => list.Add(product));
             mockCartRepo.Setup(c => c.SaveChangesAsync())
