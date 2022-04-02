@@ -1,4 +1,4 @@
-﻿@if (this.User.Identity.IsAuthenticated)
+﻿@if (this.User.IsUserAuthenticated())
 {
     <a asp-area="" asp-controller="Notifications" asp-action="Index" class="float">
         <i class="fas fa-bell my-float"></i>

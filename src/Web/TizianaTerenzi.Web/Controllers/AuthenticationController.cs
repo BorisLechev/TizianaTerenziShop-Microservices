@@ -15,6 +15,7 @@
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Location;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.Authentication;
 
     public class AuthenticationController : BaseController
@@ -83,7 +84,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }
@@ -100,7 +101,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }
@@ -214,7 +215,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }
@@ -230,7 +231,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }
@@ -335,7 +336,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }
@@ -394,7 +395,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }
@@ -411,7 +412,7 @@
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsUserAuthenticated())
             {
                 return this.LocalRedirect(returnUrl);
             }

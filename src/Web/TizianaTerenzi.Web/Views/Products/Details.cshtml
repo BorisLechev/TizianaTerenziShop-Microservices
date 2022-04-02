@@ -93,7 +93,7 @@
                                 <section class="product-old-price-container">€ @this.Model.Price EUR</section>
                             }
                             <section class="btn-container">
-                                @if (this.User.Identity.IsAuthenticated)
+                                @if (this.User.IsUserAuthenticated())
                                 {
                                     <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
                                         <button class="button" type="submit">@Localizer["Add to Cart"]</button>
@@ -189,7 +189,7 @@
                         <h3 class="opinion-title-question">@Localizer["Do you have an opinion on this product?"]</h3>
                     </header>
                     <main>
-                        @if (this.User.Identity.IsAuthenticated)
+                        @if (this.User.IsUserAuthenticated())
                         {
                             <div>
                                 <button type="button" class="btn btn-primary btn-comment float-left" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; @Localizer["Comment"]</button>

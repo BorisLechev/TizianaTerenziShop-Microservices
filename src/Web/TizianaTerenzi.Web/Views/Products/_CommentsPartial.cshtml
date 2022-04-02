@@ -36,7 +36,7 @@
                                     </h6>
                                     <div class="text-muted small">
                                         <time datetime="@comment.CreatedOn.ToString("O")"></time>
-                                        @if (comment.ParentId == null && this.User.Identity.IsAuthenticated)
+                                        @if (comment.ParentId == null && this.User.IsUserAuthenticated())
                                         {
                                             <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }

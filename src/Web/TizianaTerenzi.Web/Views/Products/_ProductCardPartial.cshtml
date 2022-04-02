@@ -10,7 +10,7 @@
                     <section class="image-overlay"></section>
                 </a>
             </section>
-            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
+            @if (this.User.IsAdmin() == false)
             {
                 <section>
                     <form asp-area="" asp-controller="Wishlist" asp-action="Add" asp-route-productId="@this.Model.Id" method="post">
@@ -44,7 +44,7 @@
             </section>
             <section class="actions">
                 <div class="link-actions"></div>
-                @if (this.User.Identity.IsAuthenticated)
+                @if (this.User.IsUserAuthenticated())
                 {
                     <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@this.Model.Id" method="post">
                         <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
