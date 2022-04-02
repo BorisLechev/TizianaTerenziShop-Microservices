@@ -54,7 +54,7 @@
                 {
                     <a class="btn-cart" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@(this.Url.Action("All", "Products"))">@Localizer["Add to Cart"]</a>
                 }
-                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                @if (this.User.IsAdmin())
                 {
                     <a asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@this.Model.Id" class="btn-edit">
                         <span>@Localizer["Edit Product"]</span>

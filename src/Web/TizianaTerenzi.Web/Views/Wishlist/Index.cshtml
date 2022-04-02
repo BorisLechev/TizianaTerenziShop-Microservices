@@ -74,7 +74,7 @@
                                             <form asp-area="" asp-controller="Cart" asp-action="AddProductInTheCart" asp-route-productId="@product.ProductId" method="post">
                                                 <button class="btn-cart" type="submit">@Localizer["Add to Cart"]</button>
                                             </form>
-                                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                            @if (this.User.IsAdmin())
                                             {
                                                 <a class="btn-edit" asp-area="Administration" asp-controller="Products" asp-action="Edit" asp-route-productId="@product.ProductId">
                                                     <span>@Localizer["Edit Product"]</span>
