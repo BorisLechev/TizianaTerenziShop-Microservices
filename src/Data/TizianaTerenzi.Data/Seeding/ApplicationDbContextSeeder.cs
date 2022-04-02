@@ -35,6 +35,7 @@
                 new CountriesSeeder(),
                 new GeneralDiscountSeeder(),
                 new EmojisSeeder(),
+                new AdministratorSeeder(),
                 new RegularUserSeeder(),
             };
 

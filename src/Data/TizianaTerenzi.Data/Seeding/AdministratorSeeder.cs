@@ -10,14 +10,16 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Countries;
 
-    public class RegularUserSeeder : ISeeder
+    public class AdministratorSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-            if (userManager.Users.Any(u => u.Email == "petri@abv.bg") ||
-                userManager.Users.Any(u => u.UserName == "petri"))
+            if (userManager.Users.Any(u => u.Email == "admin@admin.com") ||
+                userManager.Users.Any(u => u.UserName == "admin") ||
+                await roleManager.RoleExistsAsync(GlobalConstants.AdministratorRoleName) == false)
             {
                 return;
             }
@@ -27,14 +29,14 @@
 
             var user = new ApplicationUser
             {
-                FirstName = "Petar",
-                LastName = "Petrov",
-                Email = "petri@abv.bg",
-                UserName = "petri",
-                Town = "Sofia",
+                FirstName = "Admin",
+                LastName = "Admin",
+                Email = "admin@admin.com",
+                UserName = "admin",
+                Town = "Varna",
                 CountryId = bulgariaId,
-                PostalCode = "1000",
-                Address = "bul. Al. Tsankov 32",
+                PostalCode = "9000",
+                Address = "G. Rakovski 64",
                 IsBlocked = false,
                 PhoneNumber = "0888888888",
                 EmailConfirmed = true,
@@ -42,7 +44,7 @@
             };
 
             await userManager.CreateAsync(user, "123456");
-            await userManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
+            await userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
         }
     }
 }
