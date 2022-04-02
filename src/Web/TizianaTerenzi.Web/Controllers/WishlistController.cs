@@ -1,12 +1,12 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Wishlist;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
 
     [Authorize]
     public class WishlistController : BaseController
@@ -21,7 +21,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync(userId);
 
@@ -36,7 +36,7 @@
                 return this.NotFound();
             }
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var isProductAdded = await this.wishlistService.HasTheProductAlreadyAddedToTheWishlistAsync(productId, userId);
 
@@ -67,7 +67,7 @@
                 return this.NotFound();
             }
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var result = await this.wishlistService.DeleteProductFromTheWishlistAsync(productId, userId);
 

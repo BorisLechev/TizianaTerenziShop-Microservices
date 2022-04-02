@@ -1,12 +1,12 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Votes;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.Votes;
 
     [Authorize]
@@ -32,7 +32,7 @@
         [Route("votes/comment/post")]
         public async Task<ActionResult<CommentVoteResponseModel>> Vote(PostCommentVoteInputModel inputModel)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var result = await this.commentVotesService.VoteAsync(inputModel.CommentId, userId);
 
@@ -52,7 +52,7 @@
         [Route("votes/product/post")]
         public async Task<ActionResult<ProductVoteResponseModel>> Vote(PostProductVoteInputModel inputModel)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var result = await this.productVotesService.VoteAsync(inputModel.ProductId, userId, inputModel.Value);
 

@@ -1,6 +1,4 @@
-﻿@using TizianaTerenzi.Common;
-@using System.Security.Claims;
-@inject UserManager<ApplicationUser> userManager
+﻿@inject UserManager<ApplicationUser> userManager
 @inject IViewLocalizer Localizer
 
 @{
@@ -182,7 +180,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value" class="dropdown-item">
+                                <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.GetUserId()" class="dropdown-item">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>

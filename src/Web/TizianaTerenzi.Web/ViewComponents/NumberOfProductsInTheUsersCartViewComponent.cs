@@ -1,13 +1,13 @@
 ﻿namespace TizianaTerenzi.Web.ViewComponents
 {
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.Cart;
 
     public class NumberOfProductsInTheUsersCartViewComponent : ViewComponent
@@ -24,7 +24,7 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var userId = this.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userId = this.HttpContext.User.GetUserId();
 
                 var count = await this.productsInTheCartRepository
                                         .AllAsNoTracking()

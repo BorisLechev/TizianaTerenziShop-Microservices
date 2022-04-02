@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-@inject IViewLocalizer Localizer
+﻿@inject IViewLocalizer Localizer
 @model ProductDetailsViewModel
 
 @{
@@ -42,7 +41,7 @@
                                             <i class="fa fa-reply" onclick="showAddCommentForm(@comment.Id)"></i>
                                         }
                                         <div>
-                                            @if (!comment.Votes.Any(v => v.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))) || (int)(comment.Votes.SingleOrDefault(vote => vote.UserId == (this.User.FindFirstValue(ClaimTypes.NameIdentifier))).Type) == 0)
+                                            @if (!comment.Votes.Any(v => v.UserId == (this.User.GetUserId())) || (int)(comment.Votes.SingleOrDefault(vote => vote.UserId == (this.User.GetUserId())).Type) == 0)
                                             {
                                                 <i id="heart-@comment.Id" class="fa fa-heart" onclick="sendVote(@comment.Id)"></i>
                                             }

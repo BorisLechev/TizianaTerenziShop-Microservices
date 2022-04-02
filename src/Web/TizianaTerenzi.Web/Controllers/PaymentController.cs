@@ -1,7 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System.Collections.Generic;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -11,6 +10,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.Orders;
 
     [Authorize]
@@ -87,7 +87,7 @@
         [Route("payment/finish")]
         public async Task<IActionResult> Finish()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var isThereAnyProductsInTheUsersCart = await this.cartService.IsThereAnyProductsInTheUsersCartAsync(userId);
 

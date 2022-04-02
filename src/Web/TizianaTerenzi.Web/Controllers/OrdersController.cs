@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -10,6 +9,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.PDF;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.PDF;
 
     [Authorize]
@@ -37,7 +37,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var allOrdersByUser = await this.ordersService.GetAllOrdersByUserIdAsync(userId);
 

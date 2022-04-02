@@ -1,7 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System;
-    using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -13,6 +12,7 @@
     using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.Profile;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.Profile;
 
     [Authorize]
@@ -55,8 +55,8 @@
                 return this.NotFound();
             }
 
-            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var currentUserName = this.User.FindFirstValue(ClaimTypes.Name);
+            var currentUserId = this.User.GetUserId();
+            var currentUserName = this.User.GetUserName();
 
             var profileViewModel = new ProfileViewModel
             {
@@ -145,11 +145,6 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
-            }
-
             var hasPassword = await this.userManager.HasPasswordAsync(user);
 
             if (hasPassword == false)
@@ -174,11 +169,6 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
-            }
 
             var changePasswordResult = await this.userManager.ChangePasswordAsync(user, inputModel.OldPassword, inputModel.NewPassword);
 
@@ -206,11 +196,6 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null)
-            {
-                return this.NotFound(NotificationMessages.UserNotFound);
-            }
-
             var hasPassword = await this.userManager.HasPasswordAsync(user);
 
             if (hasPassword)
@@ -236,12 +221,9 @@
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.User.FindFirstValue(ClaimTypes.NameIdentifier)}'.");
-            }
+            var hasPassword = await this.userManager.HasPasswordAsync(user);
 
-            if (await this.userManager.HasPasswordAsync(user))
+            if (hasPassword)
             {
                 return this.RedirectToAction(nameof(this.ChangePassword));
             }
@@ -270,14 +252,9 @@
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.User.GetUserId();
 
-            if (user == null)
-            {
-                return this.NotFound(NotificationMessages.UserNotFound);
-            }
-
-            var inputModel = await this.profileService.GetDetailsForUserEditAsync(user.Id);
+            var inputModel = await this.profileService.GetDetailsForUserEditAsync(userId);
 
             return this.View(inputModel);
         }
@@ -286,11 +263,6 @@
         public async Task<IActionResult> Edit(UserEditInputModel inputModel)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-
-            if (user == null)
-            {
-                return this.NotFound();
-            }
 
             if (this.ModelState.IsValid == false)
             {

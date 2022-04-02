@@ -1,12 +1,12 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Discounts;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
 
     [Authorize]
     [Route("[controller]/[action]")]
@@ -38,7 +38,7 @@
                 return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountName, userId);
 
@@ -73,7 +73,7 @@
                 return this.RedirectToAction("Index", "Cart");
             }
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(userId);
 

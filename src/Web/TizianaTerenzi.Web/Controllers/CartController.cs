@@ -1,7 +1,6 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -12,6 +11,7 @@
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Products;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Web.ViewModels.Orders;
 
     [Authorize]
@@ -40,7 +40,7 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
 
             var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserIdAsync(userId);
 
@@ -85,7 +85,7 @@
                 return this.NotFound();
             }
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.GetUserId();
             var product = await this.productsService.GetProductByIdAsync(productId);
 
             if (product == null)

@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Web.Controllers
 {
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -8,6 +7,7 @@
     using Microsoft.AspNetCore.SignalR;
     using TizianaTerenzi.Services.Data.Notifications;
     using TizianaTerenzi.Web.Hubs;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
 
     [Authorize]
     public class NotificationsController : BaseController
@@ -26,7 +26,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var username = this.User.FindFirstValue(ClaimTypes.Name);
+            var username = this.User.GetUserName();
 
             var viewModel = await this.notificationsService.GetUserNotificationsAsync(username);
 
@@ -36,8 +36,8 @@
         [HttpPost]
         public async Task<bool> Delete(string id)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var username = this.User.FindFirstValue(ClaimTypes.Name);
+            var userId = this.User.GetUserId();
+            var username = this.User.GetUserName();
 
             var isDeleted = await this.notificationsService.DeleteNotificationAsync(id);
             await this.ChangeNotificationCounterAsync(isDeleted, username, userId);

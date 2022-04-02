@@ -1,5 +1,4 @@
 ﻿@using TizianaTerenzi.Common;
-@using System.Security.Claims;
 @inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
@@ -76,7 +75,7 @@
                                         }
                                     }
                                 </a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value">@Localizer["My profile"]</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@this.User.GetUserId()">@Localizer["My profile"]</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="ChangePassword">@Localizer["Change password"]</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Edit">@Localizer["Edit profile"]</a>
                                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
