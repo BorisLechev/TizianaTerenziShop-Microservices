@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{E389DEB6-5F90-444B-A054-12A10D39C76F}"
 EndProject
@@ -43,7 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Services.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Services.Models", "Services\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models.csproj", "{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Controllers.Tests", "Tests\TizianaTerenzi.Controllers.Tests\TizianaTerenzi.Controllers.Tests.csproj", "{A696B4D5-111E-4151-8180-65984B2DAD9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Controllers.Tests", "Tests\TizianaTerenzi.Controllers.Tests\TizianaTerenzi.Controllers.Tests.csproj", "{A696B4D5-111E-4151-8180-65984B2DAD9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{6C952486-8A56-4BDC-A7B1-1903F7C4A2AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +142,7 @@ Global
 		{952FA8A6-7BEB-419B-B8E6-20A1F590A7F3} = {7A731632-6714-44E2-A9E4-069EBA9E666C}
 		{C4C3FF64-5EAC-4EB3-AC77-62A98A2C2C6D} = {516E002B-9E6E-4456-B7F6-EAA353966DE6}
 		{A696B4D5-111E-4151-8180-65984B2DAD9C} = {7A731632-6714-44E2-A9E4-069EBA9E666C}
+		{6C952486-8A56-4BDC-A7B1-1903F7C4A2AA} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}
