@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Web.ViewModels.Votes
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class PostProductVoteInputModel
