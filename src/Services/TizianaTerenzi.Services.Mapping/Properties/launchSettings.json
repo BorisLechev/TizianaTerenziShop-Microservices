@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TizianaTerenzi.Services.Mapping": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51701;http://localhost:51702"
+    }
+  }
+}

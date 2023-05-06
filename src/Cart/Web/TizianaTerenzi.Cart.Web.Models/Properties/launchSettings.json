@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TizianaTerenzi.Cart.Web.Models": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51759;http://localhost:51760"
+    }
+  }
+}

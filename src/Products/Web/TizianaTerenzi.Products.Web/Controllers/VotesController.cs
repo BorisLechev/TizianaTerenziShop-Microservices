@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Votes;

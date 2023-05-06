@@ -42,9 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Data\TizianaTerenzi.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services\TizianaTerenzi.Services.csproj" />
-    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />

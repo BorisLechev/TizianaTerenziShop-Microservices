@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
+    <ProjectReference Include="..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
   </ItemGroup>

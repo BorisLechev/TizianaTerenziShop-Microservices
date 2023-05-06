@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Web\TizianaTerenzi.Web\TizianaTerenzi.Web.csproj" />
+    <ProjectReference Include="..\..\WebClient\TizianaTerenzi.WebClient\TizianaTerenzi.WebClient.csproj" />
   </ItemGroup>
 
 </Project>

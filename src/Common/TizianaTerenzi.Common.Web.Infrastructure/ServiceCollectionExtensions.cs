@@ -10,7 +10,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
-    using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.Common.Services.Identity;
 
     public static class ServiceCollectionExtensions
     {

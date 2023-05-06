@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Data\TizianaTerenzi.Data.csproj" />

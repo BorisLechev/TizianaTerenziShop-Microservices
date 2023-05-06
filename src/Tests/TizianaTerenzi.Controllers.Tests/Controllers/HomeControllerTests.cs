@@ -1,7 +1,7 @@
 namespace TizianaTerenzi.Controllers.Tests.Controllers
 {
     using MyTested.AspNetCore.Mvc;
-    using TizianaTerenzi.Web.Controllers;
+    using TizianaTerenzi.WebClient.Controllers;
     using Xunit;
 
     public class HomeControllerTests

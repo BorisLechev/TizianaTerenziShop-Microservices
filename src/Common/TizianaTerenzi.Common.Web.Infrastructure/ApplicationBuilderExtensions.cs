@@ -28,9 +28,9 @@
                     .AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod())
-                .UseResponseCompression()
                 .UseAuthentication()
-                .UseAuthorization();
+                .UseAuthorization()
+                .UseResponseCompression();
 
             return app;
         }

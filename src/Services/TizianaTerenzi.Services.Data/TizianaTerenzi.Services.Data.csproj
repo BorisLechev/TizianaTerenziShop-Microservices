@@ -23,8 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
-    <ProjectReference Include="..\..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
-    <ProjectReference Include="..\..\Web\TizianaTerenzi.Web.ViewModels\TizianaTerenzi.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\..\WebClient\TizianaTerenzi.Web.ViewModels\TizianaTerenzi.Web.ViewModels.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
   </ItemGroup>
 
