@@ -8,7 +8,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.WebClient.Controllers;
-    using TizianaTerenzi.Web.ViewModels.Chat;
+    using TizianaTerenzi.WebClient.ViewModels.Chat;
 
     [Authorize]
     [Area("Chat")]

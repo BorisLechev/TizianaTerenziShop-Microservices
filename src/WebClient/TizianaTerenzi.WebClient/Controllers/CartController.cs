@@ -12,7 +12,7 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Orders;
+    using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     [Authorize]
     public class CartController : BaseController

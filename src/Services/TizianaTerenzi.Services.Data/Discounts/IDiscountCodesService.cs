@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.DiscountCodes;
+    using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
 
     public interface IDiscountCodesService
     {

@@ -9,7 +9,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.Services.Messaging;
-    using TizianaTerenzi.Web.ViewModels.Contacts;
+    using TizianaTerenzi.WebClient.ViewModels.Contacts;
 
     public class ContactsController : BaseController
     {

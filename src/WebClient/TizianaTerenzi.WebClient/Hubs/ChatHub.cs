@@ -11,7 +11,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.Services.Data.Notifications;
-    using TizianaTerenzi.Web.ViewModels.Chat;
+    using TizianaTerenzi.WebClient.ViewModels.Chat;
 
     [Authorize]
     public class ChatHub : Hub

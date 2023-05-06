@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Votes;
+    using TizianaTerenzi.WebClient.ViewModels.Votes;
 
     public interface IProductVotesService
     {

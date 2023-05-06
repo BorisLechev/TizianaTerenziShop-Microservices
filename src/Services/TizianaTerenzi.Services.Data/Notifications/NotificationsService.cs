@@ -10,7 +10,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Notifications;
+    using TizianaTerenzi.WebClient.ViewModels.Notifications;
     using Z.EntityFramework.Plus;
 
     public class NotificationsService : INotificationsService

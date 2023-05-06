@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public interface IProductsService
     {

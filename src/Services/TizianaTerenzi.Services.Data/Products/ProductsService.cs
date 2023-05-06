@@ -11,7 +11,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
     using Z.EntityFramework.Plus;
 
     public class ProductsService : IProductsService

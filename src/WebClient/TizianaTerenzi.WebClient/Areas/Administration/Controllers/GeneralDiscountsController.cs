@@ -8,7 +8,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Data.Products;
-    using TizianaTerenzi.Web.ViewModels.GeneralDiscounts;
+    using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
 
     [ApiController]
     [Route("[area]/[controller]/[action]")]

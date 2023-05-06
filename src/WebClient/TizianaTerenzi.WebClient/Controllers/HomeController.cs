@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Web.ViewModels;
+    using TizianaTerenzi.WebClient.ViewModels;
 
     public class HomeController : BaseController
     {

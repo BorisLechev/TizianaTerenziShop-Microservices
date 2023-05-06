@@ -3,7 +3,7 @@
     using MyTested.AspNetCore.Mvc;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.WebClient.Controllers;
-    using TizianaTerenzi.Web.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
     using Xunit;
 
     public class ProductsControllerTests

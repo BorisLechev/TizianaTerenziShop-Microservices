@@ -7,7 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Emojis;
+    using TizianaTerenzi.WebClient.ViewModels.Emojis;
 
     public class EmojisService : IEmojisService
     {

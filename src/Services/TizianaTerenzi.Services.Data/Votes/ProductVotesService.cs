@@ -6,7 +6,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Votes;
+    using TizianaTerenzi.WebClient.ViewModels.Votes;
 
     public class ProductVotesService : IProductVotesService
     {

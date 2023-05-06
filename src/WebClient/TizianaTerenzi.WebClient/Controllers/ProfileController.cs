@@ -13,7 +13,7 @@
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Profile;
+    using TizianaTerenzi.WebClient.ViewModels.Profile;
 
     [Authorize]
     public class ProfileController : BaseController

@@ -12,7 +12,7 @@
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Services.Data.Discounts;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.GeneralDiscounts;
+    using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
     using Xunit;
 
     public class GeneralDiscountsServiceTests

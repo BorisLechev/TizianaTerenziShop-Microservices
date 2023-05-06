@@ -9,7 +9,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Services.Data.Discounts;
-    using TizianaTerenzi.Web.ViewModels.DiscountCodes;
+    using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
     using Xunit;
 
     public class DiscountCodesServiceTests

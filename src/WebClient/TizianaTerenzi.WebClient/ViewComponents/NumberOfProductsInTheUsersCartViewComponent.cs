@@ -8,7 +8,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Cart;
+    using TizianaTerenzi.WebClient.ViewModels.Cart;
 
     public class NumberOfProductsInTheUsersCartViewComponent : ViewComponent
     {

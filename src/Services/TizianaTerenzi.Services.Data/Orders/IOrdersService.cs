@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Orders;
+    using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     public interface IOrdersService
     {

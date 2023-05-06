@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Notifications;
+    using TizianaTerenzi.WebClient.ViewModels.Notifications;
 
     public interface INotificationsService
     {

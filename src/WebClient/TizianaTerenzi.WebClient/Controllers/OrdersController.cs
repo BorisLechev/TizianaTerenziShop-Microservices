@@ -10,7 +10,7 @@
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.PDF;
+    using TizianaTerenzi.WebClient.ViewModels.PDF;
 
     [Authorize]
     public class OrdersController : BaseController

@@ -11,7 +11,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Orders;
+    using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     [Authorize]
     [ApiController]

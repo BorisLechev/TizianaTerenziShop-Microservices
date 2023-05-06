@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public interface IWishlistService
     {

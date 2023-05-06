@@ -18,7 +18,7 @@
     using TizianaTerenzi.Services.Data.Profile;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
-    using TizianaTerenzi.Web.ViewModels.Profile;
+    using TizianaTerenzi.WebClient.ViewModels.Profile;
     using Xunit;
 
     public class ProfileServiceTests

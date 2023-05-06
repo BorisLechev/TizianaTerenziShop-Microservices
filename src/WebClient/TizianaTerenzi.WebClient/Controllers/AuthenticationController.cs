@@ -16,7 +16,7 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Authentication;
+    using TizianaTerenzi.WebClient.ViewModels.Authentication;
 
     public class AuthenticationController : BaseController
     {

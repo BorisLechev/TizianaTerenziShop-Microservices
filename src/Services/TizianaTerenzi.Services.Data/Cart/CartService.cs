@@ -11,7 +11,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Orders;
+    using TizianaTerenzi.WebClient.ViewModels.Orders;
     using Z.EntityFramework.Plus;
 
     public class CartService : ICartService

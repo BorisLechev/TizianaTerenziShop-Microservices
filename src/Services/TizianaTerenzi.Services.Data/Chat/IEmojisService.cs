@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Emojis;
+    using TizianaTerenzi.WebClient.ViewModels.Emojis;
 
     public interface IEmojisService
     {

@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Users;
-    using TizianaTerenzi.Web.ViewModels.Users;
+    using TizianaTerenzi.WebClient.ViewModels.Users;
 
     public class UsersController : AdministrationController
     {

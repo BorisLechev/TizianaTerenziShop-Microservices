@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Discounts;
-    using TizianaTerenzi.Web.ViewModels.DiscountCodes;
+    using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
 
     public class DiscountCodesController : AdministrationController
     {

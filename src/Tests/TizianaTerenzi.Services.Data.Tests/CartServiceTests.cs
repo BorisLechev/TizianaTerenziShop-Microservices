@@ -14,7 +14,7 @@
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Orders;
-    using TizianaTerenzi.Web.ViewModels.Orders;
+    using TizianaTerenzi.WebClient.ViewModels.Orders;
     using Xunit;
 
     public class CartServiceTests

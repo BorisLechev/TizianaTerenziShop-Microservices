@@ -7,7 +7,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Votes;
+    using TizianaTerenzi.WebClient.ViewModels.Votes;
 
     [Authorize]
     [ApiController]

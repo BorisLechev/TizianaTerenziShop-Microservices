@@ -9,7 +9,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Chat;
+    using TizianaTerenzi.WebClient.ViewModels.Chat;
     using Z.EntityFramework.Plus;
 
     public class ChatService : IChatService

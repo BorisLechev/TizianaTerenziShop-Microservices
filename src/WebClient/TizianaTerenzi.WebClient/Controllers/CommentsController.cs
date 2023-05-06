@@ -7,7 +7,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
-    using TizianaTerenzi.Web.ViewModels.Comments;
+    using TizianaTerenzi.WebClient.ViewModels.Comments;
 
     [Authorize]
     public class CommentsController : BaseController

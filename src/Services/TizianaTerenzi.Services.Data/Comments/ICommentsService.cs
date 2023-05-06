@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Comments;
+    using TizianaTerenzi.WebClient.ViewModels.Comments;
 
     public interface ICommentsService
     {

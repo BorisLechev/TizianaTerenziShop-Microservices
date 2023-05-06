@@ -16,7 +16,7 @@
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Profile;
+    using TizianaTerenzi.WebClient.ViewModels.Profile;
 
     public class ProfileService : IProfileService
     {

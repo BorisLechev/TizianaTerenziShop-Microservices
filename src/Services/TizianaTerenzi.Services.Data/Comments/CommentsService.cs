@@ -7,7 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Comments;
+    using TizianaTerenzi.WebClient.ViewModels.Comments;
     using Z.EntityFramework.Plus;
 
     public class CommentsService : ICommentsService

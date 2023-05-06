@@ -10,7 +10,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Users;
+    using TizianaTerenzi.WebClient.ViewModels.Users;
 
     public class UsersService : IUsersService
     {

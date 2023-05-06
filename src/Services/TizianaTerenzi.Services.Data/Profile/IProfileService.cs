@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Profile;
+    using TizianaTerenzi.WebClient.ViewModels.Profile;
 
     public interface IProfileService
     {

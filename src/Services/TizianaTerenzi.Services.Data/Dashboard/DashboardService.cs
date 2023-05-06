@@ -9,7 +9,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Web.ViewModels.Dashboard;
+    using TizianaTerenzi.WebClient.ViewModels.Dashboard;
 
     public class DashboardService : IDashboardService
     {

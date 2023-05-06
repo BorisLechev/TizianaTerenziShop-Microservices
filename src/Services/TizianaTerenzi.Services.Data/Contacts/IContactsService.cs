@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Contacts;
+    using TizianaTerenzi.WebClient.ViewModels.Contacts;
 
     public interface IContactsService
     {

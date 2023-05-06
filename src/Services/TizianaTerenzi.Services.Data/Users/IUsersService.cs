@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Users;
+    using TizianaTerenzi.WebClient.ViewModels.Users;
 
     public interface IUsersService
     {

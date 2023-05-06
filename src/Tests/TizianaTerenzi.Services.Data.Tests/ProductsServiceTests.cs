@@ -17,7 +17,7 @@
     using TizianaTerenzi.Services.Data.Notes;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
     using Xunit;
 
     public class ProductsServiceTests : BaseServiceTests

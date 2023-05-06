@@ -1,7 +1,7 @@
 ﻿namespace TizianaTerenzi.WebClient.ViewComponents
 {
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Web.ViewModels.Subscribe;
+    using TizianaTerenzi.WebClient.ViewModels.Subscribe;
 
     public class SubscribeNewsletterViewComponent : ViewComponent
     {

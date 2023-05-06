@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Web.ViewModels.Dashboard;
+    using TizianaTerenzi.WebClient.ViewModels.Dashboard;
 
     public interface IDashboardService
     {

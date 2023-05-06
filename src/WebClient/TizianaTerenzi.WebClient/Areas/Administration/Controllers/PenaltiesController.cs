@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.UserPenalties;
-    using TizianaTerenzi.Web.ViewModels.UserPenalties;
+    using TizianaTerenzi.WebClient.ViewModels.UserPenalties;
 
     public class PenaltiesController : AdministrationController
     {

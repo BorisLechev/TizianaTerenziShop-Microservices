@@ -57,7 +57,7 @@
     using TizianaTerenzi.Services.Scrapers;
     using TizianaTerenzi.Services.SlugGenerator;
     using TizianaTerenzi.WebClient.Hubs;
-    using TizianaTerenzi.Web.ViewModels;
+    using TizianaTerenzi.WebClient.ViewModels;
 
     public class Startup
     {

@@ -7,7 +7,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.Contacts;
+    using TizianaTerenzi.WebClient.ViewModels.Contacts;
 
     public class ContactsService : IContactsService
     {

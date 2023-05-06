@@ -35,8 +35,8 @@
     using TizianaTerenzi.Services.Messaging;
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.SlugGenerator;
-    using TizianaTerenzi.Web.ViewModels;
-    using TizianaTerenzi.Web.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
     using Z.EntityFramework.Extensions;
 
     public abstract class BaseServiceTests

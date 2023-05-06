@@ -8,7 +8,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
     using TizianaTerenzi.Services.Data.Comments;
-    using TizianaTerenzi.Web.ViewModels.Comments;
+    using TizianaTerenzi.WebClient.ViewModels.Comments;
     using Xunit;
 
     public class CommentsServiceTests

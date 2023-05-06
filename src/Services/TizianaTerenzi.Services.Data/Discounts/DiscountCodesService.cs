@@ -9,7 +9,7 @@
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Web.ViewModels.DiscountCodes;
+    using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
 
     public class DiscountCodesService : IDiscountCodesService
     {
