@@ -4,7 +4,7 @@
     using System.Linq;
 
     using AutoMapper;
-    using Ganss.XSS;
+    using Ganss.Xss;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.WebClient.ViewModels.Votes;
