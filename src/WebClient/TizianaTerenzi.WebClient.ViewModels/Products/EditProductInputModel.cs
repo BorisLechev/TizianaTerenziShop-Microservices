@@ -7,9 +7,9 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using TizianaTerenzi.Common.Web.Infrastructure.ValidationAttributes;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.WebClient.Infrastructure.ValidationAttributes;
 
     public class EditProductInputModel : IMapFrom<Product>, IHaveCustomMappings
     {
