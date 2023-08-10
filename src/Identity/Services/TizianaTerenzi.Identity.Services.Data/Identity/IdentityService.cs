@@ -93,6 +93,9 @@
 
                 var token = this.tokenGeneratorService.GenerateJwtBearerToken(user, userRoles);
 
+                //var response = new UserResponseModel(token);
+                //return Result<UserResponseModel>.SuccessWith(response);
+
                 return new UserResponseModel(token);
             }
             else
@@ -103,15 +106,15 @@
 
         public async Task<Result<ApplicationUser>> Register(RegisterUserInputModel userInput)
         {
-            var location = await this.locationService.GetLocationAsync();
-            var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
-
             var isUserNameExisting = await this.usersRepository
-                .AllAsNoTrackingWithDeleted()
-                .AnyAsync(u => u.UserName == userInput.UserName);
+                                            .AllAsNoTrackingWithDeleted()
+                                            .AnyAsync(u => u.UserName == userInput.UserName);
 
             if (isUserNameExisting == false)
             {
+                var location = await this.locationService.GetLocationAsync();
+                var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
+
                 var user = new ApplicationUser
                 {
                     UserName = userInput.UserName,
@@ -132,7 +135,7 @@
 
                     this.logger.LogInformation("User created a new account with password.");
 
-                    await this.signInManager.SignInAsync(user, isPersistent: false);
+                    //await this.signInManager.SignInAsync(user, isPersistent: false);
 
                     return Result<ApplicationUser>.SuccessWith(user);
                 }

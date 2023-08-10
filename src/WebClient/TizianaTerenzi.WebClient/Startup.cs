@@ -25,6 +25,8 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Stripe;
+    using TizianaTerenzi.Common.Services.Identity;
+    using TizianaTerenzi.Common.Web.Infrastructure;
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common;
     using TizianaTerenzi.Data.Common.Repositories;
@@ -56,7 +58,10 @@
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.Scrapers;
     using TizianaTerenzi.Services.SlugGenerator;
+    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Hubs;
+    using TizianaTerenzi.WebClient.Middlewares;
+    using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels;
 
     public class Startup
@@ -108,8 +113,9 @@
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                    //options.CheckConsentNeeded = context => true;
+                    options.CheckConsentNeeded = context => false;
+                    //options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
             services.Configure<CookieTempDataProviderOptions>(options =>
@@ -204,6 +210,9 @@
 
             services.AddSingleton(this.configuration);
 
+            services
+                .AddJwtTokenAuthentication(this.configuration);
+
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -212,6 +221,7 @@
             // Application services
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
+            services.AddScoped<ICurrentTokenService, CurrentTokenService>();
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<ISubscribeService, SubscribeService>();
             services.AddTransient<IProductsService, ProductsService>();
@@ -240,20 +250,19 @@
             services.AddTransient<ISlugGeneratorService, SlugGeneratorService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IUnicodeEmojiScraperService, UnicodeEmojiScraperService>();
+
+            services
+                .AddExternalService<IIdentityService>(this.configuration);
+
+            //services
+            //.AddRefitClient<IIdentityService>()
+            //    .WithConfiguration(serviceEndpoints.Dealers);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-
-            // Seed data on application startup
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            }
 
             if (env.IsDevelopment())
             {
@@ -277,7 +286,8 @@
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseJwtCookieAuthenticationMiddleware();
+
             app.UseAuthorization();
 
             app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);

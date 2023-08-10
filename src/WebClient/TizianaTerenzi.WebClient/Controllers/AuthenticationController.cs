@@ -4,6 +4,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -64,10 +65,11 @@
         [Route("/logout")]
         public async Task<IActionResult> Logout(string returnUrl = null)
         {
-            await this.signInManager.SignOutAsync();
+            //await this.signInManager.SignOutAsync();
+            this.Response.Cookies.Delete(InfrastructureConstants.AuthenticationCookieName);
             this.logger.LogInformation("User logged out.");
 
-            await this.cartService.DeleteAllProductsInTheCartByUserIdAsync(this.userManager.GetUserId(this.User));
+            //await this.cartService.DeleteAllProductsInTheCartByUserIdAsync(this.userManager.GetUserId(this.User));
 
             if (returnUrl != null)
             {

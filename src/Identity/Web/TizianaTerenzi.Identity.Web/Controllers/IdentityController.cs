@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Identity.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Identity.Services.Data.Identity;
     using TizianaTerenzi.Identity.Web.Models.Identity;
@@ -16,7 +17,7 @@
 
         [HttpPost]
         [Route(nameof(Register))]
-        public async Task<IActionResult> Register(RegisterUserInputModel inputModel)
+        public async Task<ActionResult<UserResponseModel>> Register(RegisterUserInputModel inputModel)
         {
             var result = await this.identityService.Register(inputModel);
 
@@ -25,7 +26,16 @@
                 return this.BadRequest(result.Errors);
             }
 
-            return this.Ok();
+            var loginUserInputModel = new LoginUserInputModel
+            {
+                EmailOrUserName = inputModel.Email,
+                Password = inputModel.Password,
+                RememberMe = true,
+            };
+
+            var loginResult = await this.Login(loginUserInputModel);
+
+            return loginResult.Value;
         }
 
         [HttpPost]
@@ -37,6 +47,7 @@
             if (!result.Succeeded)
             {
                 return this.BadRequest(result.Errors);
+                //return new UserResponseModel(null);
             }
 
             return new UserResponseModel(result.Data.Token);

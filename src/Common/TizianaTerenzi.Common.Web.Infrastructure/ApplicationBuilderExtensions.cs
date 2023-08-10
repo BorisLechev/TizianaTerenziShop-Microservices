@@ -30,7 +30,8 @@
                     .AllowAnyMethod())
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseResponseCompression();
+                .UseResponseCompression()
+                .UseStaticFiles();
 
             return app;
         }
@@ -40,7 +41,7 @@
             using var serviceScope = app.ApplicationServices.CreateScope();
             var serviceProvider = serviceScope.ServiceProvider;
             var dbContext = serviceProvider.GetRequiredService<DbContext>();
-			
+
             dbContext.Database.Migrate();
 
             return app;
@@ -52,7 +53,7 @@
             // Seed data on application startup
             using var serviceScope = app.ApplicationServices.CreateScope();
             var serviceProvider = serviceScope.ServiceProvider;
-			
+
             var dbContext = serviceScope.ServiceProvider.GetRequiredService<TDbContext>();
 
             if (dbContext == null)

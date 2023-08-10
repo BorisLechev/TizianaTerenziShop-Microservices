@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.WebClient.ViewModels.Contacts
 {
     using System.ComponentModel.DataAnnotations;
+
     using TizianaTerenzi.Common.Web.Infrastructure.ValidationAttributes;
 
     public class ContactMessageInputModel

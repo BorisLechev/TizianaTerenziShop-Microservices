@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.WebClient.Areas.Identity.Pages.Account
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -7,6 +8,7 @@
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,6 +20,8 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.WebClient.Infrastructure.ValidationAttributes;
+    using TizianaTerenzi.WebClient.Services.Identity;
+    using TizianaTerenzi.WebClient.ViewModels.Identity;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -29,6 +33,7 @@
         private readonly ICountriesService countriesService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
+        private readonly IIdentityService identityService;
 
         public RegisterModel(
             ILocationService locationService,
@@ -37,7 +42,8 @@
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
             IDeletableEntityRepository<ApplicationUser> usersRepository,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            IIdentityService identityService)
         {
             this.locationService = locationService;
             this.countriesService = countriesService;
@@ -46,6 +52,7 @@
             this.roleManager = roleManager;
             this.usersRepository = usersRepository;
             this.logger = logger;
+            this.identityService = identityService;
         }
 
         [BindProperty]
@@ -104,49 +111,34 @@
 
             if (this.ModelState.IsValid)
             {
-                var location = await this.locationService.GetLocationAsync();
-                var countryId = await this.countriesService.GetCountryIdByNameAsync(location.CountryName);
-
-                var isUserNameExisting = await this.usersRepository
-                    .AllAsNoTrackingWithDeleted()
-                    .AnyAsync(u => u.UserName == this.Input.UserName);
-
-                if (isUserNameExisting == false)
+                var registerInput = new RegisterUserInputModel
                 {
-                    var user = new ApplicationUser
-                    {
-                        UserName = this.Input.UserName,
-                        Email = this.Input.Email,
-                        FirstName = this.Input.FirstName,
-                        LastName = this.Input.LastName,
-                        CountryId = countryId,
-                        Town = location.Town,
-                    };
+                    Email = this.Input.Email,
+                    UserName = this.Input.UserName,
+                    FirstName = this.Input.FirstName,
+                    LastName = this.Input.LastName,
+                    Password = this.Input.Password,
+                    ConfirmPassword = this.Input.ConfirmPassword,
+                };
 
-                    var result = await this.userManager.CreateAsync(user, this.Input.Password);
+                var result = await this.identityService.Register(registerInput);
 
-                    if (result.Succeeded)
-                    {
-                        ApplicationRole role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
-
-                        await this.userManager.AddToRoleAsync(user, role.Name);
-
-                        this.logger.LogInformation("User created a new account with password.");
-
-                        await this.signInManager.SignInAsync(user, isPersistent: false);
-
-                        return this.LocalRedirect(returnUrl);
-                    }
-
-                    foreach (var error in result.Errors)
-                    {
-                        this.ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-                else
+                if (!string.IsNullOrWhiteSpace(result.Token))
                 {
-                    this.ModelState.AddModelError(string.Empty, NotificationMessages.UsernameIsTaken);
+                    this.Response.Cookies.Append(
+                        InfrastructureConstants.AuthenticationCookieName,
+                        result.Token,
+                        new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            MaxAge = TimeSpan.FromDays(7),
+                        });
+
+                    return this.LocalRedirect(returnUrl);
                 }
+
+                this.ModelState.AddModelError(string.Empty, "Invalid register attempt.");
             }
 
             // If we got this far, something failed, redisplay form

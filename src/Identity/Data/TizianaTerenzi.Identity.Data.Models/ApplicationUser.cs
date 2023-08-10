@@ -45,15 +45,15 @@
         [MaxLength(200)]
         public string? ReasonToBeBlocked { get; set; }
 
-        public string Town { get; set; }
+        public string? Town { get; set; }
 
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
 
         public int? CountryId { get; set; }
 
         public virtual Country Country { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         //public virtual ICollection<Order> Orders { get; set; }
 

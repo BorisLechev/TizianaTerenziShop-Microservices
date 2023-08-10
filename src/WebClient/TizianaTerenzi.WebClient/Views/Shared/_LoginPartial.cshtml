@@ -6,7 +6,7 @@
 @inject IViewLocalizer Localizer
 
 <ul class="navbar-nav">
-    @if (this.SignInManager.IsSignedIn(this.User))
+    @if (this.User.IsUserAuthenticated())
     {
         <li class="nav-item">
             <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">

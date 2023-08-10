@@ -1,33 +1,40 @@
 ﻿namespace TizianaTerenzi.WebClient.Areas.Identity.Pages.Account
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.WebClient.Infrastructure.ValidationAttributes;
+    using TizianaTerenzi.WebClient.Services.Identity;
+    using TizianaTerenzi.WebClient.ViewModels.Identity;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IIdentityService identityService;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
 
         public LoginModel(
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IIdentityService identityService)
         {
             this.userManager = userManager;
+            this.identityService = identityService;
             this.signInManager = signInManager;
             this.logger = logger;
         }
@@ -80,47 +87,30 @@
         {
             returnUrl ??= this.Url.Content("~/");
 
-            if (this.Input.EmailOrUserName.IndexOf('@') > -1)
-            {
-                // Validate email format
-                string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-                                    @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
-                                    @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-                Regex re = new Regex(emailRegex);
-
-                if (!re.IsMatch(this.Input.EmailOrUserName))
-                {
-                    this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                }
-            }
-
             if (this.ModelState.IsValid)
             {
-                var userName = this.Input.EmailOrUserName;
 
-                if (userName.IndexOf('@') > -1)
+                var loginInputModel = new LoginUserInputModel
                 {
-                    var user = await this.userManager.FindByEmailAsync(this.Input.EmailOrUserName);
+                    EmailOrUserName = this.Input.EmailOrUserName,
+                    Password = this.Input.Password,
+                    RememberMe = this.Input.RememberMe,
+                };
 
-                    if (user == null)
-                    {
-                        this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                var result = await this.identityService.Login(loginInputModel);
 
-                        return this.Page();
-                    }
-                    else
-                    {
-                        userName = user.UserName;
-                    }
-                }
-
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await this.signInManager.PasswordSignInAsync(userName, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false);
-
-                if (result.Succeeded)
+                if (!string.IsNullOrWhiteSpace(result.Token))
+                //if (result.Succeeded)
                 {
-                    this.logger.LogInformation("User logged in.");
+                    this.Response.Cookies.Append(
+                        InfrastructureConstants.AuthenticationCookieName,
+                        result.Token,
+                        new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            MaxAge = TimeSpan.FromDays(7),
+                        });
 
                     return this.LocalRedirect(returnUrl);
                 }
