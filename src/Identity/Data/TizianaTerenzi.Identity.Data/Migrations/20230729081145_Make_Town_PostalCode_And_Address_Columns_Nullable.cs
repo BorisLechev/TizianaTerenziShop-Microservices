@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
+﻿#nullable disable
 
 namespace TizianaTerenzi.Identity.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     /// <inheritdoc />
     public partial class Make_Town_PostalCode_And_Address_Columns_Nullable : Migration
     {
