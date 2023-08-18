@@ -15,7 +15,6 @@
         }
 
         [HttpPost]
-        [Route(nameof(Register))]
         public async Task<ActionResult<UserResponseModel>> Register(RegisterUserInputModel inputModel)
         {
             var result = await this.identityService.Register(inputModel);
@@ -38,7 +37,6 @@
         }
 
         [HttpPost]
-        [Route(nameof(Login))]
         public async Task<ActionResult<UserResponseModel>> Login(LoginUserInputModel inputModel)
         {
             var result = await this.identityService.Login(inputModel);
