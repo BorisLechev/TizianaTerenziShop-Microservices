@@ -2,7 +2,7 @@
 {
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
-    using TizianaTerenzi.Common.Web.Infrastructure;
+    using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Identity.Data;
     using TizianaTerenzi.Identity.Data.Repositories;
     using TizianaTerenzi.Identity.Data.Seeding;

@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Products;
@@ -29,7 +30,8 @@
             this.productVotesService = productVotesService;
         }
 
-        public async Task<ActionResult<ProductsListViewModel>> All(string search, ProductSorting sorting, int page = 1)
+        [HttpGet]
+        public async Task<ActionResult<ProductsListViewModel>> All(ProductSorting sorting, string search = null, int page = 1)
         {
             page = Math.Max(1, page);
             var skip = (page - 1) * ItemsPerPage;

@@ -34,9 +34,9 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\..\Products\Web\TizianaTerenzi.Products.Web.Models\TizianaTerenzi.Products.Web.Models.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Common.Data\TizianaTerenzi.Common.Data.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Common.Services\TizianaTerenzi.Common.Services.csproj" />
-    <ProjectReference Include="..\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
   </ItemGroup>
 
 </Project>

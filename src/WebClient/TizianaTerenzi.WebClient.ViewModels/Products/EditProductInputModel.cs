@@ -7,7 +7,7 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using TizianaTerenzi.Common.Web.Infrastructure.ValidationAttributes;
+    using TizianaTerenzi.Common.Web.ValidationAttributes;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Mapping;
 

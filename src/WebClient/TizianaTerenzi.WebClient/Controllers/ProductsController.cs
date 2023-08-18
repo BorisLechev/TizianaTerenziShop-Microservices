@@ -1,58 +1,34 @@
 ﻿namespace TizianaTerenzi.WebClient.Controllers
 {
-    using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using TizianaTerenzi.Data.Common.Repositories;
-    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public class ProductsController : BaseController
     {
-        private const int ItemsPerPage = 6;
+        private readonly TizianaTerenzi.WebClient.Services.Products.IProductsService productsService;
 
-        private readonly IProductsService productsService;
+        private readonly IProductsService productsServiceOld;
 
         private readonly IProductVotesService productVotesService;
 
-        private readonly IDeletableEntityRepository<Product> productsRepository;
-
         public ProductsController(
-            IDeletableEntityRepository<Product> productsRepository,
-            IProductsService productsService,
+            TizianaTerenzi.WebClient.Services.Products.IProductsService productsService,
+            IProductsService productsServiceOld,
             IProductVotesService productVotesService)
         {
             this.productsService = productsService;
+            this.productsServiceOld = productsServiceOld;
             this.productVotesService = productVotesService;
-            this.productsRepository = productsRepository;
         }
 
         public async Task<IActionResult> All(string search, ProductSorting sorting, int page = 1)
         {
-            page = Math.Max(1, page);
-            var skip = (page - 1) * ItemsPerPage;
-
-            var query = this.productsRepository.AllAsNoTracking();
-            var words = search?
-                        .Split(' ')
-                        .Select(x => x.Trim())
-                        .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 2)
-                        .ToList();
-
-            if (words != null)
-            {
-                foreach (var word in words)
-                {
-                    query = query.Where(c => EF.Functions.FreeText(c.SearchText, word));
-                }
-            }
-
-            var productsViewModel = await this.productsService.GetAllProductsAsync(query, search, sorting, page, ItemsPerPage, skip);
+            var productsViewModel = await this.productsService.All(search, sorting, page);
 
             return this.View(productsViewModel);
         }
@@ -64,7 +40,7 @@
                 this.NotFound();
             }
 
-            var productDetailsViewModel = await this.productsService.GetProductByIdAsync<ProductDetailsViewModel>(id);
+            var productDetailsViewModel = await this.productsServiceOld.GetProductByIdAsync<ProductDetailsViewModel>(id);
 
             if (productDetailsViewModel == null)
             {
@@ -108,7 +84,7 @@
             productDetailsViewModel.AverageVote = averageVotes;
             productDetailsViewModel.NumberOfVoters = numberOfVoters;
 
-            var relatedProducts = await this.productsService.GetRandomRelatedProductsAsync(id);
+            var relatedProducts = await this.productsServiceOld.GetRandomRelatedProductsAsync(id);
             productDetailsViewModel.RelatedProducts = relatedProducts;
 
             return this.View(productDetailsViewModel);

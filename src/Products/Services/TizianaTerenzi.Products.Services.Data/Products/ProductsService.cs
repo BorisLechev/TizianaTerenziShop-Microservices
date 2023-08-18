@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Notes;
@@ -100,10 +101,10 @@
             };
 
             var products = await query
-                        .Skip(skip)
-                        .Take(take)
-                        .To<ProductInListViewModel>()
-                        .ToListAsync();
+                                .Skip(skip)
+                                .Take(take)
+                                .To<ProductInListViewModel>()
+                                .ToListAsync();
 
             var productsCount = await query.CountAsync();
 

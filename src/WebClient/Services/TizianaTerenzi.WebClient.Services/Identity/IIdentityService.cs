@@ -1,7 +1,6 @@
 ﻿namespace TizianaTerenzi.WebClient.Services.Identity
 {
     using Refit;
-    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
 
     public interface IIdentityService

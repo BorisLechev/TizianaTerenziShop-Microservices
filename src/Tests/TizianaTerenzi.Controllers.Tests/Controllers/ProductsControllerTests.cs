@@ -1,7 +1,7 @@
 ﻿namespace TizianaTerenzi.Controllers.Tests.Controllers
 {
     using MyTested.AspNetCore.Mvc;
-    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.WebClient.Controllers;
     using TizianaTerenzi.WebClient.ViewModels.Products;
     using Xunit;

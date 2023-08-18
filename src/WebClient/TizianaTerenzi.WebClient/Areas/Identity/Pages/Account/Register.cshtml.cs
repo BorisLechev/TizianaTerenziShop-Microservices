@@ -12,7 +12,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Data.Common.Repositories;

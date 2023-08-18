@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Web.Models.Products;
 

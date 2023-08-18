@@ -1,6 +1,7 @@
-﻿namespace TizianaTerenzi.Common.Web.Infrastructure
+﻿namespace TizianaTerenzi.Common.Web.Infrastructure.Extensions
 {
     using System;
+    using System.Reflection;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,8 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common.Data.Seeding;
+    using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Products.Web.Models.Products;
 
     public static class ApplicationBuilderExtensions
     {
@@ -16,6 +19,8 @@
             this IApplicationBuilder app,
             IWebHostEnvironment env)
         {
+            ConfigureAutoMapper();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,6 +89,11 @@
             .GetResult();
 
             return app;
+        }
+
+        private static void ConfigureAutoMapper()
+        {
+            AutoMapperConfig.RegisterMappings(typeof(ProductInListViewModel).GetTypeInfo().Assembly);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using TizianaTerenzi.Common.Web.Infrastructure.ValidationAttributes;
+    using TizianaTerenzi.Common.Web.ValidationAttributes;
 
     public class ContactMessageInputModel
     {

@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Common.Web.Infrastructure
+﻿namespace TizianaTerenzi.Common.Web.Infrastructure.Extensions
 {
     using System.IO.Compression;
     using System.Text;

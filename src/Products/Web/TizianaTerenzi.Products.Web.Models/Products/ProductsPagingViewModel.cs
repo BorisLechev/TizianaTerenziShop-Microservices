@@ -1,7 +1,7 @@
 ﻿namespace TizianaTerenzi.Products.Web.Models.Products
 {
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Web.WebModels;
-    using TizianaTerenzi.Products.Data.Models;
 
     public class ProductsPagingViewModel : BasePagingViewModel
     {

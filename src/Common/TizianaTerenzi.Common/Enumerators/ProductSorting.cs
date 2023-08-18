@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Products.Data.Models
+﻿namespace TizianaTerenzi.Common.Enumerators
 {
     public enum ProductSorting
     {

@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Common.Web.Infrastructure.ValidationAttributes
+﻿namespace TizianaTerenzi.Common.Web.ValidationAttributes
 {
     using Microsoft.AspNetCore.Authorization;
 

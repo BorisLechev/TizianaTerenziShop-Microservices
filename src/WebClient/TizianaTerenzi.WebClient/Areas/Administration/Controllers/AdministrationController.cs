@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
     using Refit;
-    using TizianaTerenzi.Common.Web.Infrastructure.ValidationAttributes;
+    using TizianaTerenzi.Common.Web.ValidationAttributes;
     using TizianaTerenzi.WebClient.Controllers;
 
     [AuthorizeAdministrator]

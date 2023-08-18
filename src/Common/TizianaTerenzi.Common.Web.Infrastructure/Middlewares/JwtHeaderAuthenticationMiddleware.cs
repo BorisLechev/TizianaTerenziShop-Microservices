@@ -1,9 +1,10 @@
-﻿namespace TizianaTerenzi.Common.Web.Infrastructure
+﻿namespace TizianaTerenzi.Common.Web.Infrastructure.Middlewares
 {
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services.Identity;
 
     public class JwtHeaderAuthenticationMiddleware
@@ -24,7 +25,7 @@
                 currentTokenService.Set(token);
             }
 
-            await this.next(context);
+            await next(context);
         }
     }
 

@@ -4,7 +4,6 @@
     using System.Globalization;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using System.Reflection;
     using System.Security.Claims;
     using System.Text.Json;
 
@@ -26,13 +25,12 @@
     using Microsoft.Extensions.Options;
     using Stripe;
     using TizianaTerenzi.Common.Services.Identity;
-    using TizianaTerenzi.Common.Web.Infrastructure;
+    using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Data;
     using TizianaTerenzi.Data.Common;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Data.Repositories;
-    using TizianaTerenzi.Data.Seeding;
     using TizianaTerenzi.Services.Cloudinary;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Chat;
@@ -53,7 +51,6 @@
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.Services.Location;
-    using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.Services.Messaging;
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.Scrapers;
@@ -62,7 +59,6 @@
     using TizianaTerenzi.WebClient.Hubs;
     using TizianaTerenzi.WebClient.Middlewares;
     using TizianaTerenzi.WebClient.Services.Identity;
-    using TizianaTerenzi.WebClient.ViewModels;
 
     public class Startup
     {
@@ -224,7 +220,7 @@
             services.AddScoped<ICurrentTokenService, CurrentTokenService>();
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<ISubscribeService, SubscribeService>();
-            services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<TizianaTerenzi.Services.Data.Products.IProductsService, ProductsService>();
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IDiscountCodesService, DiscountCodesService>();
             services.AddTransient<IOrderStatusesService, OrderStatusesService>();
@@ -252,7 +248,8 @@
             services.AddTransient<IUnicodeEmojiScraperService, UnicodeEmojiScraperService>();
 
             services
-                .AddExternalService<IIdentityService>(this.configuration);
+                .AddExternalService<IIdentityService>(this.configuration)
+                .AddExternalService<TizianaTerenzi.WebClient.Services.Products.IProductsService>(this.configuration);
 
             //services
             //.AddRefitClient<IIdentityService>()
@@ -262,8 +259,6 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

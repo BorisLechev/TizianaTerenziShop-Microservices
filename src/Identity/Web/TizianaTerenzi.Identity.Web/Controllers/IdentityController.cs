@@ -1,7 +1,6 @@
 ﻿namespace TizianaTerenzi.Identity.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Identity.Services.Data.Identity;
     using TizianaTerenzi.Identity.Web.Models.Identity;

@@ -2,7 +2,7 @@ namespace TizianaTerenzi.Products.Web
 {
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
-    using TizianaTerenzi.Common.Web.Infrastructure;
+    using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Products.Data;
     using TizianaTerenzi.Products.Data.Repositories;
     using TizianaTerenzi.Products.Data.Seeding;
