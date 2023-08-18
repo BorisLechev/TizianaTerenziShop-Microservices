@@ -8,5 +8,8 @@
     {
         [Get("/Products/All")]
         Task<ProductsListViewModel> All([Query] string search, ProductSorting sorting, int page = 1);
+
+        [Get("/Products/Details")]
+        Task<ProductDetailsViewModel> Details(int id);
     }
 }

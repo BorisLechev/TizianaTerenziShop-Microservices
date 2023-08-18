@@ -56,6 +56,7 @@
             return productsViewModel;
         }
 
+        [HttpGet]
         public async Task<ActionResult<ProductDetailsViewModel>> Details(int id)
         {
             if (id <= 0)
