@@ -5,40 +5,23 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Comments;
-    using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Comments;
 
     [Authorize]
     public class CommentsController : BaseController
     {
-        private readonly ICommentsService commentsService;
+        private readonly IProductsService productsService;
 
-        public CommentsController(ICommentsService commentsService)
+        public CommentsController(IProductsService productsService)
         {
-            this.commentsService = commentsService;
+            this.productsService = productsService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
         {
-            var parentId = inputModel.ParentId == 0 ? null : inputModel.ParentId;
-            inputModel.ParentId = parentId;
-
-            // security
-            if (parentId.HasValue)
-            {
-                var isInProductId = await this.commentsService.IsInProductIdAsync(parentId.Value, inputModel.ProductId);
-
-                if (isInProductId == false)
-                {
-                    return this.Forbid();
-                }
-            }
-
-            var userId = this.User.GetUserId();
-
-            var result = await this.commentsService.CreateAsync(inputModel, userId);
+            var result = await this.productsService.CreateProductComment(inputModel);
 
             if (result == false)
             {

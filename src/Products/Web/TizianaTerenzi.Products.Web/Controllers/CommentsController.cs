@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
-    using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Services.Data.Comments;
     using TizianaTerenzi.Products.Web.Models.Comments;
@@ -13,14 +12,11 @@
     public class CommentsController : ApiController
     {
         private readonly ICommentsService commentsService;
-        private readonly ICurrentUserService currentUserService;
 
         public CommentsController(
-            ICommentsService commentsService,
-            ICurrentUserService currentUserService)
+            ICommentsService commentsService)
         {
             this.commentsService = commentsService;
-            this.currentUserService = currentUserService;
         }
 
         [HttpPost]
@@ -40,7 +36,7 @@
                 }
             }
 
-            var userId = this.currentUserService.UserId;
+            var userId = this.User.GetUserId();
 
             var result = await this.commentsService.CreateAsync(inputModel, userId);
 

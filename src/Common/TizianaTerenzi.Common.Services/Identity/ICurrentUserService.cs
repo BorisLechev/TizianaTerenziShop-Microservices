@@ -4,6 +4,10 @@
     {
         string UserId { get; }
 
+        string Username { get; }
+
+        bool IsUserAuthenticated { get; }
+
         bool IsAdministrator { get; }
     }
 }

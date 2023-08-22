@@ -2,6 +2,8 @@
 {
     using Refit;
     using TizianaTerenzi.Common.Enumerators;
+    using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.WebClient.ViewModels.Comments;
     using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public interface IProductsService
@@ -11,5 +13,8 @@
 
         [Get("/Products/Details")]
         Task<ProductDetailsViewModel> Details(int id);
+
+        [Post("/Comments/Create")]
+        Task<Result> CreateProductComment(CreateCommentInputModel inputModel);
     }
 }

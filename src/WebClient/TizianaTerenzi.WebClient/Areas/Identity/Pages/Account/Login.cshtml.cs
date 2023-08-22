@@ -14,8 +14,8 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Web.ValidationAttributes;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.WebClient.Infrastructure.ValidationAttributes;
     using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
 

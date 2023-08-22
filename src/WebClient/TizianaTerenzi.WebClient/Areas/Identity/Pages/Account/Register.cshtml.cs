@@ -14,11 +14,11 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Web.ValidationAttributes;
     using TizianaTerenzi.Data.Common.Repositories;
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Location;
-    using TizianaTerenzi.WebClient.Infrastructure.ValidationAttributes;
     using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
 

@@ -17,10 +17,14 @@
                 throw new InvalidOperationException("This request does not have an authenticated user.");
             }
 
-            this.UserId = this.user.FindFirstValue(ClaimTypes.NameIdentifier);
+            this.UserId = this.user.GetUserId();
         }
 
         public string UserId { get; }
+
+        public string Username => this.user.GetUserName();
+
+        public bool IsUserAuthenticated => this.user.IsUserAuthenticated();
 
         public bool IsAdministrator => this.user.IsAdministrator();
     }

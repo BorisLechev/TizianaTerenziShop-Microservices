@@ -227,7 +227,7 @@
             services.AddTransient<INotesService, NotesService>();
             services.AddTransient<IProductTypesService, ProductTypesService>();
             services.AddTransient<IFragranceGroupsService, FragranceGroupsService>();
-            services.AddTransient<ICommentsService, CommentsService>();
+            services.AddTransient<TizianaTerenzi.Services.Data.Comments.ICommentsService, CommentsService>();
             services.AddTransient<ICommentVotesService, CommentVotesService>();
             services.AddTransient<IProfileService, ProfileService>();
             services.AddTransient<IOrdersService, OrdersService>();
