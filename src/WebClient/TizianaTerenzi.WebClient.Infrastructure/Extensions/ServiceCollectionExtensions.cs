@@ -1,10 +1,13 @@
 ﻿namespace TizianaTerenzi.Web.Infrastructure.Extensions
 {
     using System;
-
+    using System.Net.Http.Headers;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Refit;
+    using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.WebClient.Services;
 
     public static class ServiceCollectionExtensions
@@ -32,7 +35,27 @@
 
             services
                 .AddRefitClient<TService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints[serviceName]));
+                .ConfigureHttpClient((serviceProvider, client) =>
+                {
+                    client.BaseAddress = new Uri(serviceEndpoints[serviceName]);
+
+                    var requestServices = serviceProvider
+                        .GetService<IHttpContextAccessor>()
+                        ?.HttpContext
+                        .RequestServices;
+
+                    var currentToken = requestServices
+                        ?.GetService<ICurrentTokenService>()
+                        ?.Get();
+
+                    if (currentToken == null)
+                    {
+                        return;
+                    }
+
+                    var authorizationHeader = new AuthenticationHeaderValue(InfrastructureConstants.AuthorizationHeaderValuePrefix, currentToken);
+                    client.DefaultRequestHeaders.Authorization = authorizationHeader;
+                });
 
             return services;
         }

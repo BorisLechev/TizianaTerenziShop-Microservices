@@ -4,7 +4,6 @@
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
-    using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services.Identity;
 
     public class JwtHeaderAuthenticationMiddleware
@@ -25,13 +24,13 @@
                 currentTokenService.Set(token);
             }
 
-            await next(context);
+            await this.next(context);
         }
     }
 
     public static class JwtHeaderAuthenticationMiddlewareExtensions
     {
-        public static IApplicationBuilder UseJwtHeaderAuthentication(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseJwtHeaderAuthenticationMiddleware(this IApplicationBuilder builder)
         {
             return builder
                     .UseMiddleware<JwtHeaderAuthenticationMiddleware>()
