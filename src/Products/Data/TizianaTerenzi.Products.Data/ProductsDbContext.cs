@@ -52,6 +52,7 @@
             bool acceptAllChangesOnSuccess,
             CancellationToken cancellationToken = default)
         {
+            this.ApplyAuditInfoRules();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
