@@ -4,25 +4,25 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Votes;
 
     [Authorize]
     [ApiController]
     public class VotesController : BaseController
     {
-        private readonly ICommentVotesService commentVotesService;
-
         private readonly IProductVotesService productVotesService;
 
+        private readonly IProductsService productsService;
+
         public VotesController(
-            ICommentVotesService commentVotesService,
-            IProductVotesService productVotesService)
+            IProductVotesService productVotesService,
+            IProductsService productsService)
         {
-            this.commentVotesService = commentVotesService;
             this.productVotesService = productVotesService;
+            this.productsService = productsService;
         }
 
         /// POST /votes/comment/post
@@ -32,20 +32,14 @@
         [Route("votes/comment/post")]
         public async Task<ActionResult<CommentVoteResponseModel>> Vote(PostCommentVoteInputModel inputModel)
         {
-            var userId = this.User.GetUserId();
+            var result = await this.productsService.VoteForComment(inputModel);
 
-            var result = await this.commentVotesService.VoteAsync(inputModel.CommentId, userId);
-
-            if (result == false)
+            if (!result.Succeeded)
             {
                 return this.BadRequest();
             }
 
-            var votesCount = await this.commentVotesService.GetVotesAsync(inputModel.CommentId);
-            var vote = await this.commentVotesService.GetVoteAsync(inputModel.CommentId, userId);
-            var isUpVoted = userId == vote.UserId && vote.Type == CommentVoteType.UpVote;
-
-            return new CommentVoteResponseModel { VotesCount = votesCount, IsUpVoted = isUpVoted };
+            return result.Data;
         }
 
         [HttpPost]

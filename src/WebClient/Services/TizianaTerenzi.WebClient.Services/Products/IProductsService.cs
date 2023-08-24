@@ -5,6 +5,7 @@
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Comments;
     using TizianaTerenzi.WebClient.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Votes;
 
     public interface IProductsService
     {
@@ -16,5 +17,8 @@
 
         [Post("/Comments/Create")]
         Task<Result> CreateProductComment(CreateCommentInputModel inputModel);
+
+        [Post("/Votes/VoteForComment")]
+        Task<Result<CommentVoteResponseModel>> VoteForComment(PostCommentVoteInputModel inputModel);
     }
 }

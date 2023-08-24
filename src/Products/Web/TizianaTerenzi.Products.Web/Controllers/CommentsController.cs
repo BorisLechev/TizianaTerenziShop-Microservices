@@ -20,7 +20,7 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult<Result>> Create(CreateCommentInputModel inputModel)
+        public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
         {
             var parentId = inputModel.ParentId == 0 ? null : inputModel.ParentId;
             inputModel.ParentId = parentId;
@@ -32,7 +32,7 @@
 
                 if (isInProductId == false)
                 {
-                    return this.Forbid();
+                    return this.BadRequest(Result.Failure(NotificationMessages.CreateCommentError));
                 }
             }
 
@@ -42,10 +42,10 @@
 
             if (result == false)
             {
-                return Result.Failure(NotificationMessages.CreateCommentError);
+                return this.BadRequest(Result.Failure(NotificationMessages.CreateCommentError));
             }
 
-            return Result.Success(NotificationMessages.CreateCommentSuccessfully);
+            return this.Ok(Result.Success(NotificationMessages.CreateCommentSuccessfully));
         }
     }
 }

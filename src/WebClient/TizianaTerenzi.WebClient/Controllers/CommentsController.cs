@@ -23,7 +23,7 @@
         {
             var result = await this.productsService.CreateProductComment(inputModel);
 
-            if (result == false)
+            if (!result)
             {
                 this.Error(NotificationMessages.CreateCommentError);
 
