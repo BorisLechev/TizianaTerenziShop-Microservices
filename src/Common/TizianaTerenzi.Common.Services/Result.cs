@@ -1,6 +1,5 @@
 ﻿namespace TizianaTerenzi.Common.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -10,16 +9,21 @@
     {
         private readonly List<string> errors;
 
-        private readonly string? succeessMessage;
+        private readonly string? successMessage;
 
         public Result(bool succeeded, List<string> errors, string? succeessMessage = null)
         {
             this.Succeeded = succeeded;
-            this.succeessMessage = succeessMessage;
+            this.successMessage = succeessMessage;
             this.errors = errors;
         }
 
         public bool Succeeded { get; }
+
+        public string? SucceessMessage
+            => this.Succeeded
+                ? this.successMessage
+                : null;
 
         public List<string> Errors
             => this.Succeeded
@@ -55,6 +59,12 @@
     public class Result<TData> : Result
     {
         private readonly TData data;
+
+        public Result(TData data)
+            : base(true, new List<string>())
+        {
+            this.data = data;
+        }
 
         private Result(bool succeeded, TData data, List<string> errors)
             : base(succeeded, errors)
