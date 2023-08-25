@@ -20,5 +20,8 @@
 
         [Post("/Votes/VoteForComment")]
         Task<Result<CommentVoteResponseModel>> VoteForComment(PostCommentVoteInputModel inputModel);
+
+        [Post("/Votes/VoteForProduct")]
+        Task<Result<ProductVoteResponseModel>> VoteForProduct(PostProductVoteInputModel inputModel);
     }
 }

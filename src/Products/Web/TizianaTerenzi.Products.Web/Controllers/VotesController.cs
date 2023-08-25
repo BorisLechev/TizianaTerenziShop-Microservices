@@ -46,16 +46,16 @@
         }
 
         [HttpPost]
-        [Route("votes/product/post")]
-        public async Task<ActionResult<ProductVoteResponseModel>> Vote(PostProductVoteInputModel inputModel)
+        [Route("/votes/voteForProduct")]
+        public async Task<Result<ProductVoteResponseModel>> Vote(PostProductVoteInputModel inputModel)
         {
             var userId = this.User.GetUserId();
 
             var result = await this.productVotesService.VoteAsync(inputModel.ProductId, userId, inputModel.Value);
 
-            if (result == false)
+            if (!result)
             {
-                return this.BadRequest();
+                return Result<ProductVoteResponseModel>.Failure("Bad request");
             }
 
             var groupedProductVotes = await this.productVotesService.GetNumberOfVotesForEachValueAsync(inputModel.ProductId);
@@ -94,7 +94,7 @@
                                                 : 0,
             };
 
-            return responseModel;
+            return Result<ProductVoteResponseModel>.SuccessWith(responseModel);
         }
     }
 }
