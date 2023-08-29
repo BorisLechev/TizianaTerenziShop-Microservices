@@ -8,6 +8,7 @@
     using TizianaTerenzi.Identity.Data.Seeding;
     using TizianaTerenzi.Identity.Services.Data.Countries;
     using TizianaTerenzi.Identity.Services.Data.Identity;
+    using TizianaTerenzi.Identity.Services.Data.Profile;
     using TizianaTerenzi.Identity.Services.Location;
     using TizianaTerenzi.Identity.Web.Infrastructure;
 
@@ -50,6 +51,7 @@
                 .AddTransient<ILocationService, LocationService>()
                 .AddTransient<ICountriesService, CountriesService>()
                 .AddTransient<IIdentityService, IdentityService>()
+                .AddTransient<IProfileService, ProfileService>()
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>();
         }
     }

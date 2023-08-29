@@ -24,6 +24,8 @@
 
         public string Username => this.user.GetUserName();
 
+        public string Email => this.user.GetUserEmail();
+
         public bool IsUserAuthenticated => this.user.IsUserAuthenticated();
 
         public bool IsAdministrator => this.user.IsAdministrator();

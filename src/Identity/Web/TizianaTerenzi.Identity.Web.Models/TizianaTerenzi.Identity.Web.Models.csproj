@@ -27,5 +27,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services.Mapping\TizianaTerenzi.Common.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web\TizianaTerenzi.Common.Web.csproj" />
+    <ProjectReference Include="..\..\Data\TizianaTerenzi.Identity.Data.Models\TizianaTerenzi.Identity.Data.Models.csproj" />
+  </ItemGroup>
 
 </Project>

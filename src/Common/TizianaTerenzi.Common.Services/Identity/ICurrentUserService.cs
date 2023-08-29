@@ -6,6 +6,8 @@
 
         string Username { get; }
 
+        string Email { get; }
+
         bool IsUserAuthenticated { get; }
 
         bool IsAdministrator { get; }

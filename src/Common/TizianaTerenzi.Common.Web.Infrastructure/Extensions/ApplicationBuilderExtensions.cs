@@ -11,6 +11,7 @@
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Identity.Web.Models.Profile;
     using TizianaTerenzi.Products.Web.Models.Products;
 
     public static class ApplicationBuilderExtensions
@@ -93,7 +94,9 @@
 
         private static void ConfigureAutoMapper()
         {
-            AutoMapperConfig.RegisterMappings(typeof(ProductInListViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(
+                                            typeof(ProductInListViewModel).GetTypeInfo().Assembly,
+                                            typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly);
         }
     }
 }

@@ -1,21 +1,24 @@
-﻿namespace TizianaTerenzi.WebClient.ViewModels.Profile
+﻿namespace TizianaTerenzi.Identity.Web.Models.Profile
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Common.Web.ValidationAttributes;
+    using TizianaTerenzi.Identity.Data.Models;
 
-    public class UserEditInputModel
+    public class UserEditInputModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>, IHaveCustomMappings
     {
         //[Required(AllowEmptyStrings = false, ErrorMessage = "Username is required.")]
         //[StringLength(15, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
         [Display(Name = "Username")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "First name is required.")]
         [StringLength(20, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]
@@ -54,6 +57,12 @@
         [AllowedExtensions]
         [MaxFileSize]
         [Display(Name = "Profile Picture")]
-        public IFormFile AvatarImage { get; set; }
+        public IFormFile? AvatarImage { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<ApplicationUser, UserEditInputModel>()
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId));
+        }
     }
 }
