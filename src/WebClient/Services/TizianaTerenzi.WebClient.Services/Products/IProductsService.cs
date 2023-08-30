@@ -23,5 +23,8 @@
 
         [Post("/Votes/VoteForProduct")]
         Task<Result<ProductVoteResponseModel>> VoteForProduct(PostProductVoteInputModel inputModel);
+
+        [Get("/Wishlist/Index")]
+        Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlist();
     }
 }

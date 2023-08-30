@@ -25,7 +25,7 @@
 
         public async Task<IEnumerable<WishlistViewModel>> Index()
         {
-            var userId = this.currentUserService.UserId;
+            var userId = this.User.GetUserId();
 
             var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync(userId);
 

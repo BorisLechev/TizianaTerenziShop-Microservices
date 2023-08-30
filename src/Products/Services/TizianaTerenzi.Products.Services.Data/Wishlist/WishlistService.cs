@@ -37,9 +37,9 @@
         public async Task<bool> DeleteAllProductsInTheWishlistAsync(string userId)
         {
             var affectedRows = await this.favoriteProductsRepository
-                .All()
-                .Where(fp => fp.UserId == userId)
-                .UpdateAsync(fp => new FavoriteProduct { IsDeleted = true, ModifiedOn = DateTime.UtcNow });
+                                    .All()
+                                    .Where(fp => fp.UserId == userId)
+                                    .UpdateAsync(fp => new FavoriteProduct { IsDeleted = true, ModifiedOn = DateTime.UtcNow });
 
             return affectedRows > 0;
         }
@@ -47,9 +47,9 @@
         public async Task<bool> DeleteProductFromTheWishlistAsync(int productId, string userId)
         {
             var product = await this.favoriteProductsRepository
-                .All()
-                .Where(fp => fp.UserId == userId)
-                .SingleOrDefaultAsync(fv => fv.Id == productId);
+                                .All()
+                                .Where(fp => fp.UserId == userId)
+                                .SingleOrDefaultAsync(fv => fv.Id == productId);
 
             if (product == null)
             {
@@ -65,10 +65,10 @@
         public async Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlistAsync(string userId)
         {
             var productsInWishlist = await this.favoriteProductsRepository
-                .AllAsNoTracking()
-                .Where(fp => fp.UserId == userId)
-                .To<WishlistViewModel>()
-                .ToListAsync();
+                                        .AllAsNoTracking()
+                                        .Where(fp => fp.UserId == userId)
+                                        .To<WishlistViewModel>()
+                                        .ToListAsync();
 
             return productsInWishlist;
         }
@@ -76,9 +76,9 @@
         public async Task<bool> HasTheProductAlreadyAddedToTheWishlistAsync(int productId, string userId)
         {
             var result = await this.favoriteProductsRepository
-                .AllAsNoTracking()
-                .Where(fp => fp.UserId == userId)
-                .AnyAsync(fp => fp.ProductId == productId);
+                                .AllAsNoTracking()
+                                .Where(fp => fp.UserId == userId)
+                                .AnyAsync(fp => fp.ProductId == productId);
 
             return result;
         }

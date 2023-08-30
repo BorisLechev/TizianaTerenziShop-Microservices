@@ -7,23 +7,25 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Data.Wishlist;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Products;
 
     [Authorize]
     public class WishlistController : BaseController
     {
         private readonly IWishlistService wishlistService;
+        private readonly IProductsService productsService;
 
         public WishlistController(
-            IWishlistService wishlistService)
+            IWishlistService wishlistService,
+            IProductsService productsService)
         {
             this.wishlistService = wishlistService;
+            this.productsService = productsService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = this.User.GetUserId();
-
-            var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync(userId);
+            var wishlistViewModel = await this.productsService.GetAllProductsFromUsersWishlist();
 
             return this.View(wishlistViewModel);
         }
