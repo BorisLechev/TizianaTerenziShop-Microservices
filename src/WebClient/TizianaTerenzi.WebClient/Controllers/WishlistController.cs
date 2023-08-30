@@ -38,19 +38,17 @@
                 return this.NotFound();
             }
 
-            var userId = this.User.GetUserId();
+            var result = await this.productsService.AddProductToTheWishlist(productId);
 
-            var isProductAdded = await this.wishlistService.HasTheProductAlreadyAddedToTheWishlistAsync(productId, userId);
-
-            if (isProductAdded)
+            if (!result.Succeeded)
             {
-                return this.RedirectToAction(nameof(this.Index));
-            }
+                if (result.Errors.Contains(NotificationMessages.TheProductHasAlreadyBeenAddedToTheWishlist))
+                {
+                    this.Error(NotificationMessages.TheProductHasAlreadyBeenAddedToTheWishlist);
 
-            var result = await this.wishlistService.AddProductToTheWishlistAsync(productId, userId);
+                    return this.RedirectToAction(nameof(this.Index));
+                }
 
-            if (result == false)
-            {
                 this.Error(NotificationMessages.CannotAddProductToTheWishlist);
 
                 return this.LocalRedirect("/products/all");

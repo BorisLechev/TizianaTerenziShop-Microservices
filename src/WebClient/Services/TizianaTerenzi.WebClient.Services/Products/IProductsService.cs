@@ -26,5 +26,8 @@
 
         [Get("/Wishlist/Index")]
         Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlist();
+
+        [Post("/Wishlist/Add")]
+        Task<Result> AddProductToTheWishlist(int productId);
     }
 }

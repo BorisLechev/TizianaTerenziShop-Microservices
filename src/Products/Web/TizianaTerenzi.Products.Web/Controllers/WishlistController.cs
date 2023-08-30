@@ -46,12 +46,12 @@
 
             if (isProductAdded)
             {
-                return Result.Failure("/Wishlist");
+                return Result.Failure(NotificationMessages.TheProductHasAlreadyBeenAddedToTheWishlist);
             }
 
             var result = await this.wishlistService.AddProductToTheWishlistAsync(productId, userId);
 
-            if (result == false)
+            if (!result)
             {
                 return Result.Failure(NotificationMessages.CannotAddProductToTheWishlist);
             }
