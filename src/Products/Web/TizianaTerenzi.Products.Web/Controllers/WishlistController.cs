@@ -71,7 +71,7 @@
 
             var result = await this.wishlistService.DeleteProductFromTheWishlistAsync(productId, userId);
 
-            if (result == false)
+            if (!result)
             {
                 return Result.Failure(NotificationMessages.CannotDeleteProductFromTheWishlist);
             }

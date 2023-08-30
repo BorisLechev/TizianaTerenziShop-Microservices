@@ -5,21 +5,16 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Wishlist;
-    using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Services.Products;
 
     [Authorize]
     public class WishlistController : BaseController
     {
-        private readonly IWishlistService wishlistService;
         private readonly IProductsService productsService;
 
         public WishlistController(
-            IWishlistService wishlistService,
             IProductsService productsService)
         {
-            this.wishlistService = wishlistService;
             this.productsService = productsService;
         }
 
@@ -67,11 +62,9 @@
                 return this.NotFound();
             }
 
-            var userId = this.User.GetUserId();
+            var result = await this.productsService.DeleteProductFromTheWishlist(productId);
 
-            var result = await this.wishlistService.DeleteProductFromTheWishlistAsync(productId, userId);
-
-            if (result == false)
+            if (!result.Succeeded)
             {
                 this.Error(NotificationMessages.CannotDeleteProductFromTheWishlist);
 
