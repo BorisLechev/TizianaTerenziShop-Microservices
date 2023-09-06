@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
-    using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Services.Data.Wishlist;
     using TizianaTerenzi.Products.Web.Models.Wishlist;
@@ -13,21 +12,18 @@
     public class WishlistController : ApiController
     {
         private readonly IWishlistService wishlistService;
-        private readonly ICurrentUserService currentUserService;
 
         public WishlistController(
-            IWishlistService wishlistService,
-            ICurrentUserService currentUserService)
+            IWishlistService wishlistService)
         {
             this.wishlistService = wishlistService;
-            this.currentUserService = currentUserService;
         }
 
         public async Task<IEnumerable<WishlistViewModel>> Index()
         {
             var userId = this.User.GetUserId();
 
-            var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync(userId);
+            var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync<WishlistViewModel>(userId);
 
             return wishlistViewModel;
         }
@@ -40,7 +36,7 @@
                 return Result.Failure("Not Found");
             }
 
-            var userId = this.currentUserService.UserId;
+            var userId = this.User.GetUserId();
 
             var isProductAdded = await this.wishlistService.HasTheProductAlreadyAddedToTheWishlistAsync(productId, userId);
 
@@ -67,7 +63,7 @@
                 return this.NotFound();
             }
 
-            var userId = this.currentUserService.UserId;
+            var userId = this.User.GetUserId();
 
             var result = await this.wishlistService.DeleteProductFromTheWishlistAsync(productId, userId);
 
@@ -77,6 +73,15 @@
             }
 
             return Result.Success(NotificationMessages.DeleteProductFromTheWishlistSuccessfully);
+        }
+
+        public async Task<ActionResult<IEnumerable<ProductsFromUsersWishlistPersonalDataResponseModel>>> GetAllProductsFromUsersWishlistPersonalData()
+        {
+            var userId = this.User.GetUserId();
+
+            var wishlistViewModel = await this.wishlistService.GetAllProductsFromUsersWishlistAsync<ProductsFromUsersWishlistPersonalDataResponseModel>(userId);
+
+            return this.Ok(wishlistViewModel);
         }
     }
 }

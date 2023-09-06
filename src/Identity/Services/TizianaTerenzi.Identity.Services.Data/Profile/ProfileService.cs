@@ -1,7 +1,5 @@
 ﻿namespace TizianaTerenzi.Identity.Services.Data.Profile
 {
-    using System.Text.Json;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
@@ -19,14 +17,6 @@
 
         private readonly ICountriesService countriesService;
 
-        //private readonly IWishlistService wishlistService;
-
-        //private readonly IOrdersService ordersService;
-
-        //private readonly ICommentsService commentsService;
-
-        //private readonly ICommentVotesService commentVotesService;
-
         //private readonly INotificationsService notificationsService;
 
         private readonly UserManager<ApplicationUser> userManager;
@@ -35,21 +25,13 @@
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
             ICountriesService countriesService,
-            //IWishlistService wishlistService,
-            //IOrdersService ordersService,
-            //ICommentsService commentsService,
-            //ICommentVotesService commentVotesService,
             //INotificationsService notificationsService,
             UserManager<ApplicationUser> userManager)
         {
             this.usersRepository = usersRepository;
             this.rolesRepository = rolesRepository;
             this.countriesService = countriesService;
-            //this.wishlistService = wishlistService;
             this.userManager = userManager;
-            //this.ordersService = ordersService;
-            //this.commentsService = commentsService;
-            //this.commentVotesService = commentVotesService;
             //this.notificationsService = notificationsService;
         }
 
@@ -139,89 +121,20 @@
             return viewModel;
         }
 
-        public async Task<string> GetPersonalDataForUserJsonAsync(string userId)
+        public async Task<DownloadPersonalDataViewModel> GetPersonalDataForUserJsonAsync(string userId)
         {
-            if (userId == null)
+            if (string.IsNullOrWhiteSpace(userId))
             {
                 return null;
             }
 
-            var user = await this.usersRepository
-                .AllAsNoTracking()
-                .Where(u => u.Id == userId)
-                .To<DownloadPersonalDataViewModel>()
-                .SingleOrDefaultAsync();
+            var personalData = await this.usersRepository
+                                    .AllAsNoTracking()
+                                    .Where(u => u.Id == userId)
+                                    .To<DownloadPersonalDataViewModel>()
+                                    .SingleOrDefaultAsync();
 
-            if (user == null)
-            {
-                return null;
-            }
-
-            var personalData = new
-            {
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                user.CreatedOn,
-                user.CountryName,
-                user.Town,
-                user.PostalCode,
-                user.Address,
-                //Orders = user.Orders.Select(o => new
-                //{
-                //    o.Id,
-                //    OrderProducts = o.Products.Select(op => new
-                //    {
-                //        op.CreatedOn,
-                //        op.ProductName,
-                //        op.Quantity,
-                //        op.ProductPrice,
-                //    })
-                //    .ToArray(),
-                //})
-                //.ToArray(),
-                //Votes = user.ProductVotes.Select(pv => new
-                //{
-                //    pv.CreatedOn,
-                //    pv.ProductName,
-                //    pv.Value,
-                //})
-                //.ToArray(),
-                //Comments = user.Comments.Select(c => new
-                //{
-                //    c.CreatedOn,
-                //    c.Content,
-                //    Votes = c.Votes.Select(v => new
-                //    {
-                //        v.CreatedOn,
-                //        v.Type,
-                //    })
-                //    .ToArray(),
-                //})
-                //.ToArray(),
-                //FavoriteProduct = user.FavoriteProducts.Select(fp => new
-                //{
-                //    fp.Id,
-                //    fp.CreatedOn,
-                //    fp.ProductName,
-                //})
-                //.ToArray(),
-                //ChatUserGroups = user.ChatUserGroups.Select(ug => new
-                //{
-                //    ug.ChatGroupName,
-                //    ug.ChatGroupCreatedOn,
-                //})
-                //.ToArray(),
-            };
-
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-
-            var json = JsonSerializer.Serialize(personalData, options);
-
-            return json;
+            return personalData;
         }
     }
 }

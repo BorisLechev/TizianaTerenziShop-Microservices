@@ -75,5 +75,21 @@
 
             return result > 0;
         }
+
+        public async Task<IEnumerable<UsersProductVotesPersonalDataResponseModel>> GetAllUsersProductVotesPersonalDataAsync(string userId)
+        {
+            var usersProductVotes = await this.productVotesRepository
+                                        .AllAsNoTracking()
+                                        .Where(pv => pv.UserId == userId)
+                                        .Select(pv => new UsersProductVotesPersonalDataResponseModel
+                                        {
+                                            ProductName = pv.Product.Name,
+                                            CreatedOn = pv.CreatedOn,
+                                            Value = pv.Value,
+                                        })
+                                        .ToListAsync();
+
+            return usersProductVotes;
+        }
     }
 }

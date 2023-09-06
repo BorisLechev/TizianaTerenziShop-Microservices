@@ -1,6 +1,6 @@
 ﻿namespace TizianaTerenzi.WebClient.ViewModels.Profile
 {
-    public class DownloadPersonalDataResponseModel
+    public class DownloadPersonalDataFileResponseModel
     {
         public string UserId { get; set; }
 

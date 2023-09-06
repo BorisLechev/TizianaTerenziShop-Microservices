@@ -16,9 +16,6 @@
         [Get("/Profile/Index")]
         Task<ProfileViewModel> Profile(string id);
 
-        [Post("/Profile/DownloadPersonalData")]
-        Task<Result<DownloadPersonalDataResponseModel>> DownloadPersonalData(string password);
-
         [Get("/Profile/ChangePassword")]
         Task<UserChangePasswordInputModel> GetUserEmailWhenChangePassword();
 

@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class PersonalDataProductVotesViewModel : IMapFrom<ProductVote>
+    public class PersonalDataProductVotesViewModel
     {
         public DateTime CreatedOn { get; set; }
 

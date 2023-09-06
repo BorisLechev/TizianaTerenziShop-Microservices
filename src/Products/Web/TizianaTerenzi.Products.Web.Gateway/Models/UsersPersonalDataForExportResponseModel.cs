@@ -1,11 +1,6 @@
-﻿namespace TizianaTerenzi.Identity.Web.Models.Profile
+﻿namespace TizianaTerenzi.Products.Web.Gateway.Models
 {
-    using System;
-
-    using TizianaTerenzi.Common.Services.Mapping;
-    using TizianaTerenzi.Identity.Data.Models;
-
-    public class DownloadPersonalDataViewModel : IMapFrom<ApplicationUser>
+    public class UsersPersonalDataForExportResponseModel
     {
         public string FirstName { get; set; }
 

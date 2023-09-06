@@ -2,13 +2,10 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class PersonalDataCommentVoteViewModel : IMapFrom<CommentVote>
+    public class PersonalDataCommentVoteViewModel
     {
         public DateTime CreatedOn { get; set; }
 
-        public CommentVoteType Type { get; set; }
+        public byte Type { get; set; }
     }
 }

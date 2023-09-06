@@ -47,5 +47,14 @@
 
             return this.Ok(Result.Success(NotificationMessages.CreateCommentSuccessfully));
         }
+
+        public async Task<ActionResult<IEnumerable<UsersCommentsPersonalDataResponseModel>>> GetAllUsersCommentsAndVotesPersonalData()
+        {
+            var userId = this.User.GetUserId();
+
+            var usersCommentsAndVotes = await this.commentsService.GetAllUsersCommentsAndVotesPersonalData(userId);
+
+            return this.Ok(usersCommentsAndVotes);
+        }
     }
 }

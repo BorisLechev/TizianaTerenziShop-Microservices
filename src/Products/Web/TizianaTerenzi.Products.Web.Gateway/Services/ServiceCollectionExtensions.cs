@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.WebClient.Infrastructure.Extensions
+﻿namespace TizianaTerenzi.Products.Web.Gateway.Services
 {
     using System;
     using System.Net.Http.Headers;
@@ -9,7 +9,6 @@
     using Refit;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services.Identity;
-    using TizianaTerenzi.WebClient.Services;
 
     public static class ServiceCollectionExtensions
     {

@@ -1,14 +1,10 @@
-﻿namespace TizianaTerenzi.WebClient.Services
+﻿namespace TizianaTerenzi.Products.Web.Gateway.Services
 {
     public class ServiceEndpoints
     {
         public string Identity { get; private set; }
 
         public string Products { get; private set; }
-
-        public string Carts { get; private set; }
-
-        public string ProductsGateway { get; private set; }
 
         public string this[string service]
             => this.GetType()

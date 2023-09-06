@@ -3,11 +3,9 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Products.Web.Models.Wishlist;
-
     public interface IWishlistService
     {
-        Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlistAsync(string userId);
+        Task<IEnumerable<T>> GetAllProductsFromUsersWishlistAsync<T>(string userId);
 
         Task<bool> AddProductToTheWishlistAsync(int productId, string userId);
 

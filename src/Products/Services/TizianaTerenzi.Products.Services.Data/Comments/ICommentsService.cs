@@ -13,5 +13,7 @@
         Task<bool> DeleteRangeByUserIdAsync(string userId);
 
         Task<bool> IsInProductIdAsync(int commentId, int productId);
+
+        Task<IEnumerable<UsersCommentsPersonalDataResponseModel>> GetAllUsersCommentsAndVotesPersonalData(string userId);
     }
 }

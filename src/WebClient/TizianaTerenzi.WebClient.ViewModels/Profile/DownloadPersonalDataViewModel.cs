@@ -3,10 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class DownloadPersonalDataViewModel : IMapFrom<ApplicationUser>
+    public class DownloadPersonalDataViewModel
     {
         public string FirstName { get; set; }
 

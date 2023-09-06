@@ -55,10 +55,11 @@
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.Scrapers;
     using TizianaTerenzi.Services.SlugGenerator;
-    using TizianaTerenzi.Web.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Hubs;
+    using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Middlewares;
     using TizianaTerenzi.WebClient.Services.Identity;
+    using TizianaTerenzi.WebClient.Services.Products;
 
     public class Startup
     {
@@ -249,7 +250,8 @@
 
             services
                 .AddExternalService<IIdentityService>(this.configuration)
-                .AddExternalService<TizianaTerenzi.WebClient.Services.Products.IProductsService>(this.configuration);
+                .AddExternalService<TizianaTerenzi.WebClient.Services.Products.IProductsService>(this.configuration)
+                .AddExternalService<IProductsGatewayService>(this.configuration);
 
             //services
             //.AddRefitClient<IIdentityService>()

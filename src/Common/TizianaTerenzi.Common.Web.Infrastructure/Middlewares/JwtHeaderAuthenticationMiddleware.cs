@@ -21,7 +21,7 @@
 
             if (!string.IsNullOrWhiteSpace(token))
             {
-                currentTokenService.Set(token);
+                currentTokenService.Set(token.Split().Last());
             }
 
             await this.next(context);

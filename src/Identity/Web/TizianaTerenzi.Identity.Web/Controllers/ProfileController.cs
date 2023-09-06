@@ -1,7 +1,5 @@
 ﻿namespace TizianaTerenzi.Identity.Web.Controllers
 {
-    using System.Text;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -69,32 +67,21 @@
             return profileViewModel;
         }
 
-        [HttpPost]
-        public async Task<Result<DownloadPersonalDataResponseModel>> DownloadPersonalData(string password)
+        public async Task<Result<DownloadPersonalDataViewModel>> GetUsersPersonalDataForExport(string password)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-
             var passwordValid = !await this.userManager.HasPasswordAsync(user) ||
-                (password != null &&
-                await this.userManager.CheckPasswordAsync(user, password));
+                                (password != null &&
+                                await this.userManager.CheckPasswordAsync(user, password));
 
             if (!passwordValid)
             {
-                return Result<DownloadPersonalDataResponseModel>.Failure(NotificationMessages.InvalidPassword);
+                return Result<DownloadPersonalDataViewModel>.Failure(NotificationMessages.InvalidPassword);
             }
 
-            var json = await this.profileService.GetPersonalDataForUserJsonAsync(user.Id);
-            var byteArray = Encoding.UTF8.GetBytes(json);
+            var usersCommentsAndVotes = await this.profileService.GetPersonalDataForUserJsonAsync(user.Id);
 
-            var result = new DownloadPersonalDataResponseModel
-            {
-                UserId = user.Id,
-                UserFirstName = user.FirstName,
-                UserLastName = user.LastName,
-                File = byteArray,
-            };
-
-            return Result<DownloadPersonalDataResponseModel>.SuccessWith(result);
+            return Result<DownloadPersonalDataViewModel>.SuccessWith(usersCommentsAndVotes);
         }
 
         //[HttpPost]

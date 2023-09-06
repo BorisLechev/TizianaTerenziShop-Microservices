@@ -3,10 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class PersonalDataCommentsViewModel : IMapFrom<Comment>
+    public class PersonalDataCommentsViewModel
     {
         public DateTime CreatedOn { get; set; }
 

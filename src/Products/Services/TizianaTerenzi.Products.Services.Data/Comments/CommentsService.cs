@@ -72,5 +72,26 @@
 
             return commentProductId == productId;
         }
+
+        public async Task<IEnumerable<UsersCommentsPersonalDataResponseModel>> GetAllUsersCommentsAndVotesPersonalData(string userId)
+        {
+            var usersCommentsPersonalData = await this.commentsRepository
+                                                .AllAsNoTracking()
+                                                .Where(c => c.UserId == userId)
+                                                .Select(c => new UsersCommentsPersonalDataResponseModel
+                                                {
+                                                    Content = c.Content,
+                                                    CreatedOn = c.CreatedOn,
+                                                    Votes = c.Votes.Select(cv => new UsersCommentVotesPersonalDataResponseModel
+                                                    {
+                                                        Type = cv.Type,
+                                                        CreatedOn = cv.CreatedOn,
+                                                    })
+                                                    .ToArray(),
+                                                })
+                                                .ToListAsync();
+
+            return usersCommentsPersonalData;
+        }
     }
 }

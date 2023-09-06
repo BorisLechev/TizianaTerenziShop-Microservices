@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TizianaTerenzi.Web.Tests": {
+    "TizianaTerenzi.WebClient.Tests": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

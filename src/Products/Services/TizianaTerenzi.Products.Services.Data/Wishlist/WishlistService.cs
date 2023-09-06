@@ -8,7 +8,6 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Products.Data.Models;
-    using TizianaTerenzi.Products.Web.Models.Wishlist;
     using Z.EntityFramework.Plus;
 
     public class WishlistService : IWishlistService
@@ -62,12 +61,12 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<WishlistViewModel>> GetAllProductsFromUsersWishlistAsync(string userId)
+        public async Task<IEnumerable<T>> GetAllProductsFromUsersWishlistAsync<T>(string userId)
         {
             var productsInWishlist = await this.favoriteProductsRepository
                                         .AllAsNoTracking()
                                         .Where(fp => fp.UserId == userId)
-                                        .To<WishlistViewModel>()
+                                        .To<T>()
                                         .ToListAsync();
 
             return productsInWishlist;

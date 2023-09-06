@@ -208,7 +208,7 @@
                 .ToArray(),
                 FavoriteProduct = user.FavoriteProducts.Select(fp => new
                 {
-                    fp.Id,
+                    //fp.Id,
                     fp.CreatedOn,
                     fp.ProductName,
                 })

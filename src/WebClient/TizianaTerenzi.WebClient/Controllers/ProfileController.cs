@@ -6,9 +6,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Chat;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Services.Identity;
+    using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Profile;
 
     [Authorize]
@@ -20,12 +20,16 @@
 
         private readonly IIdentityService identityService;
 
+        private readonly IProductsGatewayService productsGatewayService;
+
         public ProfileController(
-            IIdentityService identityService)
+            IIdentityService identityService,
+            IProductsGatewayService productsGatewayService)
             //IChatService chatsService,
         {
             //this.chatsService = chatsService;
             this.identityService = identityService;
+            this.productsGatewayService = productsGatewayService;
         }
 
         public async Task<IActionResult> Index(string id)
@@ -44,7 +48,9 @@
         [ActionName("Download")]
         public async Task<IActionResult> DownloadPersonalData(string password)
         {
-            var result = await this.identityService.DownloadPersonalData(password);
+            var userId = this.User.GetUserId();
+
+            var result = await this.productsGatewayService.DownloadPersonalData(password);
 
             if (!result.Succeeded)
             {

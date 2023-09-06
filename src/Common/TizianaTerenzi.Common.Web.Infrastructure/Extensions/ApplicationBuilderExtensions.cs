@@ -20,14 +20,13 @@
             this IApplicationBuilder app,
             IWebHostEnvironment env)
         {
-            ConfigureAutoMapper();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app
+                .ConfigureAutoMapper()
                 .UseHttpsRedirection()
                 .UseRouting()
                 .UseCors(options => options
@@ -92,11 +91,13 @@
             return app;
         }
 
-        private static void ConfigureAutoMapper()
+        public static IApplicationBuilder ConfigureAutoMapper(this IApplicationBuilder app)
         {
             AutoMapperConfig.RegisterMappings(
                                             typeof(ProductInListViewModel).GetTypeInfo().Assembly,
                                             typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly);
+
+            return app;
         }
     }
 }

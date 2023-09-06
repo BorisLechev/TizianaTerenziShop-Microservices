@@ -96,5 +96,14 @@
 
             return Result<ProductVoteResponseModel>.SuccessWith(responseModel);
         }
+
+        public async Task<ActionResult<IEnumerable<UsersProductVotesPersonalDataResponseModel>>> GetAllUsersProductVotesPersonalData()
+        {
+            var userId = this.User.GetUserId();
+
+            var usersProductVotes = await this.productVotesService.GetAllUsersProductVotesPersonalDataAsync(userId);
+
+            return this.Ok(usersProductVotes);
+        }
     }
 }

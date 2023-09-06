@@ -5,7 +5,7 @@
 
     public interface IProfileService
     {
-        Task<string> GetPersonalDataForUserJsonAsync(string userId);
+        Task<DownloadPersonalDataViewModel> GetPersonalDataForUserJsonAsync(string userId);
 
         //Task<bool> DeleteUserAsync(ApplicationUser user);
 

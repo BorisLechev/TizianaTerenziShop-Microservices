@@ -11,5 +11,7 @@
         Task<GroupProductVoteValuesViewModel<int, int, int, int, int, int, int, double>> GetNumberOfVotesForEachValueAsync(int productId);
 
         Task DeleteProductVotesAsync(int productId);
+
+        Task<IEnumerable<UsersProductVotesPersonalDataResponseModel>> GetAllUsersProductVotesPersonalDataAsync(string userId);
     }
 }

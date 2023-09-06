@@ -1,6 +1,6 @@
-﻿namespace TizianaTerenzi.Identity.Web.Models.Profile
+﻿namespace TizianaTerenzi.Products.Web.Gateway.Models
 {
-    public class DownloadPersonalDataResponseModel
+    public class DownloadPersonalDataFileResponseModel
     {
         public string UserId { get; set; }
 
