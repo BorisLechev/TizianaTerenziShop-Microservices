@@ -10,7 +10,7 @@
     using TizianaTerenzi.Identity.Services.Data.Profile;
     using TizianaTerenzi.Identity.Web.Models.Profile;
 
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ProfileController : ApiController
     {
         private const int UsersPerPage = 6;
