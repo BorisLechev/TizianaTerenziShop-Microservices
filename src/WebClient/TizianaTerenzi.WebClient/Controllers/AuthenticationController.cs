@@ -59,7 +59,7 @@
             this.random = new Random();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         [Route("/logout")]
         public async Task<IActionResult> Logout(string returnUrl = null)

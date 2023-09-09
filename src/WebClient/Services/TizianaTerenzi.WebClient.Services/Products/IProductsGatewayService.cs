@@ -8,5 +8,8 @@
     {
         [Post("/Profile/DownloadPersonalData")]
         Task<Result<DownloadPersonalDataFileResponseModel>> DownloadPersonalData(string password);
+
+        [Delete("/Profile/DeleteAccount")]
+        Task<Result> DeleteAccount(string password);
     }
 }

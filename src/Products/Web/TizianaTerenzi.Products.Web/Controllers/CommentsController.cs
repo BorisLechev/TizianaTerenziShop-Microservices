@@ -56,5 +56,20 @@
 
             return this.Ok(usersCommentsAndVotes);
         }
+
+        [HttpDelete]
+        public async Task<ActionResult<Result>> DeleteAllUserComments()
+        {
+            var userId = this.User.GetUserId();
+
+            var result = await this.commentsService.DeleteRangeByUserIdAsync(userId);
+
+            if (!result)
+            {
+                return Result.Failure(NotificationMessages.SomethingWentWrong);
+            }
+
+            return this.Ok(Result.Success());
+        }
     }
 }

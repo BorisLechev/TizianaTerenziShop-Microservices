@@ -38,9 +38,9 @@
             var affectedRows = await this.favoriteProductsRepository
                                     .All()
                                     .Where(fp => fp.UserId == userId)
-                                    .UpdateAsync(fp => new FavoriteProduct { IsDeleted = true, ModifiedOn = DateTime.UtcNow });
+                                    .UpdateAsync(fp => new FavoriteProduct { IsDeleted = true, DeletedOn = DateTime.UtcNow });
 
-            return affectedRows > 0;
+            return affectedRows >= 0;
         }
 
         public async Task<bool> DeleteProductFromTheWishlistAsync(int productId, string userId)

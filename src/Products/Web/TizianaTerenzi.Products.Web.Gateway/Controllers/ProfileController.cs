@@ -78,5 +78,34 @@
 
             return Result<DownloadPersonalDataFileResponseModel>.SuccessWith(result);
         }
+
+        // TODO: Delete user's Data in Orders and Notifications tables.
+        [Authorize]
+        [HttpDelete]
+        public async Task<Result> DeleteAccount(string password)
+        {
+            var deleteUserAccount = await this.identityService.DeleteAccount(password);
+
+            if (!deleteUserAccount.Succeeded)
+            {
+                return Result.Failure(deleteUserAccount.Errors);
+            }
+
+            var resultOfDeletingTheProductsInTheUsersWishlist = await this.productsService.DeleteAllProductsInTheUsersWishlist();
+            var resultOfDeletingTheUsersComments = await this.productsService.DeleteAllUserComments();
+            var resultOfDeletingTheUsersCommentVotes = await this.productsService.DeleteAllUserCommentVotes();
+            //await this.ordersService.DeleteAllOrdersByUserIdAsync(user.Id);
+            //await this.ordersService.DeleteAllOrderProductsByUserIdAsync(user.Id);
+            //await this.notificationsService.DeleteAllNotificationsByUserIdAsync(user.Id, user.UserName);
+
+            if (resultOfDeletingTheProductsInTheUsersWishlist &&
+                resultOfDeletingTheUsersComments &&
+                resultOfDeletingTheUsersCommentVotes)
+            {
+                return Result.Success();
+            }
+
+            return Result.Failure(NotificationMessages.SomethingWentWrong);
+        }
     }
 }

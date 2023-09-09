@@ -9,7 +9,7 @@
     @if (this.User.IsUserAuthenticated())
     {
         <li class="nav-item">
-            <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">
+            <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="get">
                 <button type="submit" class="nav-link btn btn-link text-dark"><i class="fas fa-sign-out-alt"></i></button>
             </form>
         </li>

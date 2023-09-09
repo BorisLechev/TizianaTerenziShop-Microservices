@@ -8,5 +8,8 @@
     {
         [Get("/Profile/GetUsersPersonalDataForExport")]
         Task<Result<UsersPersonalDataForExportResponseModel>> GetUsersPersonalDataForExport(string password);
+
+        [Delete("/Profile/DeleteAccount")]
+        Task<Result> DeleteAccount(string password);
     }
 }

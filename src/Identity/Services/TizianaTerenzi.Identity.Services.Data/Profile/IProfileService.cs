@@ -7,7 +7,7 @@
     {
         Task<DownloadPersonalDataViewModel> GetPersonalDataForUserJsonAsync(string userId);
 
-        //Task<bool> DeleteUserAsync(ApplicationUser user);
+        Task<bool> DeleteUserAsync(ApplicationUser user);
 
         Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId);
 

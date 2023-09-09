@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Data.Models;
@@ -104,6 +105,21 @@
             var usersProductVotes = await this.productVotesService.GetAllUsersProductVotesPersonalDataAsync(userId);
 
             return this.Ok(usersProductVotes);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<Result>> DeleteAllUserCommentVotes()
+        {
+            var userId = this.User.GetUserId();
+
+            var result = await this.commentVotesService.DeleteRangeByUserIdAsync(userId);
+
+            if (!result)
+            {
+                return Result.Failure(NotificationMessages.SomethingWentWrong);
+            }
+
+            return this.Ok(Result.Success());
         }
     }
 }

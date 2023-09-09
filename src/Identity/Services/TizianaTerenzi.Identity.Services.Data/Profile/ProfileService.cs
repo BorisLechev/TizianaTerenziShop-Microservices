@@ -35,28 +35,21 @@
             //this.notificationsService = notificationsService;
         }
 
-        //public async Task<bool> DeleteUserAsync(ApplicationUser user)
-        //{
-        //    try
-        //    {
-        //        await this.ordersService.DeleteAllOrdersByUserIdAsync(user.Id);
-        //        await this.ordersService.DeleteAllOrderProductsByUserIdAsync(user.Id);
-        //        await this.commentsService.DeleteRangeByUserIdAsync(user.Id);
-        //        await this.commentVotesService.DeleteRangeByUserIdAsync(user.Id);
-        //        await this.wishlistService.DeleteAllProductsInTheWishlistAsync(user.Id);
-        //        await this.notificationsService.DeleteAllNotificationsByUserIdAsync(user.Id, user.UserName);
+        public async Task<bool> DeleteUserAsync(ApplicationUser user)
+        {
+            try
+            {
+                this.usersRepository.Delete(user);
 
-        //        this.usersRepository.Delete(user);
+                await this.usersRepository.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
 
-        //        await this.usersRepository.SaveChangesAsync();
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
+            return true;
+        }
 
         public async Task<bool> EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel)
         {

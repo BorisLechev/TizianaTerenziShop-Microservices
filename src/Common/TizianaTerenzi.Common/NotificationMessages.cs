@@ -76,5 +76,7 @@
 
         public const string SuccessfullyDeletedContactFormEntry = "You have successfully deleted the contact email.";
         public const string DeleteContactFormEntryError = "Something went wrong.";
+
+        public const string SomethingWentWrong = "Something went wrong.";
     }
 }

@@ -84,35 +84,31 @@
             return Result<DownloadPersonalDataViewModel>.SuccessWith(usersCommentsAndVotes);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> DeleteAccount(string password)
-        //{
-        //    var user = await this.userManager.GetUserAsync(this.User);
+        [HttpDelete]
+        public async Task<ActionResult<Result>> DeleteAccount(string password)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
 
-        //    var passwordValid = !await this.userManager.HasPasswordAsync(user) ||
-        //                        (password != null &&
-        //                        await this.userManager.CheckPasswordAsync(user, password));
+            var passwordValid = !await this.userManager.HasPasswordAsync(user) ||
+                                (password != null &&
+                                await this.userManager.CheckPasswordAsync(user, password));
 
-        //    if (passwordValid == false)
-        //    {
-        //        return Result.Failure(NotificationMessages.InvalidPassword);
-        //    }
+            if (passwordValid == false)
+            {
+                return Result.Failure(NotificationMessages.InvalidPassword);
+            }
 
-        //    var result = await this.profileService.DeleteUserAsync(user);
+            var result = await this.profileService.DeleteUserAsync(user);
 
-        //    if (result == false)
-        //    {
-        //        this.Error(NotificationMessages.AccountDeleteError);
+            if (result == false)
+            {
+                return Result.Failure(NotificationMessages.AccountDeleteError);
+            }
 
-        //        return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
-        //    }
+            await this.signInManager.SignOutAsync();
 
-        //    await this.signInManager.SignOutAsync();
-
-        //    this.Success(NotificationMessages.AccountDeleted);
-
-        //    return this.RedirectToAction("Index", "Home");
-        //}
+            return Result.Success();
+        }
 
         [HttpGet]
         public async Task<ActionResult<UserChangePasswordInputModel>> ChangePassword()

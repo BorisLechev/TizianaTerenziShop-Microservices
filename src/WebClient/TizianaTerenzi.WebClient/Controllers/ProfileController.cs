@@ -66,37 +66,24 @@
             return new FileContentResult(result.Data.File, "text/json");
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> DeleteAccount(string password)
-        //{
-        //    var user = await this.userManager.GetUserAsync(this.User);
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount(string password)
+        {
+            var userId = this.User.GetUserId();
+            var result = await this.productsGatewayService.DeleteAccount(password);
 
-        //    var passwordValid = !await this.userManager.HasPasswordAsync(user) ||
-        //                        (password != null &&
-        //                        await this.userManager.CheckPasswordAsync(user, password));
+            if (!result.Succeeded)
+            {
+                //this.Error(NotificationMessages.InvalidPassword);
+                this.Error(NotificationMessages.AccountDeleteError);
 
-        //    if (passwordValid == false)
-        //    {
-        //        this.Error(NotificationMessages.InvalidPassword);
+                return this.RedirectToAction(nameof(this.Index), new { userId = userId });
+            }
 
-        //        return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
-        //    }
+            this.Success(NotificationMessages.AccountDeleted);
 
-        //    var result = await this.profileService.DeleteUserAsync(user);
-
-        //    if (result == false)
-        //    {
-        //        this.Error(NotificationMessages.AccountDeleteError);
-
-        //        return this.RedirectToAction(nameof(this.Index), new { userId = user.Id });
-        //    }
-
-        //    await this.signInManager.SignOutAsync();
-
-        //    this.Success(NotificationMessages.AccountDeleted);
-
-        //    return this.RedirectToAction("Index", "Home");
-        //}
+            return this.RedirectToAction("Logout", "Authentication");
+        }
 
         [HttpGet]
         public async Task<IActionResult> ChangePassword()
