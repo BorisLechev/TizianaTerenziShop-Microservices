@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -27,10 +27,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services.Mapping\TizianaTerenzi.Common.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Cart.Data.Models\TizianaTerenzi.Cart.Data.Models.csproj" />
-  </ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Carts.Data.Models\TizianaTerenzi.Carts.Data.Models.csproj" />
+	  <ProjectReference Include="..\..\Web\TizianaTerenzi.Carts.Web.Models\TizianaTerenzi.Carts.Web.Models.csproj" />
+	</ItemGroup>
+	
 </Project>
