@@ -32,4 +32,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Carts.Data\TizianaTerenzi.Carts.Data.csproj" />
+	  <ProjectReference Include="..\..\Services\TizianaTerenzi.Carts.Services.Data\TizianaTerenzi.Carts.Services.Data.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -58,6 +58,7 @@
     using TizianaTerenzi.WebClient.Hubs;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Middlewares;
+    using TizianaTerenzi.WebClient.Services.Carts;
     using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.Services.Products;
 
@@ -251,7 +252,8 @@
             services
                 .AddExternalService<IIdentityService>(this.configuration)
                 .AddExternalService<TizianaTerenzi.WebClient.Services.Products.IProductsService>(this.configuration)
-                .AddExternalService<IProductsGatewayService>(this.configuration);
+                .AddExternalService<IProductsGatewayService>(this.configuration)
+                .AddExternalService<ICartsService>(this.configuration);
 
             //services
             //.AddRefitClient<IIdentityService>()

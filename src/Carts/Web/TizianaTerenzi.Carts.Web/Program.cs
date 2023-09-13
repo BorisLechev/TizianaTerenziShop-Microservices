@@ -1,17 +1,48 @@
-var builder = WebApplication.CreateBuilder(args);
+namespace TizianaTerenzi.Carts.Web
+{
+    using TizianaTerenzi.Carts.Data;
+    using TizianaTerenzi.Carts.Data.Repositories;
+    using TizianaTerenzi.Carts.Data.Seeding;
+    using TizianaTerenzi.Carts.Services.Data.Carts;
+    using TizianaTerenzi.Carts.Services.Data.Discounts;
+    using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Data.Seeding;
+    using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
 
-// Add services to the container.
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+            // Add services to the container.
+            ConfigureServices(builder.Services, builder.Configuration);
 
-var app = builder.Build();
+            var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+            app
+                .UseMicroservice(app.Environment)
+                .MigrateDatabase()
+                .SeedDatabase<CartsDbContext>();
 
-app.UseHttpsRedirection();
+            app.MapControllers();
 
-app.UseAuthorization();
+            app.Run();
+        }
 
-app.MapControllers();
+        private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddMicroservice<CartsDbContext>(configuration)
+                .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
+                .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 
-app.Run();
+            // -------Seeders--------
+            .AddSingleton<ISeeder<CartsDbContext>, DiscountCodesSeeder>()
+
+            // -------Services------------
+            .AddTransient<ICartsService, CartsService>()
+            .AddTransient<IDiscountsService, DiscountsService>();
+        }
+    }
+}
