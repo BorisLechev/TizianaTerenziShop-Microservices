@@ -12,6 +12,7 @@
     using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Carts;
     using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     [Authorize]
@@ -25,24 +26,26 @@
 
         private readonly UserManager<ApplicationUser> userManager;
 
+        private readonly ICartsService cartsService;
+
         public CartController(
             ICartService cartService,
             IProductsService productsService,
             ICountriesService countriesService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ICartsService cartsService)
         {
             this.cartService = cartService;
             this.productsService = productsService;
             this.countriesService = countriesService;
             this.userManager = userManager;
+            this.cartsService = cartsService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = this.User.GetUserId();
-
-            var productsInTheCart = await this.cartService.GetAllProductsInTheCartByUserIdAsync(userId);
+            var productsInTheCart = await this.cartsService.GetAllProductsInTheUsersCart();
 
             return this.View(productsInTheCart);
         }
@@ -50,9 +53,9 @@
         [HttpPost]
         public async Task<IActionResult> IncreaseQuantity(string productId)
         {
-            bool result = await this.cartService.IncreaseQuantityAsync(productId);
+            var result = await this.cartsService.IncreaseQuantity(productId);
 
-            if (result)
+            if (result.Succeeded)
             {
                 return this.Ok();
             }
@@ -65,9 +68,9 @@
         [HttpPost]
         public async Task<IActionResult> ReduceQuantity(string productId)
         {
-            bool result = await this.cartService.ReduceQuantityAsync(productId);
+            var result = await this.cartsService.ReduceQuantity(productId);
 
-            if (result)
+            if (result.Succeeded)
             {
                 return this.Ok();
             }
@@ -117,9 +120,9 @@
                 return this.NotFound();
             }
 
-            bool result = await this.cartService.DeleteProductInTheCartAsync(id);
+            var result = await this.cartsService.DeleteProductInTheCart(id);
 
-            if (result == false)
+            if (!result.Succeeded)
             {
                 this.Error(NotificationMessages.CannotDeleteThisProductInTheCartError);
             }

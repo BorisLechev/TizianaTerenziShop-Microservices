@@ -6,10 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\..\..\Rules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>

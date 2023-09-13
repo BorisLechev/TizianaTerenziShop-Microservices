@@ -1,6 +1,9 @@
-﻿namespace TizianaTerenzi.WebClient.ViewModels.Orders
+﻿namespace TizianaTerenzi.Carts.Web.Models.Carts
 {
-    public class ProductsInTheCartViewModel
+    using TizianaTerenzi.Carts.Data.Models;
+    using TizianaTerenzi.Common.Services.Mapping;
+
+    public class ProductsInTheCartViewModel : IMapFrom<Cart>, IMapTo<Cart>
     {
         public string Id { get; set; } // TODO: make it int
 
