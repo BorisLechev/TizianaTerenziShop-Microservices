@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TizianaTerenzi.Carts.Data;
 
@@ -11,9 +12,11 @@ using TizianaTerenzi.Carts.Data;
 namespace TizianaTerenzi.Carts.Data.Migrations
 {
     [DbContext(typeof(CartsDbContext))]
-    partial class CartsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230915091015_AddProductPriceWithGeneralDiscountFromProductsTableAndRenameOtherColumn")]
+    partial class AddProductPriceWithGeneralDiscountFromProductsTableAndRenameOtherColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

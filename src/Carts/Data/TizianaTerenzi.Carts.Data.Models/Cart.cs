@@ -9,6 +9,8 @@
             this.Id = Guid.NewGuid().ToString();
         }
 
+        public decimal PriceWithDiscountCode { get; set; }
+
         public int Quantity { get; set; }
 
         public int ProductId { get; set; }
@@ -17,7 +19,7 @@
 
         public string ProductPicture { get; set; }
 
-        public decimal ProductPriceWithDiscountCode { get; set; }
+        public decimal ProductPriceWithGeneralDiscount { get; set; }
 
         public string UserId { get; set; }
 
