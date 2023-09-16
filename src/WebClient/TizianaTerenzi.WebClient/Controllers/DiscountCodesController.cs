@@ -1,55 +1,36 @@
 ﻿namespace TizianaTerenzi.WebClient.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Discounts;
-    using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Carts;
 
     [Authorize]
     [Route("[controller]/[action]")]
     public class DiscountCodesController : BaseController
     {
-        private readonly IDiscountCodesService discountCodesService;
+        private readonly ICartsService cartsService;
 
-        public DiscountCodesController(IDiscountCodesService discountCodesService)
+        public DiscountCodesController(ICartsService cartsService)
         {
-            this.discountCodesService = discountCodesService;
+            this.cartsService = cartsService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Apply(string discountName)
         {
-            if (discountName == null || discountName.Length > 30)
+            var result = await this.cartsService.ApplyDiscountCode(discountName);
+
+            if (!result.Succeeded)
             {
-                this.Error(NotificationMessages.DiscountCodeError);
+                this.Error(result.Errors.FirstOrDefault());
 
                 return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
-            var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
-
-            if (isExisting == false)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
-
-                return this.RedirectToAction(nameof(CartController.Index), "Cart");
-            }
-
-            var userId = this.User.GetUserId();
-
-            var result = await this.discountCodesService.ModifyThePricesAfterAppliedDiscountCodeAsync(discountName, userId);
-
-            if (result == false)
-            {
-                this.Error(NotificationMessages.AlreadyAppliedDiscountCode);
-
-                return this.RedirectToAction(nameof(CartController.Index), "Cart");
-            }
-
-            this.Success(NotificationMessages.SuccessfullyAppliedDiscountCode);
+            this.Success(result.SucceessMessage);
 
             return this.RedirectToAction(nameof(CartController.Index), "Cart");
         }
@@ -57,36 +38,18 @@
         [HttpPost]
         public async Task<IActionResult> Delete(string discountName)
         {
-            if (discountName == null || discountName.Length > 30)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
+            var result = await this.cartsService.DeleteDiscountCode(discountName);
 
-                return this.RedirectToAction("Index", "Cart");
+            if (!result.Succeeded)
+            {
+                this.Error(result.Errors.FirstOrDefault());
+
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
 
-            var isExisting = await this.discountCodesService.CheckIfThereIsSuchaDiscountAsync(discountName);
+            this.Success(result.SucceessMessage);
 
-            if (isExisting == false)
-            {
-                this.Error(NotificationMessages.DiscountCodeError);
-
-                return this.RedirectToAction("Index", "Cart");
-            }
-
-            var userId = this.User.GetUserId();
-
-            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(userId);
-
-            if (result == false)
-            {
-                this.Error(NotificationMessages.CannotDeleteDiscountCodeError);
-
-                return this.RedirectToAction("Index", "Cart");
-            }
-
-            this.Success(NotificationMessages.SuccessfullyDeletedDiscountCode);
-
-            return this.RedirectToAction("Index", "Cart");
+            return this.RedirectToAction(nameof(CartController.Index), "Cart");
         }
     }
 }

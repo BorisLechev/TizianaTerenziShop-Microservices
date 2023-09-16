@@ -10,9 +10,8 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.Services.Data.Countries;
-    using TizianaTerenzi.Services.Data.Products;
-    using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Services.Carts;
+    using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     [Authorize]
@@ -20,25 +19,25 @@
     {
         private readonly ICartService cartService;
 
-        private readonly IProductsService productsService;
-
         private readonly ICountriesService countriesService;
 
         private readonly UserManager<ApplicationUser> userManager;
+
+        private readonly IProductsService productsService;
 
         private readonly ICartsService cartsService;
 
         public CartController(
             ICartService cartService,
-            IProductsService productsService,
             ICountriesService countriesService,
             UserManager<ApplicationUser> userManager,
+            IProductsService productsService,
             ICartsService cartsService)
         {
             this.cartService = cartService;
-            this.productsService = productsService;
             this.countriesService = countriesService;
             this.userManager = userManager;
+            this.productsService = productsService;
             this.cartsService = cartsService;
         }
 
@@ -83,33 +82,9 @@
         [HttpPost]
         public async Task<IActionResult> AddProductInTheCart(int productId)
         {
-            if (productId <= 0)
-            {
-                return this.NotFound();
-            }
+            await this.productsService.AddProductInTheCart(productId);
 
-            var userId = this.User.GetUserId();
-            var product = await this.productsService.GetProductByIdAsync(productId);
-
-            if (product == null)
-            {
-                return this.NotFound();
-            }
-
-            var ifProductInTheCartExists = await this.cartService.CheckIfProductExistsInTheUsersCartAsync(userId, product.Id);
-
-            if (ifProductInTheCartExists == true)
-            {
-                var productInTheCartId = await this.cartService.GetProductInTheCartIdByProductIdAsync(productId);
-
-                await this.cartService.IncreaseQuantityAsync(productInTheCartId);
-            }
-            else
-            {
-                await this.cartService.AddProductInTheCartAsync(product, userId);
-            }
-
-            return this.RedirectToAction(nameof(this.Index));
+            return this.NoContent();
         }
 
         [HttpPost]

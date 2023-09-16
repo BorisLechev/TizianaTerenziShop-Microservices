@@ -15,7 +15,13 @@
         [Post("/Carts/ReduceQuantity")]
         Task<Result> ReduceQuantity(string productId);
 
-        [Delete("/Carts/DeleteProductInTheCart")]
+        [Delete("/Carts/DeleteProduct")]
         Task<Result> DeleteProductInTheCart(string id);
+
+        [Post("/DiscountCodes/Apply")]
+        Task<Result> ApplyDiscountCode(string discountName);
+
+        [Delete("/DiscountCodes/Delete")]
+        Task<Result> DeleteDiscountCode(string discountName);
     }
 }

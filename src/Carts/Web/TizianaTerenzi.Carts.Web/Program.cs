@@ -1,10 +1,12 @@
 namespace TizianaTerenzi.Carts.Web
 {
+    using MassTransit;
     using TizianaTerenzi.Carts.Data;
     using TizianaTerenzi.Carts.Data.Repositories;
     using TizianaTerenzi.Carts.Data.Seeding;
     using TizianaTerenzi.Carts.Services.Data.Carts;
     using TizianaTerenzi.Carts.Services.Data.Discounts;
+    using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
@@ -37,12 +39,24 @@ namespace TizianaTerenzi.Carts.Web
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 
-            // -------Seeders--------
-            .AddSingleton<ISeeder<CartsDbContext>, DiscountCodesSeeder>()
+                // -------Seeders--------
+                .AddSingleton<ISeeder<CartsDbContext>, DiscountCodesSeeder>()
 
-            // -------Services------------
-            .AddTransient<ICartsService, CartsService>()
-            .AddTransient<IDiscountsService, DiscountsService>();
+                // -------Services------------
+                .AddTransient<ICartsService, CartsService>()
+                .AddTransient<IDiscountCodesService, DiscountCodesService>();
+
+            services
+                .AddMassTransit(mt =>
+                {
+                    mt.AddConsumer<ProductAddedInTheCartConsumer>();
+
+                    // A Transport
+                    mt.UsingRabbitMq((context, cfg) =>
+                    {
+                        cfg.ConfigureEndpoints(context);
+                    });
+                });
         }
     }
 }

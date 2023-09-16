@@ -123,6 +123,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Carts.Web.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Carts.Data.Models", "Carts\Data\TizianaTerenzi.Carts.Data.Models\TizianaTerenzi.Carts.Data.Models.csproj", "{D8E1726E-F6FD-4F85-99C7-0547054F81F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Common.Messages", "Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj", "{5187105C-BFC3-480A-BF2D-9EEDFBD02625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -297,6 +299,10 @@ Global
 		{D8E1726E-F6FD-4F85-99C7-0547054F81F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8E1726E-F6FD-4F85-99C7-0547054F81F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8E1726E-F6FD-4F85-99C7-0547054F81F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5187105C-BFC3-480A-BF2D-9EEDFBD02625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5187105C-BFC3-480A-BF2D-9EEDFBD02625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5187105C-BFC3-480A-BF2D-9EEDFBD02625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5187105C-BFC3-480A-BF2D-9EEDFBD02625}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -354,6 +360,7 @@ Global
 		{0E4CA541-05B6-487A-B386-3B649C202688} = {68380D1F-34BB-4D56-B0DA-56B75B6F751F}
 		{748A98C3-FE8A-4342-8DDE-01B093D1802A} = {68380D1F-34BB-4D56-B0DA-56B75B6F751F}
 		{D8E1726E-F6FD-4F85-99C7-0547054F81F5} = {B0A53D31-C748-4C8E-A285-78CF71D304F2}
+		{5187105C-BFC3-480A-BF2D-9EEDFBD02625} = {7C7B6CBA-4B3C-4DC8-9909-19F14BEE7C90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

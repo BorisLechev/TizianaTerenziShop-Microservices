@@ -71,7 +71,7 @@
                 .Select(x => new OrderProduct
                 {
                     ProductId = x.ProductId,
-                    Price = x.ProductPriceWithDiscountCode,
+                    Price = x.PriceWithDiscountCode,
                     Quantity = x.Quantity,
                     CreatedOn = DateTime.UtcNow,
                 })

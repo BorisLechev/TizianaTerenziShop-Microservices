@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
+    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Products;
@@ -112,6 +113,16 @@
             productDetailsViewModel.RelatedProducts = relatedProducts;
 
             return productDetailsViewModel;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductInTheCart(int productId)
+        {
+            var userId = this.User.GetUserId();
+
+            await this.productsService.AddProductInTheCart(productId, userId);
+
+            return this.Ok();
         }
     }
 }

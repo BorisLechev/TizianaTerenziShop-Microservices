@@ -4,11 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
+    using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Notes;
@@ -21,12 +22,16 @@
 
         private readonly INotesService notesService;
 
+        private readonly IBus publisher;
+
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
-            INotesService notesService)
+            INotesService notesService,
+            IBus publisher)
         {
             this.productsRepository = productsRepository;
             this.notesService = notesService;
+            this.publisher = publisher;
         }
 
         public async Task<bool> CreateProductAsync(CreateProductInputModel inputModel, string pictureUrl)
@@ -196,6 +201,29 @@
                 .ToListAsync();
 
             return randomProducts;
+        }
+
+        public async Task AddProductInTheCart(int productId, string userId)
+        {
+            var product = await this.productsRepository
+                                .AllAsNoTracking()
+                                .Where(p => p.Id == productId)
+                                .Select(p => new
+                                {
+                                    Name = p.Name,
+                                    Picture = p.Picture,
+                                    PriceWithGeneralDiscount = p.PriceWithGeneralDiscount,
+                                })
+                                .SingleOrDefaultAsync();
+
+            await this.publisher.Publish(new ProductAddedInTheCartMessage
+            {
+                UserId = userId,
+                ProductId = productId,
+                ProductName = product.Name,
+                ProductPicture = product.Picture,
+                PriceWithGeneralDiscount = product.PriceWithGeneralDiscount,
+            });
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

@@ -27,5 +27,7 @@
         Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync();
 
         Task<IEnumerable<RelatedProductsViewModel>> GetRandomRelatedProductsAsync(int productId);
+
+        Task AddProductInTheCart(int productId, string userId);
     }
 }

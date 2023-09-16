@@ -14,6 +14,8 @@
 	</ItemGroup>
 	
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.1.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
     <ProjectReference Include="..\..\Data\TizianaTerenzi.Products.Data.Models\TizianaTerenzi.Products.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\TizianaTerenzi.Products.Web.Models\TizianaTerenzi.Products.Web.Models.csproj" />
   </ItemGroup>

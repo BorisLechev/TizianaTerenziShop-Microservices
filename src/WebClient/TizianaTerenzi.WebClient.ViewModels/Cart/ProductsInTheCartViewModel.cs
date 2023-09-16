@@ -12,9 +12,9 @@
 
         public decimal ProductPriceWithGeneralDiscount { get; set; }
 
-        public decimal ProductPriceWithDiscountCode { get; set; }
+        public decimal PriceWithDiscountCode { get; set; }
 
-        public decimal TotalPrice => this.ProductPriceWithDiscountCode * this.Quantity;
+        public decimal TotalPrice => this.PriceWithDiscountCode * this.Quantity;
 
         public int Quantity { get; set; }
 

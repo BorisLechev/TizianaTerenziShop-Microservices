@@ -4,6 +4,7 @@
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
     using Z.EntityFramework.Plus;
 
@@ -16,6 +17,55 @@
             this.cartsRepository = cartsRepository;
         }
 
+        public async Task<bool> AddProductInTheCartAsync(ProductAddedInTheCartMessage product)
+        {
+            var productInTheCart = new Cart
+            {
+                UserId = product.UserId,
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                ProductPicture = product.ProductPicture,
+                Quantity = 1,
+                PriceWithDiscountCode = product.PriceWithGeneralDiscount,
+                ProductPriceWithGeneralDiscount = product.PriceWithGeneralDiscount,
+            };
+
+            await this.cartsRepository.AddAsync(productInTheCart);
+
+            int result = await this.cartsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> CheckIfProductExistsInTheUsersCartAsync(string userId, int productId)
+        {
+            var result = await this.cartsRepository
+                                .AllAsNoTracking()
+                                .AnyAsync(p => p.UserId == userId && p.ProductId == productId);
+
+            return result;
+        }
+
+        public async Task<bool> DeleteAllProductsInTheCartByUserIdAsync(string userId)
+        {
+            var productsCount = await this.cartsRepository
+                                      .AllAsNoTracking()
+                                      .Where(p => p.UserId == userId)
+                                      .DeleteAsync();
+
+            return productsCount > 0;
+        }
+
+        public async Task<bool> DeleteProductInTheCartAsync(string productId)
+        {
+            var productsCount = await this.cartsRepository
+                                    .AllAsNoTracking()
+                                    .Where(p => p.Id == productId)
+                                    .DeleteAsync();
+
+            return productsCount == 1;
+        }
+
         public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId)
         {
             var productsInTheCart = await this.cartsRepository
@@ -25,6 +75,17 @@
                                     .ToListAsync();
 
             return productsInTheCart;
+        }
+
+        public async Task<string> GetProductInTheCartIdByProductIdAsync(int productId)
+        {
+            var productInTheCartId = await this.cartsRepository
+                                            .AllAsNoTracking()
+                                            .Where(p => p.ProductId == productId)
+                                            .Select(p => p.Id)
+                                            .SingleOrDefaultAsync();
+
+            return productInTheCartId;
         }
 
         public async Task<bool> IncreaseQuantityAsync(string productId)
@@ -56,16 +117,6 @@
             int result = await this.cartsRepository.SaveChangesAsync();
 
             return result > 0;
-        }
-
-        public async Task<bool> DeleteProductInTheCartAsync(string productId)
-        {
-            var productsCount = await this.cartsRepository
-                .AllAsNoTracking()
-                .Where(p => p.Id == productId)
-                .DeleteAsync();
-
-            return productsCount == 1;
         }
     }
 }

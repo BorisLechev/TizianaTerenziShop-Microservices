@@ -32,5 +32,8 @@
 
         [Delete("/Wishlist/Delete")]
         Task<Result> DeleteProductFromTheWishlist(int productId);
+
+        [Post("/Products/AddProductInTheCart")]
+        Task AddProductInTheCart(int productId);
     }
 }

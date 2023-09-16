@@ -1,5 +1,6 @@
 namespace TizianaTerenzi.Products.Web
 {
+    using MassTransit;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
@@ -57,6 +58,15 @@ namespace TizianaTerenzi.Products.Web
                 .AddTransient<ICommentVotesService, CommentVotesService>()
                 .AddTransient<IProductVotesService, ProductVotesService>()
                 .AddTransient<IWishlistService, WishlistService>();
+
+            services
+                .AddMassTransit(mt =>
+                {
+                    // A Transport
+                    mt.UsingRabbitMq((context, cfg) =>
+                    {
+                    });
+                });
         }
     }
 }

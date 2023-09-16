@@ -9,6 +9,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Identity.Web.Models.Profile;
@@ -95,7 +96,8 @@
         {
             AutoMapperConfig.RegisterMappings(
                                             typeof(ProductInListViewModel).GetTypeInfo().Assembly,
-                                            typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly);
+                                            typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly,
+                                            typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly);
 
             return app;
         }
