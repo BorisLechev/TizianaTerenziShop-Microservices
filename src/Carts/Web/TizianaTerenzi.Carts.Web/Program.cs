@@ -1,6 +1,5 @@
 namespace TizianaTerenzi.Carts.Web
 {
-    using MassTransit;
     using TizianaTerenzi.Carts.Data;
     using TizianaTerenzi.Carts.Data.Repositories;
     using TizianaTerenzi.Carts.Data.Seeding;
@@ -47,16 +46,7 @@ namespace TizianaTerenzi.Carts.Web
                 .AddTransient<IDiscountCodesService, DiscountCodesService>();
 
             services
-                .AddMassTransit(mt =>
-                {
-                    mt.AddConsumer<ProductAddedInTheCartConsumer>();
-
-                    // A Transport
-                    mt.UsingRabbitMq((context, cfg) =>
-                    {
-                        cfg.ConfigureEndpoints(context);
-                    });
-                });
+                .AddMessageBroker(typeof(ProductAddedInTheCartConsumer));
         }
     }
 }

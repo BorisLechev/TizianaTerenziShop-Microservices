@@ -2,7 +2,7 @@
 {
     using System.IO.Compression;
     using System.Text;
-
+    using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.ResponseCompression;
@@ -103,6 +103,23 @@
                 .Configure<GzipCompressionProviderOptions>(options =>
                 {
                     options.Level = CompressionLevel.SmallestSize;
+                });
+
+            return services;
+        }
+
+        public static IServiceCollection AddMessageBroker(this IServiceCollection services, params Type[] consumers)
+        {
+            services
+                .AddMassTransit(mt =>
+                {
+                    consumers.ForEach(consumer => mt.AddConsumer(consumer));
+
+                    // A Transport
+                    mt.UsingRabbitMq((context, cfg) =>
+                    {
+                        cfg.ConfigureEndpoints(context);
+                    });
                 });
 
             return services;
