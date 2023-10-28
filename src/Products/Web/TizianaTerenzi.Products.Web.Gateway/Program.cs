@@ -1,9 +1,8 @@
 namespace TizianaTerenzi.Products.Web.Gateway
 {
     using TizianaTerenzi.Common.Services.Identity;
-    using TizianaTerenzi.Common.Web.Infrastructure.Middlewares;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
-    using TizianaTerenzi.Products.Web.Gateway.Services;
+    using TizianaTerenzi.Common.Web.Infrastructure.Middlewares;
     using TizianaTerenzi.Products.Web.Gateway.Services.Identity;
     using TizianaTerenzi.Products.Web.Gateway.Services.Products;
 

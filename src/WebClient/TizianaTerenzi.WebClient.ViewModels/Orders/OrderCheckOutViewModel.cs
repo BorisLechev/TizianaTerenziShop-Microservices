@@ -5,6 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.WebClient.ViewModels.Cart;
 
     public class OrderCheckoutViewModel
     {

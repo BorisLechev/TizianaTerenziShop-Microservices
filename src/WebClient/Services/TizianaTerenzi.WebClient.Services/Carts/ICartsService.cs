@@ -2,7 +2,7 @@
 {
     using Refit;
     using TizianaTerenzi.Common.Services;
-    using TizianaTerenzi.WebClient.ViewModels.Orders;
+    using TizianaTerenzi.WebClient.ViewModels.Cart;
 
     public interface ICartsService
     {

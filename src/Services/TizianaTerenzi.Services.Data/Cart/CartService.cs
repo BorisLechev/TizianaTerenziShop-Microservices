@@ -11,6 +11,7 @@
     using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.WebClient.ViewModels.Cart;
     using TizianaTerenzi.WebClient.ViewModels.Orders;
     using Z.EntityFramework.Plus;
 

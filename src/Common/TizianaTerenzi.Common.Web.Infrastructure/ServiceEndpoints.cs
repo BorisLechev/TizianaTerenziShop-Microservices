@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.WebClient.Services
+﻿namespace TizianaTerenzi.Common.Web.Infrastructure
 {
     public class ServiceEndpoints
     {
@@ -9,6 +9,8 @@
         public string Carts { get; private set; }
 
         public string ProductsGateway { get; private set; }
+
+        public string Notifications { get; private set; }
 
         public string this[string service]
             => this.GetType()

@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.WebClient.ViewModels.Cart;
     using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     public interface ICartService

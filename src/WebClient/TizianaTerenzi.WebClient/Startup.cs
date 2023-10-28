@@ -56,7 +56,6 @@
     using TizianaTerenzi.Services.Scrapers;
     using TizianaTerenzi.Services.SlugGenerator;
     using TizianaTerenzi.WebClient.Hubs;
-    using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Middlewares;
     using TizianaTerenzi.WebClient.Services.Carts;
     using TizianaTerenzi.WebClient.Services.Identity;

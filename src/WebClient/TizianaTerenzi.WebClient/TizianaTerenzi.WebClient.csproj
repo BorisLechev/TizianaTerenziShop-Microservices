@@ -72,6 +72,7 @@
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Messaging\TizianaTerenzi.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Services\TizianaTerenzi.Services.csproj" />
+    <ProjectReference Include="..\Services\TizianaTerenzi.WebClient.Services\TizianaTerenzi.WebClient.Services.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.WebClient.Infrastructure\TizianaTerenzi.WebClient.Infrastructure.csproj" />
   </ItemGroup>
 
@@ -190,5 +191,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\chart.js\dist\" />
+    <Folder Include="wwwroot\numberOfProductsInTheUsersCart\" />
   </ItemGroup>
 </Project>

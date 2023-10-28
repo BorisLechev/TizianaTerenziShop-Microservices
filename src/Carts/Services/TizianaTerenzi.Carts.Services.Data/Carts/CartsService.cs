@@ -77,11 +77,22 @@
             return productsInTheCart;
         }
 
-        public async Task<string> GetProductInTheCartIdByProductIdAsync(int productId)
+        public async Task<int> GetNumberOfProductsInTheUsersCart(string userId)
+        {
+            var count = await this.cartsRepository
+                            .AllAsNoTracking()
+                            .Where(p => p.UserId == userId)
+                            .Select(p => p.Quantity)
+                            .SumAsync();
+
+            return count;
+        }
+
+        public async Task<string> GetProductInTheCartIdByProductIdAsync(int productId, string userId)
         {
             var productInTheCartId = await this.cartsRepository
                                             .AllAsNoTracking()
-                                            .Where(p => p.ProductId == productId)
+                                            .Where(p => p.ProductId == productId && p.UserId == userId)
                                             .Select(p => p.Id)
                                             .SingleOrDefaultAsync();
 

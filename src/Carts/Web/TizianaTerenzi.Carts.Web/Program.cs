@@ -9,6 +9,7 @@ namespace TizianaTerenzi.Carts.Web
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
+    using TizianaTerenzi.Notifications.Web.Hubs;
 
     public class Program
     {
@@ -24,7 +25,11 @@ namespace TizianaTerenzi.Carts.Web
             app
                 .UseMicroservice(app.Environment)
                 .MigrateDatabase()
-                .SeedDatabase<CartsDbContext>();
+                .SeedDatabase<CartsDbContext>()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHub<NumberOfProductsInTheUsersCartHub>("/numberOfProductsInTheUsersCartHub");
+                });
 
             app.MapControllers();
 
@@ -46,7 +51,8 @@ namespace TizianaTerenzi.Carts.Web
                 .AddTransient<IDiscountCodesService, DiscountCodesService>();
 
             services
-                .AddMessageBroker(typeof(ProductAddedInTheCartConsumer));
+                .AddMessageBroker(typeof(ProductAddedInTheCartConsumer))
+                .AddSignalR();
         }
     }
 }

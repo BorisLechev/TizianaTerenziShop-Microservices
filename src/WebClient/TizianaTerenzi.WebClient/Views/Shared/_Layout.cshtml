@@ -1,4 +1,5 @@
 ﻿@inject IViewLocalizer Localizer
+@inject TizianaTerenzi.Common.Services.Identity.ICurrentTokenService CurrentTokenService
 
 <!DOCTYPE html>
 <html>
@@ -104,7 +105,7 @@
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Cart" asp-action="Index" class="cart-badge">
                             <img src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236603/product_images/rocigfl0qtntlqqr35k4.webp" id="cart" class="nav-link black-cart" alt="cart">
-                            @*<vc:number-of-products-in-the-users-cart></vc:number-of-products-in-the-users-cart>*@
+                            <partial name="_NumberOfProductsInTheUsersCartPartial" />
                         </a>
                     </li>
                     <li class="nav-item">
@@ -114,6 +115,8 @@
             </div>
         </nav>
     </header>
+
+    <input id="jwtToken" name="" value="@this.CurrentTokenService.Get()" type="hidden" />
 
     <partial name="_CookieConsentPartial" />
     <partial name="_TempDataPartial" />
@@ -210,6 +213,7 @@
     <script src="~/notification/js/notification.js"></script>
     <script src="~/userStatus/js/userStatus.js" asp-append-version="true"></script>
     <script src="~/lib/aos/dist/aos.min.js" asp-append-version="true"></script>
+    <script src="~/numberOfProductsInTheUsersCart/numberOfProductsInTheUsersCart.js"></script>
     <script>
         AOS.init({
             offset: 125,

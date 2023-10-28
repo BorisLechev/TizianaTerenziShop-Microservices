@@ -28,6 +28,16 @@
             return this.Ok(productsInTheCart);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<int>> GetNumberOfProductsInTheUsersCart()
+        {
+            var userId = this.User.GetUserId();
+
+            int numberOfProductsInTheUsersCart = await this.cartsService.GetNumberOfProductsInTheUsersCart(userId);
+
+            return this.Ok(numberOfProductsInTheUsersCart);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Result>> IncreaseQuantity(string productId)
         {

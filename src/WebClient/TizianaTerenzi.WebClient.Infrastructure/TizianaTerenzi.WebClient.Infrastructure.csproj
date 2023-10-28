@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
-    <ProjectReference Include="..\Services\TizianaTerenzi.WebClient.Services\TizianaTerenzi.WebClient.Services.csproj" />
   </ItemGroup>
 
 </Project>

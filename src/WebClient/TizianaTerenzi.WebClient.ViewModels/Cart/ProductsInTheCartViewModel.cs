@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.WebClient.ViewModels.Orders
+﻿namespace TizianaTerenzi.WebClient.ViewModels.Cart
 {
     public class ProductsInTheCartViewModel
     {
