@@ -12,6 +12,8 @@
 
         public string Notifications { get; private set; }
 
+        public string Orders { get; private set; }
+
         public string this[string service]
             => this.GetType()
                 .GetProperties()

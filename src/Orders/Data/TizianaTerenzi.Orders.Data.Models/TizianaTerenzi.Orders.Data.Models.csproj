@@ -28,4 +28,8 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Data\TizianaTerenzi.Common.Data.csproj" />
+	</ItemGroup>
+
 </Project>

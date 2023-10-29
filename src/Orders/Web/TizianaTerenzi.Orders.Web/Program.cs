@@ -1,5 +1,12 @@
 namespace TizianaTerenzi.Orders.Web
 {
+    using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Data.Seeding;
+    using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
+    using TizianaTerenzi.Orders.Data;
+    using TizianaTerenzi.Orders.Data.Repositories;
+    using TizianaTerenzi.Orders.Data.Seeding;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -7,21 +14,29 @@ namespace TizianaTerenzi.Orders.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            builder.Services.AddControllers();
+            ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
+            app
+                .UseMicroservice(builder.Environment)
+                .MigrateDatabase()
+                .SeedDatabase<OrdersDbContext>();
 
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void ConfigureServices(IServiceCollection services, ConfigurationManager configuration)
+        {
+            services
+                .AddMicroservice<OrdersDbContext>(configuration)
+                .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
+                .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+
+                // -------Seeders--------
+                .AddSingleton<ISeeder<OrdersDbContext>, OrderStatusesSeeder>();
         }
     }
 }

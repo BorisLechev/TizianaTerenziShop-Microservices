@@ -28,4 +28,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Orders.Data\TizianaTerenzi.Orders.Data.csproj" />
+	  <ProjectReference Include="..\..\Services\TizianaTerenzi.Orders.Services.Data\TizianaTerenzi.Orders.Services.Data.csproj" />
+	</ItemGroup>
+
 </Project>
