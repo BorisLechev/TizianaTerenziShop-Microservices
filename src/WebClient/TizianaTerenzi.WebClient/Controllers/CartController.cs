@@ -1,44 +1,28 @@
 ﻿namespace TizianaTerenzi.WebClient.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Cart;
-    using TizianaTerenzi.Services.Data.Countries;
     using TizianaTerenzi.WebClient.Services.Carts;
     using TizianaTerenzi.WebClient.Services.Products;
-    using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     [Authorize]
     public class CartController : BaseController
     {
-        private readonly ICartService cartService;
-
-        private readonly ICountriesService countriesService;
-
-        private readonly UserManager<ApplicationUser> userManager;
-
         private readonly IProductsService productsService;
-
         private readonly ICartsService cartsService;
+        private readonly ICartsGatewayService cartsGatewayService;
 
         public CartController(
-            ICartService cartService,
-            ICountriesService countriesService,
-            UserManager<ApplicationUser> userManager,
             IProductsService productsService,
-            ICartsService cartsService)
+            ICartsService cartsService,
+            ICartsGatewayService cartsGatewayService)
         {
-            this.cartService = cartService;
-            this.countriesService = countriesService;
-            this.userManager = userManager;
             this.productsService = productsService;
             this.cartsService = cartsService;
+            this.cartsGatewayService = cartsGatewayService;
         }
 
         [HttpGet]
@@ -107,35 +91,16 @@
 
         public async Task<IActionResult> Checkout()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var productsInTheCart = await this.cartService
-                 .GetAllProductsInTheCartByUserIdAsync(user.Id);
-            var countries = await this.countriesService.GetAllCountriesAsync();
-            var bulgariaId = countries.Single(c => c.Text == "Bulgaria").Value;
+            var result = await this.cartsGatewayService.Checkout();
 
-            var viewModel = new OrderCheckoutViewModel
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                CountryId = user.CountryId,
-                Town = user.Town,
-                Address = user.Address,
-                PostalCode = user.PostalCode,
-                PhoneNumber = user.PhoneNumber,
-                Products = productsInTheCart,
-                Countries = countries,
-                BulgariaId = int.Parse(bulgariaId),
-            };
-
-            if (productsInTheCart.Any() == false)
+            if (!result.Succeeded || result.Data.Products.Count == 0)
             {
                 this.Error(NotificationMessages.EmptyCartError);
 
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            return this.View("~/Views/Payment/Index.cshtml", viewModel);
+            return this.View("~/Views/Payment/Index.cshtml", result.Data);
         }
     }
 }

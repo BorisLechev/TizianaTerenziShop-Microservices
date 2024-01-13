@@ -1,13 +1,11 @@
-﻿namespace TizianaTerenzi.WebClient.ViewModels.Orders
+﻿namespace TizianaTerenzi.Carts.Web.Models.Carts
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.WebClient.ViewModels.Cart;
 
-    public class OrderCheckoutViewModel
+    public class ProductsInTheCartCheckoutViewModel
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required.")]
         [EmailAddress]
@@ -49,7 +47,7 @@
         [Display(Name = "Address")]
         public string Address { get; set; }
 
-        public List<ProductsInTheCartViewModel> Products { get; set; }
+        public IEnumerable<ProductsInTheCartViewModel> Products { get; set; }
 
         public int? DiscountCodeId { get; set; }
 
@@ -57,6 +55,6 @@
 
         public int BulgariaId { get; set; }
 
-        public string ShippingFeeRow => this.CountryId == this.BulgariaId ? "Free" : $"€ {GlobalConstants.ShippingFee}";
+        public string ShippingFeeRow => CountryId == BulgariaId ? "Free" : $"€ {GlobalConstants.ShippingFee}";
     }
 }

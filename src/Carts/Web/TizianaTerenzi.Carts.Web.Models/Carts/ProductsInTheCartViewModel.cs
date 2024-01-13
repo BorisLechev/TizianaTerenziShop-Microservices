@@ -24,5 +24,7 @@
         public int? DiscountCodeId { get; set; }
 
         public string DiscountCodeName { get; set; }
+
+        public byte? DiscountCodeDiscount { get; set; }
     }
 }

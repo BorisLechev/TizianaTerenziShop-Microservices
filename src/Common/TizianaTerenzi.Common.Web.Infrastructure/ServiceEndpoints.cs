@@ -14,6 +14,8 @@
 
         public string Orders { get; private set; }
 
+        public string CartsGateway { get; private set; }
+
         public string this[string service]
             => this.GetType()
                 .GetProperties()

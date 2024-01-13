@@ -4,6 +4,7 @@ namespace TizianaTerenzi.Carts.Web
     using TizianaTerenzi.Carts.Data.Repositories;
     using TizianaTerenzi.Carts.Data.Seeding;
     using TizianaTerenzi.Carts.Services.Data.Carts;
+    using TizianaTerenzi.Carts.Services.Data.Countries;
     using TizianaTerenzi.Carts.Services.Data.Discounts;
     using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
@@ -45,10 +46,12 @@ namespace TizianaTerenzi.Carts.Web
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<CartsDbContext>, DiscountCodesSeeder>()
+                .AddSingleton<ISeeder<CartsDbContext>, CountriesSeeder>()
 
                 // -------Services------------
                 .AddTransient<ICartsService, CartsService>()
-                .AddTransient<IDiscountCodesService, DiscountCodesService>();
+                .AddTransient<IDiscountCodesService, DiscountCodesService>()
+                .AddTransient<ICountriesService, CountriesService>();
 
             services
                 .AddMessageBroker(typeof(ProductAddedInTheCartConsumer))

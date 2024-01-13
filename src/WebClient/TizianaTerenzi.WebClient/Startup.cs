@@ -252,7 +252,8 @@
                 .AddExternalService<IIdentityService>(this.configuration)
                 .AddExternalService<TizianaTerenzi.WebClient.Services.Products.IProductsService>(this.configuration)
                 .AddExternalService<IProductsGatewayService>(this.configuration)
-                .AddExternalService<ICartsService>(this.configuration);
+                .AddExternalService<ICartsService>(this.configuration)
+                .AddExternalService<ICartsGatewayService>(this.configuration);
 
             //services
             //.AddRefitClient<IIdentityService>()
