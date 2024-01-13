@@ -42,6 +42,7 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Data\TizianaTerenzi.Common.Data.csproj" />
+    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Carts.Data.Models\TizianaTerenzi.Carts.Data.Models.csproj" />
   </ItemGroup>
 
