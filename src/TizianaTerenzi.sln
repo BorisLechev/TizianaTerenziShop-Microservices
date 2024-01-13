@@ -145,15 +145,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{EEA1484B-91E8-42E2-B44D-4296EA198146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Orders.Data", "Orders\Data\TizianaTerenzi.Orders.Data\TizianaTerenzi.Orders.Data.csproj", "{8DA88C60-453C-41CE-AE89-C33B1052FB56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Orders.Data", "Orders\Data\TizianaTerenzi.Orders.Data\TizianaTerenzi.Orders.Data.csproj", "{8DA88C60-453C-41CE-AE89-C33B1052FB56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Orders.Data.Models", "Orders\Data\TizianaTerenzi.Orders.Data.Models\TizianaTerenzi.Orders.Data.Models.csproj", "{562B1405-BD9C-495B-B366-671B3D6877DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Orders.Data.Models", "Orders\Data\TizianaTerenzi.Orders.Data.Models\TizianaTerenzi.Orders.Data.Models.csproj", "{562B1405-BD9C-495B-B366-671B3D6877DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Orders.Services.Data", "Orders\Services\TizianaTerenzi.Orders.Services.Data\TizianaTerenzi.Orders.Services.Data.csproj", "{051CC894-E223-4F63-BECD-064186149516}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Orders.Services.Data", "Orders\Services\TizianaTerenzi.Orders.Services.Data\TizianaTerenzi.Orders.Services.Data.csproj", "{051CC894-E223-4F63-BECD-064186149516}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Orders.Web.Models", "Orders\Web\TizianaTerenzi.Orders.Web.Models\TizianaTerenzi.Orders.Web.Models.csproj", "{DB10B79F-A8CB-4F95-9A94-402DEFBBF21D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Orders.Web.Models", "Orders\Web\TizianaTerenzi.Orders.Web.Models\TizianaTerenzi.Orders.Web.Models.csproj", "{DB10B79F-A8CB-4F95-9A94-402DEFBBF21D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Orders.Web", "Orders\Web\TizianaTerenzi.Orders.Web\TizianaTerenzi.Orders.Web.csproj", "{859EFACB-FB4B-4E5B-AA87-51709A56AB46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Orders.Web", "Orders\Web\TizianaTerenzi.Orders.Web\TizianaTerenzi.Orders.Web.csproj", "{859EFACB-FB4B-4E5B-AA87-51709A56AB46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Carts.Web.Gateway", "Carts\Web\TizianaTerenzi.Carts.Web.Gateway\TizianaTerenzi.Carts.Web.Gateway.csproj", "{EB3D4AC7-66AD-4A6A-BC95-5D1DDB5F107E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -365,6 +367,10 @@ Global
 		{859EFACB-FB4B-4E5B-AA87-51709A56AB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{859EFACB-FB4B-4E5B-AA87-51709A56AB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{859EFACB-FB4B-4E5B-AA87-51709A56AB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3D4AC7-66AD-4A6A-BC95-5D1DDB5F107E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3D4AC7-66AD-4A6A-BC95-5D1DDB5F107E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3D4AC7-66AD-4A6A-BC95-5D1DDB5F107E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3D4AC7-66AD-4A6A-BC95-5D1DDB5F107E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -436,6 +442,7 @@ Global
 		{051CC894-E223-4F63-BECD-064186149516} = {E40969AC-458C-43CB-8897-43CF0EA63A8F}
 		{DB10B79F-A8CB-4F95-9A94-402DEFBBF21D} = {EEA1484B-91E8-42E2-B44D-4296EA198146}
 		{859EFACB-FB4B-4E5B-AA87-51709A56AB46} = {EEA1484B-91E8-42E2-B44D-4296EA198146}
+		{EB3D4AC7-66AD-4A6A-BC95-5D1DDB5F107E} = {68380D1F-34BB-4D56-B0DA-56B75B6F751F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

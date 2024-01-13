@@ -11,6 +11,8 @@
 
         Task<bool> DeleteAllProductsInTheCartByUserIdAsync(string userId);
 
+        Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId);
+
         Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId);
 
         Task<string> GetProductInTheCartIdByProductIdAsync(int productId, string userId);
@@ -22,5 +24,7 @@
         Task<bool> ReduceQuantityAsync(string productId);
 
         Task<int> GetNumberOfProductsInTheUsersCart(string userId);
+
+        Task Order(ProductsInTheUserCartHaveBeenOrderedInputModel inputModel, string userId);
     }
 }

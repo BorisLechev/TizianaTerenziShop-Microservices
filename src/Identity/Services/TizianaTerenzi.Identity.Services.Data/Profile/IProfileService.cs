@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Identity.Services.Data.Profile
 {
+    using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Web.Models.Profile;
 
@@ -14,5 +15,7 @@
         Task<bool> EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel);
 
         Task<AllUsersListViewModel> GetAllUsersExceptAdminsAsync(int page, int take, int skip = 0);
+
+        Task<bool> SaveShippingDataAsync(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage model);
     }
 }

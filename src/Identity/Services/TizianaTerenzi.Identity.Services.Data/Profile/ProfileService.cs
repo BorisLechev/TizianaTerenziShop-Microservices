@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Services.Data.Countries;
@@ -128,6 +129,22 @@
                                     .SingleOrDefaultAsync();
 
             return personalData;
+        }
+
+        public async Task<bool> SaveShippingDataAsync(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage model)
+        {
+            var user = await this.userManager.FindByIdAsync(model.UserId);
+            var countryId = await this.countriesService.GetCountryIdByNameAsync(model.Country);
+
+            user.CountryId = countryId;
+            user.Address = model.ShippingAddress;
+            user.Town = model.Town;
+            user.PostalCode = model.PostalCode;
+            user.PhoneNumber = model.PhoneNumber;
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
     }
 }

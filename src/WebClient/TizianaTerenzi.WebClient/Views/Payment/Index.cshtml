@@ -27,81 +27,81 @@
     <section class="wrap">
         <main class="main">
             @*<form asp-area="" asp-controller="Cart" asp-action="SaveShippingData" method="post">*@
-                <header class="main-header">
-                    <a class="logo">
-                        <img class="logo-img" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" alt="logo-img">
-                    </a>
-                </header>
-                <main class="main-content">
-                    <section>
-                        <div asp-validation-summary="All" id="form-errors" class="text-danger"></div>
+            <header class="main-header">
+                <a class="logo">
+                    <img class="logo-img" src="https://res.cloudinary.com/pictures-storage/image/upload/v1588236442/product_images/xelpbxklgtxrjpyxw6he.png" alt="logo-img">
+                </a>
+            </header>
+            <main class="main-content">
+                <section>
+                    <div asp-validation-summary="All" id="form-errors" class="text-danger"></div>
 
-                        <input value="@this.Model.Email" id="email" type="hidden">
-                        <section class="sections">
-                            <article class="shipping-address-container">
-                                <header class="shipping-address-header">
-                                    <h1 class="title">Shipping address</h1>
-                                </header>
-                                <main class="shipping-address-main">
-                                    <section class="fieldset">
-                                        <section class="address-input-fields">
-                                            <section class="field-wrapper half-field">
-                                                <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.FirstName" id="first-name" class="input-field" placeholder="First Name" type="text">
-                                                    <span asp-validation-for="@this.Model.FirstName" class="text-danger"></span>
-                                                </section>
+                    <input value="@this.Model.Email" id="email" type="hidden">
+                    <section class="sections">
+                        <article class="shipping-address-container">
+                            <header class="shipping-address-header">
+                                <h1 class="title">Shipping address</h1>
+                            </header>
+                            <main class="shipping-address-main">
+                                <section class="fieldset">
+                                    <section class="address-input-fields">
+                                        <section class="field-wrapper half-field">
+                                            <section class="field-inner-wrapper">
+                                                <input asp-for="@this.Model.FirstName" id="first-name" class="input-field" placeholder="First Name" type="text">
+                                                <span asp-validation-for="@this.Model.FirstName" class="text-danger"></span>
                                             </section>
-                                            <section class="field-wrapper half-field">
-                                                <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.LastName" id="last-name" class="input-field" placeholder="Last name" type="text">
-                                                    <span asp-validation-for="@this.Model.LastName" class="text-danger"></span>
-                                                </section>
+                                        </section>
+                                        <section class="field-wrapper half-field">
+                                            <section class="field-inner-wrapper">
+                                                <input asp-for="@this.Model.LastName" id="last-name" class="input-field" placeholder="Last name" type="text">
+                                                <span asp-validation-for="@this.Model.LastName" class="text-danger"></span>
                                             </section>
-                                            <section class="field-wrapper">
-                                                <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.Address" id="address" class="input-field" placeholder="Address" type="text">
-                                                    <span asp-validation-for="@this.Model.Address" class="text-danger"></span>
-                                                </section>
+                                        </section>
+                                        <section class="field-wrapper">
+                                            <section class="field-inner-wrapper">
+                                                <input asp-for="@this.Model.Address" id="address" class="input-field" placeholder="Address" type="text">
+                                                <span asp-validation-for="@this.Model.Address" class="text-danger"></span>
                                             </section>
-                                            <section class="field-wrapper">
-                                                <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.Town" id="town" class="input-field" placeholder="City" type="text">
-                                                    <span asp-validation-for="@this.Model.Town" class="text-danger"></span>
-                                                </section>
+                                        </section>
+                                        <section class="field-wrapper">
+                                            <section class="field-inner-wrapper">
+                                                <input asp-for="@this.Model.Town" id="town" class="input-field" placeholder="City" type="text">
+                                                <span asp-validation-for="@this.Model.Town" class="text-danger"></span>
                                             </section>
-                                            <section class="field-wrapper half-field">
-                                                <section class="field-inner-wrapper">
-                                                    <select asp-for="@this.Model.CountryId" data-live-search="true" title="Select Country..." asp-items="@this.Model.Countries" id="country" class="input-field">
-                                                        <option value="">Select one...</option>
-                                                    </select>
-                                                </section>
+                                        </section>
+                                        <section class="field-wrapper half-field">
+                                            <section class="field-inner-wrapper">
+                                                <select asp-for="@this.Model.CountryId" data-live-search="true" title="Select Country..." asp-items="@this.Model.Countries" id="country" class="input-field">
+                                                    <option value="">Select one...</option>
+                                                </select>
                                             </section>
-                                            <section class="field-wrapper half-field">
-                                                <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.PostalCode" id="postal-code" class="input-field" placeholder="Postal code" type="text">
-                                                    <span asp-validation-for="@this.Model.PostalCode" class="text-danger"></span>
-                                                </section>
+                                        </section>
+                                        <section class="field-wrapper half-field">
+                                            <section class="field-inner-wrapper">
+                                                <input asp-for="@this.Model.PostalCode" id="postal-code" class="input-field" placeholder="Postal code" type="text">
+                                                <span asp-validation-for="@this.Model.PostalCode" class="text-danger"></span>
                                             </section>
-                                            <section class="field-wrapper">
-                                                <section class="field-inner-wrapper">
-                                                    <input asp-for="@this.Model.PhoneNumber" id="phone-number" class="input-field" placeholder="Phone" type="text">
-                                                    <span asp-validation-for="@this.Model.PhoneNumber" class="text-danger"></span>
-                                                </section>
+                                        </section>
+                                        <section class="field-wrapper">
+                                            <section class="field-inner-wrapper">
+                                                <input asp-for="@this.Model.PhoneNumber" id="phone-number" class="input-field" placeholder="Phone" type="text">
+                                                <span asp-validation-for="@this.Model.PhoneNumber" class="text-danger"></span>
                                             </section>
                                         </section>
                                     </section>
-                                </main>
-                            </article>
-                        </section>
+                                </section>
+                            </main>
+                        </article>
                     </section>
-                </main>
-                <footer class="shipping-address-footer">
-                    <a asp-controller="Cart" asp-action="Index" class="return-link">
-                        <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
-                        <span>@Localizer["Return to cart"]</span>
-                    </a>
-                    <button id="checkout-button" class="continue-btn btn btn-secondary" type="submit">@Localizer["Continue"]</button>
-                </footer>
+                </section>
+            </main>
+            <footer class="shipping-address-footer">
+                <a asp-controller="Cart" asp-action="Index" class="return-link">
+                    <svg focusable="false" aria-hidden="true" class="icon-svg icon-svg--color-accent icon-svg--size-10 previous-link-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M8 1L7 0 3 4 2 5l1 1 4 4 1-1-4-4"></path></svg>
+                    <span>@Localizer["Return to cart"]</span>
+                </a>
+                <button id="checkout-button" class="continue-btn btn btn-secondary" type="submit">@Localizer["Continue"]</button>
+            </footer>
             @*</form>*@
         </main>
         <aside class="sidebar">
@@ -147,12 +147,12 @@
                                     <span class="subtotal-line-price">€ @this.Model.Products.Sum(order => order.TotalPrice).ToString("F2")</span>
                                 </td>
                             </tr>
-                                <tr>
-                                    <th class="subtotal-line">@Localizer["Shipping"]</th>
-                                    <td class="subtotal-line">
-                                        <span class="subtotal-line-price">@this.Model.ShippingFeeRow</span>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <th class="subtotal-line">@Localizer["Shipping"]</th>
+                                <td class="subtotal-line">
+                                    <span class="subtotal-line-price">@this.Model.ShippingFeeRow</span>
+                                </td>
+                            </tr>
                         </tbody>
                         <tfoot class="summary-tfoot">
                             <tr>
@@ -168,7 +168,7 @@
                                             {
                                                 @(this.Model.Products.Sum(order => order.TotalPrice))
                                             }
-                                         </span>
+                                        </span>
                                     </span>
                                 </td>
                             </tr>
@@ -203,11 +203,26 @@
             let lastName = $("#last-name").val();
             let address = $("#address").val();
             let town = $("#town").val();
-            let country = $("#country").val();
+            let countriesSelect = document.getElementById("country");
+            let countryValue = countriesSelect.value;
+            let countryText = countriesSelect.options[countriesSelect.selectedIndex].text;
+            //let country = $("#country").val();
             let postalCode = $("#postal-code").val();
             let phoneNumber = $("#phone-number").val();
 
-            let json = { email: email, firstName: firstName, lastName: lastName, address: address, town: town, countryId: country, postalCode: postalCode, phoneNumber: phoneNumber }; // shippingDataInputModel
+            let json =
+            {
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                address: address,
+                town: town,
+                //countryId: country,
+                country: countryText,
+                postalCode: postalCode,
+                phoneNumber: phoneNumber,
+                //products: Json.Serialize(Model.Products)
+            }; // shippingDataInputModel
 
             fetch("/payment/pay", {
                 method: "POST",

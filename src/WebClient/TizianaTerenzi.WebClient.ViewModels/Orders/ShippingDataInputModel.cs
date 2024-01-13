@@ -28,6 +28,8 @@
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
+        public string? Country { get; set; }
+
         [Display(Name = "Postal code")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Postal code is required.")]
         [DataType(DataType.PostalCode)]

@@ -258,5 +258,30 @@
 
             return this.Ok(usersViewModel);
         }
+
+        [HttpGet]
+        public async Task<Result<ProfileResponseModel>> GetProfileData(string id)
+        {
+            var user = await this.userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return Result<ProfileResponseModel>.Failure("User not found.");
+            }
+
+            var profileViewModel = new ProfileResponseModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Address = user.Address,
+                PostalCode = user.PostalCode,
+                Town = user.Town,
+                Phone = user.PhoneNumber,
+                Country = user.Country?.Name,
+            };
+
+            return Result<ProfileResponseModel>.SuccessWith(profileViewModel);
+        }
     }
 }

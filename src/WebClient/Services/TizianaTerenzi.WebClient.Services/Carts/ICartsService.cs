@@ -3,6 +3,7 @@
     using Refit;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Cart;
+    using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     public interface ICartsService
     {
@@ -23,5 +24,8 @@
 
         [Delete("/DiscountCodes/Delete")]
         Task<Result> DeleteDiscountCode(string discountName);
+
+        [Post("/Carts/Order")]
+        Task<Result<bool>> Order(OrderGatewayModel model);
     }
 }

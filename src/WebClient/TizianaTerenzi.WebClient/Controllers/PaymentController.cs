@@ -4,29 +4,23 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Stripe.Checkout;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Cart;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Carts;
     using TizianaTerenzi.WebClient.ViewModels.Orders;
 
     [Authorize]
     [ApiController]
     public class PaymentController : BaseController
     {
-        private readonly UserManager<ApplicationUser> userManager;
-
-        private readonly ICartService cartService;
+        private readonly ICartsService cartsService;
 
         public PaymentController(
-            UserManager<ApplicationUser> userManager,
-            ICartService cartService)
+            ICartsService cartsService)
         {
-            this.userManager = userManager;
-            this.cartService = cartService;
+            this.cartsService = cartsService;
         }
 
         [HttpPost]
@@ -50,33 +44,31 @@
                 },
                 PaymentMethodTypes = new List<string>
                 {
-                  "card",
-                  "sepa_debit",
+                    "card",
+                    "sepa_debit",
                 },
                 LineItems = new List<SessionLineItemOptions>
                 {
-                  new SessionLineItemOptions
-                  {
-                    PriceData = new SessionLineItemPriceDataOptions
+                    new SessionLineItemOptions
                     {
-                      UnitAmountDecimal = 2000,
-                      Currency = "eur",
-                      ProductData = new SessionLineItemPriceDataProductDataOptions
-                      {
-                        Name = "Product",
-                      },
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmountDecimal = 2000,
+                            Currency = "eur",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = "Product",
+                            },
+                        },
+                        Quantity = 1,
                     },
-                    Quantity = 1,
-                  },
                 },
                 Mode = "payment",
-                SuccessUrl = domain + "/payment/finish",
+                SuccessUrl = domain + "/payment/finish?sessionId={CHECKOUT_SESSION_ID}" + 
+                    $"&fullName={inputModel.FirstName} {inputModel.LastName}&email={inputModel.Email}&phone={inputModel.PhoneNumber}" +
+                    $"&address={inputModel.Address}&country={inputModel.Country}&town={inputModel.Town}&postalCode={inputModel.PostalCode}",
                 CancelUrl = domain + "/cart/checkout",
             };
-
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            await this.cartService.SaveShippingDataAsync(user, inputModel);
 
             var service = new SessionService();
             Session session = service.Create(options);
@@ -85,29 +77,36 @@
         }
 
         [Route("payment/finish")]
-        public async Task<IActionResult> Finish()
+        public async Task<IActionResult> Finish([FromQuery] string sessionId, string fullName, string email, string phone, string address, string country, string town, string postalCode)
         {
             var userId = this.User.GetUserId();
 
-            var isThereAnyProductsInTheUsersCart = await this.cartService.IsThereAnyProductsInTheUsersCartAsync(userId);
+            if (this.User.GetUserEmail() != email)
+            {
+                this.Error(NotificationMessages.SomethingWentWrong);
 
-            if (isThereAnyProductsInTheUsersCart == false)
+                return this.RedirectToAction(nameof(CartController.Index), "Cart");
+            }
+
+            var shippingData = new OrderGatewayModel
+            {
+                FullName = fullName,
+                Email = email,
+                PhoneNumber = phone,
+                ShippingAddress = address,
+                Country = country,
+                Town = town,
+                PostalCode = postalCode,
+            };
+
+            var result = await this.cartsService.Order(shippingData);
+
+            if (!result)
             {
                 this.Error(NotificationMessages.EmptyCartError);
 
                 return this.RedirectToAction(nameof(CartController.Index), "Cart");
             }
-
-            var result = await this.cartService.CheckoutAsync(userId);
-
-            if (result == false)
-            {
-                this.Error(NotificationMessages.ProcessOrderError);
-
-                return this.RedirectToAction(nameof(CartController.Index), "Cart");
-            }
-
-            await this.cartService.DeleteAllProductsInTheCartByUserIdAsync(userId);
 
             return this.RedirectToAction(nameof(this.ThankYou));
         }

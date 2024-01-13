@@ -6,6 +6,8 @@ namespace TizianaTerenzi.Orders.Web
     using TizianaTerenzi.Orders.Data;
     using TizianaTerenzi.Orders.Data.Repositories;
     using TizianaTerenzi.Orders.Data.Seeding;
+    using TizianaTerenzi.Orders.Services.Data.Orders;
+    using TizianaTerenzi.Orders.Web.Messages;
 
     public class Program
     {
@@ -36,7 +38,14 @@ namespace TizianaTerenzi.Orders.Web
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 
                 // -------Seeders--------
-                .AddSingleton<ISeeder<OrdersDbContext>, OrderStatusesSeeder>();
+                .AddSingleton<ISeeder<OrdersDbContext>, OrderStatusesSeeder>()
+
+                // -------Services------------
+                .AddTransient<IOrderStatusesService, OrderStatusesService>()
+                .AddTransient<IOrdersService, OrdersService>();
+
+            services
+                .AddMessageBroker(typeof(ProductsInTheUserCartHaveBeenOrderedConsumer));
         }
     }
 }

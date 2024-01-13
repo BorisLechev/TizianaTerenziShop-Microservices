@@ -1,9 +1,11 @@
 ﻿namespace TizianaTerenzi.Carts.Services.Data.Carts
 {
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
     using Z.EntityFramework.Plus;
@@ -12,9 +14,14 @@
     {
         private readonly IDeletableEntityRepository<Cart> cartsRepository;
 
-        public CartsService(IDeletableEntityRepository<Cart> cartsRepository)
+        private readonly IBus publisher;
+
+        public CartsService(
+            IDeletableEntityRepository<Cart> cartsRepository,
+            IBus publisher)
         {
             this.cartsRepository = cartsRepository;
+            this.publisher = publisher;
         }
 
         public async Task<bool> AddProductInTheCartAsync(ProductAddedInTheCartMessage product)
@@ -64,6 +71,15 @@
                                     .DeleteAsync();
 
             return productsCount == 1;
+        }
+
+        public async Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId)
+        {
+            var result = await this.cartsRepository
+                .AllAsNoTracking()
+                .AnyAsync(op => op.UserId == userId);
+
+            return result;
         }
 
         public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId)
@@ -128,6 +144,44 @@
             int result = await this.cartsRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task Order(ProductsInTheUserCartHaveBeenOrderedInputModel inputModel, string userId)
+        {
+            var productsInTheCart = await this.GetAllProductsInTheCartByUserIdAsync(userId);
+
+            await this.publisher.Publish(new ProductsInTheUserCartHaveBeenOrderedMessage
+            {
+                UserId = userId,
+                Email = inputModel.Email,
+                FullName = inputModel.FullName,
+                Country = inputModel.Country,
+                Town = inputModel.Town,
+                ShippingAddress = inputModel.ShippingAddress,
+                PostalCode = inputModel.PostalCode,
+                PhoneNumber = inputModel.PhoneNumber,
+                Products = productsInTheCart.Select(p => new ProductsInTheCartMessage
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    ProductPriceWithGeneralDiscount = p.ProductPriceWithGeneralDiscount,
+                    PriceWithDiscountCode = p.PriceWithDiscountCode,
+                    Quantity = p.Quantity,
+                    DiscountCodeId = p.DiscountCodeId,
+                    DiscountCodeName = p.DiscountCodeName,
+                    DiscountCodeDiscount = p.DiscountCodeDiscount,
+                }),
+            });
+
+            await this.publisher.Publish(new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
+            {
+                UserId = userId,
+                PhoneNumber = inputModel.PhoneNumber,
+                ShippingAddress = inputModel.ShippingAddress,
+                Town = inputModel.Town,
+                Country = inputModel.Country,
+                PostalCode = inputModel.PostalCode,
+            });
         }
     }
 }

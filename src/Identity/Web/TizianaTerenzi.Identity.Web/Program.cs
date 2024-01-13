@@ -11,6 +11,7 @@
     using TizianaTerenzi.Identity.Services.Data.Profile;
     using TizianaTerenzi.Identity.Services.Location;
     using TizianaTerenzi.Identity.Web.Infrastructure;
+    using TizianaTerenzi.Identity.Web.Messages;
 
     public class Program
     {
@@ -53,6 +54,9 @@
                 .AddTransient<IIdentityService, IdentityService>()
                 .AddTransient<IProfileService, ProfileService>()
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>();
+
+            services
+                .AddMessageBroker(typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer));
         }
     }
 }

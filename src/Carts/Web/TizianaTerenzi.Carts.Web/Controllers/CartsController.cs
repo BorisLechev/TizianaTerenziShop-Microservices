@@ -80,5 +80,28 @@
 
             return Result.Success();
         }
+
+        [HttpPost]
+        public async Task<Result> Order(ProductsInTheUserCartHaveBeenOrderedInputModel inputModel)
+        {
+            var userId = this.User.GetUserId();
+
+            var isThereAnyProductsInTheUsersCart = await this.cartsService.IsThereAnyProductsInTheUsersCartAsync(userId);
+
+            if (isThereAnyProductsInTheUsersCart == false)
+            {
+                return Result.Failure(NotificationMessages.EmptyCartError);
+            }
+
+            await this.cartsService.Order(inputModel, userId);
+            var result = await this.cartsService.DeleteAllProductsInTheCartByUserIdAsync(userId);
+
+            if (result == false)
+            {
+                return Result.Failure(NotificationMessages.EmptyCartError);
+            }
+
+            return Result.Success();
+        }
     }
 }
