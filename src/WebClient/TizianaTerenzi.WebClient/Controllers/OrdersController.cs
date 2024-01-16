@@ -7,9 +7,9 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Orders;
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
+    using TizianaTerenzi.WebClient.Services.Orders;
     using TizianaTerenzi.WebClient.ViewModels.PDF;
 
     [Authorize]
@@ -39,21 +39,21 @@
         {
             var userId = this.User.GetUserId();
 
-            var allOrdersByUser = await this.ordersService.GetAllOrdersByUserIdAsync(userId);
+            var allOrdersByUser = await this.ordersService.GetAllOrdersByUserId(userId);
 
             return this.View(allOrdersByUser);
         }
 
         public async Task<IActionResult> Products(int id)
         {
-            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(id);
+            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderId(id);
 
             return this.View(allOrderProductsByUser);
         }
 
         public async Task<IActionResult> GeneratePdf(int orderId)
         {
-            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
+            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderId(orderId);
             var user = await this.userManager.GetUserAsync(this.User);
 
             var viewModel = new ExportPdfUserOrderProductsViewModel

@@ -29,7 +29,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Orders\" />
+	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services.Mapping\TizianaTerenzi.Common.Services.Mapping.csproj" />
+	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Orders.Data.Models\TizianaTerenzi.Orders.Data.Models.csproj" />
 	</ItemGroup>
 
 </Project>

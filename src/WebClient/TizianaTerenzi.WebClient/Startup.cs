@@ -231,7 +231,7 @@
             services.AddTransient<TizianaTerenzi.Services.Data.Comments.ICommentsService, CommentsService>();
             services.AddTransient<ICommentVotesService, CommentVotesService>();
             services.AddTransient<IProfileService, ProfileService>();
-            services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<TizianaTerenzi.Services.Data.Orders.IOrdersService, OrdersService>();
             services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IWishlistService, WishlistService>();
@@ -253,7 +253,8 @@
                 .AddExternalService<TizianaTerenzi.WebClient.Services.Products.IProductsService>(this.configuration)
                 .AddExternalService<IProductsGatewayService>(this.configuration)
                 .AddExternalService<ICartsService>(this.configuration)
-                .AddExternalService<ICartsGatewayService>(this.configuration);
+                .AddExternalService<ICartsGatewayService>(this.configuration)
+                .AddExternalService<TizianaTerenzi.WebClient.Services.Orders.IOrdersService>(this.configuration);
 
             //services
             //.AddRefitClient<IIdentityService>()

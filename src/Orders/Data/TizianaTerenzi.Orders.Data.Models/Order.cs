@@ -31,6 +31,8 @@
 
         public int? DiscountCodeId { get; set; }
 
+        public string? CartDiscountCodeName { get; set; }
+
         public byte? CartDiscountCodeValue { get; set; }
 
         public virtual ICollection<OrderProduct> Products { get; set; }

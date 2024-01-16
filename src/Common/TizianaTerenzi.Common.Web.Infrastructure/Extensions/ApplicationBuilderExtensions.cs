@@ -13,6 +13,7 @@
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Identity.Web.Models.Profile;
+    using TizianaTerenzi.Orders.Web.Models.Orders;
     using TizianaTerenzi.Products.Web.Models.Products;
 
     public static class ApplicationBuilderExtensions
@@ -97,7 +98,8 @@
             AutoMapperConfig.RegisterMappings(
                                             typeof(ProductInListViewModel).GetTypeInfo().Assembly,
                                             typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly,
-                                            typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly);
+                                            typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly,
+                                            typeof(OrdersListingViewModel).GetTypeInfo().Assembly);
 
             return app;
         }
