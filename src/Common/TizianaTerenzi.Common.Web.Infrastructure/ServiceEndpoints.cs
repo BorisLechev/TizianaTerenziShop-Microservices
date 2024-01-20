@@ -16,6 +16,8 @@
 
         public string CartsGateway { get; private set; }
 
+        public string Administration { get; private set; }
+
         public string this[string service]
             => this.GetType()
                 .GetProperties()
