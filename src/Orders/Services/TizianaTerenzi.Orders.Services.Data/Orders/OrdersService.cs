@@ -2,9 +2,11 @@
 {
     using System.Collections.Generic;
 
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
+    using TizianaTerenzi.Common.Messages.Orders;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Orders.Data.Models;
     using TizianaTerenzi.Orders.Web.Models.Orders;
@@ -15,15 +17,18 @@
         private readonly IDeletableEntityRepository<Order> ordersRepository;
         private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
         private readonly IOrderStatusesService orderStatusesService;
+        private readonly IBus publisher;
 
         public OrdersService(
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
-            IOrderStatusesService orderStatusesService)
+            IOrderStatusesService orderStatusesService,
+            IBus publisher)
         {
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
             this.orderStatusesService = orderStatusesService;
+            this.publisher = publisher;
         }
 
         public async Task<bool> OrderAsync(ProductsInTheUserCartHaveBeenOrderedMessage model)
@@ -35,7 +40,6 @@
                     ProductName = p.ProductName,
                     Price = p.PriceWithDiscountCode,
                     Quantity = p.Quantity,
-                    CreatedOn = DateTime.UtcNow,
                 })
                 .ToList();
 
@@ -65,6 +69,17 @@
 
             await this.ordersRepository.AddAsync(order);
             var result = await this.ordersRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(new OrderAddedInAdminStatisticsMessage
+            {
+                OrderId = order.Id,
+                Products = orderProducts.Select(p => new OrderedProductsAddedInAdminStatisticsMessage
+                {
+                    ProductName = p.ProductName,
+                    Quantity = p.Quantity,
+                    PriceWithDiscountCode = p.Price,
+                }),
+            });
 
             return result > 0;
         }

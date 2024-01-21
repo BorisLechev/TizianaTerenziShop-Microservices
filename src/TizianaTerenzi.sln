@@ -171,7 +171,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Administrati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Administration.Web", "Administration\Web\TizianaTerenzi.Administration.Web\TizianaTerenzi.Administration.Web.csproj", "{F2DA856F-992F-4772-BBD0-9035CFED303E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Administration.Services.Data", "Administration\Services\TizianaTerenzi.Administration.Services.Data\TizianaTerenzi.Administration.Services.Data.csproj", "{6DE0833D-3A06-4154-BB3A-188AC2E308C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Administration.Services.Data", "Administration\Services\TizianaTerenzi.Administration.Services.Data\TizianaTerenzi.Administration.Services.Data.csproj", "{6DE0833D-3A06-4154-BB3A-188AC2E308C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Administration.Web.Models", "Administration\Web\TizianaTerenzi.Administration.Web.Models\TizianaTerenzi.Administration.Web.Models.csproj", "{597D75FB-E308-4503-A94F-53CB65E1E7EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -403,6 +405,10 @@ Global
 		{6DE0833D-3A06-4154-BB3A-188AC2E308C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE0833D-3A06-4154-BB3A-188AC2E308C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DE0833D-3A06-4154-BB3A-188AC2E308C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{597D75FB-E308-4503-A94F-53CB65E1E7EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{597D75FB-E308-4503-A94F-53CB65E1E7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{597D75FB-E308-4503-A94F-53CB65E1E7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{597D75FB-E308-4503-A94F-53CB65E1E7EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -482,6 +488,7 @@ Global
 		{622F397C-1F19-4E1E-9D5D-F99EB4486891} = {88C3285D-63A6-4664-B838-3F702DED96E4}
 		{F2DA856F-992F-4772-BBD0-9035CFED303E} = {20B16B24-0278-487B-9489-464FC9B12C10}
 		{6DE0833D-3A06-4154-BB3A-188AC2E308C6} = {C7444089-1EEF-4412-8961-4A7BB7A632A1}
+		{597D75FB-E308-4503-A94F-53CB65E1E7EE} = {20B16B24-0278-487B-9489-464FC9B12C10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

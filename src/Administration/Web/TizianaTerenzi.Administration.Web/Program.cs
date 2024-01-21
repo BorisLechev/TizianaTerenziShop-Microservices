@@ -2,6 +2,10 @@ namespace TizianaTerenzi.Administration.Web
 {
     using TizianaTerenzi.Administration.Data;
     using TizianaTerenzi.Administration.Data.Repositories;
+    using TizianaTerenzi.Administration.Services.Data.Dashboard;
+    using TizianaTerenzi.Administration.Services.Data.Orders;
+    using TizianaTerenzi.Administration.Services.Data.Users;
+    using TizianaTerenzi.Administration.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
 
@@ -31,11 +35,19 @@ namespace TizianaTerenzi.Administration.Web
             services
                 .AddMicroservice<AdministrationDbContext>(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
-                .AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+                .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 
-            // -------Seeders--------
+                // -------Seeders--------
 
-            // -------Services------------
+                // -------Services------------
+                .AddTransient<IOrdersService, OrdersService>()
+                .AddTransient<IUsersService, UsersService>()
+                .AddTransient<IDashboardService, DashboardService>();
+
+            services
+                .AddMessageBroker(
+                    typeof(OrderAddedInAdminStatisticsConsumer),
+                    typeof(UserAddedInAdminStatisticsConsumer));
         }
     }
 }
