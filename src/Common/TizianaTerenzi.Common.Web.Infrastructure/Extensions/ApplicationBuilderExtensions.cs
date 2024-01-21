@@ -9,6 +9,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using TizianaTerenzi.Administration.Web.Models.Dashboard;
     using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
@@ -99,7 +100,8 @@
                                             typeof(ProductInListViewModel).GetTypeInfo().Assembly,
                                             typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly,
                                             typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly,
-                                            typeof(OrdersListingViewModel).GetTypeInfo().Assembly);
+                                            typeof(OrdersListingViewModel).GetTypeInfo().Assembly,
+                                            typeof(DashboardViewModel).GetTypeInfo().Assembly);
 
             return app;
         }

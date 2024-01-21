@@ -4,8 +4,8 @@
 @{
     this.ViewData["Title"] = "Administration";
     string username = this.User.Identity.Name;
-    string firstName = this.userManager.FindByNameAsync(username).Result.FirstName;
-    string lastName = this.userManager.FindByNameAsync(username).Result.LastName;
+    string firstName = this.User.GetUserFirstName();
+    string lastName = this.User.GetUserLastName();
 }
 
 <!DOCTYPE html>

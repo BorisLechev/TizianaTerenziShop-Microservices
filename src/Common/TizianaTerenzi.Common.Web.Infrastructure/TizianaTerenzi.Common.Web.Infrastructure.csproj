@@ -37,6 +37,7 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\..\Administration\Web\TizianaTerenzi.Administration.Web.Models\TizianaTerenzi.Administration.Web.Models.csproj" />
     <ProjectReference Include="..\..\Carts\Web\TizianaTerenzi.Carts.Web.Models\TizianaTerenzi.Carts.Web.Models.csproj" />
     <ProjectReference Include="..\..\Identity\Web\TizianaTerenzi.Identity.Web.Models\TizianaTerenzi.Identity.Web.Models.csproj" />
     <ProjectReference Include="..\..\Orders\Web\TizianaTerenzi.Orders.Web.Models\TizianaTerenzi.Orders.Web.Models.csproj" />

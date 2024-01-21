@@ -3,20 +3,20 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Services.Data.Dashboard;
+    using TizianaTerenzi.WebClient.Services.Administration;
 
     public class DashboardController : AdministrationController
     {
-        private readonly IDashboardService dashboardService;
+        private readonly IAdministrationService administrationService;
 
-        public DashboardController(IDashboardService dashboardService)
+        public DashboardController(IAdministrationService administrationService)
         {
-            this.dashboardService = dashboardService;
+            this.administrationService = administrationService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var viewModel = await this.dashboardService.GetDashboardInformationAsync();
+            var viewModel = await this.administrationService.GetDashboardInformationAsync();
 
             return this.View(viewModel);
         }
