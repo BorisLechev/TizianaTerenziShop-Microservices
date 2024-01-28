@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using TizianaTerenzi.Common.Enumerators;
+    using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Web.Models.Products;
 
@@ -16,7 +17,7 @@
 
         Task<T> GetProductByIdAsync<T>(int id);
 
-        Task<bool> CreateProductAsync(CreateProductInputModel inputModel, string pictureUrl);
+        Task<bool> CreateProductAsync(ProductCreatedMessage message, string pictureUrl);
 
         Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId, string pictureUrl);
 

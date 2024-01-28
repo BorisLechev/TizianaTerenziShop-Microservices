@@ -173,7 +173,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Administrati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Administration.Services.Data", "Administration\Services\TizianaTerenzi.Administration.Services.Data\TizianaTerenzi.Administration.Services.Data.csproj", "{6DE0833D-3A06-4154-BB3A-188AC2E308C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Administration.Web.Models", "Administration\Web\TizianaTerenzi.Administration.Web.Models\TizianaTerenzi.Administration.Web.Models.csproj", "{597D75FB-E308-4503-A94F-53CB65E1E7EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Administration.Web.Models", "Administration\Web\TizianaTerenzi.Administration.Web.Models\TizianaTerenzi.Administration.Web.Models.csproj", "{597D75FB-E308-4503-A94F-53CB65E1E7EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

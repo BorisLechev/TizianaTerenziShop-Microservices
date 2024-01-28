@@ -247,6 +247,22 @@
                 dbContext.FragranceGroups.SingleOrDefault(fg => fg.Name == "Oriental Vanilla").Id,
                 new string[] { "Madagascan Vanilla", "Tahitian Vanilla", "Ambergris", "Oud", "Deer Musk accord", "Jasmine", "Lily-of-the-valley", },
                 2020),
+                ("La Superba Rossa",
+                "La Superba Rossa extrait de parfum from Tiziana Terenzi boasts a strong olfactory architecture asit opens with warm honey and alluring herbal notes. Developing into refreshing may rose at its heart; it lingers with intense amber for a rich and fragrant aroma.",
+                355.00M,
+                "https://res.cloudinary.com/pictures-storage/image/upload/v1706102242/product_images/p67zqsm5jozsv1shpwz6.jpg",
+                dbContext.ProductTypes.SingleOrDefault(pt => pt.Name == "Fragrance").Id,
+                dbContext.FragranceGroups.SingleOrDefault(fg => fg.Name == "Floral Fruity Gourmand").Id,
+                new string[] { "Amber", "Honey", "May rose", "Herbs" },
+                2018),
+                ("Il Piacere 2022",
+                "Tiziana Terenzi takes a rather poetic inspiration for the Il Piacere extrait de parfum, citing the novel of the same name by Gabriele D'Annunzio. Written in 1889, it tells the story of a devoted aristocrat – Andrea Sperelli – who celebrates art in all its forms and relinquishes her life to this pursuit in a tale of decadence; this sweet scent brings notes of bergamot rose, saffron, jasmine, peony, amber and vanilla to name a few, conjuring the same aura of indulgent poetry as its literary inspiration.",
+                465.00M,
+                "https://res.cloudinary.com/pictures-storage/image/upload/v1706377323/product_images/f8kilmge0z6stjlpq23g.jpg",
+                dbContext.ProductTypes.SingleOrDefault(pt => pt.Name == "Fragrance").Id,
+                dbContext.FragranceGroups.SingleOrDefault(fg => fg.Name == "Floral Woody Musk").Id,
+                new string[] { "Lily", "Bulgarian Rose", "Calabrian bergamot", "Peach", "Saffron", "Jasmine", "Peony", "Orange blossom", "Violet leaf", "Lily-of-the-valley", "Guaiac Wood", "Ambergris", "Australian Sandalwood", "Ylang-Ylang", "Musk keytone", "Vanilla" },
+                2022),
             };
 
             var productModels = products.Select(p => new Product

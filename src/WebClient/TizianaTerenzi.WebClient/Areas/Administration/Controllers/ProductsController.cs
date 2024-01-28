@@ -4,20 +4,20 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using Refit;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Services.Cloudinary;
     using TizianaTerenzi.Services.Data.Comments;
     using TizianaTerenzi.Services.Data.FragranceGroups;
     using TizianaTerenzi.Services.Data.Notes;
-    using TizianaTerenzi.Services.Data.Products;
     using TizianaTerenzi.Services.Data.Votes;
+    using TizianaTerenzi.WebClient.Services.Administration;
+    using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public class ProductsController : AdministrationController
     {
         private readonly INotesService notesService;
-
-        private readonly IProductTypesService productTypesService;
 
         private readonly IFragranceGroupsService fragranceGroupsService;
 
@@ -30,19 +30,21 @@
         private readonly IProductVotesService productVotesService;
 
         private readonly ICloudinaryService cloudinaryService;
+        private readonly IProductsGatewayService productsGatewayService;
+        private readonly IAdministrationService administrationService;
 
         public ProductsController(
             INotesService notesService,
-            IProductTypesService productTypesService,
             IFragranceGroupsService fragranceGroupsService,
             IProductsService productsService,
             ICommentsService commentsService,
             ICommentVotesService commentVotesService,
             IProductVotesService productVotesService,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            IProductsGatewayService productsGatewayService,
+            IAdministrationService administrationService)
         {
             this.notesService = notesService;
-            this.productTypesService = productTypesService;
             this.fragranceGroupsService = fragranceGroupsService;
 
             this.productsService = productsService;
@@ -50,23 +52,16 @@
             this.commentVotesService = commentVotesService;
             this.productVotesService = productVotesService;
             this.cloudinaryService = cloudinaryService;
+            this.productsGatewayService = productsGatewayService;
+            this.administrationService = administrationService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var notes = await this.notesService.GetAllNotesAsync();
-            var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-            var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
+            var productDropdowns = await this.productsGatewayService.PrepareDropdownsForProductCreation();
 
-            var product = new CreateProductInputModel
-            {
-                ProductTypes = productTypes,
-                FragranceGroups = fragranceGroups,
-                Notes = notes,
-            };
-
-            return this.View(product);
+            return this.View(productDropdowns.Data);
         }
 
         [HttpPost]
@@ -74,93 +69,93 @@
         {
             if (this.ModelState.IsValid == false)
             {
-                var notes = await this.notesService.GetAllNotesAsync();
-                var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-                var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
+                var productDropdowns = await this.productsGatewayService.PrepareDropdownsForProductCreation();
 
-                inputModel.ProductTypes = productTypes;
-                inputModel.FragranceGroups = fragranceGroups;
-                inputModel.Notes = notes;
+                inputModel.ProductTypes = productDropdowns.Data.ProductTypes;
+                inputModel.FragranceGroups = productDropdowns.Data.FragranceGroups;
+                inputModel.Notes = productDropdowns.Data.Notes;
 
                 return this.View(inputModel);
             }
 
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
-            var result = await this.productsService.CreateProductAsync(inputModel, pictureUrl);
+            var stream = inputModel.Picture.OpenReadStream();
+            StreamPart pictureStream = new StreamPart(stream, inputModel.Picture.FileName, inputModel.Picture.ContentType);
 
-            if (result == false)
+            var result = await this.administrationService.CreateProductAsync(inputModel, pictureStream);
+
+            if (result.Succeeded == false)
             {
                 this.Error(NotificationMessages.CreateProductError);
 
-                return this.LocalRedirect("/products/all");
+                return this.RedirectToAction(nameof(DashboardController.Index), "Dashboard");
             }
 
             this.Success(NotificationMessages.CreateProductSuccessfully);
 
-            return this.LocalRedirect("/products/all");
+            return this.RedirectToAction(nameof(DashboardController.Index), "Dashboard");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int productId)
-        {
-            if (productId <= 0)
-            {
-                this.NotFound();
-            }
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(int productId)
+        //{
+        //    if (productId <= 0)
+        //    {
+        //        this.NotFound();
+        //    }
 
-            var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-            var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
-            var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+        //    var productTypes = await this.productTypesService.GetAllProductTypesAsync();
+        //    var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
+        //    var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
 
-            var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
-            editProductInputModel.ProductTypes = productTypes;
-            editProductInputModel.FragranceGroups = fragranceGroups;
-            editProductInputModel.Notes = notes;
+        //    var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
+        //    editProductInputModel.ProductTypes = productTypes;
+        //    editProductInputModel.FragranceGroups = fragranceGroups;
+        //    editProductInputModel.Notes = notes;
 
-            return this.View(editProductInputModel);
-        }
+        //    return this.View(editProductInputModel);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditProductInputModel inputModel, int productId)
-        {
-            if (productId <= 0)
-            {
-                this.NotFound();
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(EditProductInputModel inputModel, int productId)
+        //{
+        //    if (productId <= 0)
+        //    {
+        //        this.NotFound();
+        //    }
 
-            if (this.ModelState.IsValid == false)
-            {
-                var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-                var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
-                var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+        //    if (this.ModelState.IsValid == false)
+        //    {
+        //        var productTypes = await this.productTypesService.GetAllProductTypesAsync();
+        //        var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
+        //        var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
 
-                inputModel.ProductTypes = productTypes;
-                inputModel.FragranceGroups = fragranceGroups;
-                inputModel.Notes = notes;
+        //        inputModel.ProductTypes = productTypes;
+        //        inputModel.FragranceGroups = fragranceGroups;
+        //        inputModel.Notes = notes;
 
-                return this.View(inputModel);
-            }
+        //        return this.View(inputModel);
+        //    }
 
-            string pictureUrl = string.Empty;
+        //    string pictureUrl = string.Empty;
 
-            if (inputModel.Picture != null)
-            {
-                pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
-            }
+        //    if (inputModel.Picture != null)
+        //    {
+        //        pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
+        //    }
 
-            var result = await this.productsService.EditProductAsync(inputModel, productId, pictureUrl);
+        //    var result = await this.productsService.EditProductAsync(inputModel, productId, pictureUrl);
 
-            if (result == true)
-            {
-                this.Success(NotificationMessages.EditProductSuccessfully);
+        //    if (result == true)
+        //    {
+        //        this.Success(NotificationMessages.EditProductSuccessfully);
 
-                return this.LocalRedirect("/products/all");
-            }
+        //        return this.LocalRedirect("/products/all");
+        //    }
 
-            this.Error(NotificationMessages.EditProductError);
+        //    this.Error(NotificationMessages.EditProductError);
 
-            return this.LocalRedirect("/products/all");
-        }
+        //    return this.LocalRedirect("/products/all");
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Delete(int productId)
@@ -176,7 +171,7 @@
                 await this.commentVotesService.DeleteRangeByProductIdAsync(productId);
                 await this.commentsService.DeleteRangeByProductIdAsync(productId);
                 await this.productVotesService.DeleteProductVotesAsync(productId);
-                await this.productsService.DeleteProductAsync(productId);
+                //await this.productsService.DeleteProductAsync(productId);
 
                 this.Success(NotificationMessages.DeleteProductSuccessfully);
 

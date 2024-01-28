@@ -2,6 +2,7 @@
 {
     using Refit;
     using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
     using TizianaTerenzi.WebClient.ViewModels.Profile;
 
     public interface IProductsGatewayService
@@ -11,5 +12,8 @@
 
         [Delete("/Profile/DeleteAccount")]
         Task<Result> DeleteAccount(string password);
+
+        [Get("/Products/PrepareDropdownsForProductCreation")]
+        Task<Result<CreateProductInputModel>> PrepareDropdownsForProductCreation();
     }
 }

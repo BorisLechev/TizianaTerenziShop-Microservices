@@ -8,6 +8,7 @@
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\..\..\Rules.ruleset</CodeAnalysisRuleSet>
+		<UserSecretsId>54499fff-e9ee-48c1-b90c-f544179bd365</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />

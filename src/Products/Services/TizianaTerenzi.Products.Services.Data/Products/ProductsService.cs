@@ -10,6 +10,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
+    using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Products.Data.Models;
@@ -35,26 +36,24 @@
             this.publisher = publisher;
         }
 
-        public async Task<bool> CreateProductAsync(CreateProductInputModel inputModel, string pictureUrl)
+        public async Task<bool> CreateProductAsync(ProductCreatedMessage message, string pictureUrl)
         {
-            var notesIds = inputModel.NoteIds.Select(int.Parse);
-
             var product = new Product
             {
-                Name = inputModel.Name,
-                Description = inputModel.Description,
-                ProductTypeId = inputModel.ProductTypeId,
-                FragranceGroupId = inputModel.FragranceGroupId,
-                YearOfManufacture = inputModel.YearOfManufacture,
-                Price = inputModel.Price,
-                PriceWithGeneralDiscount = inputModel.Price,
+                Name = message.Name,
+                Description = message.Description,
+                ProductTypeId = message.ProductTypeId,
+                FragranceGroupId = message.FragranceGroupId,
+                YearOfManufacture = message.YearOfManufacture,
+                Price = message.Price,
+                PriceWithGeneralDiscount = message.Price,
                 Picture = pictureUrl,
-                Notes = notesIds.Select(id => new ProductNote
+                Notes = message.NoteIds.Select(id => new ProductNote
                 {
                     NoteId = id,
                 })
                 .ToList(),
-                SearchText = StringExtensions.GetSearchText(inputModel.Name),
+                SearchText = StringExtensions.GetSearchText(message.Name),
             };
 
             await this.productsRepository.AddAsync(product);

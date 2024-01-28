@@ -1,0 +1,36 @@
+﻿namespace TizianaTerenzi.Administration.Services.Data.Products
+{
+    using MassTransit;
+    using TizianaTerenzi.Administration.Web.Models.Products;
+    using TizianaTerenzi.Common.Messages.Administration;
+
+    public class ProductsService : IProductsService
+    {
+        private readonly IBus publisher;
+
+        public ProductsService(IBus publisher)
+        {
+            this.publisher = publisher;
+        }
+
+        public async Task CreateProductAsync(CreateProductInputModel inputModel, byte[] picture)
+        {
+            var notesIds = inputModel.NoteIds
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(int.Parse)
+                            .ToArray();
+
+            await this.publisher.Publish(new ProductCreatedMessage
+            {
+                Name = inputModel.Name,
+                Description = inputModel.Description,
+                FragranceGroupId = inputModel.FragranceGroupId,
+                NoteIds = notesIds,
+                Picture = picture,
+                Price = inputModel.Price,
+                ProductTypeId = inputModel.ProductTypeId,
+                YearOfManufacture = inputModel.YearOfManufacture,
+            });
+        }
+    }
+}

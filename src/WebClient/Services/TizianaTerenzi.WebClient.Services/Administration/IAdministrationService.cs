@@ -1,11 +1,17 @@
 ﻿namespace TizianaTerenzi.WebClient.Services.Administration
 {
     using Refit;
+    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Dashboard;
+    using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public interface IAdministrationService
     {
         [Get("/Dashboard/Index")]
         Task<DashboardViewModel> GetDashboardInformationAsync();
+
+        [Multipart]
+        [Post("/Products/Create")]
+        Task<Result> CreateProductAsync([Query] CreateProductInputModel inputModel, [AliasAs("picture")] StreamPart picture);
     }
 }

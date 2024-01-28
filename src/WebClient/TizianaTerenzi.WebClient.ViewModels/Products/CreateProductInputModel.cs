@@ -7,10 +7,8 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Common.Web.ValidationAttributes;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
 
-    public class CreateProductInputModel : IMapTo<Product>
+    public class CreateProductInputModel
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required.")]
         [StringLength(25, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 2)]

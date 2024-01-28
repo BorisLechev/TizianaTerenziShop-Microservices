@@ -1,11 +1,13 @@
 namespace TizianaTerenzi.Products.Web
 {
+    using CloudinaryDotNet;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Products.Data;
     using TizianaTerenzi.Products.Data.Repositories;
     using TizianaTerenzi.Products.Data.Seeding;
+    using TizianaTerenzi.Products.Services.Cloudinary;
     using TizianaTerenzi.Products.Services.Data.Comments;
     using TizianaTerenzi.Products.Services.Data.FragranceGroups;
     using TizianaTerenzi.Products.Services.Data.Notes;
@@ -13,6 +15,7 @@ namespace TizianaTerenzi.Products.Web
     using TizianaTerenzi.Products.Services.Data.ProductTypes;
     using TizianaTerenzi.Products.Services.Data.Votes;
     using TizianaTerenzi.Products.Services.Data.Wishlist;
+    using TizianaTerenzi.Products.Web.Messages;
 
     public class Program
     {
@@ -37,6 +40,13 @@ namespace TizianaTerenzi.Products.Web
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+            Account account = new Account(
+                    configuration["Cloudinary:CloudName"],
+                    configuration["Cloudinary:ApiKey"],
+                    configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
             services
                 .AddMicroservice<ProductsDbContext>(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
@@ -47,6 +57,7 @@ namespace TizianaTerenzi.Products.Web
                 .AddSingleton<ISeeder<ProductsDbContext>, ProductTypesSeeder>()
                 .AddSingleton<ISeeder<ProductsDbContext>, NotesSeeder>()
                 .AddSingleton<ISeeder<ProductsDbContext>, ProductsSeeder>()
+                .AddSingleton(cloudinary)
 
                 // -------Services------------
                 .AddTransient<IProductsService, ProductsService>()
@@ -56,10 +67,11 @@ namespace TizianaTerenzi.Products.Web
                 .AddTransient<ICommentsService, CommentsService>()
                 .AddTransient<ICommentVotesService, CommentVotesService>()
                 .AddTransient<IProductVotesService, ProductVotesService>()
-                .AddTransient<IWishlistService, WishlistService>();
+                .AddTransient<IWishlistService, WishlistService>()
+                .AddTransient<ICloudinaryService, CloudinaryService>();
 
             services
-                .AddMessageBroker();
+                .AddMessageBroker(typeof(ProductCreatedConsumer));
         }
     }
 }
