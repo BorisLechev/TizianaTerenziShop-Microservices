@@ -73,7 +73,8 @@ namespace TizianaTerenzi.Products.Web
             services
                 .AddMessageBroker(
                     typeof(ProductCreatedConsumer),
-                    typeof(ProductEditedConsumer));
+                    typeof(ProductEditedConsumer),
+                    typeof(ProductDeletedConsumer));
         }
     }
 }

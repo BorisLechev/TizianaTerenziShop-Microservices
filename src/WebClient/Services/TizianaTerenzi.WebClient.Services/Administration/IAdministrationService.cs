@@ -17,5 +17,8 @@
         [Multipart]
         [Put("/Products/Edit")]
         Task<Result> EditProductAsync([Query] EditProductInputModel inputmodel, [AliasAs("picture")] StreamPart picture);
+
+        [Delete("/Products/Delete")]
+        Task<Result> DeleteProductAsync(int productId);
     }
 }

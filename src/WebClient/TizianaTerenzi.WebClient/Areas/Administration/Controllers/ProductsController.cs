@@ -7,52 +7,19 @@
     using Microsoft.AspNetCore.Mvc;
     using Refit;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Cloudinary;
-    using TizianaTerenzi.Services.Data.Comments;
-    using TizianaTerenzi.Services.Data.FragranceGroups;
-    using TizianaTerenzi.Services.Data.Notes;
-    using TizianaTerenzi.Services.Data.Votes;
     using TizianaTerenzi.WebClient.Services.Administration;
     using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public class ProductsController : AdministrationController
     {
-        private readonly INotesService notesService;
-
-        private readonly IFragranceGroupsService fragranceGroupsService;
-
-        private readonly IProductsService productsService;
-
-        private readonly ICommentsService commentsService;
-
-        private readonly ICommentVotesService commentVotesService;
-
-        private readonly IProductVotesService productVotesService;
-
-        private readonly ICloudinaryService cloudinaryService;
         private readonly IProductsGatewayService productsGatewayService;
         private readonly IAdministrationService administrationService;
 
         public ProductsController(
-            INotesService notesService,
-            IFragranceGroupsService fragranceGroupsService,
-            IProductsService productsService,
-            ICommentsService commentsService,
-            ICommentVotesService commentVotesService,
-            IProductVotesService productVotesService,
-            ICloudinaryService cloudinaryService,
             IProductsGatewayService productsGatewayService,
             IAdministrationService administrationService)
         {
-            this.notesService = notesService;
-            this.fragranceGroupsService = fragranceGroupsService;
-
-            this.productsService = productsService;
-            this.commentsService = commentsService;
-            this.commentVotesService = commentVotesService;
-            this.productVotesService = productVotesService;
-            this.cloudinaryService = cloudinaryService;
             this.productsGatewayService = productsGatewayService;
             this.administrationService = administrationService;
         }
@@ -160,11 +127,14 @@
 
             try
             {
-                await this.notesService.SoftDeleteAllProductNotesAsync(productId);
-                await this.commentVotesService.DeleteRangeByProductIdAsync(productId);
-                await this.commentsService.DeleteRangeByProductIdAsync(productId);
-                await this.productVotesService.DeleteProductVotesAsync(productId);
-                //await this.productsService.DeleteProductAsync(productId);
+                var result = await this.administrationService.DeleteProductAsync(productId);
+
+                if (!result.Succeeded)
+                {
+                    this.Error(NotificationMessages.DeleteProductError);
+
+                    return this.LocalRedirect("/products/all");
+                }
 
                 this.Success(NotificationMessages.DeleteProductSuccessfully);
 

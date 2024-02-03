@@ -7,5 +7,7 @@
         Task CreateProductAsync(CreateProductInputModel inputModel, byte[] picture);
 
         Task EditProductAsync(EditProductInputModel inputModel, byte[]? picture);
+
+        Task DeleteProductAsync(int productId);
     }
 }

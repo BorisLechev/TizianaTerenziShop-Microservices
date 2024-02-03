@@ -53,5 +53,13 @@
                 YearOfManufacture = inputModel.YearOfManufacture,
             });
         }
+
+        public async Task DeleteProductAsync(int productId)
+        {
+            await this.publisher.Publish(new ProductDeletedMessage
+            {
+                ProductId = productId,
+            });
+        }
     }
 }

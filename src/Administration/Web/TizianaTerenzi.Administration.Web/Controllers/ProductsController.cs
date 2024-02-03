@@ -57,5 +57,13 @@
 
             return Result.Success(NotificationMessages.EditProductSuccessfully);
         }
+
+        [HttpDelete]
+        public async Task<ActionResult<Result>> Delete(int productId)
+        {
+            await this.productsService.DeleteProductAsync(productId);
+
+            return Result.Success(NotificationMessages.DeleteProductSuccessfully);
+        }
     }
 }
