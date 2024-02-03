@@ -3,6 +3,7 @@
     using Refit;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Dashboard;
+    using TizianaTerenzi.WebClient.ViewModels.Notes;
     using TizianaTerenzi.WebClient.ViewModels.Products;
 
     public interface IAdministrationService
@@ -20,5 +21,8 @@
 
         [Delete("/Products/Delete")]
         Task<Result> DeleteProductAsync(int productId);
+
+        [Post("/Notes/Create")]
+        Task<Result> CreateNoteAsync(CreateNoteInputModel inputModel);
     }
 }

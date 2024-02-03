@@ -8,7 +8,7 @@
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required.")]
         [StringLength(25, ErrorMessage = NameErrorMessage, MinimumLength = 2)]
-        [RegularExpression(@"^([A-Z])([a-z\s]{1,24})$", ErrorMessage = NameErrorMessage)]
+        [RegularExpression(@"^([A-Z])([A-Za-z\s]{1,24})$", ErrorMessage = NameErrorMessage)]
         public string Name { get; set; }
     }
 }

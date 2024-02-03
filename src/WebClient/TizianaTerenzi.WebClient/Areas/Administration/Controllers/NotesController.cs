@@ -4,16 +4,16 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Notes;
+    using TizianaTerenzi.WebClient.Services.Administration;
     using TizianaTerenzi.WebClient.ViewModels.Notes;
 
     public class NotesController : AdministrationController
     {
-        private readonly INotesService notesService;
+        private readonly IAdministrationService administrationService;
 
-        public NotesController(INotesService notesService)
+        public NotesController(IAdministrationService administrationService)
         {
-            this.notesService = notesService;
+            this.administrationService = administrationService;
         }
 
         [HttpGet]
@@ -30,18 +30,18 @@
                 return this.View(inputModel);
             }
 
-            var result = await this.notesService.CreateNoteAsync(inputModel.Name);
+            var result = await this.administrationService.CreateNoteAsync(inputModel);
 
-            if (result == false)
+            if (!result.Succeeded)
             {
                 this.Error(NotificationMessages.CreateNoteError);
 
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction(nameof(DashboardController.Index), "Dashboard");
             }
 
             this.Success(NotificationMessages.CreateNoteSuccessfully);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(DashboardController.Index), "Dashboard");
         }
     }
 }

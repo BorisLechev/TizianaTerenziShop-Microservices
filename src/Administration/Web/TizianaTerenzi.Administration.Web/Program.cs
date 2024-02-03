@@ -3,6 +3,7 @@ namespace TizianaTerenzi.Administration.Web
     using TizianaTerenzi.Administration.Data;
     using TizianaTerenzi.Administration.Data.Repositories;
     using TizianaTerenzi.Administration.Services.Data.Dashboard;
+    using TizianaTerenzi.Administration.Services.Data.Notes;
     using TizianaTerenzi.Administration.Services.Data.Orders;
     using TizianaTerenzi.Administration.Services.Data.Products;
     using TizianaTerenzi.Administration.Services.Data.Users;
@@ -44,7 +45,8 @@ namespace TizianaTerenzi.Administration.Web
                 .AddTransient<IOrdersService, OrdersService>()
                 .AddTransient<IUsersService, UsersService>()
                 .AddTransient<IDashboardService, DashboardService>()
-                .AddTransient<IProductsService, ProductsService>();
+                .AddTransient<IProductsService, ProductsService>()
+                .AddTransient<INotesService, NotesService>();
 
             services
                 .AddMessageBroker(
