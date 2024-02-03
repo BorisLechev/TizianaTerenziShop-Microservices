@@ -249,6 +249,16 @@
                 "Grass",
                 "Umbu-Caja",
                 "Cyperus esculentus",
+                "Brazilian Orange",
+                "Santolina",
+                "Strawberry",
+                "Seaweed",
+                "Brown Sugar",
+                "Coumarin",
+                "Atlas Cedar",
+                "Singapore Patchouli",
+                "Gardenia",
+                "Tobacco Leaf",
             };
 
             var noteModels = notes.Select(n => new Note { Name = n });

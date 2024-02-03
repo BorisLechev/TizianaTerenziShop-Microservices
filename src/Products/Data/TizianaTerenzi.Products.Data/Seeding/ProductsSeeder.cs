@@ -263,6 +263,22 @@
                 dbContext.FragranceGroups.SingleOrDefault(fg => fg.Name == "Floral Woody Musk").Id,
                 new string[] { "Lily", "Bulgarian Rose", "Calabrian bergamot", "Peach", "Saffron", "Jasmine", "Peony", "Orange blossom", "Violet leaf", "Lily-of-the-valley", "Guaiac Wood", "Ambergris", "Australian Sandalwood", "Ylang-Ylang", "Musk keytone", "Vanilla" },
                 2022),
+                ("Abbrivio",
+                "As you may have gleaned from the decadent starfish-clad bottle, Tiziana Terenzi takes to the sea to inspire the Abbrivio Extrait de Parfum. Fruity top notes of Brazilian orange and Dolomite blackcurrant mingle with intriguing scents such as Adriatic seaweed, Cuban cane sugar and sandalwood to create an aroma reminiscent of the mystery and magic of lapping waves.",
+                545.00M,
+                "https://res.cloudinary.com/pictures-storage/image/upload/v1706987850/product_images/huyiduqgr92zhcntnnub.jpg",
+                dbContext.ProductTypes.SingleOrDefault(pt => pt.Name == "Fragrance").Id,
+                dbContext.FragranceGroups.SingleOrDefault(fg => fg.Name == "Woody Floral Musk").Id,
+                new string[] { "Brazilian Orange", "Santolina", "Strawberry", "Black currant", "Seaweed", "Brown Sugar", "Tonka Bean", "Coumarin", "Ambergris", "Atlas Cedar", "Oakmoss", "Musk keytone", "Australian Sandalwood", "Oak", "Singapore Patchouli" },
+                2023),
+                ("Deriva",
+                "Known for its characterful scents and unusual combinations of ingredients, Tiziana Terenzi draws inspiration from the sensation of facing a whirlwind of passion and emotion with the Deriva extrait de parfum. Initial notes of Reggio Calabrian bergamot, Brazilian pineapple and Sorrento lemon develop into a woody bouquet of tobacco leaves, vanilla bean and Columbian tonka bean.",
+                545.00M,
+                "https://res.cloudinary.com/pictures-storage/image/upload/v1706989035/product_images/fsruy3qhvvvuybdbyt11.jpg",
+                dbContext.ProductTypes.SingleOrDefault(pt => pt.Name == "Fragrance").Id,
+                dbContext.FragranceGroups.SingleOrDefault(fg => fg.Name == "Woody Floral Musk").Id,
+                new string[] { "Lavender", "Pineapple", "Calabrian bergamot", "Cardamom", "Geranium", "Singapore Patchouli", "Pink Pepper", "Gardenia", "Raspberry", "Palisander Rosewood", "Tobacco Leaf", "Tonka Bean", "Australian Sandalwood", "Madagascan Vanilla" },
+                2023),
             };
 
             var productModels = products.Select(p => new Product
