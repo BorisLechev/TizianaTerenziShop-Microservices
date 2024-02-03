@@ -35,5 +35,27 @@
 
             return Result.Success(NotificationMessages.CreateProductSuccessfully);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<Result>> Edit([FromQuery] EditProductInputModel inputModel, IFormFile picture)
+        {
+            byte[]? pictureAsByteArray = null;
+
+            if (picture != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await picture.CopyToAsync(memoryStream);
+
+                    pictureAsByteArray = memoryStream.ToArray();
+                }
+
+                pictureAsByteArray = pictureAsByteArray.Length == 0 ? null : pictureAsByteArray;
+            }
+
+            await this.productsService.EditProductAsync(inputModel, pictureAsByteArray);
+
+            return Result.Success(NotificationMessages.EditProductSuccessfully);
+        }
     }
 }

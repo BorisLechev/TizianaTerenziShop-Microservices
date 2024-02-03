@@ -19,7 +19,7 @@
 
         Task<bool> CreateProductAsync(ProductCreatedMessage message, string pictureUrl);
 
-        Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId, string pictureUrl);
+        Task<bool> EditProductAsync(ProductEditedMessage message, string pictureUrl);
 
         Task<bool> DeleteProductAsync(int productId);
 

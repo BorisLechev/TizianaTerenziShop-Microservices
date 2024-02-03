@@ -32,6 +32,12 @@
         Task<IEnumerable<SelectListItem>> GetAllProductTypesAsync();
 
         [Get("/FragranceGroups/Index")]
-        Task<IEnumerable<SelectListItem>> GetAllGetAllFragranceGroupsAsyncNotesAsync();
+        Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync();
+
+        [Get("/Notes/GetAllNotesWithSelectedByProductId")]
+        Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedByProductIdAsync(int productId);
+
+        [Get("/Products/GetProductForEditing")]
+        Task<EditProductResponseModel> GetProductForEditingAsync(int productId);
     }
 }

@@ -21,5 +21,13 @@
 
             return notes;
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedByProductId(int productId)
+        {
+            var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+
+            return notes;
+        }
     }
 }

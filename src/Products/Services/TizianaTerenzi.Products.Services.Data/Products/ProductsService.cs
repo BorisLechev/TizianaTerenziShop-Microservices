@@ -62,23 +62,21 @@
             return result > 0;
         }
 
-        public async Task<bool> EditProductAsync(EditProductInputModel inputModel, int productId, string pictureUrl)
+        public async Task<bool> EditProductAsync(ProductEditedMessage message, string pictureUrl)
         {
-            var product = await this.GetProductByIdAsync(productId);
-
-            var notesIds = inputModel.NoteIds.Select(int.Parse);
+            var product = await this.GetProductByIdAsync(message.ProductId);
 
             await this.notesService.HardDeleteAllProductNotesAsync(product.Id);
 
-            product.Name = inputModel.Name;
-            product.Description = inputModel.Description;
-            product.Price = inputModel.Price;
-            product.PriceWithGeneralDiscount = inputModel.Price;
-            product.YearOfManufacture = inputModel.YearOfManufacture;
-            product.FragranceGroupId = inputModel.FragranceGroupId;
-            product.ProductTypeId = inputModel.ProductTypeId;
-            product.Picture = string.IsNullOrEmpty(pictureUrl) ? product.Picture : pictureUrl;
-            product.Notes = notesIds.Select(id => new ProductNote
+            product.Name = message.Name;
+            product.Description = message.Description;
+            product.Price = message.Price;
+            product.PriceWithGeneralDiscount = message.Price;
+            product.YearOfManufacture = message.YearOfManufacture;
+            product.FragranceGroupId = message.FragranceGroupId;
+            product.ProductTypeId = message.ProductTypeId;
+            product.Picture = string.IsNullOrWhiteSpace(pictureUrl) ? product.Picture : pictureUrl;
+            product.Notes = message.NoteIds.Select(id => new ProductNote
             {
                 NoteId = id,
             })

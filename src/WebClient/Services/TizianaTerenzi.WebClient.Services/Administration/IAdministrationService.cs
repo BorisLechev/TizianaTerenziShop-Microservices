@@ -13,5 +13,9 @@
         [Multipart]
         [Post("/Products/Create")]
         Task<Result> CreateProductAsync([Query] CreateProductInputModel inputModel, [AliasAs("picture")] StreamPart picture);
+
+        [Multipart]
+        [Put("/Products/Edit")]
+        Task<Result> EditProductAsync([Query] EditProductInputModel inputmodel, [AliasAs("picture")] StreamPart picture);
     }
 }

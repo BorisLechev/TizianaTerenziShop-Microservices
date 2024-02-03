@@ -124,5 +124,13 @@
 
             return this.Ok();
         }
+
+        [HttpGet]
+        public async Task<ActionResult<EditProductInputModel>> GetProductForEditing(int productId)
+        {
+            var product = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
+
+            return product;
+        }
     }
 }

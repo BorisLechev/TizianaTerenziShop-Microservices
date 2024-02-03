@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.WebClient.Areas.Administration.Controllers
 {
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -95,67 +96,59 @@
             return this.RedirectToAction(nameof(DashboardController.Index), "Dashboard");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(int productId)
-        //{
-        //    if (productId <= 0)
-        //    {
-        //        this.NotFound();
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int productId)
+        {
+            if (productId <= 0)
+            {
+                this.NotFound();
+            }
 
-        //    var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-        //    var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
-        //    var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+            var editProductInputModel = await this.productsGatewayService.PrepareDataForProductEditing(productId);
 
-        //    var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
-        //    editProductInputModel.ProductTypes = productTypes;
-        //    editProductInputModel.FragranceGroups = fragranceGroups;
-        //    editProductInputModel.Notes = notes;
+            return this.View(editProductInputModel.Data);
+        }
 
-        //    return this.View(editProductInputModel);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProductInputModel inputModel)
+        {
+            if (inputModel.ProductId <= 0)
+            {
+                this.NotFound();
+            }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(EditProductInputModel inputModel, int productId)
-        //{
-        //    if (productId <= 0)
-        //    {
-        //        this.NotFound();
-        //    }
+            if (this.ModelState.IsValid == false)
+            {
+                var productDropdowns = await this.productsGatewayService.PrepareDropdownsForProductCreation();
 
-        //    if (this.ModelState.IsValid == false)
-        //    {
-        //        var productTypes = await this.productTypesService.GetAllProductTypesAsync();
-        //        var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
-        //        var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+                inputModel.ProductTypes = productDropdowns.Data.ProductTypes;
+                inputModel.FragranceGroups = productDropdowns.Data.FragranceGroups;
+                inputModel.Notes = productDropdowns.Data.Notes;
 
-        //        inputModel.ProductTypes = productTypes;
-        //        inputModel.FragranceGroups = fragranceGroups;
-        //        inputModel.Notes = notes;
+                return this.View(inputModel);
+            }
 
-        //        return this.View(inputModel);
-        //    }
+            StreamPart pictureStream = new StreamPart(new MemoryStream(), string.Empty);
 
-        //    string pictureUrl = string.Empty;
+            if (inputModel.Picture != null)
+            {
+                var stream = inputModel.Picture.OpenReadStream();
+                pictureStream = new StreamPart(stream, inputModel.Picture.FileName, inputModel.Picture.ContentType);
+            }
 
-        //    if (inputModel.Picture != null)
-        //    {
-        //        pictureUrl = await this.cloudinaryService.UploadPictureAsync(inputModel.Picture, inputModel.Name);
-        //    }
+            var result = await this.administrationService.EditProductAsync(inputModel, pictureStream);
 
-        //    var result = await this.productsService.EditProductAsync(inputModel, productId, pictureUrl);
+            if (result.Succeeded)
+            {
+                this.Success(NotificationMessages.EditProductSuccessfully);
 
-        //    if (result == true)
-        //    {
-        //        this.Success(NotificationMessages.EditProductSuccessfully);
+                return this.LocalRedirect("/products/all");
+            }
 
-        //        return this.LocalRedirect("/products/all");
-        //    }
+            this.Error(NotificationMessages.EditProductError);
 
-        //    this.Error(NotificationMessages.EditProductError);
-
-        //    return this.LocalRedirect("/products/all");
-        //}
+            return this.LocalRedirect("/products/all");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int productId)

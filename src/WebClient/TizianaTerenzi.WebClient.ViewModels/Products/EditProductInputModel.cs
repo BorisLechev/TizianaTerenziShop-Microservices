@@ -4,15 +4,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using TizianaTerenzi.Common.Web.ValidationAttributes;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
 
-    public class EditProductInputModel : IMapFrom<Product>, IHaveCustomMappings
+    public class EditProductInputModel
     {
+        public int ProductId { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required.")]
         [StringLength(25, ErrorMessage = "Name should be between {2} and {1} characters long.", MinimumLength = 2)]
         public string Name { get; set; }
@@ -47,12 +46,5 @@
 
         [ProductYearMinMaxValue(2000)]
         public int YearOfManufacture { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Product, EditProductInputModel>()
-                .ForMember(dest => dest.Notes, opt => opt.Ignore())
-                .ForMember(dest => dest.Picture, opt => opt.Ignore());
-        }
     }
 }

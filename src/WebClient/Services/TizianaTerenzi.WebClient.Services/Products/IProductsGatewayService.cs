@@ -15,5 +15,11 @@
 
         [Get("/Products/PrepareDropdownsForProductCreation")]
         Task<Result<CreateProductInputModel>> PrepareDropdownsForProductCreation();
+
+        [Get("/Products/PrepareDropdownsForProductEditing")]
+        Task<Result<CreateProductInputModel>> PrepareDropdownsForProductEditing(int productId);
+
+        [Get("/Products/PrepareDataForProductEditing")]
+        Task<Result<EditProductInputModel>> PrepareDataForProductEditing(int productId);
     }
 }

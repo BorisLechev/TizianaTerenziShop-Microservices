@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class PrepareDataForProductCreationResponseModel
+    public class PrepareDataForProductCreationAndProductEditingResponseModel
     {
         public IEnumerable<SelectListItem> Notes { get; set; }
 

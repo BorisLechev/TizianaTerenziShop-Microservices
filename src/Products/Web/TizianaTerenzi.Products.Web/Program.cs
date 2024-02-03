@@ -71,7 +71,9 @@ namespace TizianaTerenzi.Products.Web
                 .AddTransient<ICloudinaryService, CloudinaryService>();
 
             services
-                .AddMessageBroker(typeof(ProductCreatedConsumer));
+                .AddMessageBroker(
+                    typeof(ProductCreatedConsumer),
+                    typeof(ProductEditedConsumer));
         }
     }
 }

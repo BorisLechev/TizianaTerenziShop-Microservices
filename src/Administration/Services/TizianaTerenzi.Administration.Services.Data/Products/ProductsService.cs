@@ -32,5 +32,26 @@
                 YearOfManufacture = inputModel.YearOfManufacture,
             });
         }
+
+        public async Task EditProductAsync(EditProductInputModel inputModel, byte[]? picture)
+        {
+            var notesIds = inputModel.NoteIds
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(int.Parse)
+                            .ToArray();
+
+            await this.publisher.Publish(new ProductEditedMessage
+            {
+                ProductId = inputModel.ProductId,
+                Name = inputModel.Name,
+                Description = inputModel.Description,
+                FragranceGroupId = inputModel.FragranceGroupId,
+                NoteIds = notesIds,
+                Picture = picture,
+                Price = inputModel.Price,
+                ProductTypeId = inputModel.ProductTypeId,
+                YearOfManufacture = inputModel.YearOfManufacture,
+            });
+        }
     }
 }
