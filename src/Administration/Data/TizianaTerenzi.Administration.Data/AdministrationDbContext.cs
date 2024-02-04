@@ -25,6 +25,8 @@
 
         public DbSet<OrderProductStatistics> OrderProductStatistics { get; set; }
 
+        public DbSet<GeneralDiscount> GeneralDiscounts { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

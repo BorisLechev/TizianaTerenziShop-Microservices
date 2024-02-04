@@ -2,6 +2,7 @@ namespace TizianaTerenzi.Administration.Web
 {
     using TizianaTerenzi.Administration.Data;
     using TizianaTerenzi.Administration.Data.Repositories;
+    using TizianaTerenzi.Administration.Data.Seeding;
     using TizianaTerenzi.Administration.Services.Data.Dashboard;
     using TizianaTerenzi.Administration.Services.Data.Notes;
     using TizianaTerenzi.Administration.Services.Data.Orders;
@@ -9,6 +10,7 @@ namespace TizianaTerenzi.Administration.Web
     using TizianaTerenzi.Administration.Services.Data.Users;
     using TizianaTerenzi.Administration.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
 
     public class Program
@@ -40,6 +42,7 @@ namespace TizianaTerenzi.Administration.Web
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 
                 // -------Seeders--------
+                .AddSingleton<ISeeder<AdministrationDbContext>, GeneralDiscountsSeeder>()
 
                 // -------Services------------
                 .AddTransient<IOrdersService, OrdersService>()
