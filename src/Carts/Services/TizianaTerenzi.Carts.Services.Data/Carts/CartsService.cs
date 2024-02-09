@@ -150,37 +150,39 @@
         {
             var productsInTheCart = await this.GetAllProductsInTheCartByUserIdAsync(userId);
 
-            await this.publisher.Publish(new ProductsInTheUserCartHaveBeenOrderedMessage
+            await this.publisher.PublishBatch(new object[]
             {
-                UserId = userId,
-                Email = inputModel.Email,
-                FullName = inputModel.FullName,
-                Country = inputModel.Country,
-                Town = inputModel.Town,
-                ShippingAddress = inputModel.ShippingAddress,
-                PostalCode = inputModel.PostalCode,
-                PhoneNumber = inputModel.PhoneNumber,
-                Products = productsInTheCart.Select(p => new ProductsInTheCartMessage
+                new ProductsInTheUserCartHaveBeenOrderedMessage
                 {
-                    ProductId = p.ProductId,
-                    ProductName = p.ProductName,
-                    ProductPriceWithGeneralDiscount = p.ProductPriceWithGeneralDiscount,
-                    PriceWithDiscountCode = p.PriceWithDiscountCode,
-                    Quantity = p.Quantity,
-                    DiscountCodeId = p.DiscountCodeId,
-                    DiscountCodeName = p.DiscountCodeName,
-                    DiscountCodeDiscount = p.DiscountCodeDiscount,
-                }),
-            });
-
-            await this.publisher.Publish(new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
-            {
-                UserId = userId,
-                PhoneNumber = inputModel.PhoneNumber,
-                ShippingAddress = inputModel.ShippingAddress,
-                Town = inputModel.Town,
-                Country = inputModel.Country,
-                PostalCode = inputModel.PostalCode,
+                    UserId = userId,
+                    Email = inputModel.Email,
+                    FullName = inputModel.FullName,
+                    Country = inputModel.Country,
+                    Town = inputModel.Town,
+                    ShippingAddress = inputModel.ShippingAddress,
+                    PostalCode = inputModel.PostalCode,
+                    PhoneNumber = inputModel.PhoneNumber,
+                    Products = productsInTheCart.Select(p => new ProductsInTheCartMessage
+                    {
+                        ProductId = p.ProductId,
+                        ProductName = p.ProductName,
+                        ProductPriceWithGeneralDiscount = p.ProductPriceWithGeneralDiscount,
+                        PriceWithDiscountCode = p.PriceWithDiscountCode,
+                        Quantity = p.Quantity,
+                        DiscountCodeId = p.DiscountCodeId,
+                        DiscountCodeName = p.DiscountCodeName,
+                        DiscountCodeDiscount = p.DiscountCodeDiscount,
+                    }),
+                },
+                new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
+                {
+                    UserId = userId,
+                    PhoneNumber = inputModel.PhoneNumber,
+                    ShippingAddress = inputModel.ShippingAddress,
+                    Town = inputModel.Town,
+                    Country = inputModel.Country,
+                    PostalCode = inputModel.PostalCode,
+                },
             });
         }
     }
