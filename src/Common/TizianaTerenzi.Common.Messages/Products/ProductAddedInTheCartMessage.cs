@@ -10,6 +10,6 @@
 
         public string ProductPicture { get; set; }
 
-        public decimal PriceWithGeneralDiscount { get; set; }
+        public decimal Price { get; set; }
     }
 }

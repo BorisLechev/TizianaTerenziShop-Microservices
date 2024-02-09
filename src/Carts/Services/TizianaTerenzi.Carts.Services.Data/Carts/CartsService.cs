@@ -33,8 +33,7 @@
                 ProductName = product.ProductName,
                 ProductPicture = product.ProductPicture,
                 Quantity = 1,
-                PriceWithDiscountCode = product.PriceWithGeneralDiscount,
-                ProductPriceWithGeneralDiscount = product.PriceWithGeneralDiscount,
+                Price = product.Price,
             };
 
             await this.cartsRepository.AddAsync(productInTheCart);
@@ -166,8 +165,7 @@
                     {
                         ProductId = p.ProductId,
                         ProductName = p.ProductName,
-                        ProductPriceWithGeneralDiscount = p.ProductPriceWithGeneralDiscount,
-                        PriceWithDiscountCode = p.PriceWithDiscountCode,
+                        Price = p.Price,
                         Quantity = p.Quantity,
                         DiscountCodeId = p.DiscountCodeId,
                         DiscountCodeName = p.DiscountCodeName,

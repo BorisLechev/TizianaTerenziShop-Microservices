@@ -51,7 +51,7 @@
 
             foreach (var productInTheCart in productsInTheCart)
             {
-                productInTheCart.PriceWithDiscountCode *= 1 - ((decimal)discountCode.Discount / 100);
+                productInTheCart.Price *= 1 - ((decimal)discountCode.Discount / 100);
                 productInTheCart.DiscountCodeId = discountCode.Id;
                 productInTheCart.ModifiedOn = DateTime.UtcNow;
             }
@@ -61,7 +61,7 @@
             return result > 0;
         }
 
-        public async Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(string userId)
+        public async Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(string discountCodeName,  string userId)
         {
             var productsInTheCart = await this.productsInTheCartRepository
                                         .All()
@@ -73,9 +73,11 @@
                 return false;
             }
 
+            var discountCode = await this.GetDiscountCodeByNameAsync(discountCodeName);
+
             foreach (var productInTheCart in productsInTheCart)
             {
-                productInTheCart.PriceWithDiscountCode = productInTheCart.ProductPriceWithGeneralDiscount;
+                productInTheCart.Price /= 1 - ((decimal)discountCode.Discount / 100);
                 productInTheCart.DiscountCodeId = null;
                 productInTheCart.ModifiedOn = DateTime.UtcNow;
             }

@@ -10,6 +10,6 @@
 
         Task<bool> ModifyThePricesAfterAppliedDiscountCodeAsync(string discountCodeName, string userId);
 
-        Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(string userId);
+        Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(string discountName, string userId);
     }
 }

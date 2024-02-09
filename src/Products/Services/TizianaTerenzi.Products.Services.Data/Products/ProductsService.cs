@@ -220,7 +220,7 @@
                 ProductId = productId,
                 ProductName = product.Name,
                 ProductPicture = product.Picture,
-                PriceWithGeneralDiscount = product.PriceWithGeneralDiscount,
+                Price = product.PriceWithGeneralDiscount,
             });
         }
 

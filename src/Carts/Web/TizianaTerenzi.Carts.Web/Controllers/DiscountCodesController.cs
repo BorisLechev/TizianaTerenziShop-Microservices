@@ -61,7 +61,7 @@
 
             var userId = this.User.GetUserId();
 
-            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(userId);
+            var result = await this.discountCodesService.ModifyThePricesAfterDeletedDiscountCodeAsync(discountName, userId);
 
             if (!result)
             {

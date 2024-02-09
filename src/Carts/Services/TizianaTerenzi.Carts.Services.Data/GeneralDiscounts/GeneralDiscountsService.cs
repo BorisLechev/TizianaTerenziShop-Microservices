@@ -19,8 +19,7 @@
                                     .All()
                                     .UpdateAsync(p => new Cart
                                     {
-                                        ProductPriceWithGeneralDiscount = p.ProductPriceWithGeneralDiscount - (p.ProductPriceWithGeneralDiscount * discount / 100),
-                                        PriceWithDiscountCode = p.PriceWithDiscountCode - (p.PriceWithDiscountCode * discount / 100),
+                                        Price = p.Price - (p.Price * discount / 100),
                                         ModifiedOn = DateTime.UtcNow,
                                     });
 
@@ -33,8 +32,7 @@
                                     .All()
                                     .UpdateAsync(p => new Cart
                                     {
-                                        ProductPriceWithGeneralDiscount = p.ProductPriceWithGeneralDiscount / (1 - ((decimal)discount / 100)),
-                                        PriceWithDiscountCode = p.PriceWithDiscountCode / (1 - ((decimal)discount / 100)),
+                                        Price = p.Price / (1 - ((decimal)discount / 100)),
                                         ModifiedOn = DateTime.UtcNow,
                                     });
 

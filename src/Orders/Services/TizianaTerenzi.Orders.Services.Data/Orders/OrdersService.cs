@@ -38,7 +38,7 @@
                 {
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
-                    Price = p.PriceWithDiscountCode,
+                    Price = p.Price,
                     Quantity = p.Quantity,
                 })
                 .ToList();
