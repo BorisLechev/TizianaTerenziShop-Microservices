@@ -75,7 +75,9 @@ namespace TizianaTerenzi.Products.Web
                     typeof(ProductCreatedConsumer),
                     typeof(ProductEditedConsumer),
                     typeof(ProductDeletedConsumer),
-                    typeof(NoteCreatedConsumer));
+                    typeof(NoteCreatedConsumer),
+                    typeof(ThePricesOfAllProductsAfterTheGeneralDiscountIsAppliedUpdatedConsumer),
+                    typeof(ThePricesOfAllProductsAfterTheGeneralDiscountIsDisabledUpdatedConsumer));
         }
     }
 }

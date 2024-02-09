@@ -53,6 +53,7 @@
             {
                 productInTheCart.PriceWithDiscountCode *= 1 - ((decimal)discountCode.Discount / 100);
                 productInTheCart.DiscountCodeId = discountCode.Id;
+                productInTheCart.ModifiedOn = DateTime.UtcNow;
             }
 
             var result = await this.productsInTheCartRepository.SaveChangesAsync();
@@ -76,6 +77,7 @@
             {
                 productInTheCart.PriceWithDiscountCode = productInTheCart.ProductPriceWithGeneralDiscount;
                 productInTheCart.DiscountCodeId = null;
+                productInTheCart.ModifiedOn = DateTime.UtcNow;
             }
 
             var result = await this.productsInTheCartRepository.SaveChangesAsync();

@@ -6,6 +6,7 @@ namespace TizianaTerenzi.Carts.Web
     using TizianaTerenzi.Carts.Services.Data.Carts;
     using TizianaTerenzi.Carts.Services.Data.Countries;
     using TizianaTerenzi.Carts.Services.Data.Discounts;
+    using TizianaTerenzi.Carts.Services.Data.GeneralDiscounts;
     using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
@@ -51,10 +52,14 @@ namespace TizianaTerenzi.Carts.Web
                 // -------Services------------
                 .AddTransient<ICartsService, CartsService>()
                 .AddTransient<IDiscountCodesService, DiscountCodesService>()
-                .AddTransient<ICountriesService, CountriesService>();
+                .AddTransient<ICountriesService, CountriesService>()
+                .AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
 
             services
-                .AddMessageBroker(typeof(ProductAddedInTheCartConsumer))
+                .AddMessageBroker(
+                    typeof(ProductAddedInTheCartConsumer),
+                    typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsAppliedUpdatedConsumer),
+                    typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedConsumer))
                 .AddSignalR();
         }
     }

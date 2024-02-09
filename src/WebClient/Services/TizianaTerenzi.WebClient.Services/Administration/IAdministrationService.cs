@@ -3,6 +3,7 @@
     using Refit;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Dashboard;
+    using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
     using TizianaTerenzi.WebClient.ViewModels.Notes;
     using TizianaTerenzi.WebClient.ViewModels.Products;
 
@@ -24,5 +25,14 @@
 
         [Post("/Notes/Create")]
         Task<Result> CreateNoteAsync(CreateNoteInputModel inputModel);
+
+        [Get("/GeneralDiscounts/Index")]
+        Task<GeneralDiscountViewModel> GetGeneralDiscountsAsync();
+
+        [Post("/GeneralDiscounts/Apply")]
+        Task<Result> ApplyGeneralDiscountToAllProductsAsync(GeneralDiscountInputModel inputModel);
+
+        [Post("/GeneralDiscounts/Disable")]
+        Task<Result> DisableGeneralDiscountToAllProductsAsync();
     }
 }
