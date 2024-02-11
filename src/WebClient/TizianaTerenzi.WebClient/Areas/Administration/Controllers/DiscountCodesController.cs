@@ -5,22 +5,22 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Discounts;
+    using TizianaTerenzi.WebClient.Services.Administration;
     using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
 
     public class DiscountCodesController : AdministrationController
     {
-        private readonly IDiscountCodesService discountCodesService;
+        private readonly IAdministrationService administrationService;
 
-        public DiscountCodesController(IDiscountCodesService discountCodesService)
+        public DiscountCodesController(IAdministrationService administrationService)
         {
-            this.discountCodesService = discountCodesService;
+            this.administrationService = administrationService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DiscountCodesListingViewModel>>> Index()
         {
-            var discountCodes = await this.discountCodesService.GetAllDiscountCodesAsync<DiscountCodesListingViewModel>();
+            var discountCodes = await this.administrationService.GetAllDiscountCodesAsync();
 
             return this.View(discountCodes);
         }
@@ -40,7 +40,7 @@
 
             discountCodeInputModel.Name.ToUpper();
 
-            var result = await this.discountCodesService.CreateDiscountCodeAsync(discountCodeInputModel);
+            var result = await this.administrationService.CreateDiscountCodeAsync(discountCodeInputModel);
 
             if (result == false)
             {
@@ -57,7 +57,7 @@
         [HttpPost]
         public async Task<IActionResult> Delete(int discountCodeId)
         {
-            var result = await this.discountCodesService.DeleteDiscountCodeAsync(discountCodeId);
+            var result = await this.administrationService.DeleteDiscountCodeAsync(discountCodeId);
 
             if (result == false)
             {

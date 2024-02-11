@@ -59,7 +59,9 @@ namespace TizianaTerenzi.Carts.Web
                 .AddMessageBroker(
                     typeof(ProductAddedInTheCartConsumer),
                     typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsAppliedUpdatedConsumer),
-                    typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedConsumer))
+                    typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedConsumer),
+                    typeof(DiscountCodeCreatedConsumer),
+                    typeof(DiscountCodeDeletedConsumer))
                 .AddSignalR();
         }
     }

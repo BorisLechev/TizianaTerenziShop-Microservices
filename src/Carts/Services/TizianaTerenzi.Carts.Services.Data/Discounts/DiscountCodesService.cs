@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Messages.Administration;
 
     public class DiscountCodesService : IDiscountCodesService
     {
@@ -83,6 +84,45 @@
             }
 
             var result = await this.productsInTheCartRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> CreateDiscountCodeAsync(DiscountCodeCreatedMessage inputModel)
+        {
+            var isExisting = await this.CheckIfThereIsSuchaDiscountAsync(inputModel.Name);
+
+            if (isExisting == false)
+            {
+                var discountCode = new DiscountCode
+                {
+                    Name = inputModel.Name,
+                    Discount = inputModel.Discount,
+                    ExpiresOn = inputModel.ExpiresOn,
+                };
+
+                await this.discountCodesRepository.AddAsync(discountCode);
+                var result = await this.discountCodesRepository.SaveChangesAsync();
+
+                return result > 0;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeleteDiscountCodeAsync(DiscountCodeDeletedMessage message)
+        {
+            var discountCode = await this.discountCodesRepository
+                                     .All()
+                                     .SingleOrDefaultAsync(dc => dc.Id == message.DiscountCodeId);
+
+            if (discountCode == null)
+            {
+                return false;
+            }
+
+            this.discountCodesRepository.Delete(discountCode);
+            var result = await this.discountCodesRepository.SaveChangesAsync();
 
             return result > 0;
         }

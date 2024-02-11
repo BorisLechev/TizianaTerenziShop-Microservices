@@ -3,6 +3,7 @@
     using Refit;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Dashboard;
+    using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
     using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
     using TizianaTerenzi.WebClient.ViewModels.Notes;
     using TizianaTerenzi.WebClient.ViewModels.Products;
@@ -34,5 +35,14 @@
 
         [Post("/GeneralDiscounts/Disable")]
         Task<Result> DisableGeneralDiscountToAllProductsAsync();
+
+        [Get("/DiscountCodes/Index")]
+        Task<IEnumerable<DiscountCodesListingViewModel>> GetAllDiscountCodesAsync();
+
+        [Post("/DiscountCodes/Create")]
+        Task<Result> CreateDiscountCodeAsync(CreateDiscountCodeInputModel discountCodeInputModel);
+
+        [Delete("/DiscountCodes/Delete")]
+        Task<Result> DeleteDiscountCodeAsync(int discountCodeId);
     }
 }
