@@ -39,21 +39,21 @@
         {
             var userId = this.User.GetUserId();
 
-            var allOrdersByUser = await this.ordersService.GetAllOrdersByUserId(userId);
+            var allOrdersByUser = await this.ordersService.GetAllOrdersByUserIdAsync(userId);
 
             return this.View(allOrdersByUser);
         }
 
         public async Task<IActionResult> Products(int id)
         {
-            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderId(id);
+            var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(id);
 
             return this.View(allOrderProductsByUser);
         }
 
         public async Task<IActionResult> GeneratePdf(int orderId)
         {
-            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderId(orderId);
+            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
             var user = await this.userManager.GetUserAsync(this.User);
 
             var viewModel = new ExportPdfUserOrderProductsViewModel

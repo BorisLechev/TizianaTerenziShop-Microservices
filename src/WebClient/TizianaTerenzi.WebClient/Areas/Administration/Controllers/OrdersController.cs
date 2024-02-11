@@ -4,15 +4,20 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Orders;
+    using TizianaTerenzi.WebClient.Services.Administration;
+    using TizianaTerenzi.WebClient.Services.Orders;
 
     public class OrdersController : AdministrationController
     {
         private readonly IOrdersService ordersService;
+        private readonly IAdministrationService administrationService;
 
-        public OrdersController(IOrdersService ordersService)
+        public OrdersController(
+            IOrdersService ordersService,
+            IAdministrationService administrationService)
         {
             this.ordersService = ordersService;
+            this.administrationService = administrationService;
         }
 
         public async Task<IActionResult> Index()
@@ -45,9 +50,9 @@
 
         public async Task<IActionResult> Process(int orderId)
         {
-            var result = await this.ordersService.ProcessOrderAsync(orderId);
+            var result = await this.administrationService.ProcessOrderAsync(orderId);
 
-            if (result == false)
+            if (!result.Succeeded)
             {
                 this.Error(NotificationMessages.ProcessOrderError);
 

@@ -45,7 +45,9 @@ namespace TizianaTerenzi.Orders.Web
                 .AddTransient<IOrdersService, OrdersService>();
 
             services
-                .AddMessageBroker(typeof(ProductsInTheUserCartHaveBeenOrderedConsumer));
+                .AddMessageBroker(
+                    typeof(ProductsInTheUserCartHaveBeenOrderedConsumer),
+                    typeof(OrderProcessedConsumer));
         }
     }
 }

@@ -44,5 +44,8 @@
 
         [Delete("/DiscountCodes/Delete")]
         Task<Result> DeleteDiscountCodeAsync(int discountCodeId);
+
+        [Post("/Orders/Process")]
+        Task<Result> ProcessOrderAsync(int orderId);
     }
 }

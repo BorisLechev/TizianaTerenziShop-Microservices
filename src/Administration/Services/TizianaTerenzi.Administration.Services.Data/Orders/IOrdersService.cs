@@ -5,5 +5,7 @@
     public interface IOrdersService
     {
         Task<bool> AddOrderStatisticsAsync(OrderAddedInAdminStatisticsMessage model);
+
+        Task ProcessOrderAsync(int orderId);
     }
 }

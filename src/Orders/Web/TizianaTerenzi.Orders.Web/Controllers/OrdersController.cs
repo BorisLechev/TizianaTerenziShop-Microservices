@@ -1,11 +1,14 @@
 ﻿namespace TizianaTerenzi.Orders.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
+    using TizianaTerenzi.Common.Web.ValidationAttributes;
     using TizianaTerenzi.Orders.Services.Data.Orders;
     using TizianaTerenzi.Orders.Web.Models.Orders;
 
+    [Authorize]
     public class OrdersController : ApiController
     {
         private readonly IOrdersService ordersService;
@@ -31,6 +34,33 @@
             var allOrderProductsByUser = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
 
             return this.Ok(allOrderProductsByUser);
+        }
+
+        [HttpGet]
+        [AuthorizeAdministrator]
+        public async Task<ActionResult<IEnumerable<OrdersListingViewModel>>> All()
+        {
+            var orders = await this.ordersService.GetAllOrdersAsync();
+
+            return this.Ok(orders);
+        }
+
+        [HttpGet]
+        [AuthorizeAdministrator]
+        public async Task<ActionResult<IEnumerable<OrdersListingViewModel>>> Pending()
+        {
+            var orders = await this.ordersService.GetAllPendingOrdersAsync();
+
+            return this.Ok(orders);
+        }
+
+        [HttpGet]
+        [AuthorizeAdministrator]
+        public async Task<ActionResult<IEnumerable<OrdersListingViewModel>>> Processed()
+        {
+            var orders = await this.ordersService.GetAllProcessedOrdersAsync();
+
+            return this.Ok(orders);
         }
     }
 }
