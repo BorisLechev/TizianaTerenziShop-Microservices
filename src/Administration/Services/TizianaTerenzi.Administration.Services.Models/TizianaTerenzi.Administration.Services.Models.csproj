@@ -18,7 +18,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.17.0.82934">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -26,18 +26,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Orders\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
-	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Administration.Data.Models\TizianaTerenzi.Administration.Data.Models.csproj" />
-	  <ProjectReference Include="..\..\Web\TizianaTerenzi.Administration.Web.Models\TizianaTerenzi.Administration.Web.Models.csproj" />
-	  <ProjectReference Include="..\TizianaTerenzi.Administration.Services\TizianaTerenzi.Administration.Services.csproj" />
 	</ItemGroup>
 
 </Project>

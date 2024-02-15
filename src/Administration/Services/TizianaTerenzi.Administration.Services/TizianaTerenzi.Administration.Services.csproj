@@ -1,25 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\..\..\Rules.ruleset</CodeAnalysisRuleSet>
-		<UserSecretsId>147b7f82-4e7d-41b3-97db-e9cbbbdb0252</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="IPinfo" Version="1.1.14" />
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.17.0.82934">
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -30,12 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services.Messaging\TizianaTerenzi.Common.Services.Messaging.csproj" />
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
-	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Administration.Data\TizianaTerenzi.Administration.Data.csproj" />
-	  <ProjectReference Include="..\..\Services\TizianaTerenzi.Administration.Services.Data\TizianaTerenzi.Administration.Services.Data.csproj" />
-	  <ProjectReference Include="..\..\Services\TizianaTerenzi.Administration.Services\TizianaTerenzi.Administration.Services.csproj" />
+		<ProjectReference Include="..\TizianaTerenzi.Administration.Services.Models\TizianaTerenzi.Administration.Services.Models.csproj" />
 	</ItemGroup>
 
 </Project>

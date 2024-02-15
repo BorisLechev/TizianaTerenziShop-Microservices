@@ -3,6 +3,7 @@ namespace TizianaTerenzi.Administration.Web
     using TizianaTerenzi.Administration.Data;
     using TizianaTerenzi.Administration.Data.Repositories;
     using TizianaTerenzi.Administration.Data.Seeding;
+    using TizianaTerenzi.Administration.Services.Data.Contacts;
     using TizianaTerenzi.Administration.Services.Data.Dashboard;
     using TizianaTerenzi.Administration.Services.Data.DiscountCodes;
     using TizianaTerenzi.Administration.Services.Data.GeneralDiscounts;
@@ -11,9 +12,11 @@ namespace TizianaTerenzi.Administration.Web
     using TizianaTerenzi.Administration.Services.Data.Products;
     using TizianaTerenzi.Administration.Services.Data.UserPenalties;
     using TizianaTerenzi.Administration.Services.Data.Users;
+    using TizianaTerenzi.Administration.Services.Location;
     using TizianaTerenzi.Administration.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
+    using TizianaTerenzi.Common.Services.Messaging;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
 
     public class Program
@@ -49,6 +52,8 @@ namespace TizianaTerenzi.Administration.Web
                 .AddSingleton<ISeeder<AdministrationDbContext>, DiscountCodesStatisticsSeeder>()
 
                 // -------Services------------
+                .AddTransient<ILocationService, LocationService>()
+                .AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration["SendGrid:ApiKey"]))
                 .AddTransient<IOrdersService, OrdersService>()
                 .AddTransient<IUsersService, UsersService>()
                 .AddTransient<IDashboardService, DashboardService>()
@@ -56,7 +61,8 @@ namespace TizianaTerenzi.Administration.Web
                 .AddTransient<INotesService, NotesService>()
                 .AddTransient<IGeneralDiscountsService, GeneralDiscountsService>()
                 .AddTransient<IDiscountCodesService, DiscountCodesService>()
-                .AddTransient<IUserPenaltiesService, UserPenaltiesService>();
+                .AddTransient<IUserPenaltiesService, UserPenaltiesService>()
+                .AddTransient<IContactsService, ContactsService>();
 
             services
                 .AddMessageBroker(

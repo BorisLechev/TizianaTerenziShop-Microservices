@@ -62,7 +62,7 @@
             return result > 0;
         }
 
-        public async Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(string discountCodeName,  string userId)
+        public async Task<bool> ModifyThePricesAfterDeletedDiscountCodeAsync(string discountCodeName, string userId)
         {
             var productsInTheCart = await this.productsInTheCartRepository
                                         .All()

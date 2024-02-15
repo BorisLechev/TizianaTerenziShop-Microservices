@@ -64,7 +64,7 @@
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = domain + "/payment/finish?sessionId={CHECKOUT_SESSION_ID}" + 
+                SuccessUrl = domain + "/payment/finish?sessionId={CHECKOUT_SESSION_ID}" +
                     $"&fullName={inputModel.FirstName} {inputModel.LastName}&email={inputModel.Email}&phone={inputModel.PhoneNumber}" +
                     $"&address={inputModel.Address}&country={inputModel.Country}&town={inputModel.Town}&postalCode={inputModel.PostalCode}",
                 CancelUrl = domain + "/cart/checkout",

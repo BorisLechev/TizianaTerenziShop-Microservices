@@ -4,20 +4,20 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Contacts;
+    using TizianaTerenzi.WebClient.Services.Administration;
 
     public class ContactsController : AdministrationController
     {
-        private readonly IContactsService contactsService;
+        private readonly IAdministrationService administrationService;
 
-        public ContactsController(IContactsService contactsService)
+        public ContactsController(IAdministrationService administrationService)
         {
-            this.contactsService = contactsService;
+            this.administrationService = administrationService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var emails = await this.contactsService.GetAllAsync();
+            var emails = await this.administrationService.GetAllContactMessagesAsync();
 
             return this.View(emails);
         }
@@ -25,9 +25,9 @@
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await this.contactsService.DeleteAsync(id);
+            var result = await this.administrationService.DeleteContactMessageAsync(id);
 
-            if (result)
+            if (result.Succeeded)
             {
                 this.Success(NotificationMessages.SuccessfullyDeletedContactFormEntry);
             }

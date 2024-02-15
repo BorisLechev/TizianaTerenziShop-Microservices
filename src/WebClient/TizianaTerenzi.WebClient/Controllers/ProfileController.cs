@@ -25,7 +25,7 @@
         public ProfileController(
             IIdentityService identityService,
             IProductsGatewayService productsGatewayService)
-            //IChatService chatsService,
+        //IChatService chatsService,
         {
             //this.chatsService = chatsService;
             this.identityService = identityService;

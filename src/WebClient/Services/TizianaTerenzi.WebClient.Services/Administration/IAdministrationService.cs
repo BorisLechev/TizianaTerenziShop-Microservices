@@ -2,6 +2,7 @@
 {
     using Refit;
     using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.WebClient.ViewModels.Contacts;
     using TizianaTerenzi.WebClient.ViewModels.Dashboard;
     using TizianaTerenzi.WebClient.ViewModels.DiscountCodes;
     using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
@@ -58,5 +59,14 @@
 
         [Put("/Penalties/UnblockUser")]
         Task<Result> UnblockUserAsync(UserPenaltiesInputModel inputModel);
+
+        [Get("/Contacts/Index")]
+        Task<IEnumerable<ContactMessagesViewModel>> GetAllContactMessagesAsync();
+
+        [Post("/Contacts/Create")]
+        Task<Result> SendContactMessageAsync(ContactMessageInputModel inputModel);
+
+        [Delete("/Contacts/Delete")]
+        Task<Result> DeleteContactMessageAsync(int id);
     }
 }
