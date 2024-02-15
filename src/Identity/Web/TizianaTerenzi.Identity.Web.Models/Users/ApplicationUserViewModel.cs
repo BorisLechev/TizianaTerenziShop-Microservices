@@ -1,8 +1,9 @@
-﻿namespace TizianaTerenzi.WebClient.ViewModels.Users
+﻿namespace TizianaTerenzi.Identity.Web.Models.Users
 {
-    using System;
+    using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Identity.Data.Models;
 
-    public class BannedApplicationUserViewModel
+    public class ApplicationUserViewModel : IMapFrom<ApplicationUser>
     {
         public string UserName { get; set; }
 
@@ -14,14 +15,12 @@
 
         public string Role { get; set; }
 
-        public DateTime BannedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public string Town { get; set; }
 
         public string CountryName { get; set; }
 
         public string Address { get; set; }
-
-        public string ReasonToBeBlocked { get; set; }
     }
 }

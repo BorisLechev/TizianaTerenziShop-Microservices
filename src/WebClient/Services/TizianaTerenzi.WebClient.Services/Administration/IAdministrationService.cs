@@ -7,6 +7,8 @@
     using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
     using TizianaTerenzi.WebClient.ViewModels.Notes;
     using TizianaTerenzi.WebClient.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.UserPenalties;
+    using TizianaTerenzi.WebClient.ViewModels.Users;
 
     public interface IAdministrationService
     {
@@ -47,5 +49,14 @@
 
         [Post("/Orders/Process")]
         Task<Result> ProcessOrderAsync(int orderId);
+
+        [Post("/Users/AddUserInRole")]
+        Task<Result> AddUserInRole(UsernamesRolesIndexViewModel inputModel);
+
+        [Post("/Penalties/BlockUser")]
+        Task<Result> BlockUserAsync(UserPenaltiesInputModel inputModel);
+
+        [Put("/Penalties/UnblockUser")]
+        Task<Result> UnblockUserAsync(UserPenaltiesInputModel inputModel);
     }
 }

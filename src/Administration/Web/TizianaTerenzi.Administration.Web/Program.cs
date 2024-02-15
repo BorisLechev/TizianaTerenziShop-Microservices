@@ -9,6 +9,7 @@ namespace TizianaTerenzi.Administration.Web
     using TizianaTerenzi.Administration.Services.Data.Notes;
     using TizianaTerenzi.Administration.Services.Data.Orders;
     using TizianaTerenzi.Administration.Services.Data.Products;
+    using TizianaTerenzi.Administration.Services.Data.UserPenalties;
     using TizianaTerenzi.Administration.Services.Data.Users;
     using TizianaTerenzi.Administration.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
@@ -54,7 +55,8 @@ namespace TizianaTerenzi.Administration.Web
                 .AddTransient<IProductsService, ProductsService>()
                 .AddTransient<INotesService, NotesService>()
                 .AddTransient<IGeneralDiscountsService, GeneralDiscountsService>()
-                .AddTransient<IDiscountCodesService, DiscountCodesService>();
+                .AddTransient<IDiscountCodesService, DiscountCodesService>()
+                .AddTransient<IUserPenaltiesService, UserPenaltiesService>();
 
             services
                 .AddMessageBroker(

@@ -1,4 +1,4 @@
-﻿@model AllUsersViewModel
+﻿@model IEnumerable<ApplicationUserViewModel>
 @{
     this.ViewData["Title"] = "All Users";
 }
@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in this.Model.ApplicationUsers)
+                        @foreach (var user in this.Model)
                         {
                             <tr>
                                 <td>@user.UserName</td>
@@ -40,7 +40,7 @@
                                 <td><time datetime="@user.CreatedOn.ToString("O")"></time></td>
                                 @*<td>@user.CountryName</td>*@
                                 <td>@user.Town</td>
-                                <td>@user.Address</td>
+                                <td><span class="badge">@user.Address</span></td>
                             </tr>
                         }
                     </tbody>

@@ -9,6 +9,8 @@
     using TizianaTerenzi.Identity.Services.Data.Countries;
     using TizianaTerenzi.Identity.Services.Data.Identity;
     using TizianaTerenzi.Identity.Services.Data.Profile;
+    using TizianaTerenzi.Identity.Services.Data.UserPenalties;
+    using TizianaTerenzi.Identity.Services.Data.Users;
     using TizianaTerenzi.Identity.Services.Location;
     using TizianaTerenzi.Identity.Web.Infrastructure;
     using TizianaTerenzi.Identity.Web.Messages;
@@ -53,10 +55,16 @@
                 .AddTransient<ICountriesService, CountriesService>()
                 .AddTransient<IIdentityService, IdentityService>()
                 .AddTransient<IProfileService, ProfileService>()
-                .AddTransient<ITokenGeneratorService, TokenGeneratorService>();
+                .AddTransient<ITokenGeneratorService, TokenGeneratorService>()
+                .AddTransient<IUsersService, UsersService>()
+                .AddTransient<IUserPenaltiesService, UserPenaltiesService>();
 
             services
-                .AddMessageBroker(typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer));
+                .AddMessageBroker(
+                    typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer),
+                    typeof(UserInRoleAddedConsumer),
+                    typeof(UserBlockedConsumer),
+                    typeof(UserUnblockedConsumer));
         }
     }
 }

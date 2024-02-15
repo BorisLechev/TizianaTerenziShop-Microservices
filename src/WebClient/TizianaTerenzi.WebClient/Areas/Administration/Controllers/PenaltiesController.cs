@@ -4,25 +4,26 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.UserPenalties;
+    using TizianaTerenzi.WebClient.Services.Administration;
+    using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels.UserPenalties;
 
     public class PenaltiesController : AdministrationController
     {
-        private readonly IUserPenaltiesService userPenaltiesService;
+        private readonly IIdentityService identityService;
+        private readonly IAdministrationService administrationService;
 
-        public PenaltiesController(IUserPenaltiesService userPenaltiesService)
+        public PenaltiesController(
+            IIdentityService identityService,
+            IAdministrationService administrationService)
         {
-            this.userPenaltiesService = userPenaltiesService;
+            this.identityService = identityService;
+            this.administrationService = administrationService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var viewModel = new UserPenaltiesInputModel
-            {
-                BlockedUsernames = await this.userPenaltiesService.GetAllBlockedUsersAsync(),
-                UnblockedUsernames = await this.userPenaltiesService.GetAllUnblockedUsersAsync(),
-            };
+            var viewModel = await this.identityService.GetAllBlockedAndUnblockedUsersAsync();
 
             return this.View(viewModel);
         }
@@ -36,9 +37,9 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var isBlocked = await this.userPenaltiesService.BlockUserAsync(input.UserId, input.ReasonToBeBlocked);
+            var isBlocked = await this.administrationService.BlockUserAsync(input);
 
-            if (isBlocked)
+            if (isBlocked.Succeeded)
             {
                 this.Success(NotificationMessages.SuccessfullyBlockedUser);
             }
@@ -59,9 +60,9 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var isUnblocked = await this.userPenaltiesService.UnblockUserAsync(input.UserId);
+            var isUnblocked = await this.administrationService.UnblockUserAsync(input);
 
-            if (isUnblocked)
+            if (isUnblocked.Succeeded)
             {
                 this.Success(NotificationMessages.SuccessfullyUnblockedUser);
             }

@@ -4,6 +4,8 @@
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Profile;
+    using TizianaTerenzi.WebClient.ViewModels.UserPenalties;
+    using TizianaTerenzi.WebClient.ViewModels.Users;
 
     public interface IIdentityService
     {
@@ -36,5 +38,17 @@
 
         [Get("/Profile/All")]
         Task<AllUsersListViewModel> GetAllUsersExceptAdmins(int page);
+
+        [Get("/Users/AllUsers")]
+        Task<IEnumerable<ApplicationUserViewModel>> GetAllUsersAsync();
+
+        [Get("/Users/AllBannedUsers")]
+        Task<IEnumerable<BannedApplicationUserViewModel>> GetAllBannedUsersAsync();
+
+        [Get("/Users/Roles")]
+        Task<UsernamesRolesIndexViewModel> GetUsernamesRolesAsync();
+
+        [Get("/Penalties/Index")]
+        Task<UserPenaltiesInputModel> GetAllBlockedAndUnblockedUsersAsync();
     }
 }

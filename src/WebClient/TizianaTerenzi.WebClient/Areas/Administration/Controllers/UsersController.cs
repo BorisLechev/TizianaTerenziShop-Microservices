@@ -4,21 +4,26 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Users;
+    using TizianaTerenzi.WebClient.Services.Administration;
+    using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Users;
 
     public class UsersController : AdministrationController
     {
-        private readonly IUsersService usersService;
+        private readonly IIdentityService identityService;
+        private readonly IAdministrationService administrationService;
 
-        public UsersController(IUsersService usersService)
+        public UsersController(
+            IIdentityService identityService,
+            IAdministrationService administrationService)
         {
-            this.usersService = usersService;
+            this.identityService = identityService;
+            this.administrationService = administrationService;
         }
 
         public async Task<IActionResult> Roles()
         {
-            var viewModel = await this.usersService.GetUsernamesRolesAsync();
+            var viewModel = await this.identityService.GetUsernamesRolesAsync();
 
             return this.View(viewModel);
         }
@@ -30,20 +35,26 @@
 
             if (this.ModelState.IsValid)
             {
-                var isUserAlreadyAddedInThisRole = await this.usersService.IsUserAlreadyAddedInRoleAsync(inputUserId, inputRoleId);
+                //var isUserAlreadyAddedInThisRole = await this.usersService.IsUserAlreadyAddedInRoleAsync(inputUserId, inputRoleId);
 
-                if (isUserAlreadyAddedInThisRole)
-                {
-                    this.Error(NotificationMessages.UserIsAlreadyInThisRole);
-                }
-                else
-                {
-                    var result = await this.usersService.UpdateUserRoleAsync(inputUserId, inputRoleId);
+                //if (isUserAlreadyAddedInThisRole)
+                //{
+                //    this.Error(NotificationMessages.UserIsAlreadyInThisRole);
+                //}
+                //else
+                //{
+                //    var result = await this.usersService.UpdateUserRoleAsync(inputUserId, inputRoleId);
 
-                    if (result)
-                    {
-                        this.Success(NotificationMessages.SuccessfullyAddedUserInRole);
-                    }
+                //    if (result)
+                //    {
+                //        this.Success(NotificationMessages.SuccessfullyAddedUserInRole);
+                //    }
+                //}
+                var result = await this.administrationService.AddUserInRole(viewModel);
+
+                if (result)
+                {
+                    this.Success(NotificationMessages.SuccessfullyAddedUserInRole);
                 }
             }
             else
@@ -56,14 +67,14 @@
 
         public async Task<IActionResult> AllUsers()
         {
-            var viewModel = await this.usersService.GetAllUsersAsync();
+            var viewModel = await this.identityService.GetAllUsersAsync();
 
             return this.View(viewModel);
         }
 
         public async Task<IActionResult> AllBannedUsers()
         {
-            var viewModel = await this.usersService.GetAllBannedUsersAsync();
+            var viewModel = await this.identityService.GetAllBannedUsersAsync();
 
             return this.View(viewModel);
         }

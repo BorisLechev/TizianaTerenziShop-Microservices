@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class ApplicationUserViewModel : IMapFrom<ApplicationUser>
+    public class ApplicationUserViewModel
     {
         public string UserName { get; set; }
 
