@@ -10,6 +10,7 @@ namespace TizianaTerenzi.Administration.Web
     using TizianaTerenzi.Administration.Services.Data.Notes;
     using TizianaTerenzi.Administration.Services.Data.Orders;
     using TizianaTerenzi.Administration.Services.Data.Products;
+    using TizianaTerenzi.Administration.Services.Data.Subscribers;
     using TizianaTerenzi.Administration.Services.Data.UserPenalties;
     using TizianaTerenzi.Administration.Services.Data.Users;
     using TizianaTerenzi.Administration.Services.Location;
@@ -62,7 +63,8 @@ namespace TizianaTerenzi.Administration.Web
                 .AddTransient<IGeneralDiscountsService, GeneralDiscountsService>()
                 .AddTransient<IDiscountCodesService, DiscountCodesService>()
                 .AddTransient<IUserPenaltiesService, UserPenaltiesService>()
-                .AddTransient<IContactsService, ContactsService>();
+                .AddTransient<IContactsService, ContactsService>()
+                .AddTransient<ISubscribeService, SubscribeService>();
 
             services
                 .AddMessageBroker(

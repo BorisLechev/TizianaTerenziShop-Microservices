@@ -4,25 +4,24 @@
 
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Services.Data.Subscribe;
+    using TizianaTerenzi.WebClient.Services.Administration;
     using TizianaTerenzi.WebClient.ViewModels.Subscribe;
 
     public class SubscribeController : BaseController
     {
-        private readonly ISubscribeService subscribeService;
+        private readonly IAdministrationService administrationService;
 
-        public SubscribeController(
-            ISubscribeService subscribeService)
+        public SubscribeController(IAdministrationService administrationService)
         {
-            this.subscribeService = subscribeService;
+            this.administrationService = administrationService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(SubscribeInputModel inputModel)
         {
-            var result = await this.subscribeService.SubscribeForNewsletterAsync(inputModel.Email);
+            var result = await this.administrationService.SubscribeForNewsletterAsync(inputModel);
 
-            if (result == true)
+            if (result)
             {
                 this.Success(NotificationMessages.SubsribedSuccessfully);
             }

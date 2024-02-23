@@ -8,6 +8,7 @@
     using TizianaTerenzi.WebClient.ViewModels.GeneralDiscounts;
     using TizianaTerenzi.WebClient.ViewModels.Notes;
     using TizianaTerenzi.WebClient.ViewModels.Products;
+    using TizianaTerenzi.WebClient.ViewModels.Subscribe;
     using TizianaTerenzi.WebClient.ViewModels.UserPenalties;
     using TizianaTerenzi.WebClient.ViewModels.Users;
 
@@ -68,5 +69,8 @@
 
         [Delete("/Contacts/Delete")]
         Task<Result> DeleteContactMessageAsync(int id);
+
+        [Post("/Subscribe/Index")]
+        Task<Result> SubscribeForNewsletterAsync(SubscribeInputModel inputModel);
     }
 }
