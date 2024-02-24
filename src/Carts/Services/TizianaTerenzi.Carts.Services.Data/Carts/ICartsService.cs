@@ -8,7 +8,9 @@
     {
         Task<bool> AddProductInTheCartAsync(ProductAddedInTheCartMessage product);
 
-        Task<bool> DeleteProductInTheCartAsync(string productId);
+        Task<bool> DeleteProductInTheCartAsync(string id);
+
+        Task<bool> DeleteProductInAllCartsAsync(ProductInAllCartsDeletedMessage message);
 
         Task<bool> DeleteAllProductsInTheCartByUserIdAsync(string userId);
 
@@ -28,6 +30,6 @@
 
         Task Order(ProductsInTheUserCartHaveBeenOrderedInputModel inputModel, string userId);
 
-        Task<bool> EditProductInTheCartAsync(ProductInTheCartsEditedMessage message);
+        Task<bool> EditProductInTheCartAsync(ProductInAllCartsEditedMessage message);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TizianaTerenzi.Common.Messages.Administration
 {
-    public class ProductInTheCartsEditedMessage
+    public class ProductInAllCartsEditedMessage
     {
         public int ProductId { get; set; }
 

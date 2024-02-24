@@ -1,9 +1,8 @@
 ﻿namespace TizianaTerenzi.Administration.Data.Models
 {
-    using Microsoft.EntityFrameworkCore;
-
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
     [Index(nameof(this.ProductName))]

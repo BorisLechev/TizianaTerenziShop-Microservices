@@ -63,14 +63,24 @@
             return productsCount > 0;
         }
 
-        public async Task<bool> DeleteProductInTheCartAsync(string productId)
+        public async Task<bool> DeleteProductInTheCartAsync(string id)
         {
             var productsCount = await this.cartsRepository
-                                    .AllAsNoTracking()
-                                    .Where(p => p.Id == productId)
+                                    .All()
+                                    .Where(p => p.Id == id)
                                     .DeleteAsync();
 
             return productsCount == 1;
+        }
+
+        public async Task<bool> DeleteProductInAllCartsAsync(ProductInAllCartsDeletedMessage message)
+        {
+            var affectedRows = await this.cartsRepository
+                                    .All()
+                                    .Where(p => p.ProductId == message.ProductId)
+                                    .DeleteAsync();
+
+            return affectedRows >= 0;
         }
 
         public async Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId)
@@ -185,7 +195,7 @@
             });
         }
 
-        public async Task<bool> EditProductInTheCartAsync(ProductInTheCartsEditedMessage message)
+        public async Task<bool> EditProductInTheCartAsync(ProductInAllCartsEditedMessage message)
         {
             var productsInTheCart = await this.cartsRepository
                                         .All()

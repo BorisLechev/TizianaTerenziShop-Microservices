@@ -54,7 +54,7 @@
                     ProductTypeId = inputModel.ProductTypeId,
                     YearOfManufacture = inputModel.YearOfManufacture,
                 },
-                new ProductInTheCartsEditedMessage
+                new ProductInAllCartsEditedMessage
                 {
                     Name = inputModel.Name,
                     Price = inputModel.Price,
@@ -65,9 +65,16 @@
 
         public async Task DeleteProductAsync(int productId)
         {
-            await this.publisher.Publish(new ProductDeletedMessage
+            await this.publisher.PublishBatch(new object[]
             {
-                ProductId = productId,
+                new ProductDeletedMessage
+                {
+                    ProductId = productId,
+                },
+                new ProductInAllCartsDeletedMessage
+                {
+                    ProductId = productId,
+                },
             });
         }
     }
