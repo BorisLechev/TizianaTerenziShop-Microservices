@@ -1,7 +1,10 @@
 ﻿namespace TizianaTerenzi.Carts.Data.Models
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
+    [Index(nameof(this.ProductId))]
+    [Index(nameof(this.UserId))]
     public class Cart : BaseDeletableModel<string> // TODO: make it int
     {
         public Cart()
