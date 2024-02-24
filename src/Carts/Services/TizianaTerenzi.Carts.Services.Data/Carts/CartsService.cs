@@ -5,6 +5,7 @@
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
@@ -182,6 +183,30 @@
                     PostalCode = inputModel.PostalCode,
                 },
             });
+        }
+
+        public async Task<bool> EditProductInTheCartAsync(ProductInTheCartsEditedMessage message)
+        {
+            var productsInTheCart = await this.cartsRepository
+                                        .All()
+                                        .Include(c => c.DiscountCode)
+                                        .Where(p => p.ProductId == message.ProductId)
+                                        .ToListAsync();
+
+            foreach (var productInTheCart in productsInTheCart)
+            {
+                productInTheCart.ProductName = message.Name;
+
+                productInTheCart.Price = productInTheCart.DiscountCodeId.HasValue
+                                        ? message.Price * (1 - ((decimal)productInTheCart.DiscountCode.Discount / 100))
+                                        : message.Price;
+
+                productInTheCart.ModifiedOn = DateTime.UtcNow;
+            }
+
+            var affectedRows = await this.cartsRepository.SaveChangesAsync();
+
+            return affectedRows > 0;
         }
     }
 }

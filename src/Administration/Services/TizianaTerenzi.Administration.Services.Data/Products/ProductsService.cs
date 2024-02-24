@@ -40,17 +40,26 @@
                             .Select(int.Parse)
                             .ToArray();
 
-            await this.publisher.Publish(new ProductEditedMessage
+            await this.publisher.PublishBatch(new object[]
             {
-                ProductId = inputModel.ProductId,
-                Name = inputModel.Name,
-                Description = inputModel.Description,
-                FragranceGroupId = inputModel.FragranceGroupId,
-                NoteIds = notesIds,
-                Picture = picture,
-                Price = inputModel.Price,
-                ProductTypeId = inputModel.ProductTypeId,
-                YearOfManufacture = inputModel.YearOfManufacture,
+                new ProductEditedMessage
+                {
+                    ProductId = inputModel.ProductId,
+                    Name = inputModel.Name,
+                    Description = inputModel.Description,
+                    FragranceGroupId = inputModel.FragranceGroupId,
+                    NoteIds = notesIds,
+                    Picture = picture,
+                    Price = inputModel.Price,
+                    ProductTypeId = inputModel.ProductTypeId,
+                    YearOfManufacture = inputModel.YearOfManufacture,
+                },
+                new ProductInTheCartsEditedMessage
+                {
+                    Name = inputModel.Name,
+                    Price = inputModel.Price,
+                    ProductId = inputModel.ProductId,
+                },
             });
         }
 

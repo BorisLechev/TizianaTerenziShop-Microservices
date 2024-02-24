@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Carts.Services.Data.Carts
 {
     using TizianaTerenzi.Carts.Web.Models.Carts;
+    using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Products;
 
     public interface ICartsService
@@ -26,5 +27,7 @@
         Task<int> GetNumberOfProductsInTheUsersCart(string userId);
 
         Task Order(ProductsInTheUserCartHaveBeenOrderedInputModel inputModel, string userId);
+
+        Task<bool> EditProductInTheCartAsync(ProductInTheCartsEditedMessage message);
     }
 }
