@@ -1,7 +1,9 @@
 ﻿namespace TizianaTerenzi.Orders.Data.Models
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
+    [Index(nameof(this.UserId))]
     public class Order : BaseDeletableModel<int>
     {
         public Order()
