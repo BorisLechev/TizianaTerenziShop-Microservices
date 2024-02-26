@@ -61,7 +61,7 @@
         private readonly TData data;
 
         public Result(TData data)
-            : base(true, new List<string>())
+            : base(!(data == null), new List<string>())
         {
             this.data = data;
         }
@@ -73,8 +73,7 @@
         public TData Data
             => this.Succeeded
                 ? this.data
-                : throw new InvalidOperationException(
-                    $"{nameof(this.Data)} is not available with a failed result. Use {this.Errors} instead.");
+                : default;
 
         public static Result<TData> SuccessWith(TData data)
             => new Result<TData>(true, data, new List<string>());
