@@ -1,10 +1,12 @@
 ﻿namespace TizianaTerenzi.Identity.Services.Data.Profile
 {
+    using MassTransit;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
+    using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Services.Data.Countries;
@@ -21,18 +23,24 @@
         //private readonly INotificationsService notificationsService;
 
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IBus publisher;
 
         public ProfileService(
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
             ICountriesService countriesService,
             //INotificationsService notificationsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IBus publisher)
         {
             this.usersRepository = usersRepository;
             this.rolesRepository = rolesRepository;
             this.countriesService = countriesService;
             this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.publisher = publisher;
             //this.notificationsService = notificationsService;
         }
 
@@ -43,6 +51,36 @@
                 this.usersRepository.Delete(user);
 
                 await this.usersRepository.SaveChangesAsync();
+
+                await this.signInManager.SignOutAsync();
+
+                await this.publisher.PublishBatch(new object[]
+                {
+                    new AllProductsInTheUsersWishlistDeletedMessage
+                    {
+                        UserId = user.Id,
+                    },
+                    new AllProductsInTheUsersCartDeletedMessage
+                    {
+                        UserId = user.Id,
+                    },
+                    new AllUserCommentsDeletedMessage
+                    {
+                        UserId = user.Id,
+                    },
+                    new AllUserCommentVotesDeletedMessage
+                    {
+                        UserId = user.Id,
+                    },
+                    //new AllUserOrdersDeletedMessage
+                    //{
+                    //    UserId = user.Id,
+                    //},
+                    //new AllUserOrderProductsDeletedMessage
+                    //{
+                    //    UserId = user.Id,
+                    //},
+                });
             }
             catch
             {

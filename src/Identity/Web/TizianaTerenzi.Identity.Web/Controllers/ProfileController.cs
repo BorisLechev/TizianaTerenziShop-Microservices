@@ -84,6 +84,7 @@
             return Result<DownloadPersonalDataViewModel>.SuccessWith(usersCommentsAndVotes);
         }
 
+        // TODO: Delete user's Data in Notifications tables.
         [HttpDelete]
         public async Task<ActionResult<Result>> DeleteAccount(string password)
         {
@@ -104,8 +105,6 @@
             {
                 return Result.Failure(NotificationMessages.AccountDeleteError);
             }
-
-            await this.signInManager.SignOutAsync();
 
             return Result.Success();
         }

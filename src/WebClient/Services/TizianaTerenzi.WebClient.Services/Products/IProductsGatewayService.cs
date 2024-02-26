@@ -10,9 +10,6 @@
         [Post("/Profile/DownloadPersonalData")]
         Task<Result<DownloadPersonalDataFileResponseModel>> DownloadPersonalData(string password);
 
-        [Delete("/Profile/DeleteAccount")]
-        Task<Result> DeleteAccount(string password);
-
         [Get("/Products/PrepareDropdownsForProductCreation")]
         Task<Result<CreateProductInputModel>> PrepareDropdownsForProductCreation();
 

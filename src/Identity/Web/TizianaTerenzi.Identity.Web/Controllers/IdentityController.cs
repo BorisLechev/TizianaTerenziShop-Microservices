@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Identity.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Identity.Services.Data.Identity;
     using TizianaTerenzi.Identity.Web.Models.Identity;
@@ -15,13 +16,13 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserResponseModel>> Register(RegisterUserInputModel inputModel)
+        public async Task<ActionResult<Result<UserResponseModel>>> Register(RegisterUserInputModel inputModel)
         {
             var result = await this.identityService.Register(inputModel);
 
             if (!result.Succeeded)
             {
-                return this.BadRequest(result.Errors);
+                return Result<UserResponseModel>.Failure(result.Errors);
             }
 
             var loginUserInputModel = new LoginUserInputModel
@@ -33,7 +34,7 @@
 
             var loginResult = await this.Login(loginUserInputModel);
 
-            return loginResult.Value;
+            return Result<UserResponseModel>.SuccessWith(loginResult.Value);
         }
 
         [HttpPost]

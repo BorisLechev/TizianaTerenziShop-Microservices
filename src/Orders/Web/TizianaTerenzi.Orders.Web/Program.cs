@@ -47,7 +47,9 @@ namespace TizianaTerenzi.Orders.Web
             services
                 .AddMessageBroker(
                     typeof(ProductsInTheUserCartHaveBeenOrderedConsumer),
-                    typeof(OrderProcessedConsumer));
+                    typeof(OrderProcessedConsumer),
+                    typeof(AllUserOrdersDeletedConsumer),
+                    typeof(AllUserOrderProductsDeletedConsumer));
         }
     }
 }

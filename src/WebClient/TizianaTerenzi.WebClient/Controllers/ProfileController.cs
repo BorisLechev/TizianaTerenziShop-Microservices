@@ -75,7 +75,7 @@
         public async Task<IActionResult> DeleteAccount(string password)
         {
             var userId = this.User.GetUserId();
-            var result = await this.productsGatewayService.DeleteAccount(password);
+            var result = await this.identityService.DeleteAccount(password);
 
             if (!result.Succeeded)
             {

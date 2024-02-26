@@ -122,11 +122,11 @@
 
                 var result = await this.identityService.Register(registerInput);
 
-                if (!string.IsNullOrWhiteSpace(result.Token))
+                if (result.Succeeded && !string.IsNullOrWhiteSpace(result.Data.Token))
                 {
                     this.Response.Cookies.Append(
                         InfrastructureConstants.AuthenticationCookieName,
-                        result.Token,
+                        result.Data.Token,
                         new CookieOptions
                         {
                             HttpOnly = true,

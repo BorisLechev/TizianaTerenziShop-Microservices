@@ -13,7 +13,7 @@
         Task<UserResponseModel> Login([Body] LoginUserInputModel loginInput);
 
         [Post("/Identity/Register")]
-        Task<UserResponseModel> Register([Body] RegisterUserInputModel registerInput);
+        Task<Result<UserResponseModel>> Register([Body] RegisterUserInputModel registerInput);
 
         [Get("/Profile/Index")]
         Task<Result<ProfileViewModel>> Profile(string id);
@@ -51,5 +51,8 @@
 
         [Get("/Penalties/Index")]
         Task<UserPenaltiesInputModel> GetAllBlockedAndUnblockedUsersAsync();
+
+        [Delete("/Profile/DeleteAccount")]
+        Task<Result> DeleteAccount(string password);
     }
 }
