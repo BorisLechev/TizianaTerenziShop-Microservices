@@ -62,5 +62,15 @@
 
             return this.Ok(orders);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PersonalDataOrdersViewModel>>> GetAllUsersOrdersAndProductsPersonalData()
+        {
+            var userId = this.User.GetUserId();
+
+            var orderProducts = await this.ordersService.GetAllUsersOrdersAndProductsPersonalData(userId);
+
+            return this.Ok(orderProducts);
+        }
     }
 }

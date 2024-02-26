@@ -27,7 +27,7 @@
         [Route("payment/pay")]
         public async Task<IActionResult> Pay(ShippingDataInputModel inputModel)
         {
-            if (this.ModelState.IsValid == false)
+            if (this.ModelState.IsValid == false || inputModel.Country == "Select one...")
             {
                 return this.RedirectToAction(nameof(CartController.Checkout), "Cart");
             }

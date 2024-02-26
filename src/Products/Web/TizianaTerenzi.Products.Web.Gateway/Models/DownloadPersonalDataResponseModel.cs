@@ -25,7 +25,7 @@
 
         public IEnumerable<UsersCommentsPersonalDataResponseModel> Comments { get; set; }
 
-        //public ICollection<PersonalDataOrdersViewModel> Orders { get; set; }
+        public IEnumerable<PersonalDataOrdersViewModel> Orders { get; set; }
 
         //public ICollection<PersonalDataChatUserGroupViewModel> ChatUserGroups { get; set; }
     }

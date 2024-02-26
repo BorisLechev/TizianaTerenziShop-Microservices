@@ -101,13 +101,13 @@
             return viewModel;
         }
 
-        public async Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId)
+        public async Task<EditUserWithDropdownsResponseModel> GetDetailsForUserEditAsync(string userId)
         {
             var viewModel = await this.usersRepository
-                .All()
-                .Where(u => u.Id == userId)
-                .To<UserEditInputModel>()
-                .SingleOrDefaultAsync();
+                                .All()
+                                .Where(u => u.Id == userId)
+                                .To<EditUserWithDropdownsResponseModel>()
+                                .SingleOrDefaultAsync();
 
             var countries = await this.countriesService.GetAllCountriesAsync();
             viewModel.Countries = countries;

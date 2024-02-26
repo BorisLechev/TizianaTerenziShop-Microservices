@@ -87,7 +87,7 @@
         public async Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersByUserIdAsync(string userId)
         {
             var ordersByUser = await this.ordersRepository
-                                    .AllAsNoTracking()
+                                    .All()
                                     .Where(o => o.UserId == userId)
                                     .OrderByDescending(o => o.CreatedOn)
                                     .To<OrdersListingViewModel>()
@@ -99,7 +99,7 @@
         public async Task<IEnumerable<OrdersListingViewModel>> GetAllOrdersAsync()
         {
             var orders = await this.ordersRepository
-                                .AllAsNoTracking()
+                                .All()
                                 .OrderByDescending(o => o.CreatedOn)
                                 .To<OrdersListingViewModel>()
                                 .ToListAsync();
@@ -110,7 +110,7 @@
         public async Task<IEnumerable<OrdersListingViewModel>> GetAllPendingOrdersAsync()
         {
             var orders = await this.ordersRepository
-                                .AllAsNoTracking()
+                                .All()
                                 .Where(o => o.Status.Name == "Pending")
                                 .OrderByDescending(o => o.CreatedOn)
                                 .To<OrdersListingViewModel>()
@@ -122,7 +122,7 @@
         public async Task<IEnumerable<OrdersListingViewModel>> GetAllProcessedOrdersAsync()
         {
             var orders = await this.ordersRepository
-                                .AllAsNoTracking()
+                                .All()
                                 .Where(o => o.Status.Name == "Completed")
                                 .OrderByDescending(o => o.CreatedOn)
                                 .To<OrdersListingViewModel>()
@@ -134,10 +134,21 @@
         public async Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByOrderIdAsync(int orderId)
         {
             var orders = await this.orderProductsRepository
-                        .AllAsNoTracking()
-                        .Where(o => o.OrderId == orderId)
-                        .To<OrderProductsListingViewModel>()
-                        .ToListAsync();
+                            .All()
+                            .Where(o => o.OrderId == orderId)
+                            .To<OrderProductsListingViewModel>()
+                            .ToListAsync();
+
+            return orders;
+        }
+
+        public async Task<IEnumerable<PersonalDataOrdersViewModel>> GetAllUsersOrdersAndProductsPersonalData(string userId)
+        {
+            var orders = await this.ordersRepository
+                                .All()
+                                .Where(o => o.UserId == userId)
+                                .To<PersonalDataOrdersViewModel>()
+                                .ToListAsync();
 
             return orders;
         }

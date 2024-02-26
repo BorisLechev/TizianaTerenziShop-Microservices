@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Services;
@@ -58,18 +59,16 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductDetailsViewModel>> Details(int id)
+        public async Task<Result<ProductDetailsViewModel>> Details(int id)
         {
-            if (id <= 0)
-            {
-                this.NotFound();
-            }
-
             var productDetailsViewModel = await this.productsService.GetProductByIdAsync<ProductDetailsViewModel>(id);
+
+            ProductDetailsViewModel view = default!;
+            ProductDetailsViewModel view2 = default;
 
             if (productDetailsViewModel == null)
             {
-                return this.NotFound();
+                return Result<ProductDetailsViewModel>.Failure(NotificationMessages.NotFound);
             }
 
             var groupedProductVotes = await this.productVotesService.GetNumberOfVotesForEachValueAsync(id);
@@ -112,7 +111,7 @@
             var relatedProducts = await this.productsService.GetRandomRelatedProductsAsync(id);
             productDetailsViewModel.RelatedProducts = relatedProducts;
 
-            return productDetailsViewModel;
+            return Result<ProductDetailsViewModel>.SuccessWith(productDetailsViewModel);
         }
 
         [HttpPost]

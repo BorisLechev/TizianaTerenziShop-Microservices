@@ -16,7 +16,7 @@
         Task<UserResponseModel> Register([Body] RegisterUserInputModel registerInput);
 
         [Get("/Profile/Index")]
-        Task<ProfileViewModel> Profile(string id);
+        Task<Result<ProfileViewModel>> Profile(string id);
 
         [Get("/Profile/ChangePassword")]
         Task<UserChangePasswordInputModel> GetUserEmailWhenChangePassword();
@@ -33,8 +33,9 @@
         [Get("/Profile/Edit")]
         Task<UserEditInputModel> GetDetailsForUserEdit();
 
+        [Multipart]
         [Put("/Profile/Edit")]
-        Task<Result> EditUserDetails([Body] UserEditInputModel inputModel);
+        Task<Result> EditUserDetails([Query] UserEditInputModel inputModel, [AliasAs("avatarPicture")] StreamPart avatarPicture);
 
         [Get("/Profile/All")]
         Task<AllUsersListViewModel> GetAllUsersExceptAdmins(int page);

@@ -32,12 +32,12 @@
 
             var productDetailsViewModel = await this.productsService.Details(id);
 
-            if (productDetailsViewModel == null)
+            if (!productDetailsViewModel.Succeeded)
             {
                 return this.NotFound();
             }
 
-            return this.View(productDetailsViewModel);
+            return this.View(productDetailsViewModel.Data);
         }
     }
 }

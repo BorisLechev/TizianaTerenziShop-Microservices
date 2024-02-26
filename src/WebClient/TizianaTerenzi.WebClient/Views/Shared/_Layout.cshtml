@@ -85,7 +85,7 @@
                                     <a asp-area="" asp-controller="Orders" asp-action="Index" class="dropdown-item">@Localizer["My orders"]</a>
                                 }
                                 <div class="dropdown-divider"></div>
-                                <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">
+                                <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="get">
                                     <button type="submit" class="dropdown-item text-danger">@Localizer["Logout"]</button>
                                 </form>
                             </div>

@@ -10,6 +10,7 @@
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Web.Gateway.Models;
     using TizianaTerenzi.Products.Web.Gateway.Services.Identity;
+    using TizianaTerenzi.Products.Web.Gateway.Services.Orders;
     using TizianaTerenzi.Products.Web.Gateway.Services.Products;
 
     public class ProfileController : ApiController
@@ -18,12 +19,16 @@
 
         private readonly IIdentityService identityService;
 
+        private readonly IOrdersService ordersService;
+
         public ProfileController(
             IProductsService productsService,
-            IIdentityService identityService)
+            IIdentityService identityService,
+            IOrdersService ordersService)
         {
             this.productsService = productsService;
             this.identityService = identityService;
+            this.ordersService = ordersService;
         }
 
         // TODO: Use gRPC
@@ -41,6 +46,7 @@
             var favoriteProducts = await this.productsService.GetAllProductsFromUsersWishlistPersonalData();
             var productVotes = await this.productsService.GetAllUsersProductVotesPersonalData();
             var commentsAndCommentVotes = await this.productsService.GetAllUsersCommentsAndVotesPersonalData();
+            var ordersAndProducts = await this.ordersService.GetAllUsersOrdersAndProductsPersonalDataAsync();
 
             // TODO: Add Orders and ChatUserGroups
             var personalData = new DownloadPersonalDataResponseModel
@@ -56,7 +62,7 @@
                 FavoriteProducts = favoriteProducts,
                 ProductVotes = productVotes,
                 Comments = commentsAndCommentVotes,
-                //Orders = ,
+                Orders = ordersAndProducts,
                 //ChatUserGroups = ,
             };
 

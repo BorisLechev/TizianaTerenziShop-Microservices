@@ -13,7 +13,7 @@
         Task<ProductsListViewModel> All([Query] string search, ProductSorting sorting, int page = 1);
 
         [Get("/Products/Details")]
-        Task<ProductDetailsViewModel> Details(int id);
+        Task<Result<ProductDetailsViewModel>> Details(int id);
 
         [Post("/Comments/Create")]
         Task<Result> CreateProductComment(CreateCommentInputModel inputModel);

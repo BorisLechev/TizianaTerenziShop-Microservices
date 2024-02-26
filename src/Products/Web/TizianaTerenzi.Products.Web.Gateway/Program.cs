@@ -4,6 +4,7 @@ namespace TizianaTerenzi.Products.Web.Gateway
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Common.Web.Infrastructure.Middlewares;
     using TizianaTerenzi.Products.Web.Gateway.Services.Identity;
+    using TizianaTerenzi.Products.Web.Gateway.Services.Orders;
     using TizianaTerenzi.Products.Web.Gateway.Services.Products;
 
     public class Program
@@ -40,7 +41,8 @@ namespace TizianaTerenzi.Products.Web.Gateway
 
             services
                 .AddExternalService<IIdentityService>(configuration)
-                .AddExternalService<IProductsService>(configuration);
+                .AddExternalService<IProductsService>(configuration)
+                .AddExternalService<IOrdersService>(configuration);
         }
     }
 }

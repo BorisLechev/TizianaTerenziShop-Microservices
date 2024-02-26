@@ -32,13 +32,13 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProfileViewModel>> Index(string id)
+        public async Task<Result<ProfileViewModel>> Index(string id)
         {
             var user = await this.userManager.FindByIdAsync(id);
 
             if (user == null)
             {
-                return this.BadRequest(Result.Failure("User not found."));
+                return Result<ProfileViewModel>.Failure(NotificationMessages.UserNotFound);
             }
 
             var profileViewModel = new ProfileViewModel
@@ -64,7 +64,7 @@
             //    profileViewModel.GroupId = chatGroupId;
             //}
 
-            return profileViewModel;
+            return Result<ProfileViewModel>.SuccessWith(profileViewModel);
         }
 
         public async Task<Result<DownloadPersonalDataViewModel>> GetUsersPersonalDataForExport(string password)
@@ -216,7 +216,7 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<UserEditInputModel>> Edit()
+        public async Task<ActionResult<EditUserWithDropdownsResponseModel>> Edit()
         {
             var userId = this.User.GetUserId();
 
@@ -226,17 +226,23 @@
         }
 
         [HttpPut]
-        public async Task<ActionResult<Result>> Edit(UserEditInputModel inputModel)
+        public async Task<ActionResult<Result>> Edit([FromQuery] UserEditInputModel inputModel, IFormFile avatarPicture)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            byte[]? avatarPictureAsByteArray = null;
 
-            if (!this.ModelState.IsValid)
+            if (avatarPicture != null)
             {
-                inputModel.Email = user.Email;
-                inputModel.UserName = user.UserName;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await avatarPicture.CopyToAsync(memoryStream);
 
-                return this.Ok(inputModel);
+                    avatarPictureAsByteArray = memoryStream.ToArray();
+                }
+
+                avatarPictureAsByteArray = avatarPictureAsByteArray.Length == 0 ? null : avatarPictureAsByteArray;
             }
+
+            var user = await this.userManager.GetUserAsync(this.User);
 
             var result = await this.profileService.EditUserDetailsAsync(user, inputModel);
 
@@ -245,7 +251,7 @@
                 return Result.Failure(NotificationMessages.CannotUpdateProfileDetails);
             }
 
-            return Result.Success();
+            return Result.Success(NotificationMessages.ProfileDetailsUpdated);
         }
 
         [HttpGet]

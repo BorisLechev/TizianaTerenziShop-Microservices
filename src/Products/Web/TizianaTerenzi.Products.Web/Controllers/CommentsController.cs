@@ -20,7 +20,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCommentInputModel inputModel)
+        public async Task<ActionResult<Result>> Create(CreateCommentInputModel inputModel)
         {
             var parentId = inputModel.ParentId == 0 ? null : inputModel.ParentId;
             inputModel.ParentId = parentId;

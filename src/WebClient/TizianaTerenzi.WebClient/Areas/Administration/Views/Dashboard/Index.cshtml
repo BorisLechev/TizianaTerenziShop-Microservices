@@ -19,7 +19,7 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Earnings (@DateTime.UtcNow.ToString("MMMM", CultureInfo.InvariantCulture), @DateTime.UtcNow.Year)
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">€@this.Model.TotalRevenueForTheCurrentMonth</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">€@this.Model.TotalRevenueForTheCurrentMonth.ToString("F2")</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -36,7 +36,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Earnings (@DateTime.UtcNow.Year)
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">€@this.Model.TotalRevenueForTheCurrentYear</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">€@this.Model.TotalRevenueForTheCurrentYear.ToString("F2")</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>

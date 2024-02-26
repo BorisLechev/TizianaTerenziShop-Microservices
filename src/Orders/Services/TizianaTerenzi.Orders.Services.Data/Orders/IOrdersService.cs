@@ -17,6 +17,8 @@
 
         Task<IEnumerable<OrderProductsListingViewModel>> GetAllOrderProductsByOrderIdAsync(int orderId);
 
+        Task<IEnumerable<PersonalDataOrdersViewModel>> GetAllUsersOrdersAndProductsPersonalData(string userId);
+
         Task<bool> ProcessOrderAsync(int orderId);
 
         Task<bool> DeleteAllOrdersByUserIdAsync(string userId);

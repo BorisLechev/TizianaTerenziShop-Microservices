@@ -1,17 +1,17 @@
 ﻿namespace TizianaTerenzi.WebClient.Controllers
 {
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Refit;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.Services.Products;
     using TizianaTerenzi.WebClient.ViewModels.Profile;
 
-    [Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class ProfileController : BaseController
     {
         private const string PersonalDataFileName = "{0}_PersonalData_{1}_{2}.json";
@@ -34,14 +34,19 @@
 
         public async Task<IActionResult> Index(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return this.NotFound();
+            }
+
             var profileViewModel = await this.identityService.Profile(id);
 
-            //if (user == null)
-            //{
-            //    return this.NotFound();
-            //}
+            if (!profileViewModel.Succeeded)
+            {
+                return this.NotFound();
+            }
 
-            return this.View(profileViewModel);
+            return this.View(profileViewModel.Data);
         }
 
         [HttpPost]
@@ -195,7 +200,15 @@
                 return this.View(inputModel);
             }
 
-            var result = await this.identityService.EditUserDetails(inputModel);
+            StreamPart avatarPictureStream = new StreamPart(new MemoryStream(), string.Empty);
+
+            if (inputModel.AvatarImage != null)
+            {
+                var stream = inputModel.AvatarImage.OpenReadStream();
+                avatarPictureStream = new StreamPart(stream, inputModel.AvatarImage.FileName, inputModel.AvatarImage.ContentType);
+            }
+
+            var result = await this.identityService.EditUserDetails(inputModel, avatarPictureStream);
 
             if (result)
             {

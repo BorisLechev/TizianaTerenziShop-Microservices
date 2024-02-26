@@ -49,12 +49,12 @@
             var totalRevenueForTheCurrentMonth = await this.orderProductStatisticsRepository
                                                         .AllAsNoTracking()
                                                         .Where(op => op.CreatedOn.Month == DateTime.UtcNow.Month)
-                                                        .SumAsync(op => op.Price);
+                                                        .SumAsync(op => op.Price * op.Quantity);
 
             var totalRevenueForTheCurrentYear = await this.orderProductStatisticsRepository
                                                         .AllAsNoTracking()
                                                         .Where(op => op.CreatedOn.Year == DateTime.UtcNow.Year)
-                                                        .SumAsync(op => op.Price);
+                                                        .SumAsync(op => op.Price * op.Quantity);
 
             var ordersValue = await this.GetTheValueOfAllSalesForTheLast10DaysAsync();
 
@@ -87,7 +87,7 @@
                                     .Select(o => new
                                     {
                                         Day = o.Key,
-                                        Value = o.Sum(p => p.Price),
+                                        Value = o.Sum(p => p.Price * p.Quantity),
                                     })
                                     .ToDictionaryAsync(o => o.Day, o => o.Value);
 

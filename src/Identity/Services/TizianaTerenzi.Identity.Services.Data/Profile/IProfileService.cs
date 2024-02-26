@@ -10,7 +10,7 @@
 
         Task<bool> DeleteUserAsync(ApplicationUser user);
 
-        Task<UserEditInputModel> GetDetailsForUserEditAsync(string userId);
+        Task<EditUserWithDropdownsResponseModel> GetDetailsForUserEditAsync(string userId);
 
         Task<bool> EditUserDetailsAsync(ApplicationUser user, UserEditInputModel inputModel);
 

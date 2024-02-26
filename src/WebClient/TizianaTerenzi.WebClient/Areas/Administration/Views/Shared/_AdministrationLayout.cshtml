@@ -180,12 +180,12 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-userId="@this.User.GetUserId()" class="dropdown-item">
+                                <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@this.User.GetUserId()" class="dropdown-item">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <form class="form-inline" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="post">
+                                <form class="form-inline" asp-area="" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))" method="get">
                                     <button class="dropdown-item" type="submit">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Logout

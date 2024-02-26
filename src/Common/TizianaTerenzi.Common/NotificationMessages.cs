@@ -78,5 +78,6 @@
         public const string DeleteContactFormEntryError = "Something went wrong.";
 
         public const string SomethingWentWrong = "Something went wrong.";
+        public const string NotFound = "Not found.";
     }
 }
