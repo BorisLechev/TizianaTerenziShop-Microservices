@@ -10,7 +10,7 @@
     public interface IIdentityService
     {
         [Post("/Identity/Login")]
-        Task<UserResponseModel> Login([Body] LoginUserInputModel loginInput);
+        Task<Result<UserResponseModel>> Login([Body] LoginUserInputModel loginInput);
 
         [Post("/Identity/Register")]
         Task<Result<UserResponseModel>> Register([Body] RegisterUserInputModel registerInput);

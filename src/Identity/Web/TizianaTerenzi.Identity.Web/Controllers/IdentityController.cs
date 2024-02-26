@@ -34,21 +34,20 @@
 
             var loginResult = await this.Login(loginUserInputModel);
 
-            return Result<UserResponseModel>.SuccessWith(loginResult.Value);
+            return Result<UserResponseModel>.SuccessWith(loginResult.Value.Data);
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserResponseModel>> Login(LoginUserInputModel inputModel)
+        public async Task<ActionResult<Result<UserResponseModel>>> Login(LoginUserInputModel inputModel)
         {
             var result = await this.identityService.Login(inputModel);
 
             if (!result.Succeeded)
             {
-                return this.BadRequest(result.Errors);
-                //return new UserResponseModel(null);
+                return Result<UserResponseModel>.Failure(result.Errors);
             }
 
-            return new UserResponseModel(result.Data.Token);
+            return Result<UserResponseModel>.SuccessWith(new UserResponseModel(result.Data.Token));
         }
     }
 }

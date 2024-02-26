@@ -22,7 +22,6 @@
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IIdentityService identityService;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
@@ -30,10 +29,8 @@
         public LoginModel(
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager,
             IIdentityService identityService)
         {
-            this.userManager = userManager;
             this.identityService = identityService;
             this.signInManager = signInManager;
             this.logger = logger;
@@ -99,12 +96,11 @@
 
                 var result = await this.identityService.Login(loginInputModel);
 
-                if (!string.IsNullOrWhiteSpace(result.Token))
-                //if (result.Succeeded)
+                if (result.Succeeded && !string.IsNullOrWhiteSpace(result.Data.Token))
                 {
                     this.Response.Cookies.Append(
                         InfrastructureConstants.AuthenticationCookieName,
-                        result.Token,
+                        result.Data.Token,
                         new CookieOptions
                         {
                             HttpOnly = true,
