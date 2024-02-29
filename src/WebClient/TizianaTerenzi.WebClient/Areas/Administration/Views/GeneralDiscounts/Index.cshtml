@@ -43,10 +43,12 @@
     </div>
 </div>
 
+<form method="post" id="antiForgeryForm"></form>
+
 @section Scripts {
     <script>
         $('#customSwitch1').change(function () {
-            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
+            let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
 
             if ($("#customSwitch1").prop('checked') == true) {
                 let percent = +$("#discount-percent option:selected").text();
