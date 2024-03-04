@@ -24,6 +24,14 @@
 
         public DbSet<Country> Countries { get; set; }
 
+        public DbSet<ChatGroup> ChatGroups { get; set; }
+
+        public DbSet<ChatUserGroup> ChatUserGroups { get; set; }
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
+        public DbSet<Emoji> Emojis { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
