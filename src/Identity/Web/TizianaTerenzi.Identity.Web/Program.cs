@@ -6,6 +6,7 @@
     using TizianaTerenzi.Identity.Data;
     using TizianaTerenzi.Identity.Data.Repositories;
     using TizianaTerenzi.Identity.Data.Seeding;
+    using TizianaTerenzi.Identity.Services.Data.Chat;
     using TizianaTerenzi.Identity.Services.Data.Countries;
     using TizianaTerenzi.Identity.Services.Data.Identity;
     using TizianaTerenzi.Identity.Services.Data.Profile;
@@ -60,14 +61,17 @@
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>()
                 .AddTransient<IUsersService, UsersService>()
                 .AddTransient<IUserPenaltiesService, UserPenaltiesService>()
-                .AddTransient<IUnicodeEmojiScraperService, UnicodeEmojiScraperService>();
+                .AddTransient<IUnicodeEmojiScraperService, UnicodeEmojiScraperService>()
+                .AddTransient<IChatService, ChatService>()
+                .AddTransient<IEmojisService, EmojisService>();
 
             services
                 .AddMessageBroker(
                     typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer),
                     typeof(UserInRoleAddedConsumer),
                     typeof(UserBlockedConsumer),
-                    typeof(UserUnblockedConsumer));
+                    typeof(UserUnblockedConsumer),
+                    typeof(ChatMessageToUserSentConsumer));
         }
     }
 }

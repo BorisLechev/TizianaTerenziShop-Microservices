@@ -7,6 +7,7 @@
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Identity.Data.Models;
+    using TizianaTerenzi.Identity.Services.Data.Chat;
     using TizianaTerenzi.Identity.Services.Data.Profile;
     using TizianaTerenzi.Identity.Web.Models.Profile;
 
@@ -21,14 +22,18 @@
 
         private readonly IProfileService profileService;
 
+        private readonly IChatService chatsService;
+
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IProfileService profileService)
+            IProfileService profileService,
+            IChatService chatsService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.profileService = profileService;
+            this.chatsService = chatsService;
         }
 
         [HttpGet]
@@ -52,17 +57,20 @@
                 Phone = user.PhoneNumber,
             };
 
-            //if (user.Id != currentUserId)
-            //{
-            //    var chatGroupId = await this.chatsService.GetChatGroupByUserIdsAsync(user.Id, currentUserId);
+            var currentUserId = this.User.GetUserId();
+            var currentUserName = this.User.GetUserName();
 
-            //    if (chatGroupId == null)
-            //    {
-            //        chatGroupId = await this.chatsService.AddUserToGroupAsync(chatGroupId, user.UserName, currentUserName);
-            //    }
+            if (user.Id != currentUserId)
+            {
+                var chatGroupId = await this.chatsService.GetChatGroupByUserIdsAsync(user.Id, currentUserId);
 
-            //    profileViewModel.GroupId = chatGroupId;
-            //}
+                if (chatGroupId == null)
+                {
+                    chatGroupId = await this.chatsService.AddUserToGroupAsync(chatGroupId, user.UserName, currentUserName);
+                }
+
+                profileViewModel.GroupId = chatGroupId;
+            }
 
             return Result<ProfileViewModel>.SuccessWith(profileViewModel);
         }

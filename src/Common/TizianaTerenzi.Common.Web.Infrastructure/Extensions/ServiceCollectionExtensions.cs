@@ -23,13 +23,14 @@
         // Group all extensions
         public static IServiceCollection AddMicroservice<TDbContext>(
             this IServiceCollection services,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            JwtBearerEvents events = null)
             where TDbContext : DbContext
         {
             services
                 .AddDatabase<TDbContext>(configuration)
                 .AddApplicationSettings(configuration)
-                .AddJwtTokenAuthentication(configuration)
+                .AddJwtTokenAuthentication(configuration, events)
                 .AddCustomResponseCompression()
                 .AddControllers();
 

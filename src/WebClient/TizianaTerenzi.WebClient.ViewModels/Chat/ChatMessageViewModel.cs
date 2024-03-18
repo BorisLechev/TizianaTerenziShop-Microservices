@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class ChatMessageViewModel : IMapFrom<ChatMessage>
+    public class ChatMessageViewModel
     {
         public string Id { get; set; }
 

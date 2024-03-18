@@ -20,8 +20,6 @@
 
         private readonly ICountriesService countriesService;
 
-        //private readonly INotificationsService notificationsService;
-
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IBus publisher;
@@ -30,7 +28,6 @@
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository,
             ICountriesService countriesService,
-            //INotificationsService notificationsService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IBus publisher)
@@ -41,7 +38,6 @@
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.publisher = publisher;
-            //this.notificationsService = notificationsService;
         }
 
         public async Task<bool> DeleteUserAsync(ApplicationUser user)
@@ -71,6 +67,11 @@
                     new AllUserCommentVotesDeletedMessage
                     {
                         UserId = user.Id,
+                    },
+                    new AllUserNotificationsDeletedMessage
+                    {
+                        UserId = user.Id,
+                        Username = user.UserName,
                     },
                     //new AllUserOrdersDeletedMessage
                     //{

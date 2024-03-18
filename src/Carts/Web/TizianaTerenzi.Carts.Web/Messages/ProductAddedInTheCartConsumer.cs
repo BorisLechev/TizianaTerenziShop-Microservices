@@ -1,22 +1,17 @@
 ﻿namespace TizianaTerenzi.Carts.Web.Messages
 {
     using MassTransit;
-    using Microsoft.AspNetCore.SignalR;
+    using Microsoft.AspNetCore.SignalR.Client;
     using TizianaTerenzi.Carts.Services.Data.Carts;
     using TizianaTerenzi.Common.Messages.Products;
-    using TizianaTerenzi.Notifications.Web.Hubs;
 
     public class ProductAddedInTheCartConsumer : IConsumer<ProductAddedInTheCartMessage>
     {
         private readonly ICartsService cartsService;
-        private readonly IHubContext<NumberOfProductsInTheUsersCartHub> hubContext;
 
-        public ProductAddedInTheCartConsumer(
-            ICartsService cartsService,
-            IHubContext<NumberOfProductsInTheUsersCartHub> hubContext)
+        public ProductAddedInTheCartConsumer(ICartsService cartsService)
         {
             this.cartsService = cartsService;
-            this.hubContext = hubContext;
         }
 
         public async Task Consume(ConsumeContext<ProductAddedInTheCartMessage> context)
@@ -38,10 +33,15 @@
 
             var numberOfProductsInTheUsersCart = await this.cartsService.GetNumberOfProductsInTheUsersCart(message.UserId);
 
-            await this.hubContext
-                .Clients
-                .User(context.Message.UserId)
-                .SendAsync("NumberOfProductsInTheUsersCart", numberOfProductsInTheUsersCart);
+            HubConnection connection = new HubConnectionBuilder()
+                                        .WithUrl("https://localhost:5011/numberOfProductsInTheUsersCartHub")
+                                        .Build();
+
+            await connection.StartAsync();
+
+            await connection.InvokeAsync("AddProductInTheUsersCart", numberOfProductsInTheUsersCart, message.UserId);
+
+            await connection.StopAsync();
         }
     }
 }

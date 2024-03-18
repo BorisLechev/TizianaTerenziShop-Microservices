@@ -1,5 +1,6 @@
 ﻿@using TizianaTerenzi.Common;
 @inject IViewLocalizer Localizer
+@inject TizianaTerenzi.Common.Services.Identity.ICurrentTokenService CurrentTokenService
 
 <!DOCTYPE html>
 <html>
@@ -51,6 +52,8 @@
         </nav>
     </header>
 
+    <input id="jwtToken" name="" value="@this.CurrentTokenService.Get()" type="hidden" />
+
     <partial name="_CookieConsentPartial" />
 
     <main>
@@ -67,7 +70,7 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
-    <script src="~/notification/js/notification.js"></script>
+    <script src="~/notification/js/notification.js" asp-append-version="true"></script>
     <script src="~/userStatus/js/userStatus.js" asp-append-version="true"></script>
 
     @await this.RenderSectionAsync("Scripts", required: false)

@@ -1,8 +1,12 @@
 namespace TizianaTerenzi.Notifications.Web
 {
+    using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
-    using TizianaTerenzi.Notifications.Services.Carts;
+    using TizianaTerenzi.Notifications.Data;
+    using TizianaTerenzi.Notifications.Data.Repositories;
+    using TizianaTerenzi.Notifications.Services.Data.CartNotifications;
+    using TizianaTerenzi.Notifications.Services.Data.Notifications;
     using TizianaTerenzi.Notifications.Web.Hubs;
     using TizianaTerenzi.Notifications.Web.Infrastructure;
     using TizianaTerenzi.Notifications.Web.Messages;
@@ -24,6 +28,7 @@ namespace TizianaTerenzi.Notifications.Web
             }
 
             app
+                .ConfigureAutoMapper()
                 .UseHttpsRedirection()
                 .UseRouting()
                 .UseCors(options => options
@@ -37,7 +42,12 @@ namespace TizianaTerenzi.Notifications.Web
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapHub<NumberOfProductsInTheUsersCartHub>("/numberOfProductsInTheUsersCartHub");
+                    endpoints.MapHub<UserStatusHub>("/userStatusHub");
+                    endpoints.MapHub<ChatHub>("/chatHub");
+                    endpoints.MapHub<NotificationHub>("/notificationHub");
                 });
+
+            app.MapControllers();
 
             app.Run();
         }
@@ -47,13 +57,30 @@ namespace TizianaTerenzi.Notifications.Web
             services
                 .AddCors()
                 .AddJwtTokenAuthentication(configuration, JwtConfiguration.BearerEvents)
+                .AddDatabase<NotificationsDbContext>(configuration)
+                .AddApplicationSettings(configuration)
+                .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
+                .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
-                .AddMessageBroker(typeof(ProductAddedInTheCartConsumer))
+                //.AddMessageBroker(typeof(ProductAddedInTheCartConsumer))
+
+                // -------Seeders--------
+
+                // -------Services------------
+                .AddTransient<INotificationsService, NotificationsService>()
+                .AddTransient<ICartNotificationsService, CartNotificationsService>()
+
                 .AddCustomResponseCompression()
                 .AddSignalR();
 
+            services.AddControllers();
+
             services
-                .AddExternalService<ICartsService>(configuration);
+                .AddMessageBroker(
+                    typeof(AllUserNotificationsDeletedConsumer),
+                    typeof(ProductsQuantityInTheUsersCartIncreasedConsumer),
+                    typeof(ProductsQuantityInTheUsersCartReducedConsumer),
+                    typeof(ProductsQuantityInTheUsersCartDeletedConsumer));
         }
     }
 }

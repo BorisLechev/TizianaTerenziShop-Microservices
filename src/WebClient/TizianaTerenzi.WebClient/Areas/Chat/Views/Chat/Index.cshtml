@@ -65,6 +65,9 @@
     </div>
 </div>
 
+@Html.HiddenFor(chat => chat.SenderId);
+@Html.HiddenFor(chat => chat.ReceiverId);
+
 @section CustomCss {
     <link href="~/chat/css/chat.css" rel="stylesheet" asp-append-version="true" />
 }

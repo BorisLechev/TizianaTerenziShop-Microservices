@@ -1,6 +1,7 @@
 ﻿"use strict";
 
-var notificationConnection  = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+var jwtToken = document.getElementById("jwtToken").value;
+var notificationConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/notificationHub", { accessTokenFactory: () => jwtToken }).build();
 
 var sound = new Audio('/notification/notificationSoundMessage.mp3');
 
@@ -14,7 +15,7 @@ notificationConnection.start().then(function () {
     return console.error(err.toString());
 });
 
-notificationConnection.on("ReceiveNotification", function (count, playNotificationSound) {
+notificationConnection.on("ReceiveNotificationCount", function (count, playNotificationSound) {
     document.getElementById("notificationCount").innerText = count; // span _NotificationBadgePartial
 
     let title = document.querySelector("head title"); // head

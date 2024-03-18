@@ -47,7 +47,7 @@
         public async Task<bool> CheckIfProductExistsInTheUsersCartAsync(string userId, int productId)
         {
             var result = await this.cartsRepository
-                                .AllAsNoTracking()
+                                .All()
                                 .AnyAsync(p => p.UserId == userId && p.ProductId == productId);
 
             return result;
@@ -56,9 +56,17 @@
         public async Task<bool> DeleteAllProductsInTheCartByUserIdAsync(string userId)
         {
             var productsCount = await this.cartsRepository
-                                      .AllAsNoTracking()
+                                      .All()
                                       .Where(p => p.UserId == userId)
                                       .DeleteAsync();
+
+            if (productsCount > 0)
+            {
+                await this.publisher.Publish(new ProductsQuantityInTheUsersCartDeletedMessage
+                {
+                    UserId = userId,
+                });
+            }
 
             return productsCount > 0;
         }
@@ -86,8 +94,8 @@
         public async Task<bool> IsThereAnyProductsInTheUsersCartAsync(string userId)
         {
             var result = await this.cartsRepository
-                .AllAsNoTracking()
-                .AnyAsync(op => op.UserId == userId);
+                                .All()
+                                .AnyAsync(op => op.UserId == userId);
 
             return result;
         }
@@ -95,10 +103,10 @@
         public async Task<IEnumerable<ProductsInTheCartViewModel>> GetAllProductsInTheCartByUserIdAsync(string userId)
         {
             var productsInTheCart = await this.cartsRepository
-                                    .All()
-                                    .Where(c => c.UserId == userId)
-                                    .To<ProductsInTheCartViewModel>()
-                                    .ToListAsync();
+                                        .All()
+                                        .Where(c => c.UserId == userId)
+                                        .To<ProductsInTheCartViewModel>()
+                                        .ToListAsync();
 
             return productsInTheCart;
         }
@@ -106,7 +114,7 @@
         public async Task<int> GetNumberOfProductsInTheUsersCart(string userId)
         {
             var count = await this.cartsRepository
-                            .AllAsNoTracking()
+                            .All()
                             .Where(p => p.UserId == userId)
                             .Select(p => p.Quantity)
                             .SumAsync();
@@ -117,7 +125,7 @@
         public async Task<string> GetProductInTheCartIdByProductIdAsync(int productId, string userId)
         {
             var productInTheCartId = await this.cartsRepository
-                                            .AllAsNoTracking()
+                                            .All()
                                             .Where(p => p.ProductId == productId && p.UserId == userId)
                                             .Select(p => p.Id)
                                             .SingleOrDefaultAsync();
@@ -125,24 +133,29 @@
             return productInTheCartId;
         }
 
-        public async Task<bool> IncreaseQuantityAsync(string productId)
+        public async Task<bool> IncreaseQuantityAsync(string cartId)
         {
             var productInTheCart = await this.cartsRepository
                                         .All()
-                                        .SingleOrDefaultAsync(p => p.Id == productId);
+                                        .SingleOrDefaultAsync(p => p.Id == cartId);
 
             productInTheCart.Quantity++;
 
             int result = await this.cartsRepository.SaveChangesAsync();
 
+            await this.publisher.Publish(new ProductsQuantityInTheUsersCartIncreasedMessage
+            {
+                UserId = productInTheCart.UserId,
+            });
+
             return result > 0;
         }
 
-        public async Task<bool> ReduceQuantityAsync(string productId)
+        public async Task<bool> ReduceQuantityAsync(string cartId)
         {
             var productInTheCart = await this.cartsRepository
                                    .All()
-                                   .SingleOrDefaultAsync(p => p.Id == productId);
+                                   .SingleOrDefaultAsync(p => p.Id == cartId);
 
             if (productInTheCart.Quantity <= 1)
             {
@@ -152,6 +165,11 @@
             productInTheCart.Quantity--;
 
             int result = await this.cartsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(new ProductsQuantityInTheUsersCartReducedMessage
+            {
+                UserId = productInTheCart.UserId,
+            });
 
             return result > 0;
         }

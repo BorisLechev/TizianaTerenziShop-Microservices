@@ -3,21 +3,24 @@
 var receiver = document.getElementById("receiver").textContent; //<h3>
 var sender = document.getElementById("sender").textContent; //<h3>
 var groupId = document.getElementById("groupId").value; //<input>
+var senderId = document.getElementById("SenderId").value; //<input>
+var receiverId = document.getElementById("ReceiverId").value; //<input>
 
 window.scrollTo(0, document.body.scrollHeight);
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+var jwtToken = document.getElementById("jwtToken").value;
+var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/chatHub", { accessTokenFactory: () => jwtToken }).build();
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 
-    connection.invoke("AddToGroup", groupId, receiver, sender).catch(function (err) {
+    connection.invoke("AddToGroup", groupId).catch(function (err) {
         return console.error(err.toString());
     });
 
-    connection.invoke("GetUserNotificationsCount", sender).catch(function (err) {
-        return console.error(err.toString());
-    });
+    //connection.invoke("GetUserNotificationsCount", sender).catch(function (err) {
+    //    return console.error(err.toString());
+    //});
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -79,7 +82,7 @@ document.getElementById("sendButton").addEventListener("click", function (event)
 
     if (message) {
         if (message.length <= 500) {
-            connection.invoke("SendMessage", sender, receiver, message, groupId).catch(function (err) {
+            connection.invoke("SendMessage", sender, senderId, receiver, receiverId, message, groupId).catch(function (err) {
                 return console.error(err.toString());
             });
 

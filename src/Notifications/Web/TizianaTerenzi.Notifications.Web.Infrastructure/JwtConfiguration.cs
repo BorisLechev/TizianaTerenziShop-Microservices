@@ -17,7 +17,10 @@
                     var path = context.HttpContext.Request.Path;
 
                     if (!string.IsNullOrEmpty(accessToken) &&
-                        path.StartsWithSegments("/numberOfProductsInTheUsersCartHub"))
+                        (path.StartsWithSegments("/numberOfProductsInTheUsersCartHub") ||
+                        path.StartsWithSegments("/userStatusHub") ||
+                        path.StartsWithSegments("/chatHub") ||
+                        path.StartsWithSegments("/notificationHub")))
                     {
                         // Read the token out of the query string
                         context.Token = accessToken;

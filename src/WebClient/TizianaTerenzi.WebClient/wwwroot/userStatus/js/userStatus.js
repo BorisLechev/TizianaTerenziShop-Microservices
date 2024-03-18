@@ -1,6 +1,7 @@
 ﻿"use strict";
 
-var userStatusConnection = new signalR.HubConnectionBuilder().withUrl("/userStatusHub").build();
+var jwtToken = document.getElementById("jwtToken").value;
+var userStatusConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/userStatusHub", { accessTokenFactory: () => jwtToken }).build();
 
 userStatusConnection.start().then(function () {
     let element = document.getElementById("currentUsername");
@@ -29,7 +30,7 @@ userStatusConnection.start().then(function () {
     return console.error(err.toString());
 });
 
-userStatusConnection.on("UserIsOnline", function (username) {
+userStatusConnection.on("UserIsOnlineStatusDot", function (username) {
     let profileStatus = document.getElementById(`${username}userStatus`);
 
     if (profileStatus) {
@@ -39,7 +40,7 @@ userStatusConnection.on("UserIsOnline", function (username) {
     }
 });
 
-userStatusConnection.on("UserIsOffline", function (username) {
+userStatusConnection.on("UserIsOfflineStatusDot", function (username) {
     let profileStatus = document.getElementById(`${username}userStatus`);
 
     if (profileStatus) {

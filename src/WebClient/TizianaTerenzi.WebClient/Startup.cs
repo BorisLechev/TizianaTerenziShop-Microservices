@@ -55,7 +55,6 @@
     using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.Services.Scrapers;
     using TizianaTerenzi.Services.SlugGenerator;
-    using TizianaTerenzi.WebClient.Hubs;
     using TizianaTerenzi.WebClient.Middlewares;
     using TizianaTerenzi.WebClient.Services.Administration;
     using TizianaTerenzi.WebClient.Services.Carts;
@@ -199,8 +198,6 @@
                 };
             });
 
-            services.AddSignalR();
-
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             services.AddResponseCaching();
@@ -239,7 +236,7 @@
             services.AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
             services.AddTransient<IProductVotesService, ProductVotesService>();
             services.AddTransient<IChatService, ChatService>();
-            services.AddTransient<INotificationsService, NotificationsService>();
+            services.AddTransient<TizianaTerenzi.Services.Data.Notifications.INotificationsService, NotificationsService>();
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserPenaltiesService, UserPenaltiesService>();
@@ -256,7 +253,8 @@
                 .AddExternalService<ICartsService>(this.configuration)
                 .AddExternalService<ICartsGatewayService>(this.configuration)
                 .AddExternalService<TizianaTerenzi.WebClient.Services.Orders.IOrdersService>(this.configuration)
-                .AddExternalService<IAdministrationService>(this.configuration);
+                .AddExternalService<IAdministrationService>(this.configuration)
+                .AddExternalService<TizianaTerenzi.WebClient.Services.Notifications.INotificationsService>(this.configuration);
 
             //services
             //.AddRefitClient<IIdentityService>()
@@ -313,10 +311,6 @@
                         endpoints.MapControllerRoute(
                             "default",
                             "{controller=Home}/{action=Index}/{id?}");
-
-                        endpoints.MapHub<ChatHub>("/chatHub");
-                        endpoints.MapHub<NotificationHub>("/notificationHub");
-                        endpoints.MapHub<UserStatusHub>("/userStatusHub");
 
                         endpoints.MapRazorPages();
                     });

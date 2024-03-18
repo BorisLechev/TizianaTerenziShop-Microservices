@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class NotificationViewModel : IMapFrom<ApplicationUserNotification>
+    public class NotificationViewModel
     {
         public string Id { get; set; }
 

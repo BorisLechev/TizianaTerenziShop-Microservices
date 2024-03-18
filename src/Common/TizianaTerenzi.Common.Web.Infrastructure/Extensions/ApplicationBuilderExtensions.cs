@@ -14,6 +14,7 @@
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Identity.Web.Models.Profile;
+    using TizianaTerenzi.Notifications.Web.Models.Chat;
     using TizianaTerenzi.Orders.Web.Models.Orders;
     using TizianaTerenzi.Products.Web.Models.Products;
 
@@ -101,7 +102,8 @@
                                             typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly,
                                             typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly,
                                             typeof(OrdersListingViewModel).GetTypeInfo().Assembly,
-                                            typeof(DashboardViewModel).GetTypeInfo().Assembly);
+                                            typeof(DashboardViewModel).GetTypeInfo().Assembly,
+                                            typeof(ChatMessageViewModel).GetTypeInfo().Assembly);
 
             return app;
         }

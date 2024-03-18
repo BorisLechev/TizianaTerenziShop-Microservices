@@ -2,6 +2,7 @@
 {
     using Refit;
     using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.WebClient.ViewModels.Chat;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Profile;
     using TizianaTerenzi.WebClient.ViewModels.UserPenalties;
@@ -54,5 +55,8 @@
 
         [Delete("/Profile/DeleteAccount")]
         Task<Result> DeleteAccount(string password);
+
+        [Get("/Chat/Index")]
+        Task<ChatViewModel> GetAllMessagesByGroupIdAsync(string username, string groupId);
     }
 }

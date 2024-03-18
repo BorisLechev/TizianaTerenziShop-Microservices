@@ -10,8 +10,9 @@ namespace TizianaTerenzi.Carts.Web
     using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
+    using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
-    using TizianaTerenzi.Notifications.Web.Hubs;
+    using TizianaTerenzi.Common.Web.Infrastructure.JwtConfiguration;
 
     public class Program
     {
@@ -27,11 +28,7 @@ namespace TizianaTerenzi.Carts.Web
             app
                 .UseMicroservice(app.Environment)
                 .MigrateDatabase()
-                .SeedDatabase<CartsDbContext>()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapHub<NumberOfProductsInTheUsersCartHub>("/numberOfProductsInTheUsersCartHub");
-                });
+                .SeedDatabase<CartsDbContext>();
 
             app.MapControllers();
 
@@ -41,9 +38,10 @@ namespace TizianaTerenzi.Carts.Web
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services
-                .AddMicroservice<CartsDbContext>(configuration)
+                .AddMicroservice<CartsDbContext>(configuration, JwtAuthenticationForSignalR.BearerEvents)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped<ICurrentTokenService, CurrentTokenService>()
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<CartsDbContext>, DiscountCodesSeeder>()
