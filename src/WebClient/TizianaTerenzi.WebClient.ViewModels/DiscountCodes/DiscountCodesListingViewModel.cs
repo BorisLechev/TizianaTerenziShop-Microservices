@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class DiscountCodesListingViewModel : IMapFrom<DiscountCode>
+    public class DiscountCodesListingViewModel
     {
         public int Id { get; set; }
 

@@ -3,9 +3,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
-    using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Votes;
     using TizianaTerenzi.Products.Web.Models.Votes;
 

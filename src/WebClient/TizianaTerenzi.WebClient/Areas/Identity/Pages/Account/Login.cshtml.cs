@@ -3,19 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Web.ValidationAttributes;
-    using TizianaTerenzi.Data.Models;
     using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
 
@@ -23,16 +20,13 @@
     public class LoginModel : PageModel
     {
         private readonly IIdentityService identityService;
-        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
 
         public LoginModel(
-            SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             IIdentityService identityService)
         {
             this.identityService = identityService;
-            this.signInManager = signInManager;
             this.logger = logger;
         }
 
@@ -73,9 +67,9 @@
             returnUrl ??= this.Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
-            await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            //await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             this.ReturnUrl = returnUrl;
         }

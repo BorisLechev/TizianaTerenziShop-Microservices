@@ -30,25 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CloudinaryDotNet" Version="1.25.1" />
 	<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.2" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
     <PackageReference Include="Stripe.net" Version="43.15.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all">
@@ -59,19 +45,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data\TizianaTerenzi.Data.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Common\TizianaTerenzi.Data.Common.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data.Models\TizianaTerenzi.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Data\TizianaTerenzi.Data.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Data\TizianaTerenzi.Services.Data.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Messaging\TizianaTerenzi.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models\TizianaTerenzi.Services.Models.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services\TizianaTerenzi.Services.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Mapping\TizianaTerenzi.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services.Messaging\TizianaTerenzi.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Services\TizianaTerenzi.Services.csproj" />
     <ProjectReference Include="..\Services\TizianaTerenzi.WebClient.Services\TizianaTerenzi.WebClient.Services.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.WebClient.Infrastructure\TizianaTerenzi.WebClient.Infrastructure.csproj" />
   </ItemGroup>

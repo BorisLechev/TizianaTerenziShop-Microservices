@@ -3,32 +3,31 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Common;
-    using TizianaTerenzi.WebClient.Services.Administration;
     using TizianaTerenzi.WebClient.ViewModels.Subscribe;
 
     public class SubscribeController : BaseController
     {
-        private readonly IAdministrationService administrationService;
+        //private readonly ISubscribeService subscribeService;
 
-        public SubscribeController(IAdministrationService administrationService)
-        {
-            this.administrationService = administrationService;
-        }
+        //public SubscribeController(
+        //    ISubscribeService subscribeService)
+        //{
+        //    this.subscribeService = subscribeService;
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Index(SubscribeInputModel inputModel)
         {
-            var result = await this.administrationService.SubscribeForNewsletterAsync(inputModel);
+            //var result = await this.subscribeService.SubscribeForNewsletterAsync(inputModel.Email);
 
-            if (result)
-            {
-                this.Success(NotificationMessages.SubsribedSuccessfully);
-            }
-            else
-            {
-                this.Error(NotificationMessages.SubscriberEmailExists);
-            }
+            //if (result == true)
+            //{
+            //    this.Success(NotificationMessages.SubsribedSuccessfully);
+            //}
+            //else
+            //{
+            //    this.Error(NotificationMessages.SubscriberEmailExists);
+            //}
 
             return this.RedirectToAction("Index", "Home");
         }

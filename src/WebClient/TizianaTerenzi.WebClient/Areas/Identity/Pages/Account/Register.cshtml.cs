@@ -3,53 +3,29 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Web.ValidationAttributes;
-    using TizianaTerenzi.Data.Common.Repositories;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Data.Countries;
-    using TizianaTerenzi.Services.Location;
     using TizianaTerenzi.WebClient.Services.Identity;
     using TizianaTerenzi.WebClient.ViewModels.Identity;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly RoleManager<ApplicationRole> roleManager;
-        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
-        private readonly ILocationService locationService;
-        private readonly ICountriesService countriesService;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IIdentityService identityService;
 
         public RegisterModel(
-            ILocationService locationService,
-            ICountriesService countriesService,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
-            IDeletableEntityRepository<ApplicationUser> usersRepository,
             ILogger<RegisterModel> logger,
             IIdentityService identityService)
         {
-            this.locationService = locationService;
-            this.countriesService = countriesService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.roleManager = roleManager;
-            this.usersRepository = usersRepository;
             this.logger = logger;
             this.identityService = identityService;
         }
@@ -100,13 +76,13 @@
         public async Task OnGetAsync(string returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
-            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= this.Url.Content("~/");
-            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (this.ModelState.IsValid)
             {

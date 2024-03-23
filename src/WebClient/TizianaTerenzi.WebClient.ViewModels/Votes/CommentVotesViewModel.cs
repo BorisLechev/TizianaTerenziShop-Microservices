@@ -1,9 +1,8 @@
 ﻿namespace TizianaTerenzi.WebClient.ViewModels.Votes
 {
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
+    using TizianaTerenzi.Common.Enumerators;
 
-    public class CommentVotesViewModel : IMapFrom<CommentVote>
+    public class CommentVotesViewModel
     {
         public string UserId { get; set; }
 

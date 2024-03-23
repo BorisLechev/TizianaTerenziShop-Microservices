@@ -2,7 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
+    using TizianaTerenzi.Common.Enumerators;
 
     public class PagingViewModel
     {

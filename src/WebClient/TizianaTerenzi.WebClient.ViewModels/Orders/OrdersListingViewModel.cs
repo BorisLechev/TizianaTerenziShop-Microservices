@@ -4,11 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using AutoMapper;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class OrdersListingViewModel : OrdersChartResponseModel, IMapFrom<Order>, IHaveCustomMappings
+    public class OrdersListingViewModel : OrdersChartResponseModel
     {
         public int Id { get; set; }
 
@@ -24,12 +20,6 @@
 
         public string StatusName { get; set; }
 
-        public virtual ICollection<OrderProduct> Products { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Order, OrdersListingViewModel>()
-            .ForMember(dest => dest.UserFullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
-        }
+        public virtual ICollection<OrderProductsListingViewModel> Products { get; set; }
     }
 }

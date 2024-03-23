@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class PersonalDataChatUserGroupViewModel : IMapFrom<ChatUserGroup>
+    public class PersonalDataChatUserGroupViewModel
     {
         public string ChatGroupName { get; set; }
 

@@ -114,7 +114,7 @@
                 ItemsCount = productsCount,
                 ItemsPerPage = take,
                 Search = search,
-                Sorting = sorting,
+                Sorting = (Common.Enumerators.ProductSorting)sorting,
             };
 
             return viewModel;

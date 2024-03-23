@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class OrderProductsListingViewModel : IMapFrom<OrderProduct>
+    public class OrderProductsListingViewModel
     {
         public int OrderId { get; set; }
 

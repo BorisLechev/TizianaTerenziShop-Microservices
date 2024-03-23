@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Products.Web.Models.Votes
 {
+    using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Products.Data.Models;
 

@@ -1,23 +1,7 @@
 ﻿namespace TizianaTerenzi.WebClient.ViewModels.Products
 {
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-    using TizianaTerenzi.Services.SlugGenerator;
-
-    public class WishlistViewModel : IMapFrom<FavoriteProduct>
+    public class WishlistViewModel
     {
-        private readonly ISlugGeneratorService urlGenerator;
-
-        public WishlistViewModel()
-            : this(new SlugGeneratorService())
-        {
-        }
-
-        public WishlistViewModel(ISlugGeneratorService urlGenerator)
-        {
-            this.urlGenerator = urlGenerator;
-        }
-
         public int Id { get; set; }
 
         public int ProductId { get; set; }
@@ -28,12 +12,12 @@
 
         public decimal ProductPriceWithGeneralDiscount { get; set; }
 
-        public int Discount => this.ProductPrice == this.ProductPriceWithGeneralDiscount ? 0 : (int)((this.ProductPrice - this.ProductPriceWithGeneralDiscount) / this.ProductPrice * 100);
+        public int Discount { get; set; }
 
         public string ProductPicture { get; set; }
 
         public int ProductYearOfManufacture { get; set; }
 
-        public string Url => this.urlGenerator.GenerateUrl(this.ProductId, this.ProductName);
+        public string Url { get; set; }
     }
 }

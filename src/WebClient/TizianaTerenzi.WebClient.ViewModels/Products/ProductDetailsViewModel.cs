@@ -1,15 +1,11 @@
 ﻿namespace TizianaTerenzi.WebClient.ViewModels.Products
 {
     using System.Collections.Generic;
-    using System.Linq;
 
-    using AutoMapper;
     using Ganss.Xss;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
     using TizianaTerenzi.WebClient.ViewModels.Votes;
 
-    public class ProductDetailsViewModel : ProductVoteResponseModel, IMapFrom<Product>, IHaveCustomMappings
+    public class ProductDetailsViewModel : ProductVoteResponseModel
     {
         public int Id { get; set; }
 
@@ -36,11 +32,5 @@
         public IEnumerable<ProductCommentViewModel> Comments { get; set; }
 
         public IEnumerable<RelatedProductsViewModel> RelatedProducts { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Product, ProductDetailsViewModel>()
-                .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes.Select(n => n.Note.Name)));
-        }
     }
 }

@@ -2,10 +2,7 @@
 {
     using System;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class ContactMessagesViewModel : IMapFrom<ContactFormEntry>
+    public class ContactMessagesViewModel
     {
         public int Id { get; set; }
 

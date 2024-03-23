@@ -1,6 +1,6 @@
 ﻿namespace TizianaTerenzi.Products.Web.Models.Comments
 {
-    using TizianaTerenzi.Products.Data.Models;
+    using TizianaTerenzi.Common.Enumerators;
 
     public class UsersCommentVotesPersonalDataResponseModel
     {

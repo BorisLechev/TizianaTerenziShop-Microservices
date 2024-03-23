@@ -3,36 +3,18 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.PDF;
     using TizianaTerenzi.WebClient.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Services.Orders;
-    using TizianaTerenzi.WebClient.ViewModels.PDF;
 
     [Authorize]
     public class OrdersController : BaseController
     {
         private readonly IOrdersService ordersService;
 
-        private readonly IHtmlToPdfConverter htmlToPdfConverter;
-
-        private readonly IWebHostEnvironment environment;
-
-        private readonly UserManager<ApplicationUser> userManager;
-
-        public OrdersController(
-            IOrdersService ordersService,
-            IHtmlToPdfConverter htmlToPdfConverter,
-            IWebHostEnvironment environment,
-            UserManager<ApplicationUser> userManager)
+        public OrdersController(IOrdersService ordersService)
         {
             this.ordersService = ordersService;
-            this.htmlToPdfConverter = htmlToPdfConverter;
-            this.environment = environment;
-            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -51,25 +33,25 @@
             return this.View(allOrderProductsByUser);
         }
 
-        public async Task<IActionResult> GeneratePdf(int orderId)
-        {
-            var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
-            var user = await this.userManager.GetUserAsync(this.User);
+        //public async Task<IActionResult> GeneratePdf(int orderId)
+        //{
+        //    var orderProducts = await this.ordersService.GetAllOrderProductsByOrderIdAsync(orderId);
+        //    var user = await this.userManager.GetUserAsync(this.User);
 
-            var viewModel = new ExportPdfUserOrderProductsViewModel
-            {
-                FullName = $"{user.FirstName} {user.LastName}",
-                Email = user.Email,
-                Products = orderProducts,
-            };
+        //    var viewModel = new ExportPdfUserOrderProductsViewModel
+        //    {
+        //        FullName = $"{user.FirstName} {user.LastName}",
+        //        Email = user.Email,
+        //        Products = orderProducts,
+        //    };
 
-            var htmlData = await this.RenderViewAsync("GeneratePdf", viewModel);
+        //    var htmlData = await this.RenderViewAsync("GeneratePdf", viewModel);
 
-            this.Response.Headers.Add("Content-Disposition", "attachment; filename=" + string.Format("{0}_Order.pdf", user.UserName));
+        //    this.Response.Headers.Add("Content-Disposition", "attachment; filename=" + string.Format("{0}_Order.pdf", user.UserName));
 
-            var fileContents = this.htmlToPdfConverter.Convert($"{this.environment.WebRootPath}/pdf", htmlData, FormatType.A4, OrientationType.Portrait);
+        //    var fileContents = this.htmlToPdfConverter.Convert($"{this.environment.WebRootPath}/pdf", htmlData, FormatType.A4, OrientationType.Portrait);
 
-            return this.File(fileContents, "application/pdf");
-        }
+        //    return this.File(fileContents, "application/pdf");
+        //}
     }
 }

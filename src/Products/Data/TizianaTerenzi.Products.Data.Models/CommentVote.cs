@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using TizianaTerenzi.Common.Data.Models;
+    using TizianaTerenzi.Common.Enumerators;
 
     public class CommentVote : BaseDeletableModel<int>
     {

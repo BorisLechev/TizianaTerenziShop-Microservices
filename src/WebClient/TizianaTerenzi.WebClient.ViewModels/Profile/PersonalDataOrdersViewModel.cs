@@ -2,10 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using TizianaTerenzi.Data.Models;
-    using TizianaTerenzi.Services.Mapping;
-
-    public class PersonalDataOrdersViewModel : IMapFrom<Order>
+    public class PersonalDataOrdersViewModel
     {
         public int Id { get; set; }
 
