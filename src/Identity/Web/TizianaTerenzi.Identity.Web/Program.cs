@@ -43,15 +43,15 @@
             services
                 .AddMicroservice<IdentityDbContext>(configuration)
                 .AddIdentityStorage()
-                .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
-                .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped(typeof(IDeletableEntityRepository<>), typeof(TizianaTerenzi.Identity.Data.Repositories.EfDeletableEntityRepository<>))
+                .AddScoped(typeof(IRepository<>), typeof(TizianaTerenzi.Identity.Data.Repositories.EfRepository<>))
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<IdentityDbContext>, CountriesSeeder>()
                 .AddSingleton<ISeeder<IdentityDbContext>, RolesSeeder>()
                 .AddSingleton<ISeeder<IdentityDbContext>, AdministratorSeeder>()
                 .AddSingleton<ISeeder<IdentityDbContext>, RegularUserSeeder>()
-                .AddSingleton<ISeeder<IdentityDbContext>, EmojisSeeder>()
+                //.AddSingleton<ISeeder<IdentityDbContext>, EmojisSeeder>()
 
                 // -------Services------------
                 .AddTransient<ILocationService, LocationService>()

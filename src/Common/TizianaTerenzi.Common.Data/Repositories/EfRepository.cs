@@ -1,18 +1,12 @@
-﻿namespace TizianaTerenzi.Identity.Data.Repositories
+﻿namespace TizianaTerenzi.Common.Data.Repositories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
-    using TizianaTerenzi.Common.Data.Repositories;
 
     public class EfRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class
+         where TEntity : class
     {
-        public EfRepository(IdentityDbContext context)
+        public EfRepository(DbContext context)
         {
             this.Context = context ?? throw new ArgumentNullException(nameof(context));
             this.DbSet = this.Context.Set<TEntity>();
@@ -20,11 +14,21 @@
 
         protected DbSet<TEntity> DbSet { get; set; }
 
-        protected IdentityDbContext Context { get; set; }
+        protected DbContext Context { get; set; }
 
         public virtual IQueryable<TEntity> All() => this.DbSet;
 
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
+
+        public virtual Task AddAsync(TEntity entity, params EventMessageLog[] messages)
+        {
+            foreach (var message in messages)
+            {
+                this.Context.AddAsync(message).AsTask();
+            }
+
+            return this.DbSet.AddAsync(entity).AsTask();
+        }
 
         public virtual Task AddRangeAsync(IEnumerable<TEntity> entities) => this.DbSet.AddRangeAsync(entities);
 
@@ -56,16 +60,6 @@
             GC.SuppressFinalize(this);
         }
 
-        public virtual Task AddAsync(TEntity entity, params EventMessageLog[] messages)
-        {
-            foreach (var message in messages)
-            {
-                this.Context.AddAsync(message).AsTask();
-            }
-
-            return this.DbSet.AddAsync(entity).AsTask();
-        }
-
         public virtual Task CreateEventMessageLog(params EventMessageLog[] messages)
         {
             foreach (var message in messages)
@@ -79,6 +73,11 @@
         public async Task MarkEventMessageLogAsPublished(int id)
         {
             var eventMessageLog = await this.Context.FindAsync<EventMessageLog>(id);
+
+            if (eventMessageLog == null)
+            {
+                throw new ArgumentNullException(nameof(eventMessageLog));
+            }
 
             eventMessageLog.MarkAsPublished();
 

@@ -1,7 +1,7 @@
 namespace TizianaTerenzi.Administration.Web
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Administration.Data;
-    using TizianaTerenzi.Administration.Data.Repositories;
     using TizianaTerenzi.Administration.Data.Seeding;
     using TizianaTerenzi.Administration.Services.Data.Contacts;
     using TizianaTerenzi.Administration.Services.Data.Dashboard;
@@ -47,6 +47,7 @@ namespace TizianaTerenzi.Administration.Web
                 .AddMicroservice<AdministrationDbContext>(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped<DbContext, AdministrationDbContext>()
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<AdministrationDbContext>, GeneralDiscountsSeeder>()

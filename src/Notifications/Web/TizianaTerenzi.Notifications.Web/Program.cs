@@ -1,10 +1,10 @@
 namespace TizianaTerenzi.Notifications.Web
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Notifications.Data;
-    using TizianaTerenzi.Notifications.Data.Repositories;
     using TizianaTerenzi.Notifications.Services.Data.CartNotifications;
     using TizianaTerenzi.Notifications.Services.Data.Notifications;
     using TizianaTerenzi.Notifications.Web.Hubs;
@@ -47,8 +47,6 @@ namespace TizianaTerenzi.Notifications.Web
                     endpoints.MapHub<NotificationHub>("/notificationHub");
                 });
 
-            app.MapControllers();
-
             app.Run();
         }
 
@@ -61,8 +59,8 @@ namespace TizianaTerenzi.Notifications.Web
                 .AddApplicationSettings(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped<DbContext, NotificationsDbContext>()
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
-                //.AddMessageBroker(typeof(ProductAddedInTheCartConsumer))
 
                 // -------Seeders--------
 

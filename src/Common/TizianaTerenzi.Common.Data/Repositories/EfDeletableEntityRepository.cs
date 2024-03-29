@@ -1,14 +1,12 @@
-﻿namespace TizianaTerenzi.Administration.Data.Repositories
+﻿namespace TizianaTerenzi.Common.Data.Repositories
 {
     using Microsoft.EntityFrameworkCore;
-    using TizianaTerenzi.Common.Data;
     using TizianaTerenzi.Common.Data.Models;
-    using TizianaTerenzi.Common.Data.Repositories;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
-            where TEntity : class, IDeletableEntity
+             where TEntity : class, IDeletableEntity
     {
-        public EfDeletableEntityRepository(AdministrationDbContext context)
+        public EfDeletableEntityRepository(DbContext context)
             : base(context)
         {
         }
@@ -33,14 +31,14 @@
         {
             entity.IsDeleted = false;
             entity.DeletedOn = null;
-            this.Update(entity);
+            this.UpdateAsync(entity);
         }
 
         public override void Delete(TEntity entity)
         {
             entity.IsDeleted = true;
             entity.DeletedOn = DateTime.UtcNow;
-            this.Update(entity);
+            this.UpdateAsync(entity);
         }
 
         public void DeleteRange(IEnumerable<TEntity> entities)

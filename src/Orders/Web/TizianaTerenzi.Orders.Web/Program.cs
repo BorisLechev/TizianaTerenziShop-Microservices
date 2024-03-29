@@ -1,10 +1,10 @@
 namespace TizianaTerenzi.Orders.Web
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Orders.Data;
-    using TizianaTerenzi.Orders.Data.Repositories;
     using TizianaTerenzi.Orders.Data.Seeding;
     using TizianaTerenzi.Orders.Services.Data.Orders;
     using TizianaTerenzi.Orders.Web.Messages;
@@ -25,8 +25,6 @@ namespace TizianaTerenzi.Orders.Web
                 .MigrateDatabase()
                 .SeedDatabase<OrdersDbContext>();
 
-            app.MapControllers();
-
             app.Run();
         }
 
@@ -36,6 +34,7 @@ namespace TizianaTerenzi.Orders.Web
                 .AddMicroservice<OrdersDbContext>(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped<DbContext, OrdersDbContext>()
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<OrdersDbContext>, OrderStatusesSeeder>()

@@ -1,11 +1,11 @@
 namespace TizianaTerenzi.Products.Web
 {
     using CloudinaryDotNet;
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Products.Data;
-    using TizianaTerenzi.Products.Data.Repositories;
     using TizianaTerenzi.Products.Data.Seeding;
     using TizianaTerenzi.Products.Services.Cloudinary;
     using TizianaTerenzi.Products.Services.Data.Comments;
@@ -33,8 +33,6 @@ namespace TizianaTerenzi.Products.Web
                 .MigrateDatabase()
                 .SeedDatabase<ProductsDbContext>();
 
-            app.MapControllers();
-
             app.Run();
         }
 
@@ -51,6 +49,7 @@ namespace TizianaTerenzi.Products.Web
                 .AddMicroservice<ProductsDbContext>(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped<DbContext, ProductsDbContext>()
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<ProductsDbContext>, FragranceGroupsSeeder>()
