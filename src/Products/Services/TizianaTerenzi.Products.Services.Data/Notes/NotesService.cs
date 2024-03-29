@@ -9,7 +9,6 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Products.Data.Models;
-    using Z.EntityFramework.Plus;
 
     public class NotesService : INotesService
     {
@@ -91,11 +90,9 @@
             var affectedRows = await this.productNotesRepository
                 .All()
                 .Where(pn => pn.ProductId == productId)
-                .UpdateAsync(pn => new ProductNote
-                {
-                    IsDeleted = true,
-                    DeletedOn = DateTime.UtcNow,
-                });
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(pn => pn.IsDeleted, true)
+                    .SetProperty(pn => pn.DeletedOn, DateTime.UtcNow));
 
             return affectedRows > 0;
         }
@@ -103,9 +100,9 @@
         public async Task<bool> HardDeleteAllProductNotesAsync(int productId)
         {
             var productNotesCount = await this.productNotesRepository
-                .AllAsNoTracking()
-                .Where(pn => pn.ProductId == productId)
-                .DeleteAsync();
+                                        .All()
+                                        .Where(pn => pn.ProductId == productId)
+                                        .ExecuteDeleteAsync();
 
             return productNotesCount > 0;
         }

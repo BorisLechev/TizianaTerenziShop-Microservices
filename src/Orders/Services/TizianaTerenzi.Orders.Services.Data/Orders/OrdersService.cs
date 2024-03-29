@@ -10,7 +10,6 @@
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Orders.Data.Models;
     using TizianaTerenzi.Orders.Web.Models.Orders;
-    using Z.EntityFramework.Plus;
 
     public class OrdersService : IOrdersService
     {
@@ -172,11 +171,9 @@
             var ordersCount = await this.ordersRepository
                                     .All()
                                     .Where(o => o.UserId == userId)
-                                    .UpdateAsync(o => new Order
-                                    {
-                                        IsDeleted = true,
-                                        DeletedOn = DateTime.UtcNow,
-                                    });
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(o => o.IsDeleted, true)
+                                        .SetProperty(o => o.DeletedOn, DateTime.UtcNow));
 
             return ordersCount > 0;
         }

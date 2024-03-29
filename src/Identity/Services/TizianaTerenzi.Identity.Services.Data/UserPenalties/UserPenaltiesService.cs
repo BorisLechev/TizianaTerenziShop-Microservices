@@ -7,7 +7,6 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Identity.Data.Models;
-    using Z.EntityFramework.Plus;
 
     public class UserPenaltiesService : IUserPenaltiesService
     {
@@ -50,13 +49,11 @@
             var affectedRows = await this.usersRepository
                                    .AllWithDeleted()
                                    .Where(u => u.Id == message.UserId && u.IsBlocked == true)
-                                   .UpdateAsync(u => new ApplicationUser
-                                   {
-                                       IsBlocked = false,
-                                       ReasonToBeBlocked = null,
-                                       IsDeleted = false,
-                                       DeletedOn = null,
-                                   });
+                                   .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(u => u.IsBlocked, false)
+                                        .SetProperty(u => u.ReasonToBeBlocked, (string?)null)
+                                        .SetProperty(u => u.IsDeleted, false)
+                                        .SetProperty(u => u.DeletedOn, (DateTime?)null));
 
             return affectedRows == 1;
         }

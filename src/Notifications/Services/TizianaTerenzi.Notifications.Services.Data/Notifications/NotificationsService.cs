@@ -7,7 +7,6 @@
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Notifications.Data.Models;
     using TizianaTerenzi.Notifications.Web.Models.Notifications;
-    using Z.EntityFramework.Plus;
 
     public class NotificationsService : INotificationsService
     {
@@ -89,11 +88,9 @@
             var affectedRows = await this.notificationsRepository
                                     .All()
                                     .Where(n => n.Id == id)
-                                    .UpdateAsync(n => new ApplicationUserNotification
-                                    {
-                                        IsDeleted = true,
-                                        DeletedOn = DateTime.UtcNow,
-                                    });
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(n => n.IsDeleted, true)
+                                        .SetProperty(n => n.DeletedOn, DateTime.UtcNow));
 
             return affectedRows == 1;
         }
@@ -103,11 +100,9 @@
             var affectedRows = await this.notificationsRepository
                                     .All()
                                     .Where(n => n.SenderId == message.UserId || n.ReceiverUsername == message.Username)
-                                    .UpdateAsync(n => new ApplicationUserNotification
-                                    {
-                                        IsDeleted = true,
-                                        DeletedOn = DateTime.UtcNow,
-                                    });
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(n => n.IsDeleted, true)
+                                        .SetProperty(n => n.DeletedOn, DateTime.UtcNow));
 
             return affectedRows >= 0;
         }

@@ -4,7 +4,6 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Notifications.Data.Models;
-    using Z.EntityFramework.Plus;
 
     public class CartNotificationsService : ICartNotificationsService
     {
@@ -54,11 +53,9 @@
             var affectedRows = await this.usersCartNotificationsRepository
                                       .All()
                                       .Where(p => p.UserId == message.UserId)
-                                      .UpdateAsync(n => new ApplicationUserCartNotification
-                                      {
-                                          NumberOfProductsInTheUsersCart = 0,
-                                          ModifiedOn = DateTime.Now,
-                                      });
+                                      .ExecuteUpdateAsync(setters => setters
+                                            .SetProperty(n => n.NumberOfProductsInTheUsersCart, 0)
+                                            .SetProperty(n => n.ModifiedOn, DateTime.UtcNow));
 
             return affectedRows == 1;
         }

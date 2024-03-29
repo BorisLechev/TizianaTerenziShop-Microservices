@@ -8,7 +8,6 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Products.Data.Models;
-    using Z.EntityFramework.Plus;
 
     public class WishlistService : IWishlistService
     {
@@ -38,7 +37,9 @@
             var affectedRows = await this.favoriteProductsRepository
                                     .All()
                                     .Where(fp => fp.UserId == userId)
-                                    .UpdateAsync(fp => new FavoriteProduct { IsDeleted = true, DeletedOn = DateTime.UtcNow });
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(fp => fp.IsDeleted, true)
+                                        .SetProperty(fp => fp.DeletedOn, DateTime.UtcNow));
 
             return affectedRows >= 0;
         }

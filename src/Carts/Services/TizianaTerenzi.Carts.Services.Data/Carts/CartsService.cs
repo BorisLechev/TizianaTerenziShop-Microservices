@@ -9,7 +9,6 @@
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
-    using Z.EntityFramework.Plus;
 
     public class CartsService : ICartsService
     {
@@ -58,7 +57,7 @@
             var productsCount = await this.cartsRepository
                                       .All()
                                       .Where(p => p.UserId == userId)
-                                      .DeleteAsync();
+                                      .ExecuteDeleteAsync();
 
             if (productsCount > 0)
             {
@@ -76,7 +75,7 @@
             var productsCount = await this.cartsRepository
                                     .All()
                                     .Where(p => p.Id == id)
-                                    .DeleteAsync();
+                                    .ExecuteDeleteAsync();
 
             return productsCount == 1;
         }
@@ -86,7 +85,7 @@
             var affectedRows = await this.cartsRepository
                                     .All()
                                     .Where(p => p.ProductId == message.ProductId)
-                                    .DeleteAsync();
+                                    .ExecuteDeleteAsync();
 
             return affectedRows >= 0;
         }

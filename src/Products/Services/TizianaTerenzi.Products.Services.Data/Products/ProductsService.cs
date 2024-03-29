@@ -8,6 +8,7 @@
     using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Messages.Administration;
@@ -16,7 +17,6 @@
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Notes;
     using TizianaTerenzi.Products.Web.Models.Products;
-    using Z.EntityFramework.Plus;
 
     public class ProductsService : IProductsService
     {
@@ -84,7 +84,7 @@
 
             product.SearchText = StringExtensions.GetSearchText(product.Name);
 
-            this.productsRepository.Update(product);
+            await this.productsRepository.UpdateAsync(product);
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;
@@ -165,12 +165,10 @@
         public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
         {
             var affectedRows = await this.productsRepository
-                .AllAsNoTracking()
-                .UpdateAsync(p => new Product
-                {
-                    PriceWithGeneralDiscount = p.Price - (p.Price * discountPercent / 100),
-                    ModifiedOn = DateTime.UtcNow,
-                });
+                .All()
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(p => p.PriceWithGeneralDiscount, p => p.Price - (p.Price * discountPercent / 100))
+                    .SetProperty(p => p.ModifiedOn, DateTime.UtcNow));
 
             return affectedRows > 0;
         }
@@ -178,12 +176,10 @@
         public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsDisabledAsync()
         {
             var affectedRows = await this.productsRepository
-                .AllAsNoTracking()
-                .UpdateAsync(p => new Product
-                {
-                    PriceWithGeneralDiscount = p.Price,
-                    ModifiedOn = DateTime.UtcNow,
-                });
+                                    .All()
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(p => p.PriceWithGeneralDiscount, p => p.Price)
+                                        .SetProperty(p => p.ModifiedOn, DateTime.UtcNow));
 
             return affectedRows > 0;
         }
@@ -214,14 +210,22 @@
                                 })
                                 .SingleOrDefaultAsync();
 
-            await this.publisher.Publish(new ProductAddedInTheCartMessage
+            var messageData = new ProductAddedInTheCartMessage
             {
                 UserId = userId,
                 ProductId = productId,
                 ProductName = product.Name,
                 ProductPicture = product.Picture,
                 Price = product.PriceWithGeneralDiscount,
-            });
+            };
+
+            var message = new EventMessageLog(messageData);
+
+            await this.productsRepository.CreateEventMessageLog(message);
+            await this.productsRepository.SaveChangesAsync();
+            await this.productsRepository.MarkEventMessageLogAsPublished(message.Id);
+
+            await this.publisher.Publish(messageData);
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

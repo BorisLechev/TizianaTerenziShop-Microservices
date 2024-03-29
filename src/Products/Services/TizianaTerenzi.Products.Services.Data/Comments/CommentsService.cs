@@ -7,7 +7,6 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Web.Models.Comments;
-    using Z.EntityFramework.Plus;
 
     public class CommentsService : ICommentsService
     {
@@ -37,13 +36,11 @@
         public async Task<bool> DeleteRangeByProductIdAsync(int productId)
         {
             var comments = await this.commentsRepository
-                .All()
-                .Where(c => c.ProductId == productId)
-                .UpdateAsync(c => new Comment
-                {
-                    IsDeleted = true,
-                    DeletedOn = DateTime.UtcNow,
-                });
+                                .All()
+                                .Where(c => c.ProductId == productId)
+                                .ExecuteUpdateAsync(setters => setters
+                                    .SetProperty(c => c.IsDeleted, true)
+                                    .SetProperty(c => c.DeletedOn, DateTime.UtcNow));
 
             return comments >= 0;
         }
@@ -51,13 +48,11 @@
         public async Task<bool> DeleteRangeByUserIdAsync(string userId)
         {
             var affectedRows = await this.commentsRepository
-                    .All()
-                    .Where(c => c.UserId == userId)
-                    .UpdateAsync(c => new Comment
-                    {
-                        IsDeleted = true,
-                        DeletedOn = DateTime.UtcNow,
-                    });
+                                    .All()
+                                    .Where(c => c.UserId == userId)
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(c => c.IsDeleted, true)
+                                        .SetProperty(c => c.DeletedOn, DateTime.UtcNow));
 
             return affectedRows >= 0;
         }

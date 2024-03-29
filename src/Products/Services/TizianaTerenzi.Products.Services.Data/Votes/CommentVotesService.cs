@@ -7,7 +7,6 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Products.Data.Models;
-    using Z.EntityFramework.Plus;
 
     public class CommentVotesService : ICommentVotesService
     {
@@ -47,13 +46,11 @@
         public async Task<bool> DeleteRangeByUserIdAsync(string userId)
         {
             var affectedVotes = await this.commentVotesRepository
-                    .All()
-                    .Where(v => v.UserId == userId)
-                    .UpdateAsync(v => new CommentVote
-                    {
-                        IsDeleted = true,
-                        DeletedOn = DateTime.UtcNow,
-                    });
+                                    .All()
+                                    .Where(v => v.UserId == userId)
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(cv => cv.IsDeleted, true)
+                                        .SetProperty(cv => cv.DeletedOn, DateTime.UtcNow));
 
             return affectedVotes >= 0;
         }
@@ -61,8 +58,8 @@
         public async Task<CommentVote> GetVoteAsync(int commentId, string loggedInUserId)
         {
             var vote = await this.commentVotesRepository
-                .All()
-                .SingleOrDefaultAsync(v => v.CommentId == commentId && v.UserId == loggedInUserId);
+                            .All()
+                            .SingleOrDefaultAsync(v => v.CommentId == commentId && v.UserId == loggedInUserId);
 
             return vote;
         }

@@ -1,8 +1,8 @@
 ﻿namespace TizianaTerenzi.Carts.Services.Data.GeneralDiscounts
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
-    using Z.EntityFramework.Plus;
 
     public class GeneralDiscountsService : IGeneralDiscountsService
     {
@@ -17,11 +17,9 @@
         {
             var affectedRows = await this.productsInTheCartRepository
                                     .All()
-                                    .UpdateAsync(p => new Cart
-                                    {
-                                        Price = p.Price - (p.Price * discount / 100),
-                                        ModifiedOn = DateTime.UtcNow,
-                                    });
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(p => p.Price, p => p.Price - (p.Price * discount / 100))
+                                        .SetProperty(p => p.ModifiedOn, DateTime.UtcNow));
 
             return affectedRows > 0;
         }
@@ -30,11 +28,9 @@
         {
             var affectedRows = await this.productsInTheCartRepository
                                     .All()
-                                    .UpdateAsync(p => new Cart
-                                    {
-                                        Price = p.Price / (1 - ((decimal)discount / 100)),
-                                        ModifiedOn = DateTime.UtcNow,
-                                    });
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(p => p.Price, p => p.Price / (1 - ((decimal)discount / 100)))
+                                        .SetProperty(p => p.ModifiedOn, DateTime.UtcNow));
 
             return affectedRows > 0;
         }
