@@ -11,7 +11,9 @@
 
         public int TotalBannedUsersCount { get; set; }
 
-        public double BannedUsersPercentage => (double)this.TotalBannedUsersCount / this.TotalUsersCount * 100;
+        public double BannedUsersPercentage => this.TotalBannedUsersCount == 0 || this.TotalUsersCount == 0
+                                                ? 0.0
+                                                : (double)this.TotalBannedUsersCount / this.TotalUsersCount * 100;
 
         public int TotalOrderedProductsCountForTheCurrentMonth { get; set; }
 

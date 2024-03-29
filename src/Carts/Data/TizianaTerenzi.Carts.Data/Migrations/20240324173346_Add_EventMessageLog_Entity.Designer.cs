@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TizianaTerenzi.Carts.Data;
 
@@ -11,9 +12,11 @@ using TizianaTerenzi.Carts.Data;
 namespace TizianaTerenzi.Carts.Data.Migrations
 {
     [DbContext(typeof(CartsDbContext))]
-    partial class CartsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240324173346_Add_EventMessageLog_Entity")]
+    partial class Add_EventMessageLog_Entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +76,7 @@ namespace TizianaTerenzi.Carts.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Carts.Data.Models.Country", b =>
@@ -96,7 +99,7 @@ namespace TizianaTerenzi.Carts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Carts.Data.Models.DiscountCode", b =>
@@ -133,7 +136,7 @@ namespace TizianaTerenzi.Carts.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("DiscountCodes", (string)null);
+                    b.ToTable("DiscountCodes");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Common.Data.Models.EventMessageLog", b =>
@@ -160,7 +163,7 @@ namespace TizianaTerenzi.Carts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventMessageLogs", (string)null);
+                    b.ToTable("EventMessageLogs");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Carts.Data.Models.Cart", b =>

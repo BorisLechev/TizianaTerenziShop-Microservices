@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Common.Data
+﻿namespace TizianaTerenzi.Common.Data.Configurations
 {
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;

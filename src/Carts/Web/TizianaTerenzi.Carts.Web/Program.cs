@@ -1,7 +1,7 @@
 namespace TizianaTerenzi.Carts.Web
 {
+    using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data;
-    using TizianaTerenzi.Carts.Data.Repositories;
     using TizianaTerenzi.Carts.Data.Seeding;
     using TizianaTerenzi.Carts.Services.Data.Carts;
     using TizianaTerenzi.Carts.Services.Data.Countries;
@@ -30,8 +30,6 @@ namespace TizianaTerenzi.Carts.Web
                 .MigrateDatabase()
                 .SeedDatabase<CartsDbContext>();
 
-            app.MapControllers();
-
             app.Run();
         }
 
@@ -41,6 +39,7 @@ namespace TizianaTerenzi.Carts.Web
                 .AddMicroservice<CartsDbContext>(configuration, JwtAuthenticationForSignalR.BearerEvents)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
+                .AddScoped<DbContext, CartsDbContext>()
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
 
                 // -------Seeders--------

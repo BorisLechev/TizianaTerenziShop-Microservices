@@ -93,11 +93,16 @@
                                    .All()
                                    .SingleOrDefaultAsync(p => p.UserId == message.UserId);
 
-            productInTheCart.NumberOfProductsInTheUsersCart--;
+            if (productInTheCart.NumberOfProductsInTheUsersCart >= 1)
+            {
+                productInTheCart.NumberOfProductsInTheUsersCart--;
 
-            int result = await this.usersCartNotificationsRepository.SaveChangesAsync();
+                int result = await this.usersCartNotificationsRepository.SaveChangesAsync();
 
-            return result > 0;
+                return result > 0;
+            }
+
+            return true;
         }
     }
 }

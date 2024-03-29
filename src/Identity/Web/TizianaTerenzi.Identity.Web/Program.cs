@@ -4,7 +4,6 @@
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Identity.Data;
-    using TizianaTerenzi.Identity.Data.Repositories;
     using TizianaTerenzi.Identity.Data.Seeding;
     using TizianaTerenzi.Identity.Services.Data.Chat;
     using TizianaTerenzi.Identity.Services.Data.Countries;

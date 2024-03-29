@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TizianaTerenzi.Products.Data;
 
@@ -11,9 +12,11 @@ using TizianaTerenzi.Products.Data;
 namespace TizianaTerenzi.Products.Data.Migrations
 {
     [DbContext(typeof(ProductsDbContext))]
-    partial class ProductsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240320150111_Add_EventMessageLog_Entity")]
+    partial class Add_EventMessageLog_Entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +49,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventMessageLogs", (string)null);
+                    b.ToTable("EventMessageLogs");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.Comment", b =>
@@ -91,7 +94,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.CommentVote", b =>
@@ -130,7 +133,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("CommentVotes", (string)null);
+                    b.ToTable("CommentVotes");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.FavoriteProduct", b =>
@@ -166,7 +169,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("FavoriteProducts", (string)null);
+                    b.ToTable("FavoriteProducts");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.FragranceGroup", b =>
@@ -189,7 +192,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FragranceGroups", (string)null);
+                    b.ToTable("FragranceGroups");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.Note", b =>
@@ -212,7 +215,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notes", (string)null);
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.Product", b =>
@@ -276,7 +279,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasIndex("SearchText");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.ProductNote", b =>
@@ -313,7 +316,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductNotes", (string)null);
+                    b.ToTable("ProductNotes");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.ProductType", b =>
@@ -336,7 +339,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes", (string)null);
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.ProductVote", b =>
@@ -375,7 +378,7 @@ namespace TizianaTerenzi.Products.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductVotes", (string)null);
+                    b.ToTable("ProductVotes");
                 });
 
             modelBuilder.Entity("TizianaTerenzi.Products.Data.Models.Comment", b =>

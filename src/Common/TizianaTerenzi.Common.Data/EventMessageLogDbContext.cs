@@ -1,40 +1,26 @@
-﻿namespace TizianaTerenzi.Identity.Data
+﻿namespace TizianaTerenzi.Common.Data
 {
     using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Configurations;
     using TizianaTerenzi.Common.Data.Models;
-    using TizianaTerenzi.Identity.Data.Models;
 
-    public class IdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public abstract class EventMessageLogDbContext : DbContext
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
-            typeof(IdentityDbContext).GetMethod(
+            typeof(EventMessageLogDbContext).GetMethod(
                 nameof(SetIsDeletedQueryFilter),
                 BindingFlags.NonPublic | BindingFlags.Static);
 
-        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
+        protected EventMessageLogDbContext(DbContextOptions options)
             : base(options)
         {
         }
 
-        public DbSet<Country> Countries { get; set; }
-
-        public DbSet<ChatGroup> ChatGroups { get; set; }
-
-        public DbSet<ChatUserGroup> ChatUserGroups { get; set; }
-
-        public DbSet<ChatMessage> ChatMessages { get; set; }
-
-        public DbSet<Emoji> Emojis { get; set; }
-
         public DbSet<EventMessageLog> EventMessageLogs { get; set; }
 
-        protected Assembly ConfigurationsAssembly => Assembly.GetExecutingAssembly();
+        protected abstract Assembly ConfigurationsAssembly { get; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -44,8 +30,8 @@
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
-            this.SaveChangesAsync(true, cancellationToken);
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+            => this.SaveChangesAsync(true, cancellationToken);
 
         public override Task<int> SaveChangesAsync(
             bool acceptAllChangesOnSuccess,
@@ -55,20 +41,15 @@
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Needed for Identity models configuration
-            base.OnModelCreating(builder);
+            modelBuilder.ApplyConfiguration(new EventMessageLogEntityConfiguration());
 
-            this.ConfigureUserIdentityRelations(builder);
+            EntityIndexesConfiguration.Configure(modelBuilder);
 
-            builder.ApplyConfigurationsFromAssembly(this.ConfigurationsAssembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(this.ConfigurationsAssembly);
 
-            builder.ApplyConfiguration(new EventMessageLogEntityConfiguration());
-
-            EntityIndexesConfiguration.Configure(builder);
-
-            var entityTypes = builder.Model.GetEntityTypes().ToList();
+            var entityTypes = modelBuilder.Model.GetEntityTypes().ToList();
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
@@ -77,7 +58,7 @@
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
-                method.Invoke(null, new object[] { builder });
+                method.Invoke(null, new object[] { modelBuilder });
             }
 
             // Disable cascade delete
@@ -88,6 +69,8 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            base.OnModelCreating(modelBuilder);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
@@ -95,10 +78,6 @@
         {
             builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
         }
-
-        // Applies configurations
-        private void ConfigureUserIdentityRelations(ModelBuilder builder)
-            => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
         private void ApplyAuditInfoRules()
         {
