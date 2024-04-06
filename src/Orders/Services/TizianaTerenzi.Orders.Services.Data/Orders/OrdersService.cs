@@ -4,6 +4,7 @@
 
     using MassTransit;
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Orders;
@@ -66,10 +67,7 @@
                 CartDiscountCodeName = discountCodeName,
             };
 
-            await this.ordersRepository.AddAsync(order);
-            var result = await this.ordersRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(new OrderAddedInAdminStatisticsMessage
+            var messageData = new OrderAddedInAdminStatisticsMessage
             {
                 OrderId = order.Id,
                 Products = orderProducts.Select(p => new OrderedProductsAddedInAdminStatisticsMessage
@@ -78,7 +76,16 @@
                     Quantity = p.Quantity,
                     PriceWithDiscountCode = p.Price,
                 }),
-            });
+            };
+
+            var message = new EventMessageLog(messageData);
+
+            await this.ordersRepository.AddAsync(order, message);
+            var result = await this.ordersRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.ordersRepository.MarkEventMessageLogAsPublished(message.Id);
 
             return result > 0;
         }

@@ -39,6 +39,8 @@ namespace TizianaTerenzi.Notifications.Web
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseResponseCompression()
+                .MigrateDatabase()
+                .SeedDatabase<NotificationsDbContext>()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapHub<NumberOfProductsInTheUsersCartHub>("/numberOfProductsInTheUsersCartHub");
@@ -75,6 +77,7 @@ namespace TizianaTerenzi.Notifications.Web
 
             services
                 .AddMessageBroker(
+                    configuration,
                     typeof(AllUserNotificationsDeletedConsumer),
                     typeof(ProductsQuantityInTheUsersCartIncreasedConsumer),
                     typeof(ProductsQuantityInTheUsersCartReducedConsumer),

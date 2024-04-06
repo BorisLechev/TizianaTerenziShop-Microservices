@@ -2,6 +2,7 @@
 {
     using MassTransit;
     using TizianaTerenzi.Administration.Data.Models;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Orders;
@@ -44,10 +45,19 @@
 
         public async Task ProcessOrderAsync(int orderId)
         {
-            await this.publisher.Publish(new OrderProcessedMessage
+            var messageData = new OrderProcessedMessage
             {
                 OrderId = orderId,
-            });
+            };
+
+            var message = new EventMessageLog(messageData);
+
+            await this.orderStatisticsRepository.CreateEventMessageLog(message);
+            await this.orderStatisticsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.orderStatisticsRepository.MarkEventMessageLogAsPublished(message.Id);
         }
     }
 }

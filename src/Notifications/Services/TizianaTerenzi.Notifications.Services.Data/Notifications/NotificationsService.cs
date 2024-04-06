@@ -1,9 +1,12 @@
 ﻿namespace TizianaTerenzi.Notifications.Services.Data.Notifications
 {
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Identity;
+    using TizianaTerenzi.Common.Messages.Notifications;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Notifications.Data.Models;
     using TizianaTerenzi.Notifications.Web.Models.Notifications;
@@ -11,14 +14,17 @@
     public class NotificationsService : INotificationsService
     {
         private readonly IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository;
+        private readonly IBus publisher;
 
         public NotificationsService(
-            IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository)
+            IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository,
+            IBus publisher)
         {
             this.notificationsRepository = notificationsRepository;
+            this.publisher = publisher;
         }
 
-        public async Task<string> AddMessageNotificationAsync(string senderUsername, string senderId, string receiverUsername, string message, string groupId)
+        public async Task<string> AddMessageNotificationAsync(string senderUsername, string senderId, string receiverUsername, string message, string sanitizedMessage, string groupId)
         {
             var notification = new ApplicationUserNotification
             {
@@ -45,8 +51,22 @@
                 this.notificationsRepository.DeleteRange(notifications);
             }
 
-            await this.notificationsRepository.AddAsync(notification);
+            var messageData = new ChatMessageToUserSentMessage
+            {
+                SendersUsername = senderUsername,
+                ReceiversUsername = receiverUsername,
+                SanitizedMessage = sanitizedMessage,
+                GroupId = groupId,
+            };
+
+            var messageLog = new EventMessageLog(messageData);
+
+            await this.notificationsRepository.AddAsync(notification, messageLog);
             await this.notificationsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.notificationsRepository.MarkEventMessageLogAsPublished(messageLog.Id);
 
             return notification.Id;
         }

@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Carts.Web.Models.Carts;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Carts;
@@ -61,10 +62,19 @@
 
             if (productsCount > 0)
             {
-                await this.publisher.Publish(new ProductsQuantityInTheUsersCartDeletedMessage
+                var messageData = new ProductsQuantityInTheUsersCartDeletedMessage
                 {
                     UserId = userId,
-                });
+                };
+
+                var message = new EventMessageLog(messageData);
+
+                await this.cartsRepository.CreateEventMessageLog(message);
+                await this.cartsRepository.SaveChangesAsync();
+
+                await this.publisher.Publish(messageData);
+
+                await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
             }
 
             return productsCount > 0;
@@ -132,84 +142,110 @@
             return productInTheCartId;
         }
 
-        public async Task<bool> IncreaseQuantityAsync(string cartId)
+        public async Task<bool> IncreaseQuantityAsync(string cartId, string userId)
         {
-            var productInTheCart = await this.cartsRepository
+            var affectedRows = await this.cartsRepository
                                         .All()
-                                        .SingleOrDefaultAsync(p => p.Id == cartId);
+                                        .Where(c => c.Id == cartId)
+                                        .ExecuteUpdateAsync(setters => setters
+                                            .SetProperty(c => c.Quantity, c => c.Quantity + 1));
 
-            productInTheCart.Quantity++;
-
-            int result = await this.cartsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(new ProductsQuantityInTheUsersCartIncreasedMessage
+            var messageData = new ProductsQuantityInTheUsersCartIncreasedMessage
             {
-                UserId = productInTheCart.UserId,
-            });
+                UserId = userId,
+            };
 
-            return result > 0;
+            var message = new EventMessageLog(messageData);
+
+            await this.cartsRepository.CreateEventMessageLog(message);
+            await this.cartsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
+
+            return affectedRows > 0;
         }
 
-        public async Task<bool> ReduceQuantityAsync(string cartId)
+        public async Task<bool> ReduceQuantityAsync(string cartId, string userId)
         {
-            var productInTheCart = await this.cartsRepository
+            var affectedRows = await this.cartsRepository
                                    .All()
-                                   .SingleOrDefaultAsync(p => p.Id == cartId);
+                                   .Where(c => c.Id == cartId && c.Quantity > 1)
+                                   .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(c => c.Quantity, c => c.Quantity - 1));
 
-            if (productInTheCart.Quantity <= 1)
+            if (affectedRows < 1)
             {
                 return false;
             }
 
-            productInTheCart.Quantity--;
-
-            int result = await this.cartsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(new ProductsQuantityInTheUsersCartReducedMessage
+            var messageData = new ProductsQuantityInTheUsersCartReducedMessage
             {
-                UserId = productInTheCart.UserId,
-            });
+                UserId = userId,
+            };
 
-            return result > 0;
+            var message = new EventMessageLog(messageData);
+
+            await this.cartsRepository.CreateEventMessageLog(message);
+            await this.cartsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
+
+            return affectedRows > 0;
         }
 
         public async Task Order(ProductsInTheUserCartHaveBeenOrderedInputModel inputModel, string userId)
         {
             var productsInTheCart = await this.GetAllProductsInTheCartByUserIdAsync(userId);
 
+            var messageDataOrderedProducts = new ProductsInTheUserCartHaveBeenOrderedMessage
+            {
+                UserId = userId,
+                Email = inputModel.Email,
+                FullName = inputModel.FullName,
+                Country = inputModel.Country,
+                Town = inputModel.Town,
+                ShippingAddress = inputModel.ShippingAddress,
+                PostalCode = inputModel.PostalCode,
+                PhoneNumber = inputModel.PhoneNumber,
+                Products = productsInTheCart.Select(p => new ProductsInTheCartMessage
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    DiscountCodeId = p.DiscountCodeId,
+                    DiscountCodeName = p.DiscountCodeName,
+                    DiscountCodeDiscount = p.DiscountCodeDiscount,
+                }),
+            };
+
+            var messageDataProfileUpdated = new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
+            {
+                UserId = userId,
+                PhoneNumber = inputModel.PhoneNumber,
+                ShippingAddress = inputModel.ShippingAddress,
+                Town = inputModel.Town,
+                Country = inputModel.Country,
+                PostalCode = inputModel.PostalCode,
+            };
+
+            var messageOrderedProducts = new EventMessageLog(messageDataOrderedProducts);
+            var messageProfileUpdated = new EventMessageLog(messageDataProfileUpdated);
+
+            await this.cartsRepository.CreateEventMessageLog(messageOrderedProducts, messageProfileUpdated);
+            await this.cartsRepository.SaveChangesAsync();
+
             await this.publisher.PublishBatch(new object[]
             {
-                new ProductsInTheUserCartHaveBeenOrderedMessage
-                {
-                    UserId = userId,
-                    Email = inputModel.Email,
-                    FullName = inputModel.FullName,
-                    Country = inputModel.Country,
-                    Town = inputModel.Town,
-                    ShippingAddress = inputModel.ShippingAddress,
-                    PostalCode = inputModel.PostalCode,
-                    PhoneNumber = inputModel.PhoneNumber,
-                    Products = productsInTheCart.Select(p => new ProductsInTheCartMessage
-                    {
-                        ProductId = p.ProductId,
-                        ProductName = p.ProductName,
-                        Price = p.Price,
-                        Quantity = p.Quantity,
-                        DiscountCodeId = p.DiscountCodeId,
-                        DiscountCodeName = p.DiscountCodeName,
-                        DiscountCodeDiscount = p.DiscountCodeDiscount,
-                    }),
-                },
-                new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
-                {
-                    UserId = userId,
-                    PhoneNumber = inputModel.PhoneNumber,
-                    ShippingAddress = inputModel.ShippingAddress,
-                    Town = inputModel.Town,
-                    Country = inputModel.Country,
-                    PostalCode = inputModel.PostalCode,
-                },
+                messageDataOrderedProducts,
+                messageDataProfileUpdated,
             });
+
+            await this.cartsRepository.MarkEventMessageLogAsPublished(messageOrderedProducts.Id, messageProfileUpdated.Id);
         }
 
         public async Task<bool> EditProductInTheCartAsync(ProductInAllCartsEditedMessage message)

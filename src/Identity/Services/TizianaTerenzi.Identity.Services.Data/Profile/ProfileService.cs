@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Identity;
@@ -50,29 +51,53 @@
 
                 await this.signInManager.SignOutAsync();
 
+                var messageDataWishlistDeleted = new AllProductsInTheUsersWishlistDeletedMessage
+                {
+                    UserId = user.Id,
+                };
+
+                var messageDataCartDeleted = new AllProductsInTheUsersCartDeletedMessage
+                {
+                    UserId = user.Id,
+                };
+
+                var messageDataCommentsDeleted = new AllUserCommentsDeletedMessage
+                {
+                    UserId = user.Id,
+                };
+
+                var messageDataCommentVotesDeleted = new AllUserCommentVotesDeletedMessage
+                {
+                    UserId = user.Id,
+                };
+
+                var messageDataNotificationsDeleted = new AllUserNotificationsDeletedMessage
+                {
+                    UserId = user.Id,
+                    Username = user.UserName,
+                };
+
+                var messageWishlistDeleted = new EventMessageLog(messageDataWishlistDeleted);
+                var messageCartDeleted = new EventMessageLog(messageDataCartDeleted);
+                var messageCommentsDeleted = new EventMessageLog(messageDataCommentsDeleted);
+                var messageCommentVotesDeleted = new EventMessageLog(messageDataCommentVotesDeleted);
+                var messageNotificationsDeleted = new EventMessageLog(messageDataNotificationsDeleted);
+
+                await this.usersRepository.CreateEventMessageLog(
+                    messageWishlistDeleted,
+                    messageCartDeleted,
+                    messageCommentsDeleted,
+                    messageCommentVotesDeleted,
+                    messageNotificationsDeleted);
+                await this.usersRepository.SaveChangesAsync();
+
                 await this.publisher.PublishBatch(new object[]
                 {
-                    new AllProductsInTheUsersWishlistDeletedMessage
-                    {
-                        UserId = user.Id,
-                    },
-                    new AllProductsInTheUsersCartDeletedMessage
-                    {
-                        UserId = user.Id,
-                    },
-                    new AllUserCommentsDeletedMessage
-                    {
-                        UserId = user.Id,
-                    },
-                    new AllUserCommentVotesDeletedMessage
-                    {
-                        UserId = user.Id,
-                    },
-                    new AllUserNotificationsDeletedMessage
-                    {
-                        UserId = user.Id,
-                        Username = user.UserName,
-                    },
+                    messageDataWishlistDeleted,
+                    messageDataCartDeleted,
+                    messageDataCommentsDeleted,
+                    messageDataCommentVotesDeleted,
+                    messageDataNotificationsDeleted,
                     //new AllUserOrdersDeletedMessage
                     //{
                     //    UserId = user.Id,
@@ -82,6 +107,13 @@
                     //    UserId = user.Id,
                     //},
                 });
+
+                await this.usersRepository.MarkEventMessageLogAsPublished(
+                    messageWishlistDeleted.Id,
+                    messageCartDeleted.Id,
+                    messageCommentsDeleted.Id,
+                    messageCommentVotesDeleted.Id,
+                    messageNotificationsDeleted.Id);
             }
             catch
             {

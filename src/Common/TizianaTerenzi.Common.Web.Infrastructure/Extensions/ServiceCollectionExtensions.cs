@@ -4,6 +4,7 @@
     using System.Net.Http.Headers;
     using System.Text;
 
+    using Hangfire;
     using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@
     using Microsoft.IdentityModel.Tokens;
     using Refit;
     using TizianaTerenzi.Common.Services.Identity;
+    using TizianaTerenzi.Common.Web.Infrastructure.HostedServices;
 
     public static class ServiceCollectionExtensions
     {
@@ -43,7 +45,7 @@
             services
                 .AddScoped<DbContext, TDbContext>()
                 .AddDbContext<TDbContext>(options => options
-                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                    .UseSqlServer(configuration.GetDefaultConnectionString()));
 
             return services;
         }
@@ -123,7 +125,7 @@
             return services;
         }
 
-        public static IServiceCollection AddMessageBroker(this IServiceCollection services, params Type[] consumers)
+        public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration, params Type[] consumers)
         {
             services
                 .AddMassTransit(mt =>
@@ -136,6 +138,12 @@
                         cfg.ConfigureEndpoints(context);
                     });
                 });
+
+            services
+                .AddBackgroundJob(configuration);
+
+            services
+                .AddHostedService<EventMessageLogHostedService>();
 
             return services;
         }
@@ -182,6 +190,20 @@
                     var authorizationHeader = new AuthenticationHeaderValue(InfrastructureConstants.AuthorizationHeaderValuePrefix, currentToken);
                     client.DefaultRequestHeaders.Authorization = authorizationHeader;
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddBackgroundJob(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddHangfire(config => config
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(configuration.GetDefaultConnectionString()));
+
+            services.AddHangfireServer();
 
             return services;
         }

@@ -41,7 +41,8 @@
         [HttpPost]
         public async Task<ActionResult<Result>> IncreaseQuantity(string productId)
         {
-            bool result = await this.cartsService.IncreaseQuantityAsync(productId);
+            var userId = this.User.GetUserId();
+            bool result = await this.cartsService.IncreaseQuantityAsync(productId, userId);
 
             if (result)
             {
@@ -56,7 +57,8 @@
         [HttpPost]
         public async Task<ActionResult<Result>> ReduceQuantity(string productId)
         {
-            bool result = await this.cartsService.ReduceQuantityAsync(productId);
+            var userId = this.User.GetUserId();
+            bool result = await this.cartsService.ReduceQuantityAsync(productId, userId);
 
             if (result)
             {

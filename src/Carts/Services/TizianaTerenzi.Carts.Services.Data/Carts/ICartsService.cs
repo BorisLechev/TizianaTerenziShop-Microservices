@@ -22,9 +22,9 @@
 
         Task<bool> CheckIfProductExistsInTheUsersCartAsync(string userId, int productId);
 
-        Task<bool> IncreaseQuantityAsync(string cartId);
+        Task<bool> IncreaseQuantityAsync(string cartId, string userId);
 
-        Task<bool> ReduceQuantityAsync(string cartId);
+        Task<bool> ReduceQuantityAsync(string cartId, string userId);
 
         Task<int> GetNumberOfProductsInTheUsersCart(string userId);
 

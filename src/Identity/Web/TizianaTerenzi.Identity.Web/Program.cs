@@ -66,6 +66,7 @@
 
             services
                 .AddMessageBroker(
+                    configuration,
                     typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer),
                     typeof(UserInRoleAddedConsumer),
                     typeof(UserBlockedConsumer),

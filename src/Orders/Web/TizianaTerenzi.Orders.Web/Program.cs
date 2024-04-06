@@ -45,6 +45,7 @@ namespace TizianaTerenzi.Orders.Web
 
             services
                 .AddMessageBroker(
+                    configuration,
                     typeof(ProductsInTheUserCartHaveBeenOrderedConsumer),
                     typeof(OrderProcessedConsumer),
                     typeof(AllUserOrdersDeletedConsumer),

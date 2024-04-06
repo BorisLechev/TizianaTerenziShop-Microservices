@@ -147,19 +147,12 @@
 
         public async Task<bool> DeleteProductAsync(int productId)
         {
-            var product = await this.productsRepository
-                .All()
-                .SingleOrDefaultAsync(p => p.Id == productId);
+            var affectedRows = await this.productsRepository
+                                    .All()
+                                    .Where(p => p.Id == productId)
+                                    .ExecuteDeleteAsync();
 
-            if (product == null)
-            {
-                return false;
-            }
-
-            this.productsRepository.Delete(product);
-            var result = await this.productsRepository.SaveChangesAsync();
-
-            return result > 0;
+            return affectedRows > 0;
         }
 
         public async Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent)
@@ -187,12 +180,12 @@
         public async Task<IEnumerable<RelatedProductsViewModel>> GetRandomRelatedProductsAsync(int productId)
         {
             var randomProducts = await this.productsRepository
-                .AllAsNoTracking()
-                .Where(p => p.Id != productId)
-                .OrderBy(p => Guid.NewGuid())
-                .Take(3)
-                .To<RelatedProductsViewModel>()
-                .ToListAsync();
+                                        .All()
+                                        .Where(p => p.Id != productId)
+                                        .OrderBy(p => Guid.NewGuid())
+                                        .Take(3)
+                                        .To<RelatedProductsViewModel>()
+                                        .ToListAsync();
 
             return randomProducts;
         }
@@ -200,7 +193,7 @@
         public async Task AddProductInTheCart(int productId, string userId)
         {
             var product = await this.productsRepository
-                                .AllAsNoTracking()
+                                .All()
                                 .Where(p => p.Id == productId)
                                 .Select(p => new
                                 {
@@ -223,9 +216,10 @@
 
             await this.productsRepository.CreateEventMessageLog(message);
             await this.productsRepository.SaveChangesAsync();
-            await this.productsRepository.MarkEventMessageLogAsPublished(message.Id);
 
             await this.publisher.Publish(messageData);
+
+            await this.productsRepository.MarkEventMessageLogAsPublished(message.Id);
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

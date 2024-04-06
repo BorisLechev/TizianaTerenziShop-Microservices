@@ -163,6 +163,33 @@ namespace TizianaTerenzi.Carts.Data.Migrations
                     b.ToTable("EventMessageLogs", (string)null);
                 });
 
+            modelBuilder.Entity("TizianaTerenzi.Common.Data.Models.EventMessageLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("serializedData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventMessageLogs");
+                });
+
             modelBuilder.Entity("TizianaTerenzi.Carts.Data.Models.Cart", b =>
                 {
                     b.HasOne("TizianaTerenzi.Carts.Data.Models.DiscountCode", "DiscountCode")

@@ -24,7 +24,7 @@
             {
                 var productInTheCartId = await this.cartsService.GetProductInTheCartIdByProductIdAsync(message.ProductId, message.UserId);
 
-                await this.cartsService.IncreaseQuantityAsync(productInTheCartId);
+                await this.cartsService.IncreaseQuantityAsync(productInTheCartId, message.UserId);
             }
             else
             {

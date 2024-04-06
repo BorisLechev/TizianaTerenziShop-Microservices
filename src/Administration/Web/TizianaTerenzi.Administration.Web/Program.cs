@@ -69,6 +69,7 @@ namespace TizianaTerenzi.Administration.Web
 
             services
                 .AddMessageBroker(
+                    configuration,
                     typeof(OrderAddedInAdminStatisticsConsumer),
                     typeof(UserAddedInAdminStatisticsConsumer));
         }

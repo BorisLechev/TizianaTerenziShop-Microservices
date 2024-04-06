@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
 
+    using Hangfire;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,12 @@
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseResponseCompression()
-                .UseStaticFiles();
+                .UseStaticFiles()
+                .UseHangfireDashboard()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHangfireDashboard();
+                });
 
             return app;
         }

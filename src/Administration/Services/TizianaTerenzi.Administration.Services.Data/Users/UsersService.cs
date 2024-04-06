@@ -3,6 +3,7 @@
     using MassTransit;
     using TizianaTerenzi.Administration.Data.Models;
     using TizianaTerenzi.Administration.Web.Models.Users;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Identity;
@@ -37,11 +38,20 @@
 
         public async Task AddUserInRole(UsernamesRolesIndexViewModel model)
         {
-            await this.publisher.Publish(new UserInRoleAddedMessage
+            var messageData = new UserInRoleAddedMessage
             {
                 UserId = model.UserId,
                 RoleId = model.RoleId,
-            });
+            };
+
+            var message = new EventMessageLog(messageData);
+
+            await this.userStatisticsRepository.CreateEventMessageLog(message);
+            await this.userStatisticsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.userStatisticsRepository.MarkEventMessageLogAsPublished(message.Id);
         }
     }
 }

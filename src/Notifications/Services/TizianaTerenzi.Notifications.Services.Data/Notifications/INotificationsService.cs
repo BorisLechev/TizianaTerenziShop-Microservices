@@ -5,7 +5,7 @@
 
     public interface INotificationsService
     {
-        Task<string> AddMessageNotificationAsync(string senderUsername, string senderId, string receiverUsername, string message, string groupId);
+        Task<string> AddMessageNotificationAsync(string senderUsername, string senderId, string receiverUsername, string message, string sanitizedMessage, string groupId);
 
         Task<IEnumerable<NotificationViewModel>> GetUserNotificationsAsync(string currentUsername);
 

@@ -3,6 +3,7 @@
     using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Administration.Data.Models;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Services.Mapping;
@@ -22,44 +23,67 @@
 
         public async Task<bool> ApplyDiscountToAllProductsAsync(byte percent)
         {
+            var affectedRows = await this.generalDiscountsRepository
+                                    .All()
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(gd => gd.Percent, percent)
+                                        .SetProperty(gd => gd.IsActive, GeneralDiscountCondition.Active));
+
+            var messageDataProductPricesUpdated = new ThePricesOfAllProductsAfterTheGeneralDiscountIsAppliedUpdatedMessage
+            {
+                Discount = percent,
+            };
+
+            var messageDataProductsPricesInTheCartsUpdated = new ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsAppliedUpdatedMessage
+            {
+                Discount = percent,
+            };
+
+            var messageProductPricesUpdated = new EventMessageLog(messageDataProductPricesUpdated);
+            var messageProductsPricesInTheCartsUpdated = new EventMessageLog(messageDataProductsPricesInTheCartsUpdated);
+
+            await this.generalDiscountsRepository.CreateEventMessageLog(messageProductPricesUpdated, messageProductsPricesInTheCartsUpdated);
+            await this.generalDiscountsRepository.SaveChangesAsync();
+
             await this.publisher.PublishBatch(new object[]
             {
-                new ThePricesOfAllProductsAfterTheGeneralDiscountIsAppliedUpdatedMessage
-                {
-                    Discount = percent,
-                },
-                new ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsAppliedUpdatedMessage
-                {
-                    Discount = percent,
-                },
+                messageDataProductPricesUpdated,
+                messageDataProductsPricesInTheCartsUpdated,
             });
 
-            var discount = await this.GetGeneralDiscountAsync();
+            await this.generalDiscountsRepository.MarkEventMessageLogAsPublished(messageProductPricesUpdated.Id, messageProductsPricesInTheCartsUpdated.Id);
 
-            discount.Percent = percent;
-            discount.IsActive = GeneralDiscountCondition.Active;
-
-            var result = await this.generalDiscountsRepository.SaveChangesAsync();
-
-            return result > 0;
+            return affectedRows > 0;
         }
 
         public async Task<bool> DisableDiscountToAllProductsAsync()
         {
             var discount = await this.GetGeneralDiscountAsync();
 
-            await this.publisher.PublishBatch(new object[]
-            {
-                new ThePricesOfAllProductsAfterTheGeneralDiscountIsDisabledUpdatedMessage(),
-                new ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedMessage
-                {
-                    Discount = discount.Percent,
-                },
-            });
-
             discount.IsActive = GeneralDiscountCondition.Inactive;
 
             var result = await this.generalDiscountsRepository.SaveChangesAsync();
+
+            var messageDataProductPricesUpdated = new ThePricesOfAllProductsAfterTheGeneralDiscountIsDisabledUpdatedMessage();
+
+            var messageDataProductsPricesInTheCartsUpdated = new ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedMessage
+            {
+                Discount = discount.Percent,
+            };
+
+            var messageProductPricesUpdated = new EventMessageLog(messageDataProductPricesUpdated);
+            var messageProductsPricesInTheCartsUpdated = new EventMessageLog(messageDataProductsPricesInTheCartsUpdated);
+
+            await this.generalDiscountsRepository.CreateEventMessageLog(messageProductPricesUpdated, messageProductsPricesInTheCartsUpdated);
+            await this.generalDiscountsRepository.SaveChangesAsync();
+
+            await this.publisher.PublishBatch(new object[]
+            {
+                messageDataProductPricesUpdated,
+                messageDataProductsPricesInTheCartsUpdated,
+            });
+
+            await this.generalDiscountsRepository.MarkEventMessageLogAsPublished(messageProductPricesUpdated.Id, messageProductsPricesInTheCartsUpdated.Id);
 
             return result > 0;
         }

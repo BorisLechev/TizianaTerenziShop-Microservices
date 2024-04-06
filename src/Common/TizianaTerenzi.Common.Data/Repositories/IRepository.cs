@@ -26,6 +26,6 @@
 
         Task<int> SaveChangesAsync();
 
-        Task MarkEventMessageLogAsPublished(int id);
+        Task MarkEventMessageLogAsPublished(params int[] ids);
     }
 }

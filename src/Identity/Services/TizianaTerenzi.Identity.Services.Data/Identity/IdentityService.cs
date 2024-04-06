@@ -9,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Services;
@@ -142,12 +143,21 @@
 
                     //await this.signInManager.SignInAsync(user, isPersistent: false);
 
-                    await this.publisher.Publish(new UserAddedInAdminStatisticsMessage
+                    var messageData = new UserAddedInAdminStatisticsMessage
                     {
                         UserId = user.Id,
                         RoleName = role.Name,
                         IsBlocked = false,
-                    });
+                    };
+
+                    var message = new EventMessageLog(messageData);
+
+                    await this.usersRepository.CreateEventMessageLog(message);
+                    await this.usersRepository.SaveChangesAsync();
+
+                    await this.publisher.Publish(messageData);
+
+                    await this.usersRepository.MarkEventMessageLogAsPublished(message.Id);
 
                     return Result<ApplicationUser>.SuccessWith(user);
                 }

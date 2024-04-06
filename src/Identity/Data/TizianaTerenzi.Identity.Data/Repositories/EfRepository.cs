@@ -76,13 +76,21 @@
             return Task.CompletedTask;
         }
 
-        public async Task MarkEventMessageLogAsPublished(int id)
+        public async Task MarkEventMessageLogAsPublished(params int[] ids)
         {
-            var eventMessageLog = await this.Context.FindAsync<EventMessageLog>(id);
+            foreach (var id in ids)
+            {
+                var eventMessageLog = await this.Context.FindAsync<EventMessageLog>(id);
 
-            eventMessageLog.MarkAsPublished();
+                if (eventMessageLog == null)
+                {
+                    throw new ArgumentNullException(nameof(eventMessageLog));
+                }
 
-            await this.Context.SaveChangesAsync();
+                eventMessageLog.MarkAsPublished();
+
+                await this.Context.SaveChangesAsync();
+            }
         }
 
         protected virtual void Dispose(bool disposing)
