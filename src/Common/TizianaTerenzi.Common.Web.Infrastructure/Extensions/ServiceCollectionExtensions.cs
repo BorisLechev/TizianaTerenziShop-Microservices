@@ -45,7 +45,15 @@
             services
                 .AddScoped<DbContext, TDbContext>()
                 .AddDbContext<TDbContext>(options => options
-                    .UseSqlServer(configuration.GetDefaultConnectionString()));
+                    .UseSqlServer(
+                        configuration.GetDefaultConnectionString(),
+                        sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null);
+                        }));
 
             return services;
         }
