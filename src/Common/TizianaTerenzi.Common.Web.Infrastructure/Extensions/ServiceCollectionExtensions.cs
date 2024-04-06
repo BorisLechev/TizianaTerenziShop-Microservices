@@ -1,6 +1,7 @@
 ﻿namespace TizianaTerenzi.Common.Web.Infrastructure.Extensions
 {
     using System.IO.Compression;
+    using System.Net;
     using System.Net.Http.Headers;
     using System.Text;
 
@@ -14,6 +15,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using Polly;
     using Refit;
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.HostedServices;
@@ -197,7 +199,12 @@
 
                     var authorizationHeader = new AuthenticationHeaderValue(InfrastructureConstants.AuthorizationHeaderValuePrefix, currentToken);
                     client.DefaultRequestHeaders.Authorization = authorizationHeader;
-                });
+                })
+                .AddTransientHttpErrorPolicy(policy => policy
+                    .OrResult(result => result.StatusCode == HttpStatusCode.NotFound)
+                    .WaitAndRetryAsync(retryCount: 5, sleepDurationProvider: retry => TimeSpan.FromSeconds(Math.Pow(2, retry))))
+                .AddTransientHttpErrorPolicy(policy => policy
+                    .CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 5, durationOfBreak: TimeSpan.FromSeconds(30)));
 
             return services;
         }
