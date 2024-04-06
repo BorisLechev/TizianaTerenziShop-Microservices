@@ -145,6 +145,8 @@
                     // A Transport
                     mt.UsingRabbitMq((context, cfg) =>
                     {
+                        cfg.PrefetchCount = Environment.ProcessorCount / 2;
+                        cfg.UseMessageRetry(r => r.Interval(retryCount: 10, interval: 1000));
                         cfg.ConfigureEndpoints(context);
                     });
                 });
