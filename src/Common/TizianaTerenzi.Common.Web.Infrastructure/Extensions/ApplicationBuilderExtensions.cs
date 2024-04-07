@@ -16,6 +16,7 @@
     using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Web.Infrastructure.Middlewares;
     using TizianaTerenzi.Identity.Web.Models.Profile;
     using TizianaTerenzi.Notifications.Web.Models.Chat;
     using TizianaTerenzi.Orders.Web.Models.Orders;
@@ -53,6 +54,29 @@
                     });
 
                     endpoints.MapHangfireDashboard();
+
+                    endpoints.MapControllers();
+                });
+
+            return app;
+        }
+
+        public static IApplicationBuilder UseGateway(
+            this IApplicationBuilder app)
+        {
+            app
+                .ConfigureAutoMapper()
+                .UseHttpsRedirection()
+                .UseRouting()
+                .UseJwtHeaderAuthenticationMiddleware()
+                .UseAuthorization()
+                .UseResponseCompression()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    {
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    });
 
                     endpoints.MapControllers();
                 });

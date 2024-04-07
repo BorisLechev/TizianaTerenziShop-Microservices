@@ -42,6 +42,20 @@
             return services;
         }
 
+        public static IServiceCollection AddGateway(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services
+                .AddJwtTokenAuthentication(configuration)
+                .AddHealth(configuration, includeSqlServer: false, includeRabbitMq: false)
+                .AddScoped<ICurrentTokenService, CurrentTokenService>()
+                .AddCustomResponseCompression()
+                .AddControllers();
+
+            return services;
+        }
+
         public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, IConfiguration configuration)
             where TDbContext : DbContext
         {
