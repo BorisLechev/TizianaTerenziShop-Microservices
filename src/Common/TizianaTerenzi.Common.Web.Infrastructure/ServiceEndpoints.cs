@@ -18,6 +18,8 @@
 
         public string Administration { get; private set; }
 
+        public string Watchdog { get; private set; }
+
         public string this[string service]
             => this.GetType()
                 .GetProperties()

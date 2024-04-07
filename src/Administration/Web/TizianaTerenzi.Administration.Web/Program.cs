@@ -36,8 +36,6 @@ namespace TizianaTerenzi.Administration.Web
                 .MigrateDatabase()
                 .SeedDatabase<AdministrationDbContext>();
 
-            app.MapControllers();
-
             app.Run();
         }
 

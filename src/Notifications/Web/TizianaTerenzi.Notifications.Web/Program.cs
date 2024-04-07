@@ -1,5 +1,7 @@
 namespace TizianaTerenzi.Notifications.Web
 {
+    using HealthChecks.UI.Client;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Identity;
@@ -43,6 +45,13 @@ namespace TizianaTerenzi.Notifications.Web
                 .SeedDatabase<NotificationsDbContext>()
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    {
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    });
+
+                    endpoints.MapControllers();
+
                     endpoints.MapHub<NumberOfProductsInTheUsersCartHub>("/numberOfProductsInTheUsersCartHub");
                     endpoints.MapHub<UserStatusHub>("/userStatusHub");
                     endpoints.MapHub<ChatHub>("/chatHub");
@@ -59,6 +68,7 @@ namespace TizianaTerenzi.Notifications.Web
                 .AddJwtTokenAuthentication(configuration, JwtConfiguration.BearerEvents)
                 .AddDatabase<NotificationsDbContext>(configuration)
                 .AddApplicationSettings(configuration)
+                .AddHealth(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<DbContext, NotificationsDbContext>()

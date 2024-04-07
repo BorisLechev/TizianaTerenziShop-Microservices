@@ -4,7 +4,9 @@
     using System.Reflection;
 
     using Hangfire;
+    using HealthChecks.UI.Client;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +47,14 @@
                 .UseHangfireDashboard()
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    {
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    });
+
                     endpoints.MapHangfireDashboard();
+
+                    endpoints.MapControllers();
                 });
 
             return app;

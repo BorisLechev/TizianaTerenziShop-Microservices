@@ -1,5 +1,7 @@
 namespace TizianaTerenzi.Carts.Web.Gateway
 {
+    using HealthChecks.UI.Client;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using TizianaTerenzi.Carts.Web.Gateway.Services.Carts;
     using TizianaTerenzi.Carts.Web.Gateway.Services.Identity;
     using TizianaTerenzi.Common.Services.Identity;
@@ -23,9 +25,16 @@ namespace TizianaTerenzi.Carts.Web.Gateway
                 .UseRouting()
                 .UseJwtHeaderAuthenticationMiddleware()
                 .UseAuthorization()
-                .UseResponseCompression();
+                .UseResponseCompression()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    {
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    });
 
-            app.MapControllers();
+                    endpoints.MapControllers();
+                });
 
             app.Run();
         }
@@ -34,6 +43,7 @@ namespace TizianaTerenzi.Carts.Web.Gateway
         {
             services
                 .AddJwtTokenAuthentication(configuration)
+                .AddHealth(configuration, includeSqlServer: false, includeRabbitMq: false)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddCustomResponseCompression()
                 .AddControllers();

@@ -32,8 +32,6 @@
                 .MigrateDatabase()
                 .SeedDatabase<IdentityDbContext>();
 
-            app.MapControllers();
-
             app.Run();
         }
 

@@ -35,6 +35,7 @@
                 .AddDatabase<TDbContext>(configuration)
                 .AddApplicationSettings(configuration)
                 .AddJwtTokenAuthentication(configuration, events)
+                .AddHealth(configuration)
                 .AddCustomResponseCompression()
                 .AddControllers();
 
@@ -221,6 +222,30 @@
                     .UseSqlServerStorage(configuration.GetDefaultConnectionString()));
 
             services.AddHangfireServer();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHealth(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            bool includeSqlServer = true,
+            bool includeRabbitMq = true)
+        {
+            // Health Check for the Web Server
+            var healthChecks = services.AddHealthChecks();
+
+            if (includeSqlServer)
+            {
+                healthChecks
+                    .AddSqlServer(configuration.GetDefaultConnectionString());
+            }
+
+            if (includeRabbitMq)
+            {
+                healthChecks
+                    .AddRabbitMQ(rabbitConnectionString: "amqp://guest:guest@localhost/");
+            }
 
             return services;
         }
