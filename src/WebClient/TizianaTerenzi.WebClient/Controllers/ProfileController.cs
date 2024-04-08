@@ -17,20 +17,16 @@
     {
         private const string PersonalDataFileName = "{0}_PersonalData_{1}_{2}.json";
 
-        //private readonly IChatService chatsService;
-
         private readonly IIdentityService identityService;
 
-        private readonly IProductsGatewayService productsGatewayService;
+        private readonly IIdentityGatewayService identityGatewayService;
 
         public ProfileController(
             IIdentityService identityService,
-            IProductsGatewayService productsGatewayService)
-        //IChatService chatsService,
+            IIdentityGatewayService identityGatewayService)
         {
-            //this.chatsService = chatsService;
             this.identityService = identityService;
-            this.productsGatewayService = productsGatewayService;
+            this.identityGatewayService = identityGatewayService;
         }
 
         public async Task<IActionResult> Index(string id)
@@ -56,7 +52,7 @@
         {
             var userId = this.User.GetUserId();
 
-            var result = await this.productsGatewayService.DownloadPersonalData(password);
+            var result = await this.identityGatewayService.DownloadPersonalData(password);
 
             if (!result.Succeeded)
             {
@@ -66,8 +62,8 @@
             }
 
             this.Response.Headers.Add(
-                                    "Content-Disposition",
-                                    "attachment; filename=" + string.Format(PersonalDataFileName, GlobalConstants.SystemName, result.Data.UserFirstName, result.Data.UserLastName));
+                    "Content-Disposition",
+                    "attachment; filename=" + string.Format(PersonalDataFileName, GlobalConstants.SystemName, result.Data.UserFirstName, result.Data.UserLastName));
 
             return new FileContentResult(result.Data.File, "text/json");
         }

@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Controllers
+﻿namespace TizianaTerenzi.Identity.Web.Gateway.Controllers
 {
     using System.Text;
     using System.Text.Json;
@@ -8,10 +8,10 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
-    using TizianaTerenzi.Products.Web.Gateway.Models;
-    using TizianaTerenzi.Products.Web.Gateway.Services.Identity;
-    using TizianaTerenzi.Products.Web.Gateway.Services.Orders;
-    using TizianaTerenzi.Products.Web.Gateway.Services.Products;
+    using TizianaTerenzi.Identity.Web.Gateway.Models;
+    using TizianaTerenzi.Identity.Web.Gateway.Services.Identity;
+    using TizianaTerenzi.Identity.Web.Gateway.Services.Orders;
+    using TizianaTerenzi.Identity.Web.Gateway.Services.Products;
 
     public class ProfileController : ApiController
     {

@@ -1,7 +1,7 @@
 ﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "TizianaTerenzi.Products.Web.Gateway": {
+    "TizianaTerenzi.Identity.Web.Gateway": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

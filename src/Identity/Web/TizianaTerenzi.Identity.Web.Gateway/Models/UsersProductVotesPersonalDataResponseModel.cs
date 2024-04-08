@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Models
+﻿namespace TizianaTerenzi.Identity.Web.Gateway.Models
 {
     public class UsersProductVotesPersonalDataResponseModel
     {

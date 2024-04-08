@@ -1,8 +1,8 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Services.Identity
+﻿namespace TizianaTerenzi.Identity.Web.Gateway.Services.Identity
 {
     using Refit;
     using TizianaTerenzi.Common.Services;
-    using TizianaTerenzi.Products.Web.Gateway.Models;
+    using TizianaTerenzi.Identity.Web.Gateway.Models;
 
     public interface IIdentityService
     {

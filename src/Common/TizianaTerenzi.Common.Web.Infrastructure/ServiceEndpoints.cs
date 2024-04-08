@@ -8,7 +8,7 @@
 
         public string Carts { get; private set; }
 
-        public string ProductsGateway { get; private set; }
+        public string IdentityGateway { get; private set; }
 
         public string Notifications { get; private set; }
 

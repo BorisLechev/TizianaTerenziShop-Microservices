@@ -1,7 +1,7 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Services.Products
+﻿namespace TizianaTerenzi.Identity.Web.Gateway.Services.Products
 {
     using Refit;
-    using TizianaTerenzi.Products.Web.Gateway.Models;
+    using TizianaTerenzi.Identity.Web.Gateway.Models;
 
     public interface IProductsService
     {

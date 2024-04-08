@@ -1,9 +1,9 @@
-namespace TizianaTerenzi.Products.Web.Gateway
+namespace TizianaTerenzi.Identity.Web.Gateway
 {
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
-    using TizianaTerenzi.Products.Web.Gateway.Services.Identity;
-    using TizianaTerenzi.Products.Web.Gateway.Services.Orders;
-    using TizianaTerenzi.Products.Web.Gateway.Services.Products;
+    using TizianaTerenzi.Identity.Web.Gateway.Services.Identity;
+    using TizianaTerenzi.Identity.Web.Gateway.Services.Orders;
+    using TizianaTerenzi.Identity.Web.Gateway.Services.Products;
 
     public class Program
     {

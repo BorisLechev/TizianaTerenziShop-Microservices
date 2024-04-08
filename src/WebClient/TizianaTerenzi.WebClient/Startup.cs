@@ -112,7 +112,7 @@
             services
                 .AddExternalService<IIdentityService>(this.configuration)
                 .AddExternalService<IProductsService>(this.configuration)
-                .AddExternalService<IProductsGatewayService>(this.configuration)
+                .AddExternalService<IIdentityGatewayService>(this.configuration)
                 .AddExternalService<ICartsService>(this.configuration)
                 .AddExternalService<ICartsGatewayService>(this.configuration)
                 .AddExternalService<IOrdersService>(this.configuration)

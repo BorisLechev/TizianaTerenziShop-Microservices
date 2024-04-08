@@ -1,7 +1,7 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Services.Orders
+﻿namespace TizianaTerenzi.Identity.Web.Gateway.Services.Orders
 {
     using Refit;
-    using TizianaTerenzi.Products.Web.Gateway.Models;
+    using TizianaTerenzi.Identity.Web.Gateway.Models;
 
     public interface IOrdersService
     {
