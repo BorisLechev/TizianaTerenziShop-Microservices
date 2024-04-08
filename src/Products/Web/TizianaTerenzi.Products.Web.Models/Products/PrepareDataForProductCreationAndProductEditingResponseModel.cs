@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Models
+﻿namespace TizianaTerenzi.Products.Web.Models.Products
 {
     using Microsoft.AspNetCore.Mvc.Rendering;
 

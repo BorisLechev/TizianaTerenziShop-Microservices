@@ -83,20 +83,5 @@
 
             return this.Ok(wishlistViewModel);
         }
-
-        [HttpDelete]
-        public async Task<ActionResult<Result>> DeleteAllProductsInTheUsersWishlist()
-        {
-            var userId = this.User.GetUserId();
-
-            var result = await this.wishlistService.DeleteAllProductsInTheWishlistAsync(userId);
-
-            if (!result)
-            {
-                return Result.Failure(NotificationMessages.SomethingWentWrong);
-            }
-
-            return this.Ok(Result.Success());
-        }
     }
 }

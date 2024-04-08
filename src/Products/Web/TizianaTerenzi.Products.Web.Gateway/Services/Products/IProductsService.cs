@@ -1,8 +1,6 @@
 ﻿namespace TizianaTerenzi.Products.Web.Gateway.Services.Products
 {
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Refit;
-    using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Products.Web.Gateway.Models;
 
     public interface IProductsService
@@ -15,29 +13,5 @@
 
         [Get("/Comments/GetAllUsersCommentsAndVotesPersonalData")]
         Task<IEnumerable<UsersCommentsPersonalDataResponseModel>> GetAllUsersCommentsAndVotesPersonalData();
-
-        [Delete("/Wishlist/DeleteAllProductsInTheUsersWishlist")]
-        Task<Result> DeleteAllProductsInTheUsersWishlist();
-
-        [Delete("/Comments/DeleteAllUserComments")]
-        Task<Result> DeleteAllUserComments();
-
-        [Delete("/Votes/DeleteAllUserCommentVotes")]
-        Task<Result> DeleteAllUserCommentVotes();
-
-        [Get("/Notes/Index")]
-        Task<IEnumerable<SelectListItem>> GetAllNotesAsync();
-
-        [Get("/ProductTypes/Index")]
-        Task<IEnumerable<SelectListItem>> GetAllProductTypesAsync();
-
-        [Get("/FragranceGroups/Index")]
-        Task<IEnumerable<SelectListItem>> GetAllFragranceGroupsAsync();
-
-        [Get("/Notes/GetAllNotesWithSelectedByProductId")]
-        Task<IEnumerable<SelectListItem>> GetAllNotesWithSelectedByProductIdAsync(int productId);
-
-        [Get("/Products/GetProductForEditing")]
-        Task<EditProductResponseModel> GetProductForEditingAsync(int productId);
     }
 }

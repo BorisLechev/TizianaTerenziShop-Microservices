@@ -1,5 +1,7 @@
-﻿namespace TizianaTerenzi.Products.Web.Gateway.Models
+﻿namespace TizianaTerenzi.Products.Web.Models.Products
 {
+    using Microsoft.AspNetCore.Http;
+
     public class EditProductWithDropdownsResponseModel : PrepareDataForProductCreationAndProductEditingResponseModel
     {
         public string Name { get; set; }

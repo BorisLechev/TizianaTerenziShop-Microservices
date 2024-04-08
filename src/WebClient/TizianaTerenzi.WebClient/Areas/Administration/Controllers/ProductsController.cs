@@ -13,21 +13,21 @@
 
     public class ProductsController : AdministrationController
     {
-        private readonly IProductsGatewayService productsGatewayService;
+        private readonly IProductsService productsService;
         private readonly IAdministrationService administrationService;
 
         public ProductsController(
-            IProductsGatewayService productsGatewayService,
+            IProductsService productsService,
             IAdministrationService administrationService)
         {
-            this.productsGatewayService = productsGatewayService;
+            this.productsService = productsService;
             this.administrationService = administrationService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var productDropdowns = await this.productsGatewayService.PrepareDropdownsForProductCreation();
+            var productDropdowns = await this.productsService.PrepareDropdownsForProductCreation();
 
             return this.View(productDropdowns.Data);
         }
@@ -37,7 +37,7 @@
         {
             if (this.ModelState.IsValid == false)
             {
-                var productDropdowns = await this.productsGatewayService.PrepareDropdownsForProductCreation();
+                var productDropdowns = await this.productsService.PrepareDropdownsForProductCreation();
 
                 inputModel.ProductTypes = productDropdowns.Data.ProductTypes;
                 inputModel.FragranceGroups = productDropdowns.Data.FragranceGroups;
@@ -71,7 +71,7 @@
                 this.NotFound();
             }
 
-            var editProductInputModel = await this.productsGatewayService.PrepareDataForProductEditing(productId);
+            var editProductInputModel = await this.productsService.PrepareDataForProductEditing(productId);
 
             return this.View(editProductInputModel.Data);
         }
@@ -86,7 +86,7 @@
 
             if (this.ModelState.IsValid == false)
             {
-                var productDropdowns = await this.productsGatewayService.PrepareDropdownsForProductCreation();
+                var productDropdowns = await this.productsService.PrepareDropdownsForProductCreation();
 
                 inputModel.ProductTypes = productDropdowns.Data.ProductTypes;
                 inputModel.FragranceGroups = productDropdowns.Data.FragranceGroups;

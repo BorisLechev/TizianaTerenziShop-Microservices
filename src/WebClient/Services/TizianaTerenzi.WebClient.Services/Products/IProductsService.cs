@@ -35,5 +35,11 @@
 
         [Post("/Products/AddProductInTheCart")]
         Task AddProductInTheCart(int productId);
+
+        [Get("/Products/PrepareDropdownsForProductCreation")]
+        Task<Result<CreateProductInputModel>> PrepareDropdownsForProductCreation();
+
+        [Get("/Products/PrepareDataForProductEditing")]
+        Task<Result<EditProductInputModel>> PrepareDataForProductEditing(int productId);
     }
 }

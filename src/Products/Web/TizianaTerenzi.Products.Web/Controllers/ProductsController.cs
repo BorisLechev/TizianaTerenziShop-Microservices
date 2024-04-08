@@ -1,5 +1,6 @@
 ﻿namespace TizianaTerenzi.Products.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
@@ -8,7 +9,10 @@
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
     using TizianaTerenzi.Products.Data.Models;
+    using TizianaTerenzi.Products.Services.Data.FragranceGroups;
+    using TizianaTerenzi.Products.Services.Data.Notes;
     using TizianaTerenzi.Products.Services.Data.Products;
+    using TizianaTerenzi.Products.Services.Data.ProductTypes;
     using TizianaTerenzi.Products.Services.Data.Votes;
     using TizianaTerenzi.Products.Web.Models.Products;
 
@@ -17,19 +21,26 @@
         private const int ItemsPerPage = 6;
 
         private readonly IProductsService productsService;
-
         private readonly IProductVotesService productVotesService;
-
+        private readonly INotesService notesService;
+        private readonly IProductTypesService productTypesService;
+        private readonly IFragranceGroupsService fragranceGroupsService;
         private readonly IDeletableEntityRepository<Product> productsRepository;
 
         public ProductsController(
             IDeletableEntityRepository<Product> productsRepository,
             IProductsService productsService,
-            IProductVotesService productVotesService)
+            IProductVotesService productVotesService,
+            INotesService notesService,
+            IProductTypesService productTypesService,
+            IFragranceGroupsService fragranceGroupsService)
         {
             this.productsRepository = productsRepository;
             this.productsService = productsService;
             this.productVotesService = productVotesService;
+            this.notesService = notesService;
+            this.productTypesService = productTypesService;
+            this.fragranceGroupsService = fragranceGroupsService;
         }
 
         [HttpGet]
@@ -124,12 +135,49 @@
             return this.Ok();
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult<EditProductInputModel>> GetProductForEditing(int productId)
+        public async Task<Result<PrepareDataForProductCreationAndProductEditingResponseModel>> PrepareDropdownsForProductCreation()
         {
-            var product = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
+            var notes = await this.notesService.GetAllNotesAsync();
+            var productTypes = await this.productTypesService.GetAllProductTypesAsync();
+            var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
 
-            return product;
+            var response = new PrepareDataForProductCreationAndProductEditingResponseModel
+            {
+                ProductTypes = productTypes,
+                FragranceGroups = fragranceGroups,
+                Notes = notes,
+            };
+
+            return Result<PrepareDataForProductCreationAndProductEditingResponseModel>.SuccessWith(response);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<Result<EditProductWithDropdownsResponseModel>> PrepareDataForProductEditing(int productId)
+        {
+            var editProductInputModel = await this.productsService.GetProductByIdAsync<EditProductInputModel>(productId);
+            var notes = await this.notesService.GetAllNotesWithSelectedByProductIdAsync(productId);
+            var productTypes = await this.productTypesService.GetAllProductTypesAsync();
+            var fragranceGroups = await this.fragranceGroupsService.GetAllFragranceGroupsAsync();
+
+            var response = new EditProductWithDropdownsResponseModel
+            {
+                Name = editProductInputModel.Name,
+                Description = editProductInputModel.Description,
+                FragranceGroupId = editProductInputModel.FragranceGroupId,
+                ProductTypeId = editProductInputModel.ProductTypeId,
+                NoteIds = editProductInputModel.NoteIds,
+                Picture = editProductInputModel.Picture,
+                Price = editProductInputModel.Price,
+                YearOfManufacture = editProductInputModel.YearOfManufacture,
+                ProductTypes = productTypes,
+                FragranceGroups = fragranceGroups,
+                Notes = notes,
+            };
+
+            return Result<EditProductWithDropdownsResponseModel>.SuccessWith(response);
         }
     }
 }
