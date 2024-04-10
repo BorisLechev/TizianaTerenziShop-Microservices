@@ -8,6 +8,8 @@
 
         Task<int> GetNumberOfProductsInTheUsersCartAsync(string userId);
 
+        Task<bool> DeleteProductInTheCartAsync(ProductQuantityInTheUsersCartDeletedMessage message);
+
         Task<bool> DeleteAllProductsInTheCartByUserIdAsync(ProductsQuantityInTheUsersCartDeletedMessage message);
 
         Task<bool> IncreaseQuantityAsync(ProductsQuantityInTheUsersCartIncreasedMessage message);

@@ -48,6 +48,18 @@
             return count;
         }
 
+        public async Task<bool> DeleteProductInTheCartAsync(ProductQuantityInTheUsersCartDeletedMessage message)
+        {
+            var affectedRows = await this.usersCartNotificationsRepository
+                                    .All()
+                                    .Where(n => n.UserId == message.UserId && n.NumberOfProductsInTheUsersCart >= 1)
+                                    .ExecuteUpdateAsync(setters => setters
+                                            .SetProperty(n => n.NumberOfProductsInTheUsersCart, n => n.NumberOfProductsInTheUsersCart - message.Quantity)
+                                            .SetProperty(n => n.ModifiedOn, DateTime.UtcNow));
+
+            return affectedRows == 1;
+        }
+
         public async Task<bool> DeleteAllProductsInTheCartByUserIdAsync(ProductsQuantityInTheUsersCartDeletedMessage message)
         {
             var affectedRows = await this.usersCartNotificationsRepository
@@ -86,20 +98,14 @@
 
         public async Task<bool> ReduceQuantityAsync(ProductsQuantityInTheUsersCartReducedMessage message)
         {
-            var productInTheCart = await this.usersCartNotificationsRepository
-                                   .All()
-                                   .SingleOrDefaultAsync(p => p.UserId == message.UserId);
+            var affectedRows = await this.usersCartNotificationsRepository
+                                       .All()
+                                       .Where(n => n.UserId == message.UserId && n.NumberOfProductsInTheUsersCart >= 1)
+                                       .ExecuteUpdateAsync(setters => setters
+                                            .SetProperty(n => n.NumberOfProductsInTheUsersCart, n => n.NumberOfProductsInTheUsersCart - 1)
+                                            .SetProperty(n => n.ModifiedOn, DateTime.UtcNow));
 
-            if (productInTheCart.NumberOfProductsInTheUsersCart >= 1)
-            {
-                productInTheCart.NumberOfProductsInTheUsersCart--;
-
-                int result = await this.usersCartNotificationsRepository.SaveChangesAsync();
-
-                return result > 0;
-            }
-
-            return true;
+            return affectedRows == 1;
         }
     }
 }

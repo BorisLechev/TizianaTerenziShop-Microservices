@@ -8,7 +8,7 @@
     {
         Task<bool> AddProductInTheCartAsync(ProductAddedInTheCartMessage product);
 
-        Task<bool> DeleteProductInTheCartAsync(string id);
+        Task<bool> DeleteProductInTheCartAsync(string id, string userId);
 
         Task<bool> DeleteProductInAllCartsAsync(ProductInAllCartsDeletedMessage message);
 

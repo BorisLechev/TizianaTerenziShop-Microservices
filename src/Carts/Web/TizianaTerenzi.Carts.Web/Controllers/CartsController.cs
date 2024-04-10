@@ -73,7 +73,9 @@
         [HttpDelete]
         public async Task<ActionResult<Result>> DeleteProduct(string id)
         {
-            bool result = await this.cartsService.DeleteProductInTheCartAsync(id);
+            var userId = this.User.GetUserId();
+
+            bool result = await this.cartsService.DeleteProductInTheCartAsync(id, userId);
 
             if (!result)
             {

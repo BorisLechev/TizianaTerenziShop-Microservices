@@ -80,12 +80,33 @@
             return productsCount > 0;
         }
 
-        public async Task<bool> DeleteProductInTheCartAsync(string id)
+        public async Task<bool> DeleteProductInTheCartAsync(string id, string userId)
         {
+            var productQuantity = await this.cartsRepository
+                                        .AllAsNoTracking()
+                                        .Where(p => p.Id == id)
+                                        .Select(p => p.Quantity)
+                                        .SingleOrDefaultAsync();
+
             var productsCount = await this.cartsRepository
                                     .All()
                                     .Where(p => p.Id == id)
                                     .ExecuteDeleteAsync();
+
+            var messageData = new ProductQuantityInTheUsersCartDeletedMessage
+            {
+                UserId = userId,
+                Quantity = productQuantity,
+            };
+
+            var message = new EventMessageLog(messageData);
+
+            await this.cartsRepository.CreateEventMessageLog(message);
+            await this.cartsRepository.SaveChangesAsync();
+
+            await this.publisher.Publish(messageData);
+
+            await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
 
             return productsCount == 1;
         }
