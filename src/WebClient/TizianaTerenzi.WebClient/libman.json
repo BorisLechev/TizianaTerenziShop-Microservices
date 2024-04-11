@@ -168,7 +168,7 @@
       ]
     },
     {
-      "library": "swiper@11.0.6",
+      "library": "swiper@11.1.1",
       "destination": "wwwroot/lib/swiper/",
       "files": [
         "swiper-bundle.min.css",
