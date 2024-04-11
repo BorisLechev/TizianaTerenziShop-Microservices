@@ -26,12 +26,5 @@
 
             await this.Clients.Caller.SendAsync("NumberOfProductsInTheUsersCart", numberOfProductsInTheUsersCart);
         }
-
-        public async Task AddProductInTheUsersCart(int numberOfProductsInTheUsersCart, string userId)
-        {
-            await this.Clients.User(userId).SendAsync("NumberOfProductsInTheUsersCart", numberOfProductsInTheUsersCart);
-
-            var result = await this.cartNotificationsService.AddCartNotificationAsync(userId, numberOfProductsInTheUsersCart);
-        }
     }
 }

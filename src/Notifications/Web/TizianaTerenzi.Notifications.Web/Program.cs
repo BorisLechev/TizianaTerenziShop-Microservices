@@ -92,7 +92,8 @@ namespace TizianaTerenzi.Notifications.Web
                     typeof(ProductsQuantityInTheUsersCartIncreasedConsumer),
                     typeof(ProductsQuantityInTheUsersCartReducedConsumer),
                     typeof(ProductsQuantityInTheUsersCartDeletedConsumer),
-                    typeof(ProductQuantityInTheUsersCartDeletedConsumer));
+                    typeof(ProductQuantityInTheUsersCartDeletedConsumer),
+                    typeof(NotificationsUpdatedWhenProductAddedInTheCartConsumer));
         }
     }
 }

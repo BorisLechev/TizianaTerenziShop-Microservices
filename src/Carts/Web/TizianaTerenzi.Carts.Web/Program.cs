@@ -36,11 +36,10 @@ namespace TizianaTerenzi.Carts.Web
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services
-                .AddMicroservice<CartsDbContext>(configuration, JwtAuthenticationForSignalR.BearerEvents)
+                .AddMicroservice<CartsDbContext>(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<DbContext, CartsDbContext>()
-                .AddScoped<ICurrentTokenService, CurrentTokenService>()
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<CartsDbContext>, DiscountCodesSeeder>()
@@ -62,8 +61,7 @@ namespace TizianaTerenzi.Carts.Web
                     typeof(DiscountCodeDeletedConsumer),
                     typeof(ProductInAllCartsEditedConsumer),
                     typeof(ProductInAllCartsDeletedConsumer),
-                    typeof(AllProductsInTheUsersCartDeletedConsumer))
-                .AddSignalR();
+                    typeof(AllProductsInTheUsersCartDeletedConsumer));
         }
     }
 }
