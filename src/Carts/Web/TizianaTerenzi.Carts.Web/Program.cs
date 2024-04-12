@@ -10,9 +10,7 @@ namespace TizianaTerenzi.Carts.Web
     using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
-    using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
-    using TizianaTerenzi.Common.Web.Infrastructure.JwtConfiguration;
 
     public class Program
     {

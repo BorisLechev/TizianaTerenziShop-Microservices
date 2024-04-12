@@ -8,6 +8,7 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
+    using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Web.Gateway.Models;
     using TizianaTerenzi.Identity.Web.Gateway.Services.Identity;
     using TizianaTerenzi.Identity.Web.Gateway.Services.Orders;
@@ -63,7 +64,7 @@
                 ProductVotes = productVotes,
                 Comments = commentsAndCommentVotes,
                 Orders = ordersAndProducts,
-                //ChatUserGroups = ,
+                ChatUserGroups = usersPersonalData.Data.ChatUserGroups,
             };
 
             var options = new JsonSerializerOptions

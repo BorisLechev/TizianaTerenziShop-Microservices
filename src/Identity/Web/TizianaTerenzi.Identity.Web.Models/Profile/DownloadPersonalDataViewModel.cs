@@ -23,5 +23,7 @@
         public string CountryName { get; set; }
 
         public string Address { get; set; }
+
+        public ICollection<PersonalDataChatUserGroupViewModel> ChatUserGroups { get; set; }
     }
 }

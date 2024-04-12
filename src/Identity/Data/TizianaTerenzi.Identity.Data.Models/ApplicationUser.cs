@@ -10,13 +10,8 @@
         public ApplicationUser()
         {
             this.Id = Guid.NewGuid().ToString();
-            //this.Orders = new HashSet<Order>();
-            //this.Comments = new HashSet<Comment>();
-            //this.FavoriteProducts = new HashSet<FavoriteProduct>();
-            //this.ProductVotes = new HashSet<ProductVote>();
-            //this.ChatUserGroups = new HashSet<ChatUserGroup>();
-            //this.ChatMessages = new HashSet<ChatMessage>();
-            //this.UserNotifications = new HashSet<ApplicationUserNotification>();
+            this.ChatUserGroups = new HashSet<ChatUserGroup>();
+            this.ChatMessages = new HashSet<ChatMessage>();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
@@ -55,19 +50,9 @@
 
         public string? Address { get; set; }
 
-        //public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<ChatUserGroup> ChatUserGroups { get; set; }
 
-        //public virtual ICollection<Comment> Comments { get; set; }
-
-        //public virtual ICollection<FavoriteProduct> FavoriteProducts { get; set; }
-
-        //public virtual ICollection<ProductVote> ProductVotes { get; set; }
-
-        //public virtual ICollection<ChatUserGroup> ChatUserGroups { get; set; }
-
-        //public virtual ICollection<ChatMessage> ChatMessages { get; set; }
-
-        //public virtual ICollection<ApplicationUserNotification> UserNotifications { get; set; }
+        public virtual ICollection<ChatMessage> ChatMessages { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

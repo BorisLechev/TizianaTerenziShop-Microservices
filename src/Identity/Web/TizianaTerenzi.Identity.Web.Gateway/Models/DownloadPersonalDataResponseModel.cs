@@ -27,6 +27,6 @@
 
         public IEnumerable<PersonalDataOrdersViewModel> Orders { get; set; }
 
-        //public ICollection<PersonalDataChatUserGroupViewModel> ChatUserGroups { get; set; }
+        public ICollection<PersonalDataChatUserGroupViewModel> ChatUserGroups { get; set; }
     }
 }
