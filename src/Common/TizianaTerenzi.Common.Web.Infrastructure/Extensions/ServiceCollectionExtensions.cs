@@ -157,12 +157,18 @@
                 {
                     consumers.ForEach(consumer => mt.AddConsumer(consumer));
 
-                    // A Transport
-                    mt.UsingRabbitMq((context, cfg) =>
+                    mt.UsingRabbitMq((context, rmq) =>
                     {
-                        cfg.PrefetchCount = Environment.ProcessorCount / 2;
-                        cfg.UseMessageRetry(r => r.Interval(retryCount: 10, interval: 1000));
-                        cfg.ConfigureEndpoints(context);
+                        // Consumer.FullName (with namespace) prevents us from having two Consumers with the same name sharing same queue (RabbitMq level).
+                        consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
+                        {
+                            endpoint.PrefetchCount = Environment.ProcessorCount / 2;
+                            endpoint.UseMessageRetry(r => r.Interval(retryCount: 10, interval: 1000));
+
+                            endpoint.ConfigureConsumer(context, consumer);
+                        }));
+
+                        rmq.ConfigureEndpoints(context);
                     });
                 });
 
