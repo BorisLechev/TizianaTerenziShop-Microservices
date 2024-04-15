@@ -6,11 +6,13 @@
     using System.Text;
 
     using Hangfire;
+    using Hangfire.SqlServer;
     using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.ResponseCompression;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -182,6 +184,8 @@
 
             if (usePolling)
             {
+                CreateHangfireDatabase(configuration);
+
                 services
                     .AddBackgroundJob(configuration);
 
@@ -250,7 +254,14 @@
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
                     .UseSimpleAssemblyNameTypeSerializer()
                     .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(configuration.GetDefaultConnectionString()));
+                    .UseSqlServerStorage(
+                        configuration.GetCronJobsConnectionString(),
+                        new SqlServerStorageOptions
+                        {
+                            TryAutoDetectSchemaDependentOptions = false,
+                            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            QueuePollInterval = TimeSpan.Zero,
+                        }));
 
             services.AddHangfireServer();
 
@@ -279,6 +290,25 @@
             }
 
             return services;
+        }
+
+        private static void CreateHangfireDatabase(IConfiguration configuration)
+        {
+            var connectionString = configuration.GetCronJobsConnectionString();
+
+            var dbName = connectionString
+                        .Split(";")[1]
+                        .Split("=")[1];
+
+            using var connection = new SqlConnection(connectionString.Replace(dbName, "master"));
+
+            connection.Open();
+
+            using var command = new SqlCommand(
+                 $"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'{dbName}') create database [{dbName}];",
+                connection);
+
+            command.ExecuteNonQuery();
         }
     }
 }

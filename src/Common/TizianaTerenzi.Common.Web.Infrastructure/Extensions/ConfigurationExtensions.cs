@@ -8,5 +8,10 @@
         {
             return configuration.GetConnectionString("DefaultConnection");
         }
+
+        public static string GetCronJobsConnectionString(this IConfiguration configuration)
+        {
+            return configuration.GetConnectionString("CronJobsConnection");
+        }
     }
 }
