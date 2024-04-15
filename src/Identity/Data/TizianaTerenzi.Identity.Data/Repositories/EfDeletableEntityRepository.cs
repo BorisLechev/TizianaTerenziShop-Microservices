@@ -9,12 +9,13 @@
     using TizianaTerenzi.Common.Data;
     using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.EventualConsistencyMessages;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {
-        public EfDeletableEntityRepository(IdentityDbContext context)
-            : base(context)
+        public EfDeletableEntityRepository(IdentityDbContext context, IPublisher publisher)
+            : base(context, publisher)
         {
         }
 
@@ -38,14 +39,14 @@
         {
             entity.IsDeleted = false;
             entity.DeletedOn = null;
-            this.UpdateAsync(entity);
+            this.Update(entity);
         }
 
         public override void Delete(TEntity entity)
         {
             entity.IsDeleted = true;
             entity.DeletedOn = DateTime.UtcNow;
-            this.UpdateAsync(entity);
+            this.Update(entity);
         }
 
         public void DeleteRange(IEnumerable<TEntity> entities)

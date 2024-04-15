@@ -1,22 +1,17 @@
 ﻿namespace TizianaTerenzi.Administration.Services.Data.Products
 {
-    using MassTransit;
     using TizianaTerenzi.Administration.Data.Models;
     using TizianaTerenzi.Administration.Web.Models.Products;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
 
     public class ProductsService : IProductsService
     {
-        private readonly IBus publisher;
         private readonly IDeletableEntityRepository<OrderProductStatistics> repository;
 
         public ProductsService(
-            IBus publisher,
             IDeletableEntityRepository<OrderProductStatistics> repository)
         {
-            this.publisher = publisher;
             this.repository = repository;
         }
 
@@ -27,7 +22,7 @@
                             .Select(int.Parse)
                             .ToArray();
 
-            var messageData = new ProductCreatedMessage
+            var message = new ProductCreatedMessage
             {
                 Name = inputModel.Name,
                 Description = inputModel.Description,
@@ -39,14 +34,7 @@
                 YearOfManufacture = inputModel.YearOfManufacture,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.repository.CreateEventMessageLog(message);
-            await this.repository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.repository.MarkEventMessageLogAsPublished(message.Id);
+            await this.repository.SaveAndPublishEventMessageAsync(message);
         }
 
         public async Task EditProductAsync(EditProductInputModel inputModel, byte[]? picture)
@@ -56,7 +44,7 @@
                             .Select(int.Parse)
                             .ToArray();
 
-            var messageDataProductEdited = new ProductEditedMessage
+            var messageProductEdited = new ProductEditedMessage
             {
                 ProductId = inputModel.ProductId,
                 Name = inputModel.Name,
@@ -69,54 +57,29 @@
                 YearOfManufacture = inputModel.YearOfManufacture,
             };
 
-            var messageDataProductInAllCartsEdited = new ProductInAllCartsEditedMessage
+            var messageProductInAllCartsEdited = new ProductInAllCartsEditedMessage
             {
                 Name = inputModel.Name,
                 Price = inputModel.Price,
                 ProductId = inputModel.ProductId,
             };
 
-            var messageProductEdited = new EventMessageLog(messageDataProductEdited);
-            var messageProductInAllCartsEdited = new EventMessageLog(messageDataProductInAllCartsEdited);
-
-            await this.repository.CreateEventMessageLog(messageProductEdited, messageProductInAllCartsEdited);
-            await this.repository.SaveChangesAsync();
-
-            await this.publisher.PublishBatch(new object[]
-            {
-                messageDataProductEdited,
-                messageDataProductInAllCartsEdited,
-            });
-
-            await this.repository.MarkEventMessageLogAsPublished(messageProductEdited.Id, messageProductInAllCartsEdited.Id);
+            await this.repository.SaveAndPublishEventMessageAsync(messageProductEdited, messageProductInAllCartsEdited);
         }
 
         public async Task DeleteProductAsync(int productId)
         {
-            var messageDataProductDelete = new ProductDeletedMessage
+            var messageProductDelete = new ProductDeletedMessage
             {
                 ProductId = productId,
             };
 
-            var messageDataProductInUserCartsDeleted = new ProductInAllCartsDeletedMessage
+            var messageProductInUserCartsDeleted = new ProductInAllCartsDeletedMessage
             {
                 ProductId = productId,
             };
 
-            var messageProductDelete = new EventMessageLog(messageDataProductDelete);
-            var messageProductInUserCartsDeleted = new EventMessageLog(messageDataProductInUserCartsDeleted);
-
-            await this.repository.CreateEventMessageLog(messageProductDelete, messageProductInUserCartsDeleted);
-
-            await this.repository.SaveChangesAsync();
-
-            await this.publisher.PublishBatch(new object[]
-            {
-                messageDataProductDelete,
-                messageDataProductInUserCartsDeleted,
-            });
-
-            await this.repository.MarkEventMessageLogAsPublished(messageProductDelete.Id, messageProductInUserCartsDeleted.Id);
+            await this.repository.SaveAndPublishEventMessageAsync(messageProductDelete, messageProductInUserCartsDeleted);
         }
     }
 }

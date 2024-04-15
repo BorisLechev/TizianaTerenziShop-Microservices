@@ -88,6 +88,7 @@ namespace TizianaTerenzi.Notifications.Web
             services
                 .AddMessageBroker(
                     configuration,
+                    usePolling: true,
                     typeof(AllUserNotificationsDeletedConsumer),
                     typeof(ProductsQuantityInTheUsersCartIncreasedConsumer),
                     typeof(ProductsQuantityInTheUsersCartReducedConsumer),

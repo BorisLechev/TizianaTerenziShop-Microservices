@@ -1,10 +1,8 @@
 ﻿namespace TizianaTerenzi.Carts.Services.Data.Carts
 {
-    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Carts.Web.Models.Carts;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Carts;
@@ -15,14 +13,10 @@
     {
         private readonly IDeletableEntityRepository<Cart> cartsRepository;
 
-        private readonly IBus publisher;
-
         public CartsService(
-            IDeletableEntityRepository<Cart> cartsRepository,
-            IBus publisher)
+            IDeletableEntityRepository<Cart> cartsRepository)
         {
             this.cartsRepository = cartsRepository;
-            this.publisher = publisher;
         }
 
         public async Task<bool> AddProductInTheCartAsync(ProductAddedInTheCartMessage product)
@@ -62,19 +56,12 @@
 
             if (productsCount > 0)
             {
-                var messageData = new ProductsQuantityInTheUsersCartDeletedMessage
+                var message = new ProductsQuantityInTheUsersCartDeletedMessage
                 {
                     UserId = userId,
                 };
 
-                var message = new EventMessageLog(messageData);
-
-                await this.cartsRepository.CreateEventMessageLog(message);
-                await this.cartsRepository.SaveChangesAsync();
-
-                await this.publisher.Publish(messageData);
-
-                await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
+                await this.cartsRepository.SaveAndPublishEventMessageAsync(message);
             }
 
             return productsCount > 0;
@@ -93,20 +80,13 @@
                                     .Where(p => p.Id == id)
                                     .ExecuteDeleteAsync();
 
-            var messageData = new ProductQuantityInTheUsersCartDeletedMessage
+            var message = new ProductQuantityInTheUsersCartDeletedMessage
             {
                 UserId = userId,
                 Quantity = productQuantity,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.cartsRepository.CreateEventMessageLog(message);
-            await this.cartsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
+            await this.cartsRepository.SaveAndPublishEventMessageAsync(message);
 
             return productsCount == 1;
         }
@@ -171,19 +151,12 @@
                                         .ExecuteUpdateAsync(setters => setters
                                             .SetProperty(c => c.Quantity, c => c.Quantity + 1));
 
-            var messageData = new ProductsQuantityInTheUsersCartIncreasedMessage
+            var message = new ProductsQuantityInTheUsersCartIncreasedMessage
             {
                 UserId = userId,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.cartsRepository.CreateEventMessageLog(message);
-            await this.cartsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
+            await this.cartsRepository.SaveAndPublishEventMessageAsync(message);
 
             return affectedRows > 0;
         }
@@ -201,19 +174,12 @@
                 return false;
             }
 
-            var messageData = new ProductsQuantityInTheUsersCartReducedMessage
+            var message = new ProductsQuantityInTheUsersCartReducedMessage
             {
                 UserId = userId,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.cartsRepository.CreateEventMessageLog(message);
-            await this.cartsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.cartsRepository.MarkEventMessageLogAsPublished(message.Id);
+            await this.cartsRepository.SaveAndPublishEventMessageAsync(message);
 
             return affectedRows > 0;
         }
@@ -222,7 +188,7 @@
         {
             var productsInTheCart = await this.GetAllProductsInTheCartByUserIdAsync(userId);
 
-            var messageDataOrderedProducts = new ProductsInTheUserCartHaveBeenOrderedMessage
+            var messageOrderedProducts = new ProductsInTheUserCartHaveBeenOrderedMessage
             {
                 UserId = userId,
                 Email = inputModel.Email,
@@ -244,7 +210,7 @@
                 }),
             };
 
-            var messageDataProfileUpdated = new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
+            var messageProfileUpdated = new UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedMessage
             {
                 UserId = userId,
                 PhoneNumber = inputModel.PhoneNumber,
@@ -254,19 +220,7 @@
                 PostalCode = inputModel.PostalCode,
             };
 
-            var messageOrderedProducts = new EventMessageLog(messageDataOrderedProducts);
-            var messageProfileUpdated = new EventMessageLog(messageDataProfileUpdated);
-
-            await this.cartsRepository.CreateEventMessageLog(messageOrderedProducts, messageProfileUpdated);
-            await this.cartsRepository.SaveChangesAsync();
-
-            await this.publisher.PublishBatch(new object[]
-            {
-                messageDataOrderedProducts,
-                messageDataProfileUpdated,
-            });
-
-            await this.cartsRepository.MarkEventMessageLogAsPublished(messageOrderedProducts.Id, messageProfileUpdated.Id);
+            await this.cartsRepository.SaveAndPublishEventMessageAsync(messageOrderedProducts, messageProfileUpdated);
         }
 
         public async Task<bool> EditProductInTheCartAsync(ProductInAllCartsEditedMessage message)

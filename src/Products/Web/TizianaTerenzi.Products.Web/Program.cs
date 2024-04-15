@@ -72,6 +72,7 @@ namespace TizianaTerenzi.Products.Web
             services
                 .AddMessageBroker(
                     configuration,
+                    usePolling: true,
                     typeof(ProductCreatedConsumer),
                     typeof(ProductEditedConsumer),
                     typeof(ProductDeletedConsumer),

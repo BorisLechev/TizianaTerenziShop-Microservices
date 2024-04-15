@@ -2,9 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using MassTransit;
     using Microsoft.EntityFrameworkCore;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Orders;
@@ -17,18 +15,15 @@
         private readonly IDeletableEntityRepository<Order> ordersRepository;
         private readonly IDeletableEntityRepository<OrderProduct> orderProductsRepository;
         private readonly IOrderStatusesService orderStatusesService;
-        private readonly IBus publisher;
 
         public OrdersService(
             IDeletableEntityRepository<Order> ordersRepository,
             IDeletableEntityRepository<OrderProduct> orderProductsRepository,
-            IOrderStatusesService orderStatusesService,
-            IBus publisher)
+            IOrderStatusesService orderStatusesService)
         {
             this.ordersRepository = ordersRepository;
             this.orderProductsRepository = orderProductsRepository;
             this.orderStatusesService = orderStatusesService;
-            this.publisher = publisher;
         }
 
         public async Task<bool> OrderAsync(ProductsInTheUserCartHaveBeenOrderedMessage model)
@@ -67,7 +62,7 @@
                 CartDiscountCodeName = discountCodeName,
             };
 
-            var messageData = new OrderAddedInAdminStatisticsMessage
+            var message = new OrderAddedInAdminStatisticsMessage
             {
                 OrderId = order.Id,
                 Products = orderProducts.Select(p => new OrderedProductsAddedInAdminStatisticsMessage
@@ -78,14 +73,8 @@
                 }),
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.ordersRepository.AddAsync(order, message);
-            var result = await this.ordersRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.ordersRepository.MarkEventMessageLogAsPublished(message.Id);
+            await this.ordersRepository.AddAsync(order);
+            var result = await this.ordersRepository.SaveAndPublishEventMessageAsync(message);
 
             return result > 0;
         }

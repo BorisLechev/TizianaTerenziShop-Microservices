@@ -5,8 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using TizianaTerenzi.Common.Data.Models;
-
     public interface IRepository<TEntity> : IDisposable
         where TEntity : class
     {
@@ -14,18 +12,16 @@
 
         IQueryable<TEntity> AllAsNoTracking();
 
-        Task AddAsync(TEntity entity, params EventMessageLog[] messages);
+        Task AddAsync(TEntity entity);
 
         Task AddRangeAsync(IEnumerable<TEntity> entities);
 
-        Task CreateEventMessageLog(params EventMessageLog[] messages);
+        Task<int> SaveAndPublishEventMessageAsync(params object[] messages);
 
-        Task UpdateAsync(TEntity entity, params EventMessageLog[] messages);
+        void Update(TEntity entity);
 
         void Delete(TEntity entity);
 
         Task<int> SaveChangesAsync();
-
-        Task MarkEventMessageLogAsPublished(params int[] ids);
     }
 }

@@ -8,7 +8,6 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;
-    using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Web.Gateway.Models;
     using TizianaTerenzi.Identity.Web.Gateway.Services.Identity;
     using TizianaTerenzi.Identity.Web.Gateway.Services.Orders;

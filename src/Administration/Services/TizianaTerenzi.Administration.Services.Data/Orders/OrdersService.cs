@@ -1,8 +1,6 @@
 ﻿namespace TizianaTerenzi.Administration.Services.Data.Orders
 {
-    using MassTransit;
     using TizianaTerenzi.Administration.Data.Models;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Orders;
@@ -10,14 +8,11 @@
     public class OrdersService : IOrdersService
     {
         private readonly IDeletableEntityRepository<OrderStatistics> orderStatisticsRepository;
-        private readonly IBus publisher;
 
         public OrdersService(
-            IDeletableEntityRepository<OrderStatistics> orderStatisticsRepository,
-            IBus publisher)
+            IDeletableEntityRepository<OrderStatistics> orderStatisticsRepository)
         {
             this.orderStatisticsRepository = orderStatisticsRepository;
-            this.publisher = publisher;
         }
 
         public async Task<bool> AddOrderStatisticsAsync(OrderAddedInAdminStatisticsMessage model)
@@ -45,19 +40,12 @@
 
         public async Task ProcessOrderAsync(int orderId)
         {
-            var messageData = new OrderProcessedMessage
+            var message = new OrderProcessedMessage
             {
                 OrderId = orderId,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.orderStatisticsRepository.CreateEventMessageLog(message);
-            await this.orderStatisticsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.orderStatisticsRepository.MarkEventMessageLogAsPublished(message.Id);
+            await this.orderStatisticsRepository.SaveAndPublishEventMessageAsync(message);
         }
     }
 }

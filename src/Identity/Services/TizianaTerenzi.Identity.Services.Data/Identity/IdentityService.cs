@@ -4,12 +4,10 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
-    using MassTransit;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Services;
@@ -30,7 +28,6 @@
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
         private readonly ITokenGeneratorService tokenGeneratorService;
         private readonly ILogger<IdentityService> logger;
-        private readonly IBus publisher;
 
         public IdentityService(
             UserManager<ApplicationUser> userManager,
@@ -40,8 +37,7 @@
             ICountriesService countriesService,
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             ITokenGeneratorService tokenGeneratorService,
-            ILogger<IdentityService> logger,
-            IBus publisher)
+            ILogger<IdentityService> logger)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -51,7 +47,6 @@
             this.usersRepository = usersRepository;
             this.tokenGeneratorService = tokenGeneratorService;
             this.logger = logger;
-            this.publisher = publisher;
         }
 
         public async Task<Result<UserResponseModel>> Login(LoginUserInputModel userInput)
@@ -143,21 +138,14 @@
 
                     //await this.signInManager.SignInAsync(user, isPersistent: false);
 
-                    var messageData = new UserAddedInAdminStatisticsMessage
+                    var message = new UserAddedInAdminStatisticsMessage
                     {
                         UserId = user.Id,
                         RoleName = role.Name,
                         IsBlocked = false,
                     };
 
-                    var message = new EventMessageLog(messageData);
-
-                    await this.usersRepository.CreateEventMessageLog(message);
-                    await this.usersRepository.SaveChangesAsync();
-
-                    await this.publisher.Publish(messageData);
-
-                    await this.usersRepository.MarkEventMessageLogAsPublished(message.Id);
+                    await this.usersRepository.SaveAndPublishEventMessageAsync(message);
 
                     return Result<ApplicationUser>.SuccessWith(user);
                 }

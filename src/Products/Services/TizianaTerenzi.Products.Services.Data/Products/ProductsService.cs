@@ -5,10 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Messages.Administration;
@@ -24,16 +22,12 @@
 
         private readonly INotesService notesService;
 
-        private readonly IBus publisher;
-
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
-            INotesService notesService,
-            IBus publisher)
+            INotesService notesService)
         {
             this.productsRepository = productsRepository;
             this.notesService = notesService;
-            this.publisher = publisher;
         }
 
         public async Task<bool> CreateProductAsync(ProductCreatedMessage message, string pictureUrl)
@@ -84,7 +78,7 @@
 
             product.SearchText = StringExtensions.GetSearchText(product.Name);
 
-            await this.productsRepository.UpdateAsync(product);
+            this.productsRepository.Update(product);
             var result = await this.productsRepository.SaveChangesAsync();
 
             return result > 0;
@@ -203,7 +197,7 @@
                                 })
                                 .SingleOrDefaultAsync();
 
-            var messageData = new ProductAddedInTheCartMessage
+            var message = new ProductAddedInTheCartMessage
             {
                 UserId = userId,
                 ProductId = productId,
@@ -212,14 +206,7 @@
                 Price = product.PriceWithGeneralDiscount,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.productsRepository.CreateEventMessageLog(message);
-            await this.productsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.productsRepository.MarkEventMessageLogAsPublished(message.Id);
+            await this.productsRepository.SaveAndPublishEventMessageAsync(message);
         }
 
         private IQueryable<Product> GetAllProductsQueryable(IQueryable<Product> query)

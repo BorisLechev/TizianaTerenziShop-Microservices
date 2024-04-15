@@ -17,6 +17,7 @@
     using Microsoft.IdentityModel.Tokens;
     using Polly;
     using Refit;
+    using TizianaTerenzi.Common.Services.EventualConsistencyMessages;
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.HostedServices;
 
@@ -150,8 +151,15 @@
             return services;
         }
 
-        public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration, params Type[] consumers)
+        public static IServiceCollection AddMessageBroker(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            bool usePolling = true,
+            params Type[] consumers)
         {
+            services
+                .AddTransient<IPublisher, Publisher>();
+
             services
                 .AddMassTransit(mt =>
                 {
@@ -172,11 +180,14 @@
                     });
                 });
 
-            services
-                .AddBackgroundJob(configuration);
+            if (usePolling)
+            {
+                services
+                    .AddBackgroundJob(configuration);
 
-            services
-                .AddHostedService<EventMessageLogHostedService>();
+                services
+                    .AddHostedService<EventMessageLogHostedService>();
+            }
 
             return services;
         }

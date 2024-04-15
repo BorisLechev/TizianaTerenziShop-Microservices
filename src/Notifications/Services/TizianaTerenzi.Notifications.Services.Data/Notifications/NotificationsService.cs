@@ -1,9 +1,7 @@
 ﻿namespace TizianaTerenzi.Notifications.Services.Data.Notifications
 {
-    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Messages.Notifications;
@@ -14,14 +12,11 @@
     public class NotificationsService : INotificationsService
     {
         private readonly IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository;
-        private readonly IBus publisher;
 
         public NotificationsService(
-            IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository,
-            IBus publisher)
+            IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository)
         {
             this.notificationsRepository = notificationsRepository;
-            this.publisher = publisher;
         }
 
         public async Task<string> AddMessageNotificationAsync(string senderUsername, string senderId, string receiverUsername, string message, string sanitizedMessage, string groupId)
@@ -51,7 +46,7 @@
                 this.notificationsRepository.DeleteRange(notifications);
             }
 
-            var messageData = new ChatMessageToUserSentMessage
+            var eventMessage = new ChatMessageToUserSentMessage
             {
                 SendersUsername = senderUsername,
                 ReceiversUsername = receiverUsername,
@@ -59,14 +54,8 @@
                 GroupId = groupId,
             };
 
-            var messageLog = new EventMessageLog(messageData);
-
-            await this.notificationsRepository.AddAsync(notification, messageLog);
-            await this.notificationsRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.notificationsRepository.MarkEventMessageLogAsPublished(messageLog.Id);
+            await this.notificationsRepository.AddAsync(notification);
+            await this.notificationsRepository.SaveAndPublishEventMessageAsync(eventMessage);
 
             return notification.Id;
         }

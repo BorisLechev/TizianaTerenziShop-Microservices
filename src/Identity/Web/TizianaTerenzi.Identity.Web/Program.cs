@@ -65,6 +65,7 @@
             services
                 .AddMessageBroker(
                     configuration,
+                    usePolling: true,
                     typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer),
                     typeof(UserInRoleAddedConsumer),
                     typeof(UserBlockedConsumer),

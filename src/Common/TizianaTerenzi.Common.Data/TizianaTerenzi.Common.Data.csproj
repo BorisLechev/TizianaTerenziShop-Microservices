@@ -29,5 +29,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\TizianaTerenzi.Common.Services\TizianaTerenzi.Common.Services.csproj" />
+  </ItemGroup>
 
 </Project>

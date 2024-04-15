@@ -46,6 +46,7 @@ namespace TizianaTerenzi.Orders.Web
             services
                 .AddMessageBroker(
                     configuration,
+                    usePolling: true,
                     typeof(ProductsInTheUserCartHaveBeenOrderedConsumer),
                     typeof(OrderProcessedConsumer),
                     typeof(AllUserOrdersDeletedConsumer),

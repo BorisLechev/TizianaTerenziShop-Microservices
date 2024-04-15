@@ -1,10 +1,8 @@
 ﻿namespace TizianaTerenzi.Administration.Services.Data.DiscountCodes
 {
-    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Administration.Data.Models;
     using TizianaTerenzi.Administration.Web.Models.DiscountCodes;
-    using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Services.Mapping;
@@ -12,14 +10,11 @@
     public class DiscountCodesService : IDiscountCodesService
     {
         private readonly IDeletableEntityRepository<DiscountCodeStatistics> discountCodesRepository;
-        private readonly IBus publisher;
 
         public DiscountCodesService(
-            IDeletableEntityRepository<DiscountCodeStatistics> discountCodesRepository,
-            IBus publisher)
+            IDeletableEntityRepository<DiscountCodeStatistics> discountCodesRepository)
         {
             this.discountCodesRepository = discountCodesRepository;
-            this.publisher = publisher;
         }
 
         public async Task<IEnumerable<T>> GetAllDiscountCodesAsync<T>()
@@ -38,14 +33,12 @@
 
             if (isExisting == false)
             {
-                var messageData = new DiscountCodeCreatedMessage
+                var message = new DiscountCodeCreatedMessage
                 {
                     Name = inputModel.Name,
                     Discount = inputModel.Discount,
                     ExpiresOn = inputModel.ExpiresOn,
                 };
-
-                var message = new EventMessageLog(messageData);
 
                 var discountCode = new DiscountCodeStatistics
                 {
@@ -54,12 +47,8 @@
                     ExpiresOn = inputModel.ExpiresOn,
                 };
 
-                await this.discountCodesRepository.AddAsync(discountCode, message);
-                var result = await this.discountCodesRepository.SaveChangesAsync();
-
-                await this.publisher.Publish(message);
-
-                await this.discountCodesRepository.MarkEventMessageLogAsPublished(message.Id);
+                await this.discountCodesRepository.AddAsync(discountCode);
+                var result = await this.discountCodesRepository.SaveAndPublishEventMessageAsync(message);
 
                 return result > 0;
             }
@@ -89,20 +78,12 @@
 
             this.discountCodesRepository.Delete(discountCode);
 
-            var messageData = new DiscountCodeDeletedMessage
+            var message = new DiscountCodeDeletedMessage
             {
                 DiscountCodeId = discountId,
             };
 
-            var message = new EventMessageLog(messageData);
-
-            await this.discountCodesRepository.CreateEventMessageLog(message);
-
-            var result = await this.discountCodesRepository.SaveChangesAsync();
-
-            await this.publisher.Publish(messageData);
-
-            await this.discountCodesRepository.MarkEventMessageLogAsPublished(message.Id);
+            var result = await this.discountCodesRepository.SaveAndPublishEventMessageAsync(message);
 
             return result > 0;
         }

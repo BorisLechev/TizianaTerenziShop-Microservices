@@ -52,6 +52,7 @@ namespace TizianaTerenzi.Carts.Web
             services
                 .AddMessageBroker(
                     configuration,
+                    usePolling: true,
                     typeof(ProductAddedInTheCartConsumer),
                     typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsAppliedUpdatedConsumer),
                     typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedConsumer),
