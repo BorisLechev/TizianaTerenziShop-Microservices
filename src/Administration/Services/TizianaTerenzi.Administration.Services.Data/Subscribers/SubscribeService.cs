@@ -3,7 +3,9 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Administration.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class SubscribeService : ISubscribeService
     {
         private readonly IDeletableEntityRepository<Subscriber> subscribersRepository;

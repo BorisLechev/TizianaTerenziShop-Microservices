@@ -7,9 +7,11 @@
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Orders;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Orders.Data.Models;
     using TizianaTerenzi.Orders.Web.Models.Orders;
 
+    [TransientRegistration]
     public class OrdersService : IOrdersService
     {
         private readonly IDeletableEntityRepository<Order> ordersRepository;

@@ -3,7 +3,9 @@
     using TizianaTerenzi.Administration.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class UserPenaltiesService : IUserPenaltiesService
     {
         private readonly IDeletableEntityRepository<UserStatistics> userStatisticsRepository;

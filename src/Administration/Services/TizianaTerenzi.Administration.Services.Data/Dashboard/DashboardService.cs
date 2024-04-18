@@ -5,7 +5,9 @@
     using TizianaTerenzi.Administration.Web.Models.Dashboard;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class DashboardService : IDashboardService
     {
         private readonly IDeletableEntityRepository<UserStatistics> userStatisticsRepository;

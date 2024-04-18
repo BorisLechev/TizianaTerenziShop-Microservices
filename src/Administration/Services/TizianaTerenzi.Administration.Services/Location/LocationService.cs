@@ -6,7 +6,9 @@
     using IpInfo;
     using Microsoft.Extensions.Configuration;
     using TizianaTerenzi.Administration.Services.Models.Location;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class LocationService : ILocationService
     {
         private readonly IConfiguration configuration;

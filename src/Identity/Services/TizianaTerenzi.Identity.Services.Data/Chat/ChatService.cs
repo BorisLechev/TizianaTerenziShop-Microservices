@@ -4,9 +4,11 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Notifications;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Web.Models.Chat;
 
+    [TransientRegistration]
     public class ChatService : IChatService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;

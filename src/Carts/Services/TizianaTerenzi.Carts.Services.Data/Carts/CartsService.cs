@@ -8,7 +8,9 @@
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class CartsService : ICartsService
     {
         private readonly IDeletableEntityRepository<Cart> cartsRepository;

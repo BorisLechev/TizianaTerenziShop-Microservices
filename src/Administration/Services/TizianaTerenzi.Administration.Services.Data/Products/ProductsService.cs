@@ -4,7 +4,9 @@
     using TizianaTerenzi.Administration.Web.Models.Products;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class ProductsService : IProductsService
     {
         private readonly IDeletableEntityRepository<OrderProductStatistics> repository;

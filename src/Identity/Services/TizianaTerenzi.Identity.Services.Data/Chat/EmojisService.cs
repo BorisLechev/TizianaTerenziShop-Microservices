@@ -2,9 +2,11 @@
 {
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Web.Models.Emojis;
 
+    [TransientRegistration]
     public class EmojisService : IEmojisService
     {
         private readonly IDeletableEntityRepository<Emoji> emojisRepository;

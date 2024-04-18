@@ -6,8 +6,10 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
 
+    [TransientRegistration]
     public class CountriesService : ICountriesService
     {
         private readonly IRepository<Country> countriesRepository;

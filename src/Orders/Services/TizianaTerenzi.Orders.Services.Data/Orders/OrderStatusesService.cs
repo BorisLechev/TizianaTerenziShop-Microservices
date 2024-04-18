@@ -5,8 +5,10 @@
 
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Orders.Data.Models;
 
+    [TransientRegistration]
     public class OrderStatusesService : IOrderStatusesService
     {
         private readonly IDeletableEntityRepository<OrderStatus> orderStatusesRepository;

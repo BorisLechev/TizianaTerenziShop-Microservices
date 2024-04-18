@@ -1,8 +1,10 @@
 ﻿namespace TizianaTerenzi.Identity.Services.Scrapers
 {
     using AngleSharp.Html.Parser;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Services.Models.Scrapers;
 
+    [TransientRegistration]
     public class UnicodeEmojiScraperService : IUnicodeEmojiScraperService
     {
         private const string BaseUrl = "https://unicode.org/emoji/charts/full-emoji-list.html";

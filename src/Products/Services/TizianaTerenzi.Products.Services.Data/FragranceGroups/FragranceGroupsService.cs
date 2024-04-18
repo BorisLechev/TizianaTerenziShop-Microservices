@@ -6,8 +6,10 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Products.Data.Models;
 
+    [TransientRegistration]
     public class FragranceGroupsService : IFragranceGroupsService
     {
         private readonly IRepository<FragranceGroup> fragranceGroupsRepository;

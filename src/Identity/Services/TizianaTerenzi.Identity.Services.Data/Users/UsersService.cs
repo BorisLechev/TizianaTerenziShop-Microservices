@@ -5,9 +5,11 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Web.Models.Users;
 
+    [TransientRegistration]
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;

@@ -4,7 +4,9 @@
     using TizianaTerenzi.Administration.Web.Models.Notes;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class NotesService : INotesService
     {
         private readonly IDeletableEntityRepository<OrderProductStatistics> orderProductStatisticsRepository;

@@ -6,7 +6,9 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class DiscountCodesService : IDiscountCodesService
     {
         private readonly IDeletableEntityRepository<DiscountCodeStatistics> discountCodesRepository;

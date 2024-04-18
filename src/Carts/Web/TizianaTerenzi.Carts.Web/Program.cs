@@ -3,10 +3,6 @@ namespace TizianaTerenzi.Carts.Web
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data;
     using TizianaTerenzi.Carts.Data.Seeding;
-    using TizianaTerenzi.Carts.Services.Data.Carts;
-    using TizianaTerenzi.Carts.Services.Data.Countries;
-    using TizianaTerenzi.Carts.Services.Data.Discounts;
-    using TizianaTerenzi.Carts.Services.Data.GeneralDiscounts;
     using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
@@ -44,10 +40,7 @@ namespace TizianaTerenzi.Carts.Web
                 .AddSingleton<ISeeder<CartsDbContext>, CountriesSeeder>()
 
                 // -------Services------------
-                .AddTransient<ICartsService, CartsService>()
-                .AddTransient<IDiscountCodesService, DiscountCodesService>()
-                .AddTransient<ICountriesService, CountriesService>()
-                .AddTransient<IGeneralDiscountsService, GeneralDiscountsService>();
+                .RegisterServices(configuration);
 
             services
                 .AddMessageBroker(

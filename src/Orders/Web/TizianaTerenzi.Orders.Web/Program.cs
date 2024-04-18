@@ -6,7 +6,6 @@ namespace TizianaTerenzi.Orders.Web
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Orders.Data;
     using TizianaTerenzi.Orders.Data.Seeding;
-    using TizianaTerenzi.Orders.Services.Data.Orders;
     using TizianaTerenzi.Orders.Web.Messages;
 
     public class Program
@@ -40,8 +39,7 @@ namespace TizianaTerenzi.Orders.Web
                 .AddSingleton<ISeeder<OrdersDbContext>, OrderStatusesSeeder>()
 
                 // -------Services------------
-                .AddTransient<IOrderStatusesService, OrderStatusesService>()
-                .AddTransient<IOrdersService, OrdersService>();
+                .RegisterServices(configuration);
 
             services
                 .AddMessageBroker(

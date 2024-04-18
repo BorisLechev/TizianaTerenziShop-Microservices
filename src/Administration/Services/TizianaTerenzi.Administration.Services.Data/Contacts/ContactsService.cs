@@ -6,7 +6,9 @@
     using TizianaTerenzi.Administration.Web.Models.Contacts;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class ContactsService : IContactsService
     {
         private readonly ILocationService locationService;

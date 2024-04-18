@@ -6,9 +6,11 @@
     using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Messages.Notifications;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Notifications.Data.Models;
     using TizianaTerenzi.Notifications.Web.Models.Notifications;
 
+    [TransientRegistration]
     public class NotificationsService : INotificationsService
     {
         private readonly IDeletableEntityRepository<ApplicationUserNotification> notificationsRepository;

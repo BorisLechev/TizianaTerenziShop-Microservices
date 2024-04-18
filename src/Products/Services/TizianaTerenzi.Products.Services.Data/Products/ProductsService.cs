@@ -12,10 +12,12 @@
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Products;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Services.Data.Notes;
     using TizianaTerenzi.Products.Web.Models.Products;
 
+    [TransientRegistration]
     public class ProductsService : IProductsService
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;

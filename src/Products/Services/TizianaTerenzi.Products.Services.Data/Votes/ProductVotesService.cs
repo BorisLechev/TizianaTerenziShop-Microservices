@@ -4,9 +4,11 @@
 
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Products.Data.Models;
     using TizianaTerenzi.Products.Web.Models.Votes;
 
+    [TransientRegistration]
     public class ProductVotesService : IProductVotesService
     {
         private readonly IDeletableEntityRepository<ProductVote> productVotesRepository;

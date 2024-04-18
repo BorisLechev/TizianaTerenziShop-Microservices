@@ -7,8 +7,10 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Products.Data.Models;
 
+    [TransientRegistration]
     public class WishlistService : IWishlistService
     {
         private readonly IDeletableEntityRepository<FavoriteProduct> favoriteProductsRepository;

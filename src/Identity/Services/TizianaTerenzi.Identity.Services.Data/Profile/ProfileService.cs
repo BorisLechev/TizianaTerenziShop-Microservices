@@ -7,10 +7,12 @@
     using TizianaTerenzi.Common.Messages.Carts;
     using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Services.Mapping;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Services.Data.Countries;
     using TizianaTerenzi.Identity.Web.Models.Profile;
 
+    [TransientRegistration]
     public class ProfileService : IProfileService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;

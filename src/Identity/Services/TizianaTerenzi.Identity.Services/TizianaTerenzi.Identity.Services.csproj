@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services\TizianaTerenzi.Common.Services.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Identity.Services.Models\TizianaTerenzi.Identity.Services.Models.csproj" />
   </ItemGroup>
 

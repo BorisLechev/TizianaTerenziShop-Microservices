@@ -3,8 +3,10 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Carts;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Notifications.Data.Models;
 
+    [TransientRegistration]
     public class CartNotificationsService : ICartNotificationsService
     {
         private readonly IDeletableEntityRepository<ApplicationUserCartNotification> usersCartNotificationsRepository;

@@ -1,5 +1,6 @@
 namespace TizianaTerenzi.Notifications.Web
 {
+    using Hangfire;
     using HealthChecks.UI.Client;
     using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,6 @@ namespace TizianaTerenzi.Notifications.Web
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.Notifications.Data;
-    using TizianaTerenzi.Notifications.Services.Data.CartNotifications;
     using TizianaTerenzi.Notifications.Services.Data.Notifications;
     using TizianaTerenzi.Notifications.Web.Hubs;
     using TizianaTerenzi.Notifications.Web.Infrastructure;
@@ -41,6 +41,7 @@ namespace TizianaTerenzi.Notifications.Web
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseResponseCompression()
+                .UseHangfireDashboard()
                 .MigrateDatabase()
                 .SeedDatabase<NotificationsDbContext>()
                 .UseEndpoints(endpoints =>
@@ -65,9 +66,9 @@ namespace TizianaTerenzi.Notifications.Web
         {
             services
                 .AddCors()
-                .AddJwtTokenAuthentication(configuration, JwtConfiguration.BearerEvents)
                 .AddDatabase<NotificationsDbContext>(configuration)
                 .AddApplicationSettings(configuration)
+                .AddJwtTokenAuthentication(configuration, JwtConfiguration.BearerEvents)
                 .AddHealth(configuration)
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
@@ -78,7 +79,7 @@ namespace TizianaTerenzi.Notifications.Web
 
                 // -------Services------------
                 .AddTransient<INotificationsService, NotificationsService>()
-                .AddTransient<ICartNotificationsService, CartNotificationsService>()
+                .RegisterServices(configuration)
 
                 .AddCustomResponseCompression()
                 .AddSignalR();

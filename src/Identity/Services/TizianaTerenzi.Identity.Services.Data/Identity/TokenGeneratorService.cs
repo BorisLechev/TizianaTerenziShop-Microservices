@@ -7,8 +7,10 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using TizianaTerenzi.Common;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
 
+    [TransientRegistration]
     public class TokenGeneratorService : ITokenGeneratorService
     {
         private readonly ApplicationSettings applicationSettings;

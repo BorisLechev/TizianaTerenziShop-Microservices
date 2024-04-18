@@ -3,7 +3,9 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class GeneralDiscountsService : IGeneralDiscountsService
     {
         private readonly IDeletableEntityRepository<Cart> productsInTheCartRepository;

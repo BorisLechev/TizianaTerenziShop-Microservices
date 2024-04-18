@@ -6,8 +6,10 @@
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
 
+    [TransientRegistration]
     public class UserPenaltiesService : IUserPenaltiesService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;

@@ -8,13 +8,6 @@ namespace TizianaTerenzi.Products.Web
     using TizianaTerenzi.Products.Data;
     using TizianaTerenzi.Products.Data.Seeding;
     using TizianaTerenzi.Products.Services.Cloudinary;
-    using TizianaTerenzi.Products.Services.Data.Comments;
-    using TizianaTerenzi.Products.Services.Data.FragranceGroups;
-    using TizianaTerenzi.Products.Services.Data.Notes;
-    using TizianaTerenzi.Products.Services.Data.Products;
-    using TizianaTerenzi.Products.Services.Data.ProductTypes;
-    using TizianaTerenzi.Products.Services.Data.Votes;
-    using TizianaTerenzi.Products.Services.Data.Wishlist;
     using TizianaTerenzi.Products.Web.Messages;
 
     public class Program
@@ -59,15 +52,8 @@ namespace TizianaTerenzi.Products.Web
                 .AddSingleton(cloudinary)
 
                 // -------Services------------
-                .AddTransient<IProductsService, ProductsService>()
-                .AddTransient<IProductTypesService, ProductTypesService>()
-                .AddTransient<IFragranceGroupsService, FragranceGroupsService>()
-                .AddTransient<INotesService, NotesService>()
-                .AddTransient<ICommentsService, CommentsService>()
-                .AddTransient<ICommentVotesService, CommentVotesService>()
-                .AddTransient<IProductVotesService, ProductVotesService>()
-                .AddTransient<IWishlistService, WishlistService>()
-                .AddTransient<ICloudinaryService, CloudinaryService>();
+                .AddTransient<ICloudinaryService, CloudinaryService>()
+                .RegisterServices(configuration);
 
             services
                 .AddMessageBroker(

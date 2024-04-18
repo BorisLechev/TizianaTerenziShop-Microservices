@@ -4,7 +4,9 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Orders;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class OrdersService : IOrdersService
     {
         private readonly IDeletableEntityRepository<OrderStatistics> orderStatisticsRepository;

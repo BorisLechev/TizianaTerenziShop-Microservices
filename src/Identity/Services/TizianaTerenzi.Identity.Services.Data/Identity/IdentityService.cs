@@ -11,11 +11,13 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Identity;
     using TizianaTerenzi.Common.Services;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Data.Models;
     using TizianaTerenzi.Identity.Services.Data.Countries;
     using TizianaTerenzi.Identity.Services.Location;
     using TizianaTerenzi.Identity.Web.Models.Identity;
 
+    [TransientRegistration]
     public class IdentityService : IIdentityService
     {
         private const string InvalidLoginAttemptErrorMessage = "Invalid login attempt.";

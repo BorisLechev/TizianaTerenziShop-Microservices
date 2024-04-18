@@ -5,7 +5,9 @@
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Messages.Administration;
     using TizianaTerenzi.Common.Messages.Identity;
+    using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
 
+    [TransientRegistration]
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<UserStatistics> userStatisticsRepository;
