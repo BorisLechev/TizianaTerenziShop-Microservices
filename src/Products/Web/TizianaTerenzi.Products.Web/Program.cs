@@ -8,7 +8,6 @@ namespace TizianaTerenzi.Products.Web
     using TizianaTerenzi.Products.Data;
     using TizianaTerenzi.Products.Data.Seeding;
     using TizianaTerenzi.Products.Services.Cloudinary;
-    using TizianaTerenzi.Products.Web.Messages;
 
     public class Program
     {
@@ -53,21 +52,12 @@ namespace TizianaTerenzi.Products.Web
 
                 // -------Services------------
                 .AddTransient<ICloudinaryService, CloudinaryService>()
-                .RegisterServices(configuration);
+                .RegisterServicesWithReflection(configuration);
 
             services
-                .AddMessageBroker(
+                .AddMessageBrokerConsumersWithReflection(
                     configuration,
-                    usePolling: true,
-                    typeof(ProductCreatedConsumer),
-                    typeof(ProductEditedConsumer),
-                    typeof(ProductDeletedConsumer),
-                    typeof(NoteCreatedConsumer),
-                    typeof(ThePricesOfAllProductsAfterTheGeneralDiscountIsAppliedUpdatedConsumer),
-                    typeof(ThePricesOfAllProductsAfterTheGeneralDiscountIsDisabledUpdatedConsumer),
-                    typeof(AllProductsInTheUsersWishlistDeletedConsumer),
-                    typeof(AllUserCommentsDeletedConsumer),
-                    typeof(AllUserCommentVotesDeletedConsumer));
+                    usePolling: true);
         }
     }
 }

@@ -6,7 +6,9 @@
 
     public static class ServiceRegistrationExtensions
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterServicesWithReflection(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
                         .SelectMany(s => s.GetTypes())

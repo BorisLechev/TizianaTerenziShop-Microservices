@@ -7,7 +7,6 @@
     using TizianaTerenzi.Identity.Data.Seeding;
     using TizianaTerenzi.Identity.Services.Data.Identity;
     using TizianaTerenzi.Identity.Web.Infrastructure;
-    using TizianaTerenzi.Identity.Web.Messages;
 
     public class Program
     {
@@ -45,17 +44,12 @@
 
                 // -------Services------------
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>()
-                .RegisterServices(configuration);
+                .RegisterServicesWithReflection(configuration);
 
             services
-                .AddMessageBroker(
+                .AddMessageBrokerConsumersWithReflection(
                     configuration,
-                    usePolling: true,
-                    typeof(UserProfileDataUpdatedAfterProductsInTheCartHaveBeenOrderedConsumer),
-                    typeof(UserInRoleAddedConsumer),
-                    typeof(UserBlockedConsumer),
-                    typeof(UserUnblockedConsumer),
-                    typeof(ChatMessageToUserSentConsumer));
+                    usePolling: true);
         }
     }
 }

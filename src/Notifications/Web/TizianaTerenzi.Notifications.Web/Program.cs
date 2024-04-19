@@ -11,7 +11,6 @@ namespace TizianaTerenzi.Notifications.Web
     using TizianaTerenzi.Notifications.Services.Data.Notifications;
     using TizianaTerenzi.Notifications.Web.Hubs;
     using TizianaTerenzi.Notifications.Web.Infrastructure;
-    using TizianaTerenzi.Notifications.Web.Messages;
 
     public class Program
     {
@@ -79,7 +78,7 @@ namespace TizianaTerenzi.Notifications.Web
 
                 // -------Services------------
                 .AddTransient<INotificationsService, NotificationsService>()
-                .RegisterServices(configuration)
+                .RegisterServicesWithReflection(configuration)
 
                 .AddCustomResponseCompression()
                 .AddSignalR();
@@ -87,15 +86,9 @@ namespace TizianaTerenzi.Notifications.Web
             services.AddControllers();
 
             services
-                .AddMessageBroker(
+                .AddMessageBrokerConsumersWithReflection(
                     configuration,
-                    usePolling: true,
-                    typeof(AllUserNotificationsDeletedConsumer),
-                    typeof(ProductsQuantityInTheUsersCartIncreasedConsumer),
-                    typeof(ProductsQuantityInTheUsersCartReducedConsumer),
-                    typeof(ProductsQuantityInTheUsersCartDeletedConsumer),
-                    typeof(ProductQuantityInTheUsersCartDeletedConsumer),
-                    typeof(NotificationsUpdatedWhenProductAddedInTheCartConsumer));
+                    usePolling: true);
         }
     }
 }

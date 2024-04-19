@@ -3,7 +3,6 @@ namespace TizianaTerenzi.Carts.Web
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Carts.Data;
     using TizianaTerenzi.Carts.Data.Seeding;
-    using TizianaTerenzi.Carts.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
@@ -40,20 +39,12 @@ namespace TizianaTerenzi.Carts.Web
                 .AddSingleton<ISeeder<CartsDbContext>, CountriesSeeder>()
 
                 // -------Services------------
-                .RegisterServices(configuration);
+                .RegisterServicesWithReflection(configuration);
 
             services
-                .AddMessageBroker(
+                .AddMessageBrokerConsumersWithReflection(
                     configuration,
-                    usePolling: true,
-                    typeof(ProductAddedInTheCartConsumer),
-                    typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsAppliedUpdatedConsumer),
-                    typeof(ThePricesOfAllProductsInTheCartAfterTheGeneralDiscountIsDisabledUpdatedConsumer),
-                    typeof(DiscountCodeCreatedConsumer),
-                    typeof(DiscountCodeDeletedConsumer),
-                    typeof(ProductInAllCartsEditedConsumer),
-                    typeof(ProductInAllCartsDeletedConsumer),
-                    typeof(AllProductsInTheUsersCartDeletedConsumer));
+                    usePolling: true);
         }
     }
 }

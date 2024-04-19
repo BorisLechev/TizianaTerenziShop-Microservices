@@ -3,7 +3,6 @@ namespace TizianaTerenzi.Administration.Web
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Administration.Data;
     using TizianaTerenzi.Administration.Data.Seeding;
-    using TizianaTerenzi.Administration.Web.Messages;
     using TizianaTerenzi.Common.Data.Repositories;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Messaging;
@@ -42,14 +41,12 @@ namespace TizianaTerenzi.Administration.Web
 
                 // -------Services------------
                 .AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration["SendGrid:ApiKey"]))
-                .RegisterServices(configuration);
+                .RegisterServicesWithReflection(configuration);
 
             services
-                .AddMessageBroker(
+                .AddMessageBrokerConsumersWithReflection(
                     configuration,
-                    usePolling: true,
-                    typeof(OrderAddedInAdminStatisticsConsumer),
-                    typeof(UserAddedInAdminStatisticsConsumer));
+                    usePolling: true);
         }
     }
 }
