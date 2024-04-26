@@ -1,7 +1,7 @@
 ﻿namespace TizianaTerenzi.Carts.Web.Gateway.Services.Identity
 {
     using Refit;
-    using TizianaTerenzi.Carts.Web.Models.Carts;
+    using TizianaTerenzi.Carts.Web.Gateway.Models;
     using TizianaTerenzi.Common.Services;
 
     public interface IIdentityService

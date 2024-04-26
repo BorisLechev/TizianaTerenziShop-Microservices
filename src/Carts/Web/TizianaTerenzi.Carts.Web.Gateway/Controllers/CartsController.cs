@@ -2,9 +2,9 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using TizianaTerenzi.Carts.Web.Gateway.Models;
     using TizianaTerenzi.Carts.Web.Gateway.Services.Carts;
     using TizianaTerenzi.Carts.Web.Gateway.Services.Identity;
-    using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common;
     using TizianaTerenzi.Common.Services;
     using TizianaTerenzi.Common.Web.Controllers;

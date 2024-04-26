@@ -1,6 +1,6 @@
 ﻿namespace TizianaTerenzi.Common.Web.WebModels
 {
-    public interface IBasePagingViewModel
+    public interface IBasePagingBaseModel
     {
         int CurrentPage { get; set; }
 

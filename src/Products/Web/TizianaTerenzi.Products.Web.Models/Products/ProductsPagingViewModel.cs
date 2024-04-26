@@ -3,7 +3,7 @@
     using TizianaTerenzi.Common.Enumerators;
     using TizianaTerenzi.Common.Web.WebModels;
 
-    public class ProductsPagingViewModel : BasePagingViewModel
+    public class ProductsPagingViewModel : BasePagingBaseModel
     {
         // /products/all
         public string Search { get; set; }

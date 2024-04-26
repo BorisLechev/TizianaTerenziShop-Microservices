@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Refit;
-    using TizianaTerenzi.Carts.Web.Models.Carts;
+    using TizianaTerenzi.Carts.Web.Gateway.Models;
 
     public interface ICartsService
     {

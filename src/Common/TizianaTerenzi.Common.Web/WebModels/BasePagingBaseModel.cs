@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class BasePagingViewModel : IBasePagingViewModel
+    public class BasePagingBaseModel : IBasePagingBaseModel
     {
         public int CurrentPage { get; set; }
 

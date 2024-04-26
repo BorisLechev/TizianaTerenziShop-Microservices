@@ -1,7 +1,6 @@
 ﻿namespace TizianaTerenzi.Common.Web.Infrastructure.Extensions
 {
     using System;
-    using System.Reflection;
 
     using Hangfire;
     using HealthChecks.UI.Client;
@@ -12,15 +11,9 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
-    using TizianaTerenzi.Administration.Web.Models.Dashboard;
-    using TizianaTerenzi.Carts.Web.Models.Carts;
     using TizianaTerenzi.Common.Data.Seeding;
     using TizianaTerenzi.Common.Services.Mapping;
     using TizianaTerenzi.Common.Web.Infrastructure.Middlewares;
-    using TizianaTerenzi.Identity.Web.Models.Profile;
-    using TizianaTerenzi.Notifications.Web.Models.Chat;
-    using TizianaTerenzi.Orders.Web.Models.Orders;
-    using TizianaTerenzi.Products.Web.Models.Products;
 
     public static class ApplicationBuilderExtensions
     {
@@ -136,13 +129,17 @@
 
         public static IApplicationBuilder ConfigureAutoMapper(this IApplicationBuilder app)
         {
-            AutoMapperConfig.RegisterMappings(
-                                            typeof(ProductInListViewModel).GetTypeInfo().Assembly,
-                                            typeof(DownloadPersonalDataViewModel).GetTypeInfo().Assembly,
-                                            typeof(ProductsInTheCartViewModel).GetTypeInfo().Assembly,
-                                            typeof(OrdersListingViewModel).GetTypeInfo().Assembly,
-                                            typeof(DashboardViewModel).GetTypeInfo().Assembly,
-                                            typeof(ChatMessageViewModel).GetTypeInfo().Assembly);
+            var assembly = AppDomain.CurrentDomain.GetAssemblies()
+                        .SelectMany(s => s.GetTypes())
+                        .Where(type =>
+                                    type.IsClass &&
+                                    (type.Name.EndsWith("ViewModel") ||
+                                    type.Name.EndsWith("InputModel")))
+                        .Select(type => type.Assembly)
+                        .Distinct()
+                        .First();
+
+            AutoMapperConfig.RegisterMappings(assembly);
 
             return app;
         }
