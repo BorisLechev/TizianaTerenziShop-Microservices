@@ -14,9 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlSanitizer" Version="8.0.843" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
