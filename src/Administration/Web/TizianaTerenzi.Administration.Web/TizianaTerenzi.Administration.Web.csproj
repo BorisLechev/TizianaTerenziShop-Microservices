@@ -15,18 +15,23 @@
 		<UserSecretsId>147b7f82-4e7d-41b3-97db-e9cbbbdb0252</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services.Messaging\TizianaTerenzi.Common.Services.Messaging.csproj" />
-	  <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
-	  <ProjectReference Include="..\..\Data\TizianaTerenzi.Administration.Data\TizianaTerenzi.Administration.Data.csproj" />
-	  <ProjectReference Include="..\..\Services\TizianaTerenzi.Administration.Services.Data\TizianaTerenzi.Administration.Services.Data.csproj" />
-	  <ProjectReference Include="..\..\Services\TizianaTerenzi.Administration.Services\TizianaTerenzi.Administration.Services.csproj" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services.Messaging\TizianaTerenzi.Common.Services.Messaging.csproj" />
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Data\TizianaTerenzi.Administration.Data\TizianaTerenzi.Administration.Data.csproj" />
+		<ProjectReference Include="..\..\Services\TizianaTerenzi.Administration.Services.Data\TizianaTerenzi.Administration.Services.Data.csproj" />
+		<ProjectReference Include="..\..\Services\TizianaTerenzi.Administration.Services\TizianaTerenzi.Administration.Services.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -4,9 +4,9 @@
     {
         public EventMessageQueueSettings(string host, string userName, string password)
         {
-            this.Host = host;
-            this.UserName = userName;
-            this.Password = password;
+            this.Host = host ?? "localhost";
+            this.UserName = userName ?? "guest";
+            this.Password = password ?? "guest";
         }
 
         public string Host { get; }

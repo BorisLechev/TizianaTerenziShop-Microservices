@@ -11,6 +11,7 @@
 	<ApplicationInsightsResourceId>/subscriptions/7049adbe-8f29-451d-98f2-df3b3ef8262a/resourceGroups/TizianaTerenziDemo/providers/microsoft.insights/components/TizianaTerenziDemo</ApplicationInsightsResourceId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<DockerfileContext>..\..</DockerfileContext>
+	<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

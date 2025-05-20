@@ -159,7 +159,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Products.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Products.Services.Data", "Products\Services\TizianaTerenzi.Products.Services.Data\TizianaTerenzi.Products.Services.Data.csproj", "{0F14C294-1B19-4224-BB83-7935B6A22D8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Identity.Web.Gateway", "Identity\Web\TizianaTerenzi.Identity.Web.Gateway\TizianaTerenzi.Identity.Web.Gateway.csproj", "{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Identity.Web.Gateway", "Identity\Web\TizianaTerenzi.Identity.Web.Gateway\TizianaTerenzi.Identity.Web.Gateway.csproj", "{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{554B3022-F8A7-46EB-A074-65F2DD80E955}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -371,6 +373,10 @@ Global
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

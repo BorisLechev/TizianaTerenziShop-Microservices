@@ -1,5 +1,124 @@
-# version: '3.8'
+#version: '3.4'
 
+# services:
+#   administration:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+#   carts:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   cartsGateway:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   identity:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   identityGateway:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   notifications:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   orders:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   products:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   watchdog:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+#   webClient:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#       - ASPNETCORE_HTTPS_PORTS=8081
+#     ports:
+#       - "8080"
+#       - "8081"
+#     volumes:
+#       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 services:
 
     data:
@@ -42,8 +161,8 @@ services:
             - "5003:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziIdentityDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziIdentityCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziIdentityDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziIdentityCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -72,8 +191,8 @@ services:
             - "5005:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziProductsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziProductsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziProductsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziProductsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -96,8 +215,8 @@ services:
             - "5007:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziCartsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziCartsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziCartsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziCartsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -120,8 +239,8 @@ services:
             - "5011:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - NotificationSettings__AllowedOrigins=http://localhost
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
@@ -145,8 +264,8 @@ services:
             - "5013:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziOrdersDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziOrdersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziOrdersDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziOrdersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -213,8 +332,8 @@ services:
             - "5017:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziAdministrationDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziAdministrationCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziAdministrationDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziAdministrationCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!

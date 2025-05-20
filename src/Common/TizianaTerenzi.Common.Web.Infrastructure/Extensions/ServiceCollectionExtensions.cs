@@ -296,7 +296,7 @@
                 var eventMessageQueueSettings = GetEventMessageQueueSettings(configuration);
 
                 var eventMessageQueueConnectionString =
-                        $"amqp://{eventMessageQueueSettings.UserName ?? "guest"}:{eventMessageQueueSettings.Password ?? "guest"}@{eventMessageQueueSettings.Host ?? "localhost"}/";
+                        $"amqp://{eventMessageQueueSettings.UserName}:{eventMessageQueueSettings.Password}@{eventMessageQueueSettings.Host}/";
 
                 healthChecks
                     .AddRabbitMQ(rabbitConnectionString: eventMessageQueueConnectionString);
