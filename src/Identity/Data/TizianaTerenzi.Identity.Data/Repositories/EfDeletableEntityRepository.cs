@@ -7,9 +7,9 @@
 
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data;
+    using TizianaTerenzi.Common.Data.EventualConsistencyMessages;
     using TizianaTerenzi.Common.Data.Models;
     using TizianaTerenzi.Common.Data.Repositories;
-    using TizianaTerenzi.Common.Services.EventualConsistencyMessages;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
         where TEntity : class, IDeletableEntity

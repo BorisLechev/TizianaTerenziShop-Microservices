@@ -19,7 +19,7 @@
     using Microsoft.IdentityModel.Tokens;
     using Polly;
     using Refit;
-    using TizianaTerenzi.Common.Services.EventualConsistencyMessages;
+    using TizianaTerenzi.Common.Data.EventualConsistencyMessages;
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.HostedServices;
 
@@ -160,7 +160,8 @@
             params Type[] consumers)
         {
             services
-                .AddTransient<IPublisher, Publisher>();
+                .AddTransient<IPublisher, Publisher>()
+                .AddTransient<IEventualConsistencyMessagesService, EventualConsistencyMessagesService>();
 
             services
                 .AddMassTransit(mt =>

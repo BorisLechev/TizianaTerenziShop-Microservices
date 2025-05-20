@@ -1,8 +1,8 @@
 ﻿namespace TizianaTerenzi.Common.Data.Repositories
 {
     using Microsoft.EntityFrameworkCore;
+    using TizianaTerenzi.Common.Data.EventualConsistencyMessages;
     using TizianaTerenzi.Common.Data.Models;
-    using TizianaTerenzi.Common.Services.EventualConsistencyMessages;
 
     public class EfRepository<TEntity> : IRepository<TEntity>
          where TEntity : class

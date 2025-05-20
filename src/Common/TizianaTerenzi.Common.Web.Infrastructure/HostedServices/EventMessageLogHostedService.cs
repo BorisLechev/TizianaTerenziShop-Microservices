@@ -4,8 +4,8 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using TizianaTerenzi.Common.Data.EventualConsistencyMessages;
     using TizianaTerenzi.Common.Data.Models;
-    using TizianaTerenzi.Common.Services.EventualConsistencyMessages;
 
     public class EventMessageLogHostedService : IHostedService
     {
@@ -23,17 +23,17 @@
             this.publisher = publisher;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = this.scopeFactory.CreateScope();
+            await using var scope = this.scopeFactory.CreateAsyncScope();
 
             var dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
 
-            var dbContextIsUp = dbContext.Database.CanConnect();
+            var dbContextIsUp = await dbContext.Database.CanConnectAsync();
 
             if (!dbContextIsUp)
             {
-                dbContext.Database.Migrate();
+                await dbContext.Database.MigrateAsync();
             }
 
             this.recurringJobManager
@@ -42,7 +42,7 @@
                     () => this.ProcessPendingEventMessages(),
                     "*/5 * * * * *"); // every 5 seconds
 
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Common.Services.EventualConsistencyMessages
+﻿namespace TizianaTerenzi.Common.Data.EventualConsistencyMessages
 {
     using MassTransit;
 
@@ -13,11 +13,11 @@
             this.bus = bus;
         }
 
-        public Task Publish<TMessage>(TMessage message)
-            => this.bus.Publish(message, GetCancellationToken());
+        public async Task Publish<TMessage>(TMessage message)
+            => await this.bus.Publish(message, GetCancellationToken());
 
-        public Task Publish<TMessage>(TMessage message, Type messageType)
-            => this.bus.Publish(message, messageType, GetCancellationToken());
+        public async Task Publish<TMessage>(TMessage message, Type messageType)
+            => await this.bus.Publish(message, messageType, GetCancellationToken());
 
         private static CancellationToken GetCancellationToken()
         {

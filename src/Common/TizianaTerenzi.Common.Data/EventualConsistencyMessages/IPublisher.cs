@@ -1,4 +1,4 @@
-﻿namespace TizianaTerenzi.Common.Services.EventualConsistencyMessages
+﻿namespace TizianaTerenzi.Common.Data.EventualConsistencyMessages
 {
     public interface IPublisher
     {
