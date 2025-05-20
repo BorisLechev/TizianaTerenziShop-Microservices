@@ -8,9 +8,16 @@
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\..\..\Rules.ruleset</CodeAnalysisRuleSet>
+		<UserSecretsId>9bdbb6ca-ae11-49ff-9508-4951f189caf3</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
 	</ItemGroup>
 
 	<ItemGroup>

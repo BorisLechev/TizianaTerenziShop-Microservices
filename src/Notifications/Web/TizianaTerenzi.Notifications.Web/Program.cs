@@ -28,12 +28,17 @@ namespace TizianaTerenzi.Notifications.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            var allowedOrigins = builder.Configuration
+                                .GetSection(nameof(NotificationSettings))
+                                .GetValue<string>(nameof(NotificationSettings.AllowedOrigins))
+                                ?? "https://localhost:44319";
+
             app
                 .ConfigureAutoMapper()
                 .UseHttpsRedirection()
                 .UseRouting()
                 .UseCors(options => options
-                    .WithOrigins("https://localhost:44319")
+                    .WithOrigins(allowedOrigins)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials())

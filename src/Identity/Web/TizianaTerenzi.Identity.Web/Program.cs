@@ -34,6 +34,9 @@
                 .AddIdentityStorage()
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(TizianaTerenzi.Identity.Data.Repositories.EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(TizianaTerenzi.Identity.Data.Repositories.EfRepository<>))
+                .Configure<IdentitySettings>(
+                    configuration.GetSection(nameof(IdentitySettings)),
+                    config => config.BindNonPublicProperties = true)
 
                 // -------Seeders--------
                 .AddSingleton<ISeeder<IdentityDbContext>, CountriesSeeder>()

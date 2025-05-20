@@ -1,14 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\..\..\Rules.ruleset</CodeAnalysisRuleSet>
 		<UserSecretsId>37a76ef6-b2c4-4b60-bea0-746eaf07ea40</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />
@@ -18,13 +24,17 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
-    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web\TizianaTerenzi.Common.Web.csproj" />
-    <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
-    <ProjectReference Include="..\..\Data\TizianaTerenzi.Identity.Data\TizianaTerenzi.Identity.Data.csproj" />
-    <ProjectReference Include="..\..\Services\TizianaTerenzi.Identity.Services.Data\TizianaTerenzi.Identity.Services.Data.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web\TizianaTerenzi.Common.Web.csproj" />
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
+		<ProjectReference Include="..\..\Data\TizianaTerenzi.Identity.Data\TizianaTerenzi.Identity.Data.csproj" />
+		<ProjectReference Include="..\..\Services\TizianaTerenzi.Identity.Services.Data\TizianaTerenzi.Identity.Services.Data.csproj" />
+	</ItemGroup>
 
 </Project>

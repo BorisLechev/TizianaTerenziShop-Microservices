@@ -7,8 +7,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\..\..\Rules.ruleset</CodeAnalysisRuleSet>
 		<UserSecretsId>147b7f82-4e7d-41b3-97db-e9cbbbdb0252</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />

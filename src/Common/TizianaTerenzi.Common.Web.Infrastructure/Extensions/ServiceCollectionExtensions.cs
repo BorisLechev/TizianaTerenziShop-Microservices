@@ -51,7 +51,7 @@
         {
             services
                 .AddJwtTokenAuthentication(configuration)
-                .AddHealth(configuration, includeSqlServer: false, includeRabbitMq: false)
+                .AddHealth(configuration, sqlServerHealthChecks: false, rabbitMqHealthChecks: false)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddCustomResponseCompression()
                 .AddControllers();
@@ -162,6 +162,8 @@
             services
                 .AddTransient<IPublisher, Publisher>();
 
+            var eventMessageQueueSettings = GetEventMessageQueueSettings(configuration);
+
             services
                 .AddMassTransit(mt =>
                 {
@@ -169,6 +171,12 @@
 
                     mt.UsingRabbitMq((context, rmq) =>
                     {
+                        rmq.Host(eventMessageQueueSettings.Host, host =>
+                        {
+                            host.Username(eventMessageQueueSettings.UserName);
+                            host.Password(eventMessageQueueSettings.Password);
+                        });
+
                         // Consumer.FullName (with namespace) prevents us from having two Consumers with the same name sharing same queue (RabbitMq level).
                         consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
                         {
@@ -271,22 +279,27 @@
         public static IServiceCollection AddHealth(
             this IServiceCollection services,
             IConfiguration configuration,
-            bool includeSqlServer = true,
-            bool includeRabbitMq = true)
+            bool sqlServerHealthChecks = true,
+            bool rabbitMqHealthChecks = true)
         {
             // Health Check for the Web Server
             var healthChecks = services.AddHealthChecks();
 
-            if (includeSqlServer)
+            if (sqlServerHealthChecks)
             {
                 healthChecks
                     .AddSqlServer(configuration.GetDefaultConnectionString());
             }
 
-            if (includeRabbitMq)
+            if (rabbitMqHealthChecks)
             {
+                var eventMessageQueueSettings = GetEventMessageQueueSettings(configuration);
+
+                var eventMessageQueueConnectionString =
+                        $"amqp://{eventMessageQueueSettings.UserName ?? "guest"}:{eventMessageQueueSettings.Password ?? "guest"}@{eventMessageQueueSettings.Host ?? "localhost"}/";
+
                 healthChecks
-                    .AddRabbitMQ(rabbitConnectionString: "amqp://guest:guest@localhost/");
+                    .AddRabbitMQ(rabbitConnectionString: eventMessageQueueConnectionString);
             }
 
             return services;
@@ -309,6 +322,16 @@
                 connection);
 
             command.ExecuteNonQuery();
+        }
+
+        private static EventMessageQueueSettings GetEventMessageQueueSettings(IConfiguration configuration)
+        {
+            var settings = configuration.GetSection(nameof(EventMessageQueueSettings));
+
+            return new EventMessageQueueSettings(
+                settings.GetValue<string>(nameof(EventMessageQueueSettings.Host)),
+                settings.GetValue<string>(nameof(EventMessageQueueSettings.UserName)),
+                settings.GetValue<string>(nameof(EventMessageQueueSettings.Password)));
         }
     }
 }
