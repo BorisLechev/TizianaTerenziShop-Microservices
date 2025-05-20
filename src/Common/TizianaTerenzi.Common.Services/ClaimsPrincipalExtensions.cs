@@ -40,5 +40,10 @@
         {
             return user.FindFirstValue(ClaimTypes.Surname);
         }
+
+        public static ClaimsPrincipal GetUser(this ClaimsPrincipal user)
+        {
+            return user;
+        }
     }
 }

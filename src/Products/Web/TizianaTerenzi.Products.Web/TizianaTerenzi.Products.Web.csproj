@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -13,6 +13,14 @@
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\wishlist.proto" GrpcServices="Server" />
+	</ItemGroup>
+	
+  <ItemGroup>
+	<PackageReference Include="Grpc.AspNetCore" Version="2.62.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Messages\TizianaTerenzi.Common.Messages.csproj" />

@@ -13,8 +13,13 @@
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\..\stylecop.json" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\profile.proto" GrpcServices="Server" />
+	</ItemGroup>
 	
   <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.62.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
   </ItemGroup>
 

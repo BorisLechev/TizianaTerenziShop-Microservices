@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+//option csharp_namespace = "TizianaTerenzi.Products.Web.Protos";
+option csharp_namespace = "gRPCWishlistServer";
+
+package wishlist;
+
+service Wishlist {
+	rpc GetAllProductsFromUsersWishlistAsync (WishlistRequest) returns (WishlistResponse);
+}
+
+// The request message containing the password.
+message WishlistRequest {
+	string userId = 1;
+}
+
+message WishlistItemResponse {
+	string productName = 1;
+	string createdOn = 2;
+	//string lastName = 2;
+	//string email = 3;
+	//string createdOn = 4;
+	//string town = 5;
+	//string postalCode = 6;
+	//string countryName = 7;
+	//string address = 8;
+}
+
+message WishlistResponse {
+	repeated WishlistItemResponse items = 1;
+}

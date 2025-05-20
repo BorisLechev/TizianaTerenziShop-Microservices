@@ -29,5 +29,7 @@
         public bool IsUserAuthenticated => this.user.IsUserAuthenticated();
 
         public bool IsAdministrator => this.user.IsAdministrator();
+
+        public ClaimsPrincipal GetUser => this.user;
     }
 }

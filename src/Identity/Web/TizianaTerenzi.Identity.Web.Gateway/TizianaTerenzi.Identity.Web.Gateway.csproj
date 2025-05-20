@@ -14,6 +14,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="..\TizianaTerenzi.Identity.Web\Protos\profile.proto" GrpcServices="Client" />
+		<Protobuf Include="..\..\..\Products\Web\TizianaTerenzi.Products.Web\Protos\wishlist.proto" GrpcServices="Client" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.26.1" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.62.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.62.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web.Infrastructure\TizianaTerenzi.Common.Web.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Web\TizianaTerenzi.Common.Web.csproj" />
 	</ItemGroup>

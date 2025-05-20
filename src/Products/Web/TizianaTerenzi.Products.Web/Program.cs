@@ -23,7 +23,11 @@ namespace TizianaTerenzi.Products.Web
             app
                 .UseMicroservice(builder.Environment)
                 .MigrateDatabase()
-                .SeedDatabase<ProductsDbContext>();
+                .SeedDatabase<ProductsDbContext>()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGrpcService<WishlistGrpcService>();
+                });
 
             app.Run();
         }
@@ -53,6 +57,9 @@ namespace TizianaTerenzi.Products.Web
                 // -------Services------------
                 .AddTransient<ICloudinaryService, CloudinaryService>()
                 .RegisterServicesWithReflection(configuration);
+
+            services
+                .AddGrpc();
 
             services
                 .AddMessageBrokerConsumersWithReflection(

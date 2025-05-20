@@ -22,7 +22,11 @@
             app
                 .UseMicroservice(builder.Environment)
                 .MigrateDatabase()
-                .SeedDatabase<IdentityDbContext>();
+                .SeedDatabase<IdentityDbContext>()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGrpcService<ProfileGrpcService>();
+                });
 
             app.Run();
         }
@@ -45,6 +49,9 @@
                 // -------Services------------
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>()
                 .RegisterServicesWithReflection(configuration);
+
+            services
+                .AddGrpc();
 
             services
                 .AddMessageBrokerConsumersWithReflection(

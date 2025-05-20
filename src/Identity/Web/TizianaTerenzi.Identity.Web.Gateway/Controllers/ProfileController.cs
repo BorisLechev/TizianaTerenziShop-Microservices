@@ -2,7 +2,9 @@
 {
     using System.Text;
     using System.Text.Json;
-
+    using Grpc.Net.Client;
+    using gRPCProfileServer;
+    using gRPCWishlistServer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TizianaTerenzi.Common;
@@ -36,14 +38,25 @@
         [HttpPost]
         public async Task<Result<DownloadPersonalDataFileResponseModel>> DownloadPersonalData(string password)
         {
-            var usersPersonalData = await this.identityService.GetUsersPersonalDataForExport(password);
+            // The port number must match the port of the gRPC server.
+            var channelProfile = GrpcChannel.ForAddress("https://localhost:5003");
+            var clientProfile = new Profile.ProfileClient(channelProfile);
+
+            var profileRequest = new PersonalDataForExportRequest { Password = password, UserId = this.User.GetUserId() };
+            var usersPersonalData = await clientProfile.GetUsersPersonalDataForExportAsync(profileRequest);
+            var usersPersonalData2 = await this.identityService.GetUsersPersonalDataForExport(password);
 
             if (!usersPersonalData.Succeeded)
             {
                 return Result<DownloadPersonalDataFileResponseModel>.Failure(NotificationMessages.InvalidPassword);
             }
 
-            var favoriteProducts = await this.productsService.GetAllProductsFromUsersWishlistPersonalData();
+            // The port number must match the port of the gRPC server.
+            var channelFavoriteProducts = GrpcChannel.ForAddress("https://localhost:5005");
+            var clientFavoriteProducts = new Wishlist.WishlistClient(channelFavoriteProducts);
+
+            var favoriteProducts = await clientFavoriteProducts.GetAllProductsFromUsersWishlistAsyncAsync(new WishlistRequest { UserId = this.User.GetUserId() });
+            var favoriteProducts2 = await this.productsService.GetAllProductsFromUsersWishlistPersonalData();
             var productVotes = await this.productsService.GetAllUsersProductVotesPersonalData();
             var commentsAndCommentVotes = await this.productsService.GetAllUsersCommentsAndVotesPersonalData();
             var ordersAndProducts = await this.ordersService.GetAllUsersOrdersAndProductsPersonalDataAsync();
@@ -54,12 +67,12 @@
                 FirstName = usersPersonalData.Data.FirstName,
                 LastName = usersPersonalData.Data.LastName,
                 Email = usersPersonalData.Data.Email,
-                CreatedOn = usersPersonalData.Data.CreatedOn,
+                CreatedOn = DateTime.Parse(usersPersonalData.Data.CreatedOn),
                 Town = usersPersonalData.Data.Town,
                 PostalCode = usersPersonalData.Data.PostalCode,
                 CountryName = usersPersonalData.Data.CountryName,
                 Address = usersPersonalData.Data.Address,
-                FavoriteProducts = favoriteProducts,
+                //FavoriteProducts = favoriteProducts,
                 ProductVotes = productVotes,
                 Comments = commentsAndCommentVotes,
                 Orders = ordersAndProducts,
