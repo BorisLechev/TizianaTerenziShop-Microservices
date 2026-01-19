@@ -53,7 +53,7 @@
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
 
-            [GoogleReCaptchaValidation]
+            //[GoogleReCaptchaValidation]
             public string RecaptchaValue { get; set; }
         }
 

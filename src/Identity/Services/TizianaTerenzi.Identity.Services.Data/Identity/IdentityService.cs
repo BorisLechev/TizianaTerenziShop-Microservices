@@ -68,11 +68,24 @@
             }
 
             var userName = userInput.EmailOrUserName;
-            ApplicationUser? user = new ApplicationUser();
+            ApplicationUser? user = new();
 
             if (userName.IndexOf('@') > -1)
             {
                 user = await this.userManager.FindByEmailAsync(userName);
+
+                if (user == null)
+                {
+                    return InvalidLoginAttemptErrorMessage;
+                }
+                else
+                {
+                    userName = user.UserName;
+                }
+            }
+            else
+            {
+                user = await this.userManager.FindByNameAsync(userName);
 
                 if (user == null)
                 {

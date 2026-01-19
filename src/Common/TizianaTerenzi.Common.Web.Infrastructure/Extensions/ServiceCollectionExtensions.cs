@@ -238,6 +238,9 @@
                         ?.GetService<ICurrentTokenService>()
                         ?.Get();
 
+                    var stripe = configuration.GetSection("Stripe:SecretKey").Value;
+                    var recaptcha = configuration.GetSection("GoogleReCaptcha:Secret").Value;
+
                     if (currentToken == null)
                     {
                         return;

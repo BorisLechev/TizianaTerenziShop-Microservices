@@ -83,14 +83,14 @@
 
         function sendProductVote(productId, voteValue) {
             let data = { productId: productId, value: voteValue }; // postCommentVoteInputModel
-            let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
+            //let antiForgeryToken = $("input:hidden[name=__RequestVerificationToken]").val();
 
             $.ajax({
                 url: "/votes/product/post",
                 type: "POST",
                 data: JSON.stringify(data),
                 contentType: 'application/json; charset=utf-8',
-                headers: { "X-CSRF-TOKEN": antiForgeryToken },
+                //headers: { "X-CSRF-TOKEN": antiForgeryToken },
                 success: function (data) {
                     $(`.stars-${data.productId}`).css({
                         'width': `${+data.averageVote * 20}%`,

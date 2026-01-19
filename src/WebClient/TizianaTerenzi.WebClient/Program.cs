@@ -1,8 +1,5 @@
 ﻿namespace TizianaTerenzi.WebClient
 {
-    using System;
-    using System.Globalization;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -15,6 +12,10 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Stripe;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text.Json;
     using TizianaTerenzi.Common.Services.Identity;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Middlewares;
@@ -30,6 +31,22 @@
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //var googleRecaptchaKeyPath = "/run/secrets/googleReCaptcha_key";
+            //var googleRecaptchaSecretPath = "/run/secrets/googleReCaptcha_secret";
+            //var secretsDict = new Dictionary<string, string>();
+
+            //// Ако файловете съществуват, добави ги към конфигурацията
+            //if (System.IO.File.Exists(googleRecaptchaKeyPath))
+            //    //Environment.SetEnvironmentVariable("GoogleReCaptcha__Key", System.IO.File.ReadAllText(googleRecaptchaKeyPath).Trim());
+            //    secretsDict["GoogleReCaptcha:Key"] = System.IO.File.ReadAllText(googleRecaptchaKeyPath).Trim();
+
+            //if (System.IO.File.Exists(googleRecaptchaSecretPath))
+            //    //Environment.SetEnvironmentVariable("GoogleReCaptcha__Secret", System.IO.File.ReadAllText(googleRecaptchaSecretPath).Trim());
+            //    secretsDict["GoogleReCaptcha:Secret"] = System.IO.File.ReadAllText(googleRecaptchaSecretPath).Trim();
+
+            //builder.Configuration.AddInMemoryCollection(secretsDict);
+
             ConfigureServices(builder.Services, builder.Configuration);
             var app = builder.Build();
             Configure(app);
@@ -165,5 +182,16 @@
             app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
         }
+    }
+
+    public class GoogleReCaptchaSecrets
+    {
+        public string Key { get; set; }
+        public string Secret { get; set; }
+    }
+
+    public class AppSecrets
+    {
+        public GoogleReCaptchaSecrets GoogleReCaptcha { get; set; }
     }
 }

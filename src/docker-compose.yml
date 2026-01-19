@@ -1,17 +1,18 @@
-# version: '3.8'
 
 services:
 
     data:
         container_name: sqlserver
-        image: mcr.microsoft.com/mssql/server:2022-latest
+        # image: mcr.microsoft.com/mssql/server:2022-latest
         build:
+            context: .
             dockerfile: ./Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile
         environment:
             ACCEPT_EULA: 'Y'
-            SA_PASSWORD: 'yourStrongPassword12!@'
+            MSSQL_SA_PASSWORD: 'yourStrongPassword12!@'
+            MSSQL_PID: "Developer"
         ports:
-            - "1433:1433"
+            - "1433:1433" # Server Name: .,1433
         volumes:
             - sqldata:/var/opt/mssql
         networks:
@@ -19,18 +20,27 @@ services:
              
     rabbitmq:
         container_name: rabbitmq
-        image: rabbitmq:3-management
+        image: rabbitmq:4-management
         environment:
             RABBITMQ_DEFAULT_USER: 'rabbitmquser'
             RABBITMQ_DEFAULT_PASS: 'rabbitmqPassword12!'
         ports:
-            - 5672:5672
-            - 15672:15672
+            - 5672:5672 # RabbitMQ AMQP
+            - 15672:15672 # RabbitMQ Management UI
         hostname: rabbitmq
         volumes:
             - rabbitmq:/var/lib/rabbitmq/mnesia
         networks:
             - tizianaterenzimicroservices-network
+        healthcheck:
+              test:
+                - CMD
+                - rabbitmq-diagnostics
+                - '-q'
+                - ping
+              retries: 3
+              timeout: 5s
+              interval: 30s
             
     identity:
         container_name: identity
@@ -42,8 +52,8 @@ services:
             - "5003:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziIdentityDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziIdentityCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziIdentityDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziIdentityCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -72,8 +82,8 @@ services:
             - "5005:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziProductsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziProductsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziProductsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziProductsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -96,8 +106,8 @@ services:
             - "5007:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziCartsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziCartsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziCartsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziCartsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -120,9 +130,9 @@ services:
             - "5011:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - NotificationSettings__AllowedOrigins=http://localhost
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - NotificationSettings__AllowedOrigins=http://webClient:8080
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -145,8 +155,8 @@ services:
             - "5013:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziOrdersDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziOrdersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziOrdersDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziOrdersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -169,9 +179,9 @@ services:
             - "5009:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ServiceEndpoints__Identity=http://identity
-            - ServiceEndpoints__Products=http://products
-            - ServiceEndpoints__Orders=http://orders
+            - ServiceEndpoints__Identity=http://identity:8080
+            - ServiceEndpoints__Products=http://products:8080
+            - ServiceEndpoints__Orders=http://orders:8080
         restart: on-failure
         volumes:
             - ./.aspnet/identityGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
@@ -192,8 +202,8 @@ services:
             - "5015:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ServiceEndpoints__Identity=http://identity
-            - ServiceEndpoints__Carts=http://carts
+            - ServiceEndpoints__Identity=http://identity:8080
+            - ServiceEndpoints__Carts=http://carts:8080
         restart: on-failure
         volumes:
             - ./.aspnet/cartsGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
@@ -213,8 +223,8 @@ services:
             - "5017:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziAdministrationDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziAdministrationCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziAdministrationDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziAdministrationCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
@@ -248,7 +258,7 @@ services:
             - HealthChecks-UI__HealthChecks__4__Name=Notifications
             - HealthChecks-UI__HealthChecks__4__Uri=http://notifications/health
             - HealthChecks-UI__HealthChecks__5__Name=Orders
-            - HealthChecks-UI__HealthChecks__5__Uri=http://orders/health
+            - HealthChecks-UI__HealthChecks__5__Uri=http://orders:8080/health
             - HealthChecks-UI__HealthChecks__6__Name=CartsGateway
             - HealthChecks-UI__HealthChecks__6__Uri=http://cartsGateway/health
             - HealthChecks-UI__HealthChecks__7__Name=Administration
@@ -278,17 +288,26 @@ services:
             - "5001:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - ServiceEndpoints__Identity=http://identity
-            - ServiceEndpoints__Products=http://products
-            - ServiceEndpoints__Carts=http://carts
-            - ServiceEndpoints__IdentityGateway=http://identityGateway
-            - ServiceEndpoints__Notifications=http://notifications
-            - ServiceEndpoints__Orders=http://orders
-            - ServiceEndpoints__CartsGateway=http://cartsGateway
-            - ServiceEndpoints__Administration=http://administration
+            - ServiceEndpoints__Identity=http://identity:8080
+            - ServiceEndpoints__Products=http://products:8080
+            - ServiceEndpoints__Carts=http://carts:8080
+            - ServiceEndpoints__IdentityGateway=http://identityGateway:8080
+            - ServiceEndpoints__Notifications=http://notifications:8080
+            - ServiceEndpoints__Orders=http://orders:8080
+            - ServiceEndpoints__CartsGateway=http://cartsGateway:8080
+            - ServiceEndpoints__Administration=http://administration:8080
+            # - USER_SECRETS_ID=aspnet-TizianaTerenzi-BBB373B5-EF3F-4DBB-B8AA-7152CEC275BF
         restart: on-failure
         volumes:
             - ./.aspnet/webClient/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        secrets:
+            # - source: webClient_secrets
+            #   target: /run/secrets/secrets.json
+            #   uid: '1000'
+            #   gid: '1000'
+            #   mode: 0440
+            - GoogleReCaptcha__Key
+            - GoogleReCaptcha__Secret
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -300,6 +319,15 @@ services:
             - orders
             - cartsGateway
             - administration
+
+
+secrets:
+  # webClient_secrets:
+  #   file: ./secrets/secrets.json
+  GoogleReCaptcha__Key:
+    file: ./docker/secrets/GoogleReCaptcha_Key.txt
+  GoogleReCaptcha__Secret:
+    file: ./docker/secrets/GoogleReCaptcha_Secret.txt
              
 networks:
     tizianaterenzimicroservices-network:

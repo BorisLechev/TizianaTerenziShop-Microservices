@@ -183,7 +183,7 @@
 <form method="post" id="antiForgeryForm"></form>
 
 @section CustomCss {
-    <link href="~/css/order-checkout.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/order-checkOut.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/breadcrumbs.css" rel="stylesheet" asp-append-version="true" />
 }
 
@@ -197,7 +197,7 @@
         checkoutButton.addEventListener("click", function () {
             let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
             // Create an instance of the Stripe object with your publishable API key
-            let stripe = Stripe("@this.Configuration["Stripe:PublishableKey"]");
+            let stripe = Stripe("@this.Configuration.GetSection("Stripe:PublishableKey").Value");
             let email = $("#email").val();
             let firstName = $("#first-name").val();
             let lastName = $("#last-name").val();

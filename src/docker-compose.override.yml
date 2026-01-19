@@ -119,310 +119,310 @@
 #     volumes:
 #       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
 #       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-services:
+# services:
 
-    data:
-        container_name: sqlserver
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        build:
-            dockerfile: ./Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile
-        environment:
-            ACCEPT_EULA: 'Y'
-            SA_PASSWORD: 'yourStrongPassword12!@'
-        ports:
-            - "1433:1433"
-        volumes:
-            - sqldata:/var/opt/mssql
-        networks:
-             - tizianaterenzimicroservices-network
+#     data:
+#         container_name: sqlserver
+#         image: mcr.microsoft.com/mssql/server:2022-latest
+#         build:
+#             dockerfile: ./Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile
+#         environment:
+#             ACCEPT_EULA: 'Y'
+#             SA_PASSWORD: 'yourStrongPassword12!@'
+#         ports:
+#             - "1433:1433"
+#         volumes:
+#             - sqldata:/var/opt/mssql
+#         networks:
+#              - tizianaterenzimicroservices-network
              
-    rabbitmq:
-        container_name: rabbitmq
-        image: rabbitmq:3-management
-        environment:
-            RABBITMQ_DEFAULT_USER: 'rabbitmquser'
-            RABBITMQ_DEFAULT_PASS: 'rabbitmqPassword12!'
-        ports:
-            - 5672:5672
-            - 15672:15672
-        hostname: rabbitmq
-        volumes:
-            - rabbitmq:/var/lib/rabbitmq/mnesia
-        networks:
-            - tizianaterenzimicroservices-network
+#     rabbitmq:
+#         container_name: rabbitmq
+#         image: rabbitmq:3-management
+#         environment:
+#             RABBITMQ_DEFAULT_USER: 'rabbitmquser'
+#             RABBITMQ_DEFAULT_PASS: 'rabbitmqPassword12!'
+#         ports:
+#             - 5672:5672
+#             - 15672:15672
+#         hostname: rabbitmq
+#         volumes:
+#             - rabbitmq:/var/lib/rabbitmq/mnesia
+#         networks:
+#             - tizianaterenzimicroservices-network
             
-    identity:
-        container_name: identity
-        image: borislechev/tizianaterenzimicroservices-identity-service:1.0
-        build:
-            context: .
-            dockerfile: ./Identity/Web/TizianaTerenzi.Identity.Web/Dockerfile
-        ports:
-            - "5003:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziIdentityDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziIdentityCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - EventMessageQueueSettings__Host=rabbitmq
-            - EventMessageQueueSettings__UserName=rabbitmquser
-            - EventMessageQueueSettings__Password=rabbitmqPassword12!
-            - IdentitySettings__AdminMail=admin@admin.com
-            - IdentitySettings__AdminUserName=admin
-            - IdentitySettings__AdminPassword=123456
-            - IdentitySettings__RegularUserMail=petri@abv.bg
-            - IdentitySettings__RegularUserUserName=petri
-            - IdentitySettings__RegularUserPassword=123456
-        restart: on-failure
-        volumes:
-            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - data
-            - rabbitmq
+#     identity:
+#         container_name: identity
+#         image: borislechev/tizianaterenzimicroservices-identity-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Identity/Web/TizianaTerenzi.Identity.Web/Dockerfile
+#         ports:
+#             - "5003:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziIdentityDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziIdentityCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - EventMessageQueueSettings__Host=rabbitmq
+#             - EventMessageQueueSettings__UserName=rabbitmquser
+#             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+#             - IdentitySettings__AdminMail=admin@admin.com
+#             - IdentitySettings__AdminUserName=admin
+#             - IdentitySettings__AdminPassword=123456
+#             - IdentitySettings__RegularUserMail=petri@abv.bg
+#             - IdentitySettings__RegularUserUserName=petri
+#             - IdentitySettings__RegularUserPassword=123456
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - data
+#             - rabbitmq
             
-    products:
-        container_name: products
-        image: borislechev/tizianaterenzimicroservices-products-service:1.0
-        build:
-            context: .
-            dockerfile: ./Products/Web/TizianaTerenzi.Products.Web/Dockerfile
-        ports:
-            - "5005:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziProductsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziProductsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - EventMessageQueueSettings__Host=rabbitmq
-            - EventMessageQueueSettings__UserName=rabbitmquser
-            - EventMessageQueueSettings__Password=rabbitmqPassword12!
-        restart: on-failure
-        volumes:
-            - ./.aspnet/products/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - data
-            - rabbitmq
+#     products:
+#         container_name: products
+#         image: borislechev/tizianaterenzimicroservices-products-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Products/Web/TizianaTerenzi.Products.Web/Dockerfile
+#         ports:
+#             - "5005:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziProductsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziProductsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - EventMessageQueueSettings__Host=rabbitmq
+#             - EventMessageQueueSettings__UserName=rabbitmquser
+#             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/products/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - data
+#             - rabbitmq
             
-    carts:
-        container_name: carts
-        image: borislechev/tizianaterenzimicroservices-carts-service:1.0
-        build:
-            context: .
-            dockerfile: ./Carts/Web/TizianaTerenzi.Carts.Web/Dockerfile
-        ports:
-            - "5007:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziCartsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziCartsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - EventMessageQueueSettings__Host=rabbitmq
-            - EventMessageQueueSettings__UserName=rabbitmquser
-            - EventMessageQueueSettings__Password=rabbitmqPassword12!
-        restart: on-failure
-        volumes:
-            - ./.aspnet/carts/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - data
-            - rabbitmq
+#     carts:
+#         container_name: carts
+#         image: borislechev/tizianaterenzimicroservices-carts-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Carts/Web/TizianaTerenzi.Carts.Web/Dockerfile
+#         ports:
+#             - "5007:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziCartsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziCartsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - EventMessageQueueSettings__Host=rabbitmq
+#             - EventMessageQueueSettings__UserName=rabbitmquser
+#             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/carts/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - data
+#             - rabbitmq
             
-    notifications:
-        container_name: notifications
-        image: borislechev/tizianaterenzimicroservices-notifications-service:1.0
-        build:
-            context: .
-            dockerfile: ./Notifications/Web/TizianaTerenzi.Notifications.Web/Dockerfile
-        ports:
-            - "5011:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - NotificationSettings__AllowedOrigins=http://localhost
-            - EventMessageQueueSettings__Host=rabbitmq
-            - EventMessageQueueSettings__UserName=rabbitmquser
-            - EventMessageQueueSettings__Password=rabbitmqPassword12!
-        restart: on-failure
-        volumes:
-            - ./.aspnet/notifications/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - data
-            - rabbitmq
+#     notifications:
+#         container_name: notifications
+#         image: borislechev/tizianaterenzimicroservices-notifications-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Notifications/Web/TizianaTerenzi.Notifications.Web/Dockerfile
+#         ports:
+#             - "5011:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - NotificationSettings__AllowedOrigins=http://localhost
+#             - EventMessageQueueSettings__Host=rabbitmq
+#             - EventMessageQueueSettings__UserName=rabbitmquser
+#             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/notifications/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - data
+#             - rabbitmq
             
-    orders:
-        container_name: orders
-        image: borislechev/tizianaterenzimicroservices-orders-service:1.0
-        build:
-            context: .
-            dockerfile: ./Orders/Web/TizianaTerenzi.Orders.Web/Dockerfile
-        ports:
-            - "5013:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziOrdersDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziOrdersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - EventMessageQueueSettings__Host=rabbitmq
-            - EventMessageQueueSettings__UserName=rabbitmquser
-            - EventMessageQueueSettings__Password=rabbitmqPassword12!
-        restart: on-failure
-        volumes:
-            - ./.aspnet/orders/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - data
-            - rabbitmq
+#     orders:
+#         container_name: orders
+#         image: borislechev/tizianaterenzimicroservices-orders-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Orders/Web/TizianaTerenzi.Orders.Web/Dockerfile
+#         ports:
+#             - "5013:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziOrdersDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziOrdersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - EventMessageQueueSettings__Host=rabbitmq
+#             - EventMessageQueueSettings__UserName=rabbitmquser
+#             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/orders/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - data
+#             - rabbitmq
             
-    identityGateway:
-        container_name: identityGateway
-        image: borislechev/tizianaterenzimicroservices-identitygateway-service:1.0
-        build:
-            context: .
-            dockerfile: ./Identity/Web/TizianaTerenzi.Identity.Web.Gateway/Dockerfile
-        ports:
-            - "5009:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ServiceEndpoints__Identity=http://identity
-            - ServiceEndpoints__Products=http://products
-            - ServiceEndpoints__Orders=http://orders
-        restart: on-failure
-        volumes:
-            - ./.aspnet/identityGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - identity
-            - products
-            - orders
+#     identityGateway:
+#         container_name: identityGateway
+#         image: borislechev/tizianaterenzimicroservices-identitygateway-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Identity/Web/TizianaTerenzi.Identity.Web.Gateway/Dockerfile
+#         ports:
+#             - "5009:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ServiceEndpoints__Identity=http://identity
+#             - ServiceEndpoints__Products=http://products
+#             - ServiceEndpoints__Orders=http://orders
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/identityGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - identity
+#             - products
+#             - orders
             
-    cartsGateway:
-        container_name: cartsGateway
-        image: borislechev/tizianaterenzimicroservices-cartsgateway-service:1.0
-        build:
-            context: .
-            dockerfile: ./Carts/Web/TizianaTerenzi.Carts.Web.Gateway/Dockerfile
-        ports:
-            - "5015:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ServiceEndpoints__Identity=http://identity
-            - ServiceEndpoints__Carts=http://carts
-        restart: on-failure
-        volumes:
-            - ./.aspnet/cartsGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - identity
-            - carts
+#     cartsGateway:
+#         container_name: cartsGateway
+#         image: borislechev/tizianaterenzimicroservices-cartsgateway-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Carts/Web/TizianaTerenzi.Carts.Web.Gateway/Dockerfile
+#         ports:
+#             - "5015:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ServiceEndpoints__Identity=http://identity
+#             - ServiceEndpoints__Carts=http://carts
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/cartsGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - identity
+#             - carts
             
-    administration:
-        container_name: administration
-        image: borislechev/tizianaterenzimicroservices-administration-service:1.0
-        build:
-            context: .
-            dockerfile: ./Administration/Web/TizianaTerenzi.Administration.Web/Dockerfile
-        ports:
-            - "5017:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziAdministrationDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziAdministrationCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - EventMessageQueueSettings__Host=rabbitmq
-            - EventMessageQueueSettings__UserName=rabbitmquser
-            - EventMessageQueueSettings__Password=rabbitmqPassword12!
-        restart: on-failure
-        volumes:
-            - ./.aspnet/administration/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - data
-            - rabbitmq
+#     administration:
+#         container_name: administration
+#         image: borislechev/tizianaterenzimicroservices-administration-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Administration/Web/TizianaTerenzi.Administration.Web/Dockerfile
+#         ports:
+#             - "5017:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziAdministrationDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziAdministrationCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
+#             - EventMessageQueueSettings__Host=rabbitmq
+#             - EventMessageQueueSettings__UserName=rabbitmquser
+#             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/administration/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - data
+#             - rabbitmq
             
-    watchdog:
-        container_name: watchdog
-        image: borislechev/tizianaterenzimicroservices-watchdog-service:1.0
-        build:
-            context: .
-            dockerfile: ./Watchdog/TizianaTerenzi.Watchdog.Web/Dockerfile
-        ports:
-            - "5019:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - HealthChecks-UI__HealthChecks__0__Name=Identity
-            - HealthChecks-UI__HealthChecks__0__Uri=http://identity/health
-            - HealthChecks-UI__HealthChecks__1__Name=Products
-            - HealthChecks-UI__HealthChecks__1__Uri=http://products/health
-            - HealthChecks-UI__HealthChecks__2__Name=Carts
-            - HealthChecks-UI__HealthChecks__2__Uri=http://carts/health
-            - HealthChecks-UI__HealthChecks__3__Name=IdentityGateway
-            - HealthChecks-UI__HealthChecks__3__Uri=http://identityGateway/health
-            - HealthChecks-UI__HealthChecks__4__Name=Notifications
-            - HealthChecks-UI__HealthChecks__4__Uri=http://notifications/health
-            - HealthChecks-UI__HealthChecks__5__Name=Orders
-            - HealthChecks-UI__HealthChecks__5__Uri=http://orders/health
-            - HealthChecks-UI__HealthChecks__6__Name=CartsGateway
-            - HealthChecks-UI__HealthChecks__6__Uri=http://cartsGateway/health
-            - HealthChecks-UI__HealthChecks__7__Name=Administration
-            - HealthChecks-UI__HealthChecks__7__Uri=http://administration/health
-        restart: on-failure
-        volumes:
-            - ./.aspnet/watchdog/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - identity
-            - products
-            - carts
-            - identityGateway
-            - notifications
-            - orders
-            - cartsGateway
-            - administration
+#     watchdog:
+#         container_name: watchdog
+#         image: borislechev/tizianaterenzimicroservices-watchdog-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./Watchdog/TizianaTerenzi.Watchdog.Web/Dockerfile
+#         ports:
+#             - "5019:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - HealthChecks-UI__HealthChecks__0__Name=Identity
+#             - HealthChecks-UI__HealthChecks__0__Uri=http://identity/health
+#             - HealthChecks-UI__HealthChecks__1__Name=Products
+#             - HealthChecks-UI__HealthChecks__1__Uri=http://products/health
+#             - HealthChecks-UI__HealthChecks__2__Name=Carts
+#             - HealthChecks-UI__HealthChecks__2__Uri=http://carts/health
+#             - HealthChecks-UI__HealthChecks__3__Name=IdentityGateway
+#             - HealthChecks-UI__HealthChecks__3__Uri=http://identityGateway/health
+#             - HealthChecks-UI__HealthChecks__4__Name=Notifications
+#             - HealthChecks-UI__HealthChecks__4__Uri=http://notifications/health
+#             - HealthChecks-UI__HealthChecks__5__Name=Orders
+#             - HealthChecks-UI__HealthChecks__5__Uri=http://orders/health
+#             - HealthChecks-UI__HealthChecks__6__Name=CartsGateway
+#             - HealthChecks-UI__HealthChecks__6__Uri=http://cartsGateway/health
+#             - HealthChecks-UI__HealthChecks__7__Name=Administration
+#             - HealthChecks-UI__HealthChecks__7__Uri=http://administration/health
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/watchdog/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - identity
+#             - products
+#             - carts
+#             - identityGateway
+#             - notifications
+#             - orders
+#             - cartsGateway
+#             - administration
             
-    webClient:
-        container_name: webClient
-        image: borislechev/tizianaterenzimicroservices-webclient-service:1.0
-        build:
-            context: .
-            dockerfile: ./WebClient/TizianaTerenzi.WebClient/Dockerfile
-        ports:
-            - "5001:8080"
-        env_file: Common/TizianaTerenzi.Common/Common.env
-        environment:
-            - ServiceEndpoints__Identity=http://identity
-            - ServiceEndpoints__Products=http://products
-            - ServiceEndpoints__Carts=http://carts
-            - ServiceEndpoints__IdentityGateway=http://identityGateway
-            - ServiceEndpoints__Notifications=http://notifications
-            - ServiceEndpoints__Orders=http://orders
-            - ServiceEndpoints__CartsGateway=http://cartsGateway
-            - ServiceEndpoints__Administration=http://administration
-        restart: on-failure
-        volumes:
-            - ./.aspnet/webClient/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks:
-            - tizianaterenzimicroservices-network
-        depends_on:
-            - identity
-            - products
-            - carts
-            - identityGateway
-            - notifications
-            - orders
-            - cartsGateway
-            - administration
+#     webClient:
+#         container_name: webClient
+#         image: borislechev/tizianaterenzimicroservices-webclient-service:1.0
+#         build:
+#             context: .
+#             dockerfile: ./WebClient/TizianaTerenzi.WebClient/Dockerfile
+#         ports:
+#             - "5001:8080"
+#         env_file: Common/TizianaTerenzi.Common/Common.env
+#         environment:
+#             - ServiceEndpoints__Identity=http://identity
+#             - ServiceEndpoints__Products=http://products
+#             - ServiceEndpoints__Carts=http://carts
+#             - ServiceEndpoints__IdentityGateway=http://identityGateway
+#             - ServiceEndpoints__Notifications=http://notifications
+#             - ServiceEndpoints__Orders=http://orders
+#             - ServiceEndpoints__CartsGateway=http://cartsGateway
+#             - ServiceEndpoints__Administration=http://administration
+#         restart: on-failure
+#         volumes:
+#             - ./.aspnet/webClient/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+#         networks:
+#             - tizianaterenzimicroservices-network
+#         depends_on:
+#             - identity
+#             - products
+#             - carts
+#             - identityGateway
+#             - notifications
+#             - orders
+#             - cartsGateway
+#             - administration
              
-networks:
-    tizianaterenzimicroservices-network:
+# networks:
+#     tizianaterenzimicroservices-network:
     
-volumes:
-    sqldata:
-    rabbitmq:
+# volumes:
+#     sqldata:
+#     rabbitmq:

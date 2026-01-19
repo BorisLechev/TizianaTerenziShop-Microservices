@@ -31,7 +31,7 @@ namespace TizianaTerenzi.Notifications.Web
             var allowedOrigins = builder.Configuration
                                 .GetSection(nameof(NotificationSettings))
                                 .GetValue<string>(nameof(NotificationSettings.AllowedOrigins))
-                                ?? "https://localhost:44319";
+                                ?? "http://localhost:44319";
 
             app
                 .ConfigureAutoMapper()

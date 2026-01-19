@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common.Services\TizianaTerenzi.Common.Services.csproj" />
+		<ProjectReference Include="..\..\..\Common\TizianaTerenzi.Common\TizianaTerenzi.Common.csproj" />
 		<ProjectReference Include="..\..\TizianaTerenzi.WebClient.ViewModels\TizianaTerenzi.WebClient.ViewModels.csproj" />
 	</ItemGroup>
 

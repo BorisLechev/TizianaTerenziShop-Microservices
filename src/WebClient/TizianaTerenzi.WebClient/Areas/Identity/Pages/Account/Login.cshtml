@@ -59,11 +59,11 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration.GetSection("GoogleReCaptcha:Key").Value"></script>
 
     <script>
         grecaptcha.ready(function () {
-            grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'login_form' }).then(function (token) {
+            grecaptcha.execute('@this.Configuration.GetSection("GoogleReCaptcha:Key").Value', { action: 'login_form' }).then(function (token) {
                 document.getElementById("RecaptchaValue").value = token;
             });
         });

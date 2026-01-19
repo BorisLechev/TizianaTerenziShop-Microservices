@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33502.453
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebClient", "WebClient", "{E389DEB6-5F90-444B-A054-12A10D39C76F}"
 EndProject
@@ -162,6 +162,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Identity.Web.Gateway", "Identity\Web\TizianaTerenzi.Identity.Web.Gateway\TizianaTerenzi.Identity.Web.Gateway.csproj", "{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{554B3022-F8A7-46EB-A074-65F2DD80E955}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F38B9EDC-DC64-4911-86F9-F9828FC66641}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{C3016253-AF69-4944-91A8-9F13DDB73502}"
+	ProjectSection(SolutionItems) = preProject
+		secrets\secrets.json = secrets\secrets.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
