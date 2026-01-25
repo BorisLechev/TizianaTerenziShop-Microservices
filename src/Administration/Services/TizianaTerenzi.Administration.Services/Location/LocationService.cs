@@ -1,9 +1,8 @@
 ﻿namespace TizianaTerenzi.Administration.Services.Location
 {
-    using System.Globalization;
     using System.Threading.Tasks;
 
-    using IpInfo;
+    using IPinfo;
     using Microsoft.Extensions.Configuration;
     using TizianaTerenzi.Administration.Services.Models.Location;
     using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
@@ -20,29 +19,32 @@
 
         public async Task<string> GetIpAddressAsync()
         {
-            using var client = new HttpClient();
-            var key = this.configuration["IpInfo:ApiKey"];
-            var api = new IpInfoApi(key, client); // Some methods work without a token, for this case there is a constructor without a token.
+            var token = this.configuration["IpInfo:ApiKey"];
 
-            var ip = await api.GetCurrentIpAsync();
+            var client = new IPinfoClient.Builder()
+                            .AccessToken(token)
+                            .Build();
 
-            return ip;
+            var response = await client.IPApi.GetDetailsAsync();
+
+            return response.IP;
         }
 
         public async Task<CountryTownIpServiceModel> GetLocationAsync()
         {
-            using var client = new HttpClient();
-            var key = this.configuration["IpInfo:ApiKey"];
-            var api = new IpInfoApi(key, client); // Some methods work without a token, for this case there is a constructor without a token.
+            var token = this.configuration["IpInfo:ApiKey"];
 
-            var response = await api.GetCurrentInformationAsync();
-            RegionInfo countryInfo = new RegionInfo(response.Country);
+            var client = new IPinfoClient.Builder()
+                            .AccessToken(token)
+                            .Build();
+
+            var response = await client.IPApi.GetDetailsAsync();
 
             var serviceModel = new CountryTownIpServiceModel
             {
-                CountryName = countryInfo.EnglishName,
+                CountryName = response.CountryName,
                 Town = response.City,
-                Ip = response.Ip,
+                Ip = response.IP,
             };
 
             return serviceModel;
