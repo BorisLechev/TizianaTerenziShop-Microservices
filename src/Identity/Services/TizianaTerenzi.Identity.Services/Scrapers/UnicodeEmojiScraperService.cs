@@ -1,38 +1,34 @@
 ﻿namespace TizianaTerenzi.Identity.Services.Scrapers
 {
-    using AngleSharp.Html.Parser;
     using TizianaTerenzi.Common.Services.ServiceRegistrationAttributes;
     using TizianaTerenzi.Identity.Services.Models.Scrapers;
 
     [TransientRegistration]
     public class UnicodeEmojiScraperService : IUnicodeEmojiScraperService
     {
-        private const string BaseUrl = "https://unicode.org/emoji/charts/full-emoji-list.html";
+        private const string BaseUrl = "https://unicode.org/Public/emoji/latest/emoji-test.txt";
 
         public async Task<IEnumerable<EmojiServiceModel>> ScrapeEmojisAsync()
         {
-            var parser = new HtmlParser();
-            var handler = new HttpClientHandler { AllowAutoRedirect = false };
-            var client = new HttpClient(handler);
-
-            var html = await client.GetStringAsync(BaseUrl);
-            var document = await parser.ParseDocumentAsync(html);
-
-            var emojis = document
-                        .QuerySelectorAll(".chars")
-                        .Select(x => x.InnerHtml)
-                        .ToArray();
-
-            var emojisToAdd = emojis.Select(e => new EmojiServiceModel
+            var client = new HttpClient
             {
-                Image = e,
-            });
+                Timeout = TimeSpan.FromSeconds(10),
+            };
 
-            var listWithEmojis = new List<EmojiServiceModel>();
+            var text = await client.GetStringAsync(BaseUrl);
 
-            listWithEmojis.AddRange(emojisToAdd);
+            var emojis = text
+                        .Split('\n')
+                        .Where(l => l.Contains("; fully-qualified"))
+                        .Select(l => l.Split('#')[1].Trim().Split(' ')[0])
+                        .Distinct()
+                        .Select(e => new EmojiServiceModel
+                        {
+                            Image = e,
+                        })
+                        .ToList();
 
-            return listWithEmojis;
+            return emojis;
         }
     }
 }
