@@ -37,7 +37,7 @@
             await this.commentVotesService.DeleteRangeByProductIdAsync(message.ProductId);
             await this.commentsService.DeleteRangeByProductIdAsync(message.ProductId);
             await this.productVotesService.DeleteProductVotesAsync(message.ProductId);
-            await this.productsService.DeleteProductAsync(message.ProductId);
+            await this.productsService.SoftDeleteProductAsync(message.ProductId);
 
             await Task.CompletedTask;
         }

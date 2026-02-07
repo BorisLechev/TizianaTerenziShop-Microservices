@@ -141,12 +141,14 @@
             return product;
         }
 
-        public async Task<bool> DeleteProductAsync(int productId)
+        public async Task<bool> SoftDeleteProductAsync(int productId)
         {
             var affectedRows = await this.productsRepository
                                     .All()
                                     .Where(p => p.Id == productId)
-                                    .ExecuteDeleteAsync();
+                                    .ExecuteUpdateAsync(setters => setters
+                                        .SetProperty(c => c.IsDeleted, true)
+                                        .SetProperty(c => c.DeletedOn, DateTime.UtcNow));
 
             return affectedRows > 0;
         }
