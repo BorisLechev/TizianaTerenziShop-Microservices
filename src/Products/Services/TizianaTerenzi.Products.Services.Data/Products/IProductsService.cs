@@ -21,7 +21,7 @@
 
         Task<bool> EditProductAsync(ProductEditedMessage message, string pictureUrl);
 
-        Task<bool> DeleteProductAsync(int productId);
+        Task<bool> SoftDeleteProductAsync(int productId);
 
         Task<bool> UpdateThePricesOfAllProductsAfterTheDiscountIsAppliedAsync(int discountPercent);
 
