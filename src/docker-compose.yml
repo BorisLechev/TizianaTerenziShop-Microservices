@@ -41,6 +41,17 @@ services:
               retries: 3
               timeout: 5s
               interval: 30s
+    
+    #Base runtime image for all services because of Docker secrets usage.
+    # docker build -t borislechev/base-runtime:8.0 -f ./docker/base-runtime/Dockerfile .
+    base-runtime:
+        image: borislechev/base-runtime:8.0
+        build:
+            context: .
+            dockerfile: ./docker/base-runtime/Dockerfile
+        profiles: ["build-only"]
+        networks:
+            - tizianaterenzimicroservices-network
             
     identity:
         container_name: identity
@@ -66,6 +77,8 @@ services:
         restart: on-failure
         volumes:
             - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        secrets:
+            - IpInfo__ApiKey
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -90,6 +103,10 @@ services:
         restart: on-failure
         volumes:
             - ./.aspnet/products/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        secrets:
+            - Cloudinary__CloudName
+            - Cloudinary__ApiKey
+            - Cloudinary__ApiSecret
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -132,10 +149,11 @@ services:
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TizianaTerenziNotificationsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
             - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=TizianaTerenziNotificationsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true;TrustServerCertificate=True
-            - NotificationSettings__AllowedOrigins=http://webClient:8080
+            - NotificationSettings__AllowedOrigins=http://localhost:5001
             - EventMessageQueueSettings__Host=rabbitmq
             - EventMessageQueueSettings__UserName=rabbitmquser
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
+            - ServiceEndpoints__Carts=http://carts:8080
         restart: on-failure
         volumes:
             - ./.aspnet/notifications/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
@@ -231,6 +249,9 @@ services:
         restart: on-failure
         volumes:
             - ./.aspnet/administration/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        secrets:
+            - IpInfo__ApiKey
+            - SendGrid__ApiKey
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -293,21 +314,18 @@ services:
             - ServiceEndpoints__Carts=http://carts:8080
             - ServiceEndpoints__IdentityGateway=http://identityGateway:8080
             - ServiceEndpoints__Notifications=http://notifications:8080
+            - ServiceEndpoints__NotificationsForSignalR=http://localhost:5011
             - ServiceEndpoints__Orders=http://orders:8080
             - ServiceEndpoints__CartsGateway=http://cartsGateway:8080
             - ServiceEndpoints__Administration=http://administration:8080
-            # - USER_SECRETS_ID=aspnet-TizianaTerenzi-BBB373B5-EF3F-4DBB-B8AA-7152CEC275BF
         restart: on-failure
         volumes:
             - ./.aspnet/webClient/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
         secrets:
-            # - source: webClient_secrets
-            #   target: /run/secrets/secrets.json
-            #   uid: '1000'
-            #   gid: '1000'
-            #   mode: 0440
             - GoogleReCaptcha__Key
             - GoogleReCaptcha__Secret
+            - Stripe__PublishableKey
+            - Stripe__SecretKey
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -322,12 +340,24 @@ services:
 
 
 secrets:
-  # webClient_secrets:
-  #   file: ./secrets/secrets.json
   GoogleReCaptcha__Key:
     file: ./docker/secrets/GoogleReCaptcha_Key.txt
   GoogleReCaptcha__Secret:
     file: ./docker/secrets/GoogleReCaptcha_Secret.txt
+  Stripe__PublishableKey:
+    file: ./docker/secrets/Stripe_PublishableKey.txt
+  Stripe__SecretKey:
+    file: ./docker/secrets/Stripe_SecretKey.txt
+  Cloudinary__CloudName:
+    file: ./docker/secrets/Cloudinary_CloudName.txt
+  Cloudinary__ApiKey:
+    file: ./docker/secrets/Cloudinary_ApiKey.txt
+  Cloudinary__ApiSecret:
+    file: ./docker/secrets/Cloudinary_ApiSecret.txt
+  IpInfo__ApiKey:
+    file: ./docker/secrets/IpInfo_ApiKey.txt
+  SendGrid__ApiKey:
+    file: ./docker/secrets/SendGrid_ApiKey.txt
              
 networks:
     tizianaterenzimicroservices-network:

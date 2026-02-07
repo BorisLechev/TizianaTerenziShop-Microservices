@@ -1,7 +1,8 @@
 ﻿"use strict";
 
 var jwtToken = document.getElementById("jwtToken").value;
-var notificationConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/notificationHub", { accessTokenFactory: () => jwtToken }).build();
+var notificationHubUrl = `${window.serviceEndpoints.notificationsForSignalR}/notificationHub`;
+var notificationConnection = new signalR.HubConnectionBuilder().withUrl(notificationHubUrl, { accessTokenFactory: () => jwtToken }).build();
 
 var sound = new Audio('/notification/notificationSoundMessage.mp3');
 

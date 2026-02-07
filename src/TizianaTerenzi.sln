@@ -168,9 +168,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{C3016253-AF69-4944-91A8-9F13DDB73502}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{61926401-711F-47F5-BCE3-60348049BE8E}"
 	ProjectSection(SolutionItems) = preProject
-		secrets\secrets.json = secrets\secrets.json
+		docker\entrypoint.sh = docker\entrypoint.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{13E22225-2908-48AA-A7E1-6BC31E720044}"
+	ProjectSection(SolutionItems) = preProject
+		docker\secrets\Cloudinary_ApiKey.txt = docker\secrets\Cloudinary_ApiKey.txt
+		docker\secrets\Cloudinary_ApiSecret.txt = docker\secrets\Cloudinary_ApiSecret.txt
+		docker\secrets\Cloudinary_CloudName.txt = docker\secrets\Cloudinary_CloudName.txt
+		docker\secrets\GoogleReCaptcha_Key.txt = docker\secrets\GoogleReCaptcha_Key.txt
+		docker\secrets\GoogleReCaptcha_Secret.txt = docker\secrets\GoogleReCaptcha_Secret.txt
+		docker\secrets\IpInfo_ApiKey.txt = docker\secrets\IpInfo_ApiKey.txt
+		docker\secrets\SendGrid_ApiKey.txt = docker\secrets\SendGrid_ApiKey.txt
+		docker\secrets\Stripe_PublishableKey.txt = docker\secrets\Stripe_PublishableKey.txt
+		docker\secrets\Stripe_SecretKey.txt = docker\secrets\Stripe_SecretKey.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-runtime", "base-runtime", "{36E9114F-65F4-4B50-958C-44BFC86EA597}"
+	ProjectSection(SolutionItems) = preProject
+		docker\base-runtime\Dockerfile = docker\base-runtime\Dockerfile
 	EndProjectSection
 EndProject
 Global
@@ -462,6 +480,8 @@ Global
 		{5712E82E-B64B-49AC-8F22-2F052C5E18D3} = {747412BC-7C9B-4766-8E01-847259B96DB8}
 		{0F14C294-1B19-4224-BB83-7935B6A22D8C} = {747412BC-7C9B-4766-8E01-847259B96DB8}
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33} = {53508201-FA99-481C-9727-B57930D95224}
+		{13E22225-2908-48AA-A7E1-6BC31E720044} = {61926401-711F-47F5-BCE3-60348049BE8E}
+		{36E9114F-65F4-4B50-958C-44BFC86EA597} = {61926401-711F-47F5-BCE3-60348049BE8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

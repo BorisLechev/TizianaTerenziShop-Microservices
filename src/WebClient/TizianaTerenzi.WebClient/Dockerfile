@@ -1,7 +1,7 @@
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM borislechev/base-runtime:8.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -36,15 +36,5 @@ RUN dotnet publish "./TizianaTerenzi.WebClient.csproj" -c $BUILD_CONFIGURATION -
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
-
-USER root
-
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 COPY --from=publish /app/publish .
-
-USER $APP_UID
-
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["dotnet", "TizianaTerenzi.WebClient.dll"]

@@ -355,3 +355,5 @@ MigrationBackup/
 # Custom ignores
 **/wwwroot/lib/
 appsettings.Production.json
+
+/docker/**/*.txt

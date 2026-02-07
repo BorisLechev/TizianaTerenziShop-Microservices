@@ -1,6 +1,7 @@
 ﻿@using TizianaTerenzi.Common;
 @inject IViewLocalizer Localizer
 @inject TizianaTerenzi.Common.Services.Identity.ICurrentTokenService CurrentTokenService
+@inject IOptions<ServiceEndpoints> Endpoints
 
 <!DOCTYPE html>
 <html>
@@ -62,6 +63,11 @@
         </div>
     </main>
 
+    <script>
+        window.serviceEndpoints = {
+            notificationsForSignalR: "@Endpoints.Value.NotificationsForSignalR"
+        };
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>

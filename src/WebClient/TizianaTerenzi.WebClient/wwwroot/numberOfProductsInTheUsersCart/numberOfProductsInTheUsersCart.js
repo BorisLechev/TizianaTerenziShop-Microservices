@@ -1,7 +1,8 @@
 "use strict";
 
 var jwtToken = document.getElementById("jwtToken").value;
-var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/numberOfProductsInTheUsersCartHub", { accessTokenFactory: () => jwtToken }).build();
+var numberOfProductsInTheUsersCartHubUrl = `${window.serviceEndpoints.notificationsForSignalR}/numberOfProductsInTheUsersCartHub`;
+var connection = new signalR.HubConnectionBuilder().withUrl(numberOfProductsInTheUsersCartHubUrl, { accessTokenFactory: () => jwtToken }).build();
 
 connection.start().then(function () {
     connection.invoke("GetNumberOfProductsInTheUsersCart").catch(function (err) {

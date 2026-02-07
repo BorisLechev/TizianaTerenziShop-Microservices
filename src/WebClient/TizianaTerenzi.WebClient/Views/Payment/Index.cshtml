@@ -197,7 +197,7 @@
         checkoutButton.addEventListener("click", function () {
             let antiForgeryToken = $("#antiForgeryForm input[name=__RequestVerificationToken]").val();
             // Create an instance of the Stripe object with your publishable API key
-            let stripe = Stripe("@this.Configuration.GetSection("Stripe:PublishableKey").Value");
+            let stripe = Stripe("@this.Configuration["Stripe:PublishableKey"]");
             let email = $("#email").val();
             let firstName = $("#first-name").val();
             let lastName = $("#last-name").val();
