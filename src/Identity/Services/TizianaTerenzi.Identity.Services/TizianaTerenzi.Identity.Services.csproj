@@ -14,7 +14,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="0.17.1" />
     <PackageReference Include="IPinfo" Version="3.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
   </ItemGroup>

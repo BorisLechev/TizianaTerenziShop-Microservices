@@ -43,7 +43,7 @@
                 .AddSingleton<ISeeder<IdentityDbContext>, RolesSeeder>()
                 .AddSingleton<ISeeder<IdentityDbContext>, AdministratorSeeder>()
                 .AddSingleton<ISeeder<IdentityDbContext>, RegularUserSeeder>()
-                //.AddSingleton<ISeeder<IdentityDbContext>, EmojisSeeder>()
+                .AddSingleton<ISeeder<IdentityDbContext>, EmojisSeeder>()
 
                 // -------Services------------
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>()
