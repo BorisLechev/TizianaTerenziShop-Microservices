@@ -268,22 +268,22 @@ services:
             - "5019:8080"
         env_file: Common/TizianaTerenzi.Common/Common.env
         environment:
-            - HealthChecks-UI__HealthChecks__0__Name=Identity
-            - HealthChecks-UI__HealthChecks__0__Uri=http://identity/health
-            - HealthChecks-UI__HealthChecks__1__Name=Products
-            - HealthChecks-UI__HealthChecks__1__Uri=http://products/health
-            - HealthChecks-UI__HealthChecks__2__Name=Carts
-            - HealthChecks-UI__HealthChecks__2__Uri=http://carts/health
-            - HealthChecks-UI__HealthChecks__3__Name=IdentityGateway
-            - HealthChecks-UI__HealthChecks__3__Uri=http://identityGateway/health
-            - HealthChecks-UI__HealthChecks__4__Name=Notifications
-            - HealthChecks-UI__HealthChecks__4__Uri=http://notifications/health
-            - HealthChecks-UI__HealthChecks__5__Name=Orders
-            - HealthChecks-UI__HealthChecks__5__Uri=http://orders:8080/health
-            - HealthChecks-UI__HealthChecks__6__Name=CartsGateway
-            - HealthChecks-UI__HealthChecks__6__Uri=http://cartsGateway/health
-            - HealthChecks-UI__HealthChecks__7__Name=Administration
-            - HealthChecks-UI__HealthChecks__7__Uri=http://administration/health
+            - HealthChecksUI__HealthChecks__0__Name=Identity
+            - HealthChecksUI__HealthChecks__0__Uri=http://identity:8080/health
+            - HealthChecksUI__HealthChecks__1__Name=Products
+            - HealthChecksUI__HealthChecks__1__Uri=http://products:8080/health
+            - HealthChecksUI__HealthChecks__2__Name=Carts
+            - HealthChecksUI__HealthChecks__2__Uri=http://carts:8080/health
+            - HealthChecksUI__HealthChecks__3__Name=IdentityGateway
+            - HealthChecksUI__HealthChecks__3__Uri=http://identityGateway:8080/health
+            - HealthChecksUI__HealthChecks__4__Name=Notifications
+            - HealthChecksUI__HealthChecks__4__Uri=http://notifications:8080/health
+            - HealthChecksUI__HealthChecks__5__Name=Orders
+            - HealthChecksUI__HealthChecks__5__Uri=http://orders:8080/health
+            - HealthChecksUI__HealthChecks__6__Name=CartsGateway
+            - HealthChecksUI__HealthChecks__6__Uri=http://cartsGateway:8080/health
+            - HealthChecksUI__HealthChecks__7__Name=Administration
+            - HealthChecksUI__HealthChecks__7__Uri=http://administration:8080/health
         restart: on-failure
         volumes:
             - ./.aspnet/watchdog/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
