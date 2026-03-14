@@ -8,9 +8,11 @@ pipeline {
     }
 	stage('Docker Build') {
 	  steps {
-		sh 'docker compose build'     
-		sh 'docker images'
-	  }
+        dir('src') {
+          sh 'docker compose build'
+          sh 'docker images'
+        }
+      }
 	}
   }
 }
