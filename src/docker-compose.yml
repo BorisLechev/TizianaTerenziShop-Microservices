@@ -55,7 +55,7 @@ services:
             
     identity:
         container_name: identity
-        image: borislechev/tizianaterenzimicroservices-identity-service:1.0
+        image: borislechev/tizianaterenzimicroservices-identity-service
         build:
             context: .
             dockerfile: ./Identity/Web/TizianaTerenzi.Identity.Web/Dockerfile
@@ -76,7 +76,7 @@ services:
             - IdentitySettings__RegularUserPassword=123456
         restart: on-failure
         volumes:
-            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         secrets:
             - IpInfo__ApiKey
         networks:
@@ -87,7 +87,7 @@ services:
             
     products:
         container_name: products
-        image: borislechev/tizianaterenzimicroservices-products-service:1.0
+        image: borislechev/tizianaterenzimicroservices-products-service
         build:
             context: .
             dockerfile: ./Products/Web/TizianaTerenzi.Products.Web/Dockerfile
@@ -102,7 +102,7 @@ services:
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
         restart: on-failure
         volumes:
-            - ./.aspnet/products/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         secrets:
             - Cloudinary__CloudName
             - Cloudinary__ApiKey
@@ -115,7 +115,7 @@ services:
             
     carts:
         container_name: carts
-        image: borislechev/tizianaterenzimicroservices-carts-service:1.0
+        image: borislechev/tizianaterenzimicroservices-carts-service
         build:
             context: .
             dockerfile: ./Carts/Web/TizianaTerenzi.Carts.Web/Dockerfile
@@ -130,7 +130,7 @@ services:
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
         restart: on-failure
         volumes:
-            - ./.aspnet/carts/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -139,7 +139,7 @@ services:
             
     notifications:
         container_name: notifications
-        image: borislechev/tizianaterenzimicroservices-notifications-service:1.0
+        image: borislechev/tizianaterenzimicroservices-notifications-service
         build:
             context: .
             dockerfile: ./Notifications/Web/TizianaTerenzi.Notifications.Web/Dockerfile
@@ -156,7 +156,7 @@ services:
             - ServiceEndpoints__Carts=http://carts:8080
         restart: on-failure
         volumes:
-            - ./.aspnet/notifications/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -165,7 +165,7 @@ services:
             
     orders:
         container_name: orders
-        image: borislechev/tizianaterenzimicroservices-orders-service:1.0
+        image: borislechev/tizianaterenzimicroservices-orders-service
         build:
             context: .
             dockerfile: ./Orders/Web/TizianaTerenzi.Orders.Web/Dockerfile
@@ -180,7 +180,7 @@ services:
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
         restart: on-failure
         volumes:
-            - ./.aspnet/orders/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -189,7 +189,7 @@ services:
             
     identityGateway:
         container_name: identityGateway
-        image: borislechev/tizianaterenzimicroservices-identitygateway-service:1.0
+        image: borislechev/tizianaterenzimicroservices-identitygateway-service
         build:
             context: .
             dockerfile: ./Identity/Web/TizianaTerenzi.Identity.Web.Gateway/Dockerfile
@@ -202,7 +202,7 @@ services:
             - ServiceEndpoints__Orders=http://orders:8080
         restart: on-failure
         volumes:
-            - ./.aspnet/identityGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -212,7 +212,7 @@ services:
             
     cartsGateway:
         container_name: cartsGateway
-        image: borislechev/tizianaterenzimicroservices-cartsgateway-service:1.0
+        image: borislechev/tizianaterenzimicroservices-cartsgateway-service
         build:
             context: .
             dockerfile: ./Carts/Web/TizianaTerenzi.Carts.Web.Gateway/Dockerfile
@@ -224,7 +224,7 @@ services:
             - ServiceEndpoints__Carts=http://carts:8080
         restart: on-failure
         volumes:
-            - ./.aspnet/cartsGateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -233,7 +233,7 @@ services:
             
     administration:
         container_name: administration
-        image: borislechev/tizianaterenzimicroservices-administration-service:1.0
+        image: borislechev/tizianaterenzimicroservices-administration-service
         build:
             context: .
             dockerfile: ./Administration/Web/TizianaTerenzi.Administration.Web/Dockerfile
@@ -248,7 +248,7 @@ services:
             - EventMessageQueueSettings__Password=rabbitmqPassword12!
         restart: on-failure
         volumes:
-            - ./.aspnet/administration/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         secrets:
             - IpInfo__ApiKey
             - SendGrid__ApiKey
@@ -260,7 +260,7 @@ services:
             
     watchdog:
         container_name: watchdog
-        image: borislechev/tizianaterenzimicroservices-watchdog-service:1.0
+        image: borislechev/tizianaterenzimicroservices-watchdog-service
         build:
             context: .
             dockerfile: ./Watchdog/TizianaTerenzi.Watchdog.Web/Dockerfile
@@ -286,7 +286,7 @@ services:
             - HealthChecksUI__HealthChecks__7__Uri=http://administration:8080/health
         restart: on-failure
         volumes:
-            - ./.aspnet/watchdog/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks:
             - tizianaterenzimicroservices-network
         depends_on:
@@ -301,7 +301,7 @@ services:
             
     webClient:
         container_name: webClient
-        image: borislechev/tizianaterenzimicroservices-webclient-service:1.0
+        image: borislechev/tizianaterenzimicroservices-webclient-service
         build:
             context: .
             dockerfile: ./WebClient/TizianaTerenzi.WebClient/Dockerfile
@@ -320,7 +320,7 @@ services:
             - ServiceEndpoints__Administration=http://administration:8080
         restart: on-failure
         volumes:
-            - ./.aspnet/webClient/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         secrets:
             - GoogleReCaptcha__Key
             - GoogleReCaptcha__Secret
@@ -365,3 +365,4 @@ networks:
 volumes:
     sqldata:
     rabbitmq:
+    data-protection:
