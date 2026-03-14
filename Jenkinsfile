@@ -6,6 +6,11 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
+	stage('Check Docker') {
+	  steps {
+		sh 'docker --version'
+	  }
+	}
 	stage('Docker Build') {
 	  steps {
         dir('src') {
