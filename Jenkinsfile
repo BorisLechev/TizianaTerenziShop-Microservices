@@ -15,6 +15,7 @@ pipeline {
 	stage('Docker Build') {
 	  steps {
         dir('src') {
+		  powershell(script: 'docker compose --profile build-only build base-runtime')
           powershell(script: 'docker compose build')
           powershell(script: 'docker images')
         }
