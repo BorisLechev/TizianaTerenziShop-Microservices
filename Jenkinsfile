@@ -7,14 +7,15 @@ pipeline {
       }
     }
 	stage('Run Unit Tests') {
-      steps {
-        powershell(script: """ 
-          cd src
-          dotnet test TizianaTerenzi.sln
-          cd ..
-        """)
-      }
-    }
+	  when {
+		expression { fileExists('src/TizianaTerenzi.sln') }
+	  }
+	  steps {
+		dir('src') {
+		  powershell 'dotnet test TizianaTerenzi.sln'
+		}
+	  }
+	}
 	stage('Check Docker') {
 	  steps {
 		powershell(script: 'docker --version')
