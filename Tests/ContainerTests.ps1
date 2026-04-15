@@ -58,13 +58,19 @@ function Test-AuthorizedEndpoint {
     try {
         $response = Invoke-RestMethod `
             -Uri "http://localhost:5007/Carts/Index" `
-            -Headers @{ Authorization = "$token" } `
+            -Headers @{ Authorization = "Bearer $token" } `
             -Method Get
 
         Write-Output "Carts endpoint OK"
     } catch {
-        Write-Error "Carts endpoint failed"
-        exit 1
+        if ($_.Exception.Response) {
+			$statusCode = $_.Exception.Response.StatusCode.value__
+			Write-Output "StatusCode: $statusCode"
+		}
+
+		Write-Output $_.Exception.Message
+		Write-Error "Carts endpoint failed"
+		exit 1
     }
 }
 
