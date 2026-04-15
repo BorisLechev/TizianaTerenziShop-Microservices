@@ -37,9 +37,9 @@ function Test-Login-User-Process {
             -Body $body `
             -ContentType "application/json"
 
-        if ($response.token) {
+        if ($response.data.token) {
             Write-Output "Login successful :)"
-            return $response.token
+            return $response.data.token
         } else {
             throw "No token returned :("
         }
