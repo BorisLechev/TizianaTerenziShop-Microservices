@@ -1,25 +1,85 @@
-$count = 0
-$started = $false
+function Wait-ForService {
+    param (
+        [string]$url,
+        [int]$maxAttempts = 20
+    )
 
-do {
-    $count++
-    Write-Output "[$env:STAGE_NAME] Starting container [Attempt: $count]"
+    $count = 0
+
+    do {
+        $count++
+        Write-Output "Waiting for $url (Attempt $count)"
+
+        try {
+            $response = Invoke-WebRequest -Uri $url -UseBasicParsing
+            if ($response.StatusCode -eq 200) {
+                return $true
+            }
+        } catch {}
+
+        Start-Sleep -Seconds 3
+
+    } until ($count -ge $maxAttempts)
+
+    return $false
+}
+
+function Test-Login-User-Process {
+    $body = @{
+        email = "admin@admin.com"
+        password = "123456"
+    } | ConvertTo-Json
 
     try {
-        $response = Invoke-WebRequest -Uri http://localhost:5001 -UseBasicParsing
+        $response = Invoke-RestMethod `
+            -Uri "http://localhost:5003/Identity/Login" `
+            -Method Post `
+            -Body $body `
+            -ContentType "application/json"
 
-        if ($response.StatusCode -eq 200) {
-            $started = $true
+        if ($response.token) {
+            Write-Output "Login successful :)"
+            return $response.token
         } else {
-			Start-Sleep -Seconds 3
-		}
+            throw "No token returned :("
+        }
+
     } catch {
-        Start-Sleep -Seconds 3
+        Write-Error "Login failed :("
+        exit 1
     }
+}
 
-} until ($started -or ($count -eq 20))
+function Test-AuthorizedEndpoint {
+    param (
+        [string]$token
+    )
 
-if (!$started) {
-    Write-Error "Service did not start"
+    try {
+        $response = Invoke-RestMethod `
+            -Uri "http://localhost:5007/Carts/Index" `
+            -Headers @{ Authorization = "Bearer $token" } `
+            -Method Get
+
+        Write-Output "Carts endpoint OK"
+    } catch {
+        Write-Error "Carts endpoint failed"
+        exit 1
+    }
+}
+
+if (-not (Wait-ForService "http://localhost:5001")) {
+    Write-Error "WebClient not started"
     exit 1
 }
+
+if (-not (Wait-ForService "http://localhost:5003/health")) {
+    Write-Error "Identity not started"
+    exit 1
+}
+
+$token = Test-Login-User-Process
+
+Test-AuthorizedEndpoint -token $token
+
+Write-Output "All integration tests passed"
