@@ -10,7 +10,7 @@ pipeline {
       steps {
         powershell(script: """ 
           cd src
-          dotnet test
+          dotnet test TizianaTerenzi.sln
           cd ..
         """)
       }
