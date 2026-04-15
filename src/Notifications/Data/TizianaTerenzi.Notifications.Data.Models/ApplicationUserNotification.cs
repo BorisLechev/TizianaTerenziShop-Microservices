@@ -5,8 +5,8 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
-    [Index(nameof(this.ReceiverUsername))]
-    [Index(nameof(this.SenderId))]
+    [Index(nameof(ReceiverUsername))]
+    [Index(nameof(SenderId))]
     public class ApplicationUserNotification : BaseDeletableModel<string>
     {
         public ApplicationUserNotification()

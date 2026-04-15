@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
-    [Index(nameof(this.UserId), IsUnique = true)]
+    [Index(nameof(UserId), IsUnique = true)]
     public class ApplicationUserCartNotification : BaseDeletableModel<int>
     {
         [Required]

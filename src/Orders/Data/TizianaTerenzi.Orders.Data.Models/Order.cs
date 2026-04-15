@@ -3,7 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
-    [Index(nameof(this.UserId))]
+    [Index(nameof(UserId))]
     public class Order : BaseDeletableModel<int>
     {
         public Order()
