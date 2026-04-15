@@ -47,7 +47,7 @@ pipeline {
 	  steps {
 	    dir('src') {
 		  powershell 'docker compose down'
-		  // powershell 'docker volumes prune -f'
+		  powershell 'docker volumes prune -f'
 		}
       }
       post {
