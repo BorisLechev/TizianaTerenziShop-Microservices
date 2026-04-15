@@ -58,7 +58,7 @@ function Test-AuthorizedEndpoint {
     try {
         $response = Invoke-RestMethod `
             -Uri "http://localhost:5007/Carts/Index" `
-            -Headers @{ Authorization = "Bearer $token" } `
+            -Headers @{ Authorization = "$token" } `
             -Method Get
 
         Write-Output "Carts endpoint OK"
