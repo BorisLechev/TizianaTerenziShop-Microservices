@@ -33,7 +33,9 @@ pipeline {
 	}
 	stage('Run Application') {
       steps {
-        powershell(script: 'docker compose up -d')    
+	    dir('src') {
+		  powershell(script: 'docker compose up -d')
+		}
       }
     }
     stage('Run Integration Tests') {
