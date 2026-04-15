@@ -3,14 +3,16 @@ $started = $false
 
 do {
     $count++
-    Write-Output "[$env:STAGE_NAME] Attempt: $count"
+    Write-Output "[$env:STAGE_NAME] Starting container [Attempt: $count]"
 
     try {
         $response = Invoke-WebRequest -Uri http://localhost:5001 -UseBasicParsing
 
         if ($response.StatusCode -eq 200) {
             $started = $true
-        }
+        } else {
+			Start-Sleep -Seconds 3
+		}
     } catch {
         Start-Sleep -Seconds 3
     }
