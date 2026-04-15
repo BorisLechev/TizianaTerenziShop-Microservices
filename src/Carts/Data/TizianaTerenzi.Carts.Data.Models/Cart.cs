@@ -3,8 +3,8 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
-    [Index(nameof(this.ProductId))]
-    [Index(nameof(this.UserId))]
+    [Index(nameof(ProductId))]
+    [Index(nameof(UserId))]
     public class Cart : BaseDeletableModel<string> // TODO: make it int
     {
         public Cart()

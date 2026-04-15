@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
-    [Index(nameof(this.RoleName))]
+    [Index(nameof(RoleName))]
     public class UserStatistics : BaseDeletableModel<int>
     {
         [Required]

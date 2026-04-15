@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using TizianaTerenzi.Common.Data.Models;
 
-    [Index(nameof(this.ProductName))]
+    [Index(nameof(ProductName))]
     public class OrderProductStatistics : BaseDeletableModel<int>
     {
         [Required]
