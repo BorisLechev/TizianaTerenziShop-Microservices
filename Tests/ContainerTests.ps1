@@ -26,7 +26,7 @@ function Wait-ForService {
 
 function Test-Login-User-Process {
     $body = @{
-        email = "admin@admin.com"
+        emailOrUserName = "admin@admin.com"
         password = "123456"
     } | ConvertTo-Json
 
