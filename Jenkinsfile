@@ -46,7 +46,12 @@ pipeline {
     stage('Stop Application') {
 	  steps {
 	    dir('src') {
-		  powershell(script: 'docker compose down', returnStatus: true)
+		  def status = powershell(script: 'docker compose down', returnStatus: true)
+
+		  if (status != 0) {
+			error "docker compose down failed"
+		  }
+		  
 		  powershell 'docker volume prune --force'
 		}
       }
