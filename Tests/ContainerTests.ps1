@@ -38,7 +38,7 @@ function Test-Login-User-Process {
             -ContentType "application/json"
 
         if ($response.data.token) {
-            Write-Output "Login successful :)"
+            Write-Host "Login successful :)"
             return $response.data.token
         } else {
             throw "No token returned :("
@@ -69,7 +69,7 @@ function Test-AuthorizedEndpoint {
 		}
 		
 		Write-Output $token
-		Write-Output "Bearer $token"
+		Write-Output "TOKEN $token"
 		Write-Output $_.Exception.Message
 		Write-Error "Carts endpoint failed"
 		exit 1
