@@ -123,5 +123,6 @@ if (-not (Wait-ForService "http://localhost:5017/health")) {
 $token = Test-Login-User-Process
 
 Test-AuthorizedEndpoint -url "http://localhost:5007/Carts/Index" -token $token
+Test-AuthorizedEndpoint -url "http://localhost:5017/Dashboard/Index" -token $token
 
 Write-Output "All integration tests passed"
