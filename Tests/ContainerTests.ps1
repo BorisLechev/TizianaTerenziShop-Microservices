@@ -85,6 +85,41 @@ if (-not (Wait-ForService "http://localhost:5003/health")) {
     exit 1
 }
 
+if (-not (Wait-ForService "http://localhost:5005/health")) {
+    Write-Error "Products not started"
+    exit 1
+}
+
+if (-not (Wait-ForService "http://localhost:5007/health")) {
+    Write-Error "Carts not started"
+    exit 1
+}
+
+if (-not (Wait-ForService "http://localhost:5009/health")) {
+    Write-Error "IdentityGateway not started"
+    exit 1
+}
+
+if (-not (Wait-ForService "http://localhost:5011/health")) {
+    Write-Error "Notifications not started"
+    exit 1
+}
+
+if (-not (Wait-ForService "http://localhost:5013/health")) {
+    Write-Error "Orders not started"
+    exit 1
+}
+
+if (-not (Wait-ForService "http://localhost:5015/health")) {
+    Write-Error "CartsGateway not started"
+    exit 1
+}
+
+if (-not (Wait-ForService "http://localhost:5017/health")) {
+    Write-Error "Administration not started"
+    exit 1
+}
+
 $token = Test-Login-User-Process
 
 Test-AuthorizedEndpoint -url "http://localhost:5007/Carts/Index" -token $token
