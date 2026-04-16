@@ -62,7 +62,7 @@ pipeline {
 	stage('Push Docker Images on DockerHub') {
 	  steps {
 		script {
-	      docker.withRegistry('https://hub.docker.com/v2/', 'DockerHub') {
+	      docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
 			def tag = "1.0.${env.BUILD_ID}"
 			
             def baseImage = docker.image("borislechev/base-runtime:8.0")
