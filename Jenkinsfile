@@ -60,6 +60,7 @@ pipeline {
       }
     }
 	stage('Push Docker Images on DockerHub') {
+	  when { branch 'Docker' }
 	  steps {
 		script {
 	      docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
