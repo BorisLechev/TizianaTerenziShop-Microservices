@@ -124,5 +124,6 @@ $token = Test-Login-User-Process
 
 Test-AuthorizedEndpoint -url "http://localhost:5007/Carts/Index" -token $token
 Test-AuthorizedEndpoint -url "http://localhost:5017/Dashboard/Index" -token $token
+Test-AuthorizedEndpoint -url "http://localhost:5005/Products/All" -token $token
 
 Write-Output "All integration tests passed"
