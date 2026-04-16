@@ -15,7 +15,15 @@ function Wait-ForService {
             if ($response.StatusCode -eq 200) {
                 return $true
             }
-        } catch {}
+        } catch {
+			if ($_.Exception.Response) {
+				$statusCode = $_.Exception.Response.StatusCode.value__
+				Write-Output "StatusCode: $statusCode"
+			}
+		
+			Write-Output $_.Exception.Message
+			Write-Error "Service not started"
+		}
 
         Start-Sleep -Seconds 3
 
