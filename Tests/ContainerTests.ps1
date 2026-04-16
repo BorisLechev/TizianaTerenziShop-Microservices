@@ -67,7 +67,9 @@ function Test-AuthorizedEndpoint {
 			$statusCode = $_.Exception.Response.StatusCode.value__
 			Write-Output "StatusCode: $statusCode"
 		}
-
+		
+		Write-Output $token
+		Write-Output "Bearer $token"
 		Write-Output $_.Exception.Message
 		Write-Error "Carts endpoint failed"
 		exit 1
