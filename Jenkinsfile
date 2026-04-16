@@ -34,7 +34,7 @@ pipeline {
 	stage('Run Application') {
       steps {
 	    dir('src') {
-		  powershell 'docker compose up -d'
+		  powershell(script: 'docker compose up -d', returnStatus: true)
 		}
       }
     }
@@ -46,7 +46,7 @@ pipeline {
     stage('Stop Application') {
 	  steps {
 	    dir('src') {
-		  powershell 'docker compose down'
+		  powershell(script: 'docker compose down', returnStatus: true)
 		  powershell 'docker volume prune --force'
 		}
       }
