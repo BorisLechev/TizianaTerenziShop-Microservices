@@ -60,16 +60,17 @@ function Test-Login-User-Process {
 
 function Test-AuthorizedEndpoint {
     param (
+		[string]$url,
         [string]$token
     )
 
     try {
         $response = Invoke-RestMethod `
-            -Uri "http://localhost:5007/Carts/Index" `
+            -Uri $url `
             -Headers @{ Authorization = "Bearer $token" } `
             -Method Get
 
-        Write-Output "Carts endpoint OK"
+        Write-Output "Authorized endpoint ($url) OK"
     } catch {
         if ($_.Exception.Response) {
 			$statusCode = $_.Exception.Response.StatusCode.value__
@@ -77,7 +78,7 @@ function Test-AuthorizedEndpoint {
 		}
 		
 		Write-Output $_.Exception.Message
-		Write-Error "Carts endpoint failed"
+		Write-Error "Authorized endpoint ($url) failed"
 		exit 1
     }
 }
@@ -94,6 +95,6 @@ if (-not (Wait-ForService "http://localhost:5003/health")) {
 
 $token = Test-Login-User-Process
 
-Test-AuthorizedEndpoint -token $token
+Test-AuthorizedEndpoint -url "http://localhost:5007/Carts/Index" -token $token
 
 Write-Output "All integration tests passed"
