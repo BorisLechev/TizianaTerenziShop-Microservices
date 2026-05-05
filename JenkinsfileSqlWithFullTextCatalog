@@ -26,7 +26,7 @@ pipeline {
 
                     def image = docker.build(
                     "borislechev/sqlserver-fulltext-catalog-search:${params.TAG}",
-                    "-f Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile ."
+                    "-f sqlserver-fulltext.Dockerfile ."
                     )
 
                     image.push(params.TAG)
