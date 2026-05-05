@@ -1,0 +1,51 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'TAG', defaultValue: "1.0.${BUILD_ID}", description: 'Docker image tag')
+    booleanParam(name: 'PUSH_LATEST', defaultValue: true, description: 'Push latest tag')
+  }
+
+  stages {
+    stage('Verify Branch') {
+      steps {
+        echo "$GIT_BRANCH"
+      }
+    }
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build SQL Server Full-Text-Catalog Search Image') {
+      steps {
+        script {
+          docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
+
+            def image = docker.build(
+              "borislechev/sqlserver-fulltext-catalog-search:${params.TAG}",
+              "-f Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile ."
+            )
+
+            image.push(params.TAG)
+
+            if (params.PUSH_LATEST) {
+              image.push('latest')
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  post {
+    success {
+      echo "SQL Server Full-Text-Catalog Search image built successfully!"
+    }
+    failure {
+      echo "SQL Server Full-Text-Catalog Search build failed!"
+    }
+  }
+}
