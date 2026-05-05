@@ -20,20 +20,22 @@ pipeline {
 
     stage('Build SQL Server Full-Text-Catalog Search Image') {
       steps {
-        script {
-          docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
+        dir('src/Products/Web/TizianaTerenzi.Products.Web') {
+            script {
+                docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
 
-            def image = docker.build(
-              "borislechev/sqlserver-fulltext-catalog-search:${params.TAG}",
-              "-f Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile ."
-            )
+                    def image = docker.build(
+                    "borislechev/sqlserver-fulltext-catalog-search:${params.TAG}",
+                    "-f Products/Web/TizianaTerenzi.Products.Web/sqlserver-fulltext.Dockerfile ."
+                    )
 
-            image.push(params.TAG)
+                    image.push(params.TAG)
 
-            if (params.PUSH_LATEST) {
-              image.push('latest')
+                    if (params.PUSH_LATEST) {
+                        image.push('latest')
+                    }
+                }
             }
-          }
         }
       }
     }
