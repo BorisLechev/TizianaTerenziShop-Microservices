@@ -55,7 +55,7 @@ spec:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 85
+        averageUtilization: 90
 
 ---
 apiVersion: apps/v1
