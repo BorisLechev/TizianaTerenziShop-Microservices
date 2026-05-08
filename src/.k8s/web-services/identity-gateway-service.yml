@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: PersistentVolumeClaim ## We define a PersistentVolumeClaim to provide persistent storage for the identity-gateway service, which is necessary for storing data such as data protection keys that need to persist across pod restarts and can be shared with any related cron jobs.
+metadata:
+  name: identity-gateway-service-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-gateway-service
+spec:
+  type: LoadBalancer ## We use a LoadBalancer service type for our identity-gateway service to expose it externally and allow other services and clients to access it. The LoadBalancer will automatically provision an external IP address and route traffic to the service, making it accessible from outside the Kubernetes cluster.
+  ports:
+    - port: 5009
+      targetPort: 8080
+  selector:
+    web-service: identity-gateway ## The selector is used to identify the pods that belong to this service. It matches the labels defined in the pod template of the identity-gateway service Deployment.
+
+---
+## Install Metrics Server for HPA to work url from GitHub
+## kubectl edit deployment metrics-server -n kube-system
+## Add the following args to the container spec (be careful for tabs in front of the args):
+# containers:
+# - name: metrics-server
+#   args:
+#   - --kubelet-insecure-tls
+#   - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: identity-gateway-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: identity-gateway-service ## The name of the Deployment to scale, which should match the name of the identity-gateway service Deployment defined later in this file.
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 90
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  identity-gateway-service
+spec:
+  replicas: 2 ## We start with 2 replicas for the identity-gateway service to ensure high availability and load balancing from the beginning. This allows us to handle more traffic and provides redundancy in case one of the pods goes down, which is important for a critical service like the identity-gateway service.
+  selector:
+    matchLabels:
+      web-service: identity-gateway ## The selector is used to identify the pods that belong to this Deployment. It matches the labels defined in the pod template below.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1 ## We use a rolling update strategy with maxUnavailable: 1 and maxSurge: 1 to ensure that there is always at least one instance of the identity-gateway service running during updates, which helps maintain availability and minimize downtime for this critical service.
+  template:
+    metadata:
+      labels:
+        web-service: identity-gateway ## The label “web-service: identity-gateway” is used to identify the pods that belong to this Deployment and to match the selector defined above. It also helps us filter our identity-gateway service pods later using kubectl commands (e.g., kubectl get pods -l web-service=identity-gateway).
+        system: server ## The “system” label is here to help us filter our server pods later: kubectl get pods -l system=server
+    spec:
+      terminationGracePeriodSeconds: 20 ## We set a termination grace period of 20 seconds to allow the identity-gateway service to shut down gracefully and complete any ongoing requests before the pod is terminated, which helps prevent data loss and ensures a better user experience.
+      containers:
+      - name:  identity-gateway-service ## The name of the container, which will be used in logs and for referencing the container.
+        image:  borislechev/tizianaterenzimicroservices-identitygateway-service:1.0.23 ## The Docker image for the identity-gateway service, which should be built and pushed to a container registry before deploying to Kubernetes. The image name can include a tag (e.g., identity-gateway-service:1.0) if needed.
+        imagePullPolicy: IfNotPresent ## The image pull policy is set to “IfNotPresent” to prevent unnecessary downloads and speed up deployments by using cached images when available.
+        ports:
+        - containerPort: 8080 ## The port on which the identity-gateway service container listens for incoming HTTP requests. This should match the port configuration in the application itself.
+        resources:
+          requests:
+            cpu: "250m" ## The amount of CPU resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+            memory: "256Mi" ## The amount of memory resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+          limits:
+            cpu: "500m" ## The maximum amount of CPU resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+            memory: "512Mi" ## The maximum amount of memory resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+        env:
+        - name: ApplicationSettings__Secret
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-secret ## The security token secret is stored in the environment-secrets Kubernetes Secret and is injected into the container as an environment variable. This allows the administration service to access the secret value securely without hardcoding it in the application code or configuration files.
+        - name: ServiceEndpoints__Identity
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: identity-gateway-identity-endpoint
+        - name: ServiceEndpoints__Products
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: identity-gateway-products-endpoint
+        - name: ServiceEndpoints__Orders
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: identity-gateway-orders-endpoint
+        volumeMounts:
+        - name:  identity-gateway-service-pvc ## The name of the PersistentVolumeClaim defined above
+          mountPath:  /root/.aspnet/DataProtection-Keys
+      volumes:
+        - name:  identity-gateway-service-pvc ## The name of the PersistentVolumeClaim defined above
+          persistentVolumeClaim:
+            claimName: identity-gateway-service-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the Deployment, ensuring that the data stored in the /root/.aspnet/DataProtection-Keys directory is persisted across pod restarts and can be shared with any cron jobs that also mount this PVC.
