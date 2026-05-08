@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: PersistentVolumeClaim ## We use a PersistentVolumeClaim to request persistent storage for our carts database. This allows the database data to persist even if the pod is restarted or rescheduled, which is crucial for maintaining data integrity and availability in a stateful application like a database.
+metadata:
+  name: carts-database-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources: 
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carts-database
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 1433
+      targetPort: 1433
+  selector:
+    database: carts
+
+---
+apiVersion: apps/v1
+kind: StatefulSet ## We use a StatefulSet instead of a Deployment for our databases to ensure stable network identities and persistent storage, which are crucial for database applications.
+metadata:
+  name: carts-database ## The name of the StatefulSet, which will be used to create pods with predictable names (e.g., carts-database-0) and to manage the lifecycle of the database pods.
+spec:
+  serviceName: carts-database ## The name of the headless service defined above. This allows the StatefulSet to create stable network identities for each pod, which is important for database applications that require consistent connectivity.
+  selector:
+    matchLabels:
+      database: carts ## The selector is used to identify the pods that belong to this StatefulSet. It matches the labels defined in the pod template below.
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        database: carts ## The label “database: carts” is used to identify the pods that belong to this StatefulSet and to match the selector defined above. It also helps us filter our database pods later using kubectl commands (e.g., kubectl get pods -l database=carts).
+        system: database ## The “system” label is here to help us filter our database pods later: kubectl get pods -l system=database
+    spec:
+      terminationGracePeriodSeconds: 60 ## Databases are usually heavy applications and need some time to shut down successfully
+      securityContext:
+        fsGroup: 10001 ## SQL Server runs as a non-root user with the UID 10001, so we set the fsGroup to 10001 to ensure that the database files created on the mounted volume have the correct permissions and can be accessed by the SQL Server process.
+      containers:
+      - name: carts ## The name of the container, which will be used in logs and for referencing the container.
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        imagePullPolicy: IfNotPresent ## The image is quite big, so we want to prevent unnecessary downloads by caching with the “IfNotPresent” policy
+        ports:
+        - containerPort: 1433
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "2Gi"
+          limits:
+            cpu: "2000m"
+            memory: "4Gi"
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_PID
+          value: "Developer" ## The Developer edition of SQL Server is free to use for development and testing purposes, making it a great choice for our local Kubernetes environment.
+        - name:  SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name:  environment-secrets ## The name of the Secret in .environment folder
+              key:  carts-database-sa-password ## The key in the Secret that contains the SA password for the carts database
+        volumeMounts:
+        - name: carts-database-pvc ## The name of the PersistentVolumeClaim defined above
+          mountPath: /var/opt/mssql ## The default path (from SQL documentation) where SQL Server stores its data, logs, and other files. By mounting our PVC here, we ensure that all the database files are stored on the persistent volume, allowing data to persist even if the pod is restarted or rescheduled.
+      volumes:
+        - name:  carts-database-pvc ## The name of the PersistentVolumeClaim defined above
+          persistentVolumeClaim:
+            claimName: carts-database-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the StatefulSet, ensuring that the database data is stored on the persistent volume.
