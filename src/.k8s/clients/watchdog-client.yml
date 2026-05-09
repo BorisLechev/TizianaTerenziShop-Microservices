@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: watchdog-client
+spec:
+  type: LoadBalancer ## We use a LoadBalancer service type for our carts-gateway service to expose it externally and allow other services and clients to access it. The LoadBalancer will automatically provision an external IP address and route traffic to the service, making it accessible from outside the Kubernetes cluster.
+  ports:
+    - port: 5019
+      targetPort: 8080
+  selector:
+    web-service: watchdog-client ## The selector is used to identify the pods that belong to this service. It matches the labels defined in the pod template of the watchdog-client service Deployment.
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  watchdog-client
+spec:
+  replicas: 1 ## We start with 1 replica for the watchdog-client service to ensure high availability and load balancing from the beginning. This allows us to handle more traffic and provides redundancy in case one of the pods goes down, which is important for a critical service like the watchdog-client service.
+  selector:
+    matchLabels:
+      web-service: watchdog-client ## The selector is used to identify the pods that belong to this Deployment. It matches the labels defined in the pod template below.
+  template:
+    metadata:
+      labels:
+        web-service: watchdog-client ## The label “web-service: watchdog-client” is used to identify the pods that belong to this Deployment and to match the selector defined above. It also helps us filter our watchdog-client service pods later using kubectl commands (e.g., kubectl get pods -l web-service=watchdog-client).
+        system: server ## The “system” label is here to help us filter our server pods later: kubectl get pods -l system=server
+    spec:
+      terminationGracePeriodSeconds: 5 ## We set a termination grace period of 5 seconds to allow the watchdog-client service to shut down gracefully and complete any ongoing requests before the pod is terminated, which helps prevent data loss and ensures a better user experience.
+      containers:
+      - name:  watchdog-client ## The name of the container, which will be used in logs and for referencing the container.
+        image:  borislechev/tizianaterenzimicroservices-watchdog-service:1.0.23 ## The Docker image for the watchdog-client service, which should be built and pushed to a container registry before deploying to Kubernetes. The image name can include a tag (e.g., watchdog-client:1.0) if needed.
+        imagePullPolicy: IfNotPresent ## The image pull policy is set to “IfNotPresent” to prevent unnecessary downloads and speed up deployments by using cached images when available.
+        ports:
+        - containerPort: 8080 ## The port on which the watchdog-client service container listens for incoming HTTP requests. This should match the port configuration in the application itself.
+        resources:
+          requests:
+            cpu: "250m" ## The amount of CPU resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+            memory: "256Mi" ## The amount of memory resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+          limits:
+            cpu: "500m" ## The maximum amount of CPU resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+            memory: "512Mi" ## The maximum amount of memory resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+        env:
+        - name: HealthChecksUI__HealthChecks__0__Name
+          value: Identity
+        - name: HealthChecksUI__HealthChecks__0__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-identity-health
+        - name: HealthChecksUI__HealthChecks__1__Name
+          value: Products
+        - name: HealthChecksUI__HealthChecks__1__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-products-health
+        - name: HealthChecksUI__HealthChecks__2__Name
+          value: Carts
+        - name: HealthChecksUI__HealthChecks__2__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-carts-health
+        - name: HealthChecksUI__HealthChecks__3__Name
+          value: IdentityGateway
+        - name: HealthChecksUI__HealthChecks__3__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-identity-gateway-health
+        - name: HealthChecksUI__HealthChecks__4__Name
+          value: Notifications
+        - name: HealthChecksUI__HealthChecks__4__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-notifications-health
+        - name: HealthChecksUI__HealthChecks__5__Name
+          value: Orders
+        - name: HealthChecksUI__HealthChecks__5__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-orders-health
+        - name: HealthChecksUI__HealthChecks__6__Name
+          value: CartsGateway
+        - name: HealthChecksUI__HealthChecks__6__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-carts-gateway-health
+        - name: HealthChecksUI__HealthChecks__7__Name
+          value: Administration
+        - name: HealthChecksUI__HealthChecks__7__Uri
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: watchdog-administration-health
