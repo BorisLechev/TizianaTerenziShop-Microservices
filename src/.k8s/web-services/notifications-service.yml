@@ -16,6 +16,7 @@ metadata:
   name: notifications-service
 spec:
   type: LoadBalancer ## We use a LoadBalancer service type for our notifications service to expose it externally and allow other services and clients to access it. The LoadBalancer will automatically provision an external IP address and route traffic to the service, making it accessible from outside the Kubernetes cluster.
+  sessionAffinity: ClientIP ## We set sessionAffinity to ClientIP for the notifications service to ensure that all requests from a specific client IP address are directed to the same pod. This can help improve performance and user experience for the notifications service, as it may maintain state or cache data for each client, and it can also help with load balancing and resource utilization across the pods.
   ports:
     - port: 5011
       targetPort: 8080
