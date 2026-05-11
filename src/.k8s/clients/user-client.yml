@@ -1,0 +1,132 @@
+apiVersion: v1
+kind: PersistentVolumeClaim ## We define a PersistentVolumeClaim to provide persistent storage for the user-client service, which is necessary for storing data such as data protection keys that need to persist across pod restarts and can be shared with any related cron jobs.
+metadata:
+  name: user-client-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-client
+spec:
+  type: LoadBalancer ## We use a LoadBalancer service type for our carts-gateway service to expose it externally and allow other services and clients to access it. The LoadBalancer will automatically provision an external IP address and route traffic to the service, making it accessible from outside the Kubernetes cluster.
+  ports:
+    - port: 5001
+      targetPort: 8080
+  selector:
+    web-client: user-client ## The selector is used to identify the pods that belong to this service. It matches the labels defined in the pod template of the user-client service Deployment.
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  user-client
+spec:
+  replicas: 1 ## We start with 1 replica for the user-client service to ensure high availability and load balancing from the beginning. This allows us to handle more traffic and provides redundancy in case one of the pods goes down, which is important for a critical service like the user-client service.
+  selector:
+    matchLabels:
+      web-client: user-client ## The selector is used to identify the pods that belong to this Deployment. It matches the labels defined in the pod template below.
+  template:
+    metadata:
+      labels:
+        web-client: user-client ## The label “web-client: user-client” is used to identify the pods that belong to this Deployment and to match the selector defined above. It also helps us filter our user-client service pods later using kubectl commands (e.g., kubectl get pods -l web-client=user-client).
+        system: client ## The “system” label is here to help us filter our server pods later: kubectl get pods -l system=server
+    spec:
+      terminationGracePeriodSeconds: 5 ## We set a termination grace period of 5 seconds to allow the user-client service to shut down gracefully and complete any ongoing requests before the pod is terminated, which helps prevent data loss and ensures a better user experience.
+      containers:
+      - name:  user-client ## The name of the container, which will be used in logs and for referencing the container.
+        image:  borislechev/tizianaterenzimicroservices-webclient-service:1.0.23 ## The Docker image for the user-client service, which should be built and pushed to a container registry before deploying to Kubernetes. The image name can include a tag (e.g., user-client:1.0) if needed.
+        imagePullPolicy: IfNotPresent ## The image pull policy is set to “IfNotPresent” to prevent unnecessary downloads and speed up deployments by using cached images when available.
+        ports:
+        - containerPort: 8080 ## The port on which the user-client service container listens for incoming HTTP requests. This should match the port configuration in the application itself.
+        resources:
+          requests:
+            cpu: "250m" ## The amount of CPU resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+            memory: "256Mi" ## The amount of memory resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+          limits:
+            cpu: "500m" ## The maximum amount of CPU resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+            memory: "512Mi" ## The maximum amount of memory resources requested for the container. This helps Kubernetes schedule the pod on a node that has enough resources to run it.
+        env:
+        - name:  ApplicationSettings__Secret
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-secret ## The security token secret is stored in the environment-secrets Kubernetes Secret and is injected into the container as an environment variable. This allows the administration service to access the secret value securely without hardcoding it in the application code or configuration files.
+        - name: ServiceEndpoints__Identity
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-identity-endpoint
+        - name: ServiceEndpoints__Products
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-products-endpoint
+        - name: ServiceEndpoints__Carts
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-carts-endpoint
+        - name: ServiceEndpoints__IdentityGateway
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-identity-gateway-endpoint
+        - name: ServiceEndpoints__Notifications
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-notifications-endpoint
+        - name: ServiceEndpoints__NotificationsForSignalR
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-notifications-for-signalr-endpoint
+        - name: ServiceEndpoints__Orders
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-orders-endpoint
+        - name: ServiceEndpoints__CartsGateway
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-carts-gateway-endpoint
+        - name: ServiceEndpoints__Administration
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: webclient-administration-endpoint
+        - name: GoogleReCaptcha__Key
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: google-recaptcha-key ## The Google reCAPTCHA key is stored in the environment-secrets Kubernetes Secret and is injected into the container as an environment variable.
+        - name: GoogleReCaptcha__Secret
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: google-recaptcha-secret ## The Google reCAPTCHA secret is stored in the environment-secrets Kubernetes Secret and is injected into the container as an environment variable.
+        - name: Stripe__PublishableKey
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: stripe-publishable-key
+        - name: Stripe__SecretKey
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: stripe-secret-key
+        volumeMounts:
+        - name:  user-client-pvc ## The name of the PersistentVolumeClaim defined above
+          mountPath:  /root/.aspnet/DataProtection-Keys
+      volumes:
+        - name:  user-client-pvc ## The name of the PersistentVolumeClaim defined above
+          persistentVolumeClaim:
+            claimName: user-client-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the Deployment, ensuring that the data stored in the /root/.aspnet/DataProtection-Keys directory is persisted across pod restarts and can be shared with any cron jobs that also mount this PVC.
