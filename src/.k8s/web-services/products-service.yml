@@ -128,6 +128,16 @@ spec:
             secretKeyRef:
               name: environment-secrets
               key: cloudinary-cloud-name
+        - name: Cloudinary__ApiKey
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: cloudinary-api-key
+        - name: Cloudinary__ApiSecret
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: cloudinary-api-secret
         volumeMounts:
         - name:  products-service-pvc ## The name of the PersistentVolumeClaim defined above
           mountPath:  /root/.aspnet/DataProtection-Keys
