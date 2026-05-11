@@ -8,7 +8,7 @@ spec:
     - port: 5019
       targetPort: 8080
   selector:
-    web-service: watchdog-client ## The selector is used to identify the pods that belong to this service. It matches the labels defined in the pod template of the watchdog-client service Deployment.
+    web-client: watchdog-client ## The selector is used to identify the pods that belong to this service. It matches the labels defined in the pod template of the watchdog-client service Deployment.
 
 ---
 apiVersion: apps/v1
@@ -19,12 +19,12 @@ spec:
   replicas: 1 ## We start with 1 replica for the watchdog-client service to ensure high availability and load balancing from the beginning. This allows us to handle more traffic and provides redundancy in case one of the pods goes down, which is important for a critical service like the watchdog-client service.
   selector:
     matchLabels:
-      web-service: watchdog-client ## The selector is used to identify the pods that belong to this Deployment. It matches the labels defined in the pod template below.
+      web-client: watchdog-client ## The selector is used to identify the pods that belong to this Deployment. It matches the labels defined in the pod template below.
   template:
     metadata:
       labels:
-        web-service: watchdog-client ## The label “web-service: watchdog-client” is used to identify the pods that belong to this Deployment and to match the selector defined above. It also helps us filter our watchdog-client service pods later using kubectl commands (e.g., kubectl get pods -l web-service=watchdog-client).
-        system: server ## The “system” label is here to help us filter our server pods later: kubectl get pods -l system=server
+        web-client: watchdog-client ## The label “web-client: watchdog-client” is used to identify the pods that belong to this Deployment and to match the selector defined above. It also helps us filter our watchdog-client service pods later using kubectl commands (e.g., kubectl get pods -l web-client=watchdog-client).
+        system: client ## The “system” label is here to help us filter our server pods later: kubectl get pods -l system=server
     spec:
       terminationGracePeriodSeconds: 5 ## We set a termination grace period of 5 seconds to allow the watchdog-client service to shut down gracefully and complete any ongoing requests before the pod is terminated, which helps prevent data loss and ensures a better user experience.
       containers:
