@@ -123,10 +123,10 @@ spec:
             secretKeyRef:
               name: environment-secrets
               key: stripe-secret-key
-        volumeMounts:
+        volumeMounts: ## We define the volume mounts for the container, which includes the PersistentVolumeClaim for the user-client service. This tells Kubernetes to mount the persistent volume to the specified path in the container, ensuring that data such as data protection keys is stored persistently and can be shared with any related cron jobs.
         - name:  user-client-pvc ## The name of the PersistentVolumeClaim defined above
           mountPath:  /root/.aspnet/DataProtection-Keys
-      volumes:
+      volumes: ## We define the volumes for the Deployment, which includes the PersistentVolumeClaim for the user-client service. This tells Kubernetes to create a volume based on the PVC and mount it to the specified path in the container, ensuring that data such as data protection keys is stored persistently and can be shared with any related cron jobs.
         - name:  user-client-pvc ## The name of the PersistentVolumeClaim defined above
           persistentVolumeClaim:
             claimName: user-client-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the Deployment, ensuring that the data stored in the /root/.aspnet/DataProtection-Keys directory is persisted across pod restarts and can be shared with any cron jobs that also mount this PVC.

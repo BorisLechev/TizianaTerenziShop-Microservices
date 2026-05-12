@@ -66,10 +66,10 @@ spec:
             secretKeyRef:
               name:  environment-secrets ## The name of the Secret in .environment folder
               key:  carts-database-sa-password ## The key in the Secret that contains the SA password for the carts database
-        volumeMounts:
+        volumeMounts: ## We define the volume mounts for the container, which includes the PersistentVolumeClaim for the database storage. This tells Kubernetes to mount the persistent volume to the specified path in the container, ensuring that our database data is stored persistently.
         - name: carts-database-pvc ## The name of the PersistentVolumeClaim defined above
           mountPath: /var/opt/mssql ## The default path (from SQL documentation) where SQL Server stores its data, logs, and other files. By mounting our PVC here, we ensure that all the database files are stored on the persistent volume, allowing data to persist even if the pod is restarted or rescheduled.
-      volumes:
+      volumes: ## We define the volumes for the StatefulSet, which includes the PersistentVolumeClaim for the database storage. This tells Kubernetes to create a volume based on the PVC and mount it to the specified path in the container, ensuring that our database data is stored persistently.
         - name:  carts-database-pvc ## The name of the PersistentVolumeClaim defined above
           persistentVolumeClaim:
             claimName: carts-database-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the StatefulSet, ensuring that the database data is stored on the persistent volume.

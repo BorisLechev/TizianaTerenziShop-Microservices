@@ -64,10 +64,10 @@ spec:
             secretKeyRef:
               name:  environment-secrets
               key:  event-bus-password
-        volumeMounts:
-        - name: event-bus-pvc ## The name of the PersistentVolumeClaim defined above
-          mountPath: /var/lib/rabbitmq/mnesia ## RabbitMQ uses the /var/lib/rabbitmq/mnesia directory to store its data, so we mount our persistent volume to this path to ensure that the data is stored persistently.
-      volumes:
+        volumeMounts: ## We define the volume mounts for the container, which includes the PersistentVolumeClaim for the database storage. This tells Kubernetes to mount the persistent volume to the specified path in the container, ensuring that our database data is stored persistently.
+         - name: event-bus-pvc ## The name of the PersistentVolumeClaim defined above
+           mountPath: /var/lib/rabbitmq/mnesia ## RabbitMQ uses the /var/lib/rabbitmq/mnesia directory to store its data, so we mount our persistent volume to this path to ensure that the data is stored persistently.
+      volumes: ## We define the volumes for the StatefulSet, which includes the PersistentVolumeClaim for the database storage. This tells Kubernetes to create a volume based on the PVC and mount it to the specified path in the container, ensuring that our database data is stored persistently.
         - name:  event-bus-pvc ## The name of the PersistentVolumeClaim defined above
           persistentVolumeClaim:
             claimName: event-bus-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the StatefulSet, ensuring that the database data is stored on the persistent volume.
