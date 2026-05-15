@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: PersistentVolumeClaim ## We use a PersistentVolumeClaim to request persistent storage for our event bus. This allows the event bus data to persist even if the pod is restarted or rescheduled, which is crucial for maintaining data integrity and availability in a stateful application like an event bus.
+metadata:
+  name: event-bus-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources: 
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus
+spec:
+  type: ClusterIP
+  clusterIP: None ## We use a headless service (clusterIP: None) for our event bus to allow the StatefulSet to create stable network identities for each pod. This is important for applications like RabbitMQ that require consistent connectivity and need to be able to discover each other using DNS.
+  ports:
+    - port: 5672
+      targetPort: 5672
+  selector:
+    event-bus: rabbitmq
+
+---
+apiVersion: apps/v1
+kind: StatefulSet ## We use a StatefulSet instead of a Deployment for our databases to ensure stable network identities and persistent storage, which are crucial for database applications.
+metadata:
+  name: event-bus ## The name of the StatefulSet, which will be used to create pods with predictable names (e.g., identity-database-0) and to manage the lifecycle of the database pods.
+spec:
+  serviceName: event-bus ## The name of the headless service defined above. This allows the StatefulSet to create stable network identities for each pod, which is important for database applications that require consistent connectivity.
+  selector:
+    matchLabels:
+      event-bus: rabbitmq ## The selector is used to identify the pods that belong to this StatefulSet. It matches the labels defined in the pod template below.
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        event-bus: rabbitmq ## The label “event-bus: rabbitmq” is used to identify the pods that belong to this StatefulSet and to match the selector defined above. It also helps us filter our event bus pods later using kubectl commands (e.g., kubectl get pods -l event-bus=rabbitmq).
+        system: event-bus ## The “system” label is here to help us filter our event bus pods later: kubectl get pods -l system=event-bus
+    spec:
+      containers:
+      - name: rabbitmq ## The name of the container, which will be used in logs and for referencing the container.
+        image: rabbitmq:4-management
+        imagePullPolicy: IfNotPresent ## The image is quite big, so we want to prevent unnecessary downloads by caching with the “IfNotPresent” policy
+        ports:
+        - containerPort: 5672
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "1Gi"
+          limits:
+            cpu: "4000m"
+            memory: "4Gi"
+        env:
+        - name:  RABBITMQ_DEFAULT_USER
+          valueFrom:
+            configMapKeyRef:
+              name:  environment-settings
+              key:  event-bus-user-name
+        - name:  RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            secretKeyRef:
+              name:  environment-secrets
+              key:  event-bus-password
+        volumeMounts: ## We define the volume mounts for the container, which includes the PersistentVolumeClaim for the database storage. This tells Kubernetes to mount the persistent volume to the specified path in the container, ensuring that our database data is stored persistently.
+         - name: event-bus-pvc ## The name of the PersistentVolumeClaim defined above
+           mountPath: /var/lib/rabbitmq/mnesia ## RabbitMQ uses the /var/lib/rabbitmq/mnesia directory to store its data, so we mount our persistent volume to this path to ensure that the data is stored persistently.
+      volumes: ## We define the volumes for the StatefulSet, which includes the PersistentVolumeClaim for the database storage. This tells Kubernetes to create a volume based on the PVC and mount it to the specified path in the container, ensuring that our database data is stored persistently.
+        - name:  event-bus-pvc ## The name of the PersistentVolumeClaim defined above
+          persistentVolumeClaim:
+            claimName: event-bus-pvc ## The name of the PersistentVolumeClaim defined above. This tells Kubernetes to use the existing PVC for the StatefulSet, ensuring that the database data is stored on the persistent volume.

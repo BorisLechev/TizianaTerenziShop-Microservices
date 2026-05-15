@@ -6,12 +6,16 @@
 	<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<RunAnalyzers>false</RunAnalyzers>
+	</PropertyGroup>
   
   <ItemGroup Label="Analyzers" Condition="$(MSBuildProjectExtension) == '.csproj'">
-	<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+	<!--<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
+	</PackageReference>-->
 	
 	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
 	  <PrivateAssets>all</PrivateAssets>

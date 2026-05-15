@@ -4,7 +4,6 @@
     using System.Globalization;
 
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
@@ -16,6 +15,7 @@
     using Microsoft.Extensions.Options;
     using Stripe;
     using TizianaTerenzi.Common.Services.Identity;
+    using TizianaTerenzi.Common.Web.Infrastructure;
     using TizianaTerenzi.Common.Web.Infrastructure.Extensions;
     using TizianaTerenzi.WebClient.Middlewares;
     using TizianaTerenzi.WebClient.Services.Administration;
@@ -30,11 +30,13 @@
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             ConfigureServices(builder.Services, builder.Configuration);
+
             var app = builder.Build();
             Configure(app);
-            app.Run();
 
+            app.Run();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -125,6 +127,8 @@
             //services
             //.AddRefitClient<IIdentityService>()
             //    .WithConfiguration(serviceEndpoints.Dealers);
+
+            services.Configure<ServiceEndpoints>(configuration.GetSection(nameof(ServiceEndpoints)));
 
             StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
         }

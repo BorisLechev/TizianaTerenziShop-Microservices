@@ -9,7 +9,8 @@ var receiverId = document.getElementById("ReceiverId").value; //<input>
 window.scrollTo(0, document.body.scrollHeight);
 
 var jwtToken = document.getElementById("jwtToken").value;
-var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/chatHub", { accessTokenFactory: () => jwtToken }).build();
+var chatHubUrl = `${window.serviceEndpoints.notificationsForSignalR}/chatHub`;
+var connection = new signalR.HubConnectionBuilder().withUrl(chatHubUrl, { accessTokenFactory: () => jwtToken }).build();
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;

@@ -10,8 +10,7 @@
     {
         private readonly IProductsService productsService;
 
-        public ProductsController(
-            IProductsService productsService)
+        public ProductsController(IProductsService productsService)
         {
             this.productsService = productsService;
         }

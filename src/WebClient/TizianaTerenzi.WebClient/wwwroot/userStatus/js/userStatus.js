@@ -1,7 +1,8 @@
 ﻿"use strict";
 
 var jwtToken = document.getElementById("jwtToken").value;
-var userStatusConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5011/userStatusHub", { accessTokenFactory: () => jwtToken }).build();
+var userStatusHubUrl = `${window.serviceEndpoints.notificationsForSignalR}/userStatusHub`;
+var userStatusConnection = new signalR.HubConnectionBuilder().withUrl(userStatusHubUrl, { accessTokenFactory: () => jwtToken }).build();
 
 userStatusConnection.start().then(function () {
     let element = document.getElementById("currentUsername");

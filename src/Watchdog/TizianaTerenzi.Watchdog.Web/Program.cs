@@ -14,7 +14,7 @@ namespace TizianaTerenzi.Watchdog.Web
             app
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints
-                    .MapHealthChecksUI());
+                    .MapHealthChecksUI(healthChecks => healthChecks.UIPath = "/healthchecks"));
 
             app.Run();
         }

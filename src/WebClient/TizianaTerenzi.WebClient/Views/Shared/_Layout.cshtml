@@ -1,5 +1,6 @@
 ﻿@inject IViewLocalizer Localizer
 @inject TizianaTerenzi.Common.Services.Identity.ICurrentTokenService CurrentTokenService
+@inject IOptions<ServiceEndpoints> Endpoints
 
 <!DOCTYPE html>
 <html>
@@ -201,6 +202,11 @@
         </div>
     </footer>
 
+    <script>
+        window.serviceEndpoints = {
+            notificationsForSignalR: "@Endpoints.Value.NotificationsForSignalR"
+        };
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
@@ -213,7 +219,7 @@
     <script src="~/notification/js/notification.js" asp-append-version="true"></script>
     <script src="~/userStatus/js/userStatus.js" asp-append-version="true"></script>
     <script src="~/lib/aos/dist/aos.min.js" asp-append-version="true"></script>
-    <script src="~/numberOfProductsInTheUsersCart/numberOfProductsInTheUsersCart.js"></script>
+    <script src="~/numberOfProductsInTheUsersCart/numberOfProductsInTheUsersCart.js" asp-append-version="true"></script>
     <script>
         AOS.init({
             offset: 125,

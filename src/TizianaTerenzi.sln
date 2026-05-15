@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33502.453
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebClient", "WebClient", "{E389DEB6-5F90-444B-A054-12A10D39C76F}"
 EndProject
@@ -159,7 +159,37 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Products.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Products.Services.Data", "Products\Services\TizianaTerenzi.Products.Services.Data\TizianaTerenzi.Products.Services.Data.csproj", "{0F14C294-1B19-4224-BB83-7935B6A22D8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TizianaTerenzi.Identity.Web.Gateway", "Identity\Web\TizianaTerenzi.Identity.Web.Gateway\TizianaTerenzi.Identity.Web.Gateway.csproj", "{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TizianaTerenzi.Identity.Web.Gateway", "Identity\Web\TizianaTerenzi.Identity.Web.Gateway\TizianaTerenzi.Identity.Web.Gateway.csproj", "{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{554B3022-F8A7-46EB-A074-65F2DD80E955}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F38B9EDC-DC64-4911-86F9-F9828FC66641}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{61926401-711F-47F5-BCE3-60348049BE8E}"
+	ProjectSection(SolutionItems) = preProject
+		docker\entrypoint.sh = docker\entrypoint.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{13E22225-2908-48AA-A7E1-6BC31E720044}"
+	ProjectSection(SolutionItems) = preProject
+		docker\secrets\Cloudinary_ApiKey.txt = docker\secrets\Cloudinary_ApiKey.txt
+		docker\secrets\Cloudinary_ApiSecret.txt = docker\secrets\Cloudinary_ApiSecret.txt
+		docker\secrets\Cloudinary_CloudName.txt = docker\secrets\Cloudinary_CloudName.txt
+		docker\secrets\GoogleReCaptcha_Key.txt = docker\secrets\GoogleReCaptcha_Key.txt
+		docker\secrets\GoogleReCaptcha_Secret.txt = docker\secrets\GoogleReCaptcha_Secret.txt
+		docker\secrets\IpInfo_ApiKey.txt = docker\secrets\IpInfo_ApiKey.txt
+		docker\secrets\SendGrid_ApiKey.txt = docker\secrets\SendGrid_ApiKey.txt
+		docker\secrets\Stripe_PublishableKey.txt = docker\secrets\Stripe_PublishableKey.txt
+		docker\secrets\Stripe_SecretKey.txt = docker\secrets\Stripe_SecretKey.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base-runtime", "base-runtime", "{36E9114F-65F4-4B50-958C-44BFC86EA597}"
+	ProjectSection(SolutionItems) = preProject
+		docker\base-runtime\Dockerfile = docker\base-runtime\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -371,6 +401,10 @@ Global
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554B3022-F8A7-46EB-A074-65F2DD80E955}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -446,6 +480,8 @@ Global
 		{5712E82E-B64B-49AC-8F22-2F052C5E18D3} = {747412BC-7C9B-4766-8E01-847259B96DB8}
 		{0F14C294-1B19-4224-BB83-7935B6A22D8C} = {747412BC-7C9B-4766-8E01-847259B96DB8}
 		{4D24A9DC-DF14-4031-836D-52EBDD4ACC33} = {53508201-FA99-481C-9727-B57930D95224}
+		{13E22225-2908-48AA-A7E1-6BC31E720044} = {61926401-711F-47F5-BCE3-60348049BE8E}
+		{36E9114F-65F4-4B50-958C-44BFC86EA597} = {61926401-711F-47F5-BCE3-60348049BE8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

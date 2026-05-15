@@ -22,7 +22,7 @@
         {
             await this.usersService.AddUserInRole(viewModel);
 
-            return this.Ok();
+            return Result.Success();
         }
     }
 }

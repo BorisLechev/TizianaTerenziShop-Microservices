@@ -12,6 +12,8 @@
 
         public string Notifications { get; private set; }
 
+        public string NotificationsForSignalR { get; set; }
+
         public string Orders { get; private set; }
 
         public string CartsGateway { get; private set; }

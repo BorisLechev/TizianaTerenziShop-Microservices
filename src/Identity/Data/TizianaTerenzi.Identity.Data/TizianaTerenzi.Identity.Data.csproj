@@ -21,14 +21,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Services\TizianaTerenzi.Identity.Services.Data\TizianaTerenzi.Identity.Services.Data.csproj" />
     <ProjectReference Include="..\TizianaTerenzi.Identity.Data.Models\TizianaTerenzi.Identity.Data.Models.csproj" />
   </ItemGroup>
