@@ -6,6 +6,11 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
+	stage('Git Pull Changes') {
+      steps {
+        powershell 'git pull'
+      }
+    }
 	stage('Run Unit Tests') {
 	  when {
 		expression { fileExists('src/TizianaTerenzi.sln') }
