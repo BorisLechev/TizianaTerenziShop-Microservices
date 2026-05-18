@@ -29,8 +29,8 @@ spec:
       terminationGracePeriodSeconds: 5 ## We set a termination grace period of 5 seconds to allow the watchdog-client service to shut down gracefully and complete any ongoing requests before the pod is terminated, which helps prevent data loss and ensures a better user experience.
       containers:
       - name:  watchdog-client ## The name of the container, which will be used in logs and for referencing the container.
-        image:  borislechev/tizianaterenzimicroservices-watchdog-service:1.0.23 ## The Docker image for the watchdog-client service, which should be built and pushed to a container registry before deploying to Kubernetes. The image name can include a tag (e.g., watchdog-client:1.0) if needed.
-        imagePullPolicy: IfNotPresent ## The image pull policy is set to “IfNotPresent” to prevent unnecessary downloads and speed up deployments by using cached images when available.
+        image:  borislechev/tizianaterenzimicroservices-watchdog-service:latest ## The Docker image for the watchdog-client service, which should be built and pushed to a container registry before deploying to Kubernetes. The image name can include a tag (e.g., watchdog-client:1.0) if needed.
+        imagePullPolicy: Always ## The image pull policy is set to “Always” to ensure the latest image is always pulled from the registry.
         ports:
         - containerPort: 8080 ## The port on which the watchdog-client service container listens for incoming HTTP requests. This should match the port configuration in the application itself.
         resources:
